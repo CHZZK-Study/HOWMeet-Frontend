@@ -14,7 +14,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: ['./tsconfig.app.json', './tsconfig.node.json'], // 여러 tsconfig 파일을 지정
+    project: ['./tsconfig.app.json', './tsconfig.node.json'],
   },
   plugins: ['react-refresh', '@typescript-eslint', 'prettier'],
   rules: {
@@ -39,6 +39,7 @@ module.exports = {
       node: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
+      typescript: {}, // 추가된 부분
     },
   },
 };
