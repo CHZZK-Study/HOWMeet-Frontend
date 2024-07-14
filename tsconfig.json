@@ -5,5 +5,6 @@
     "esModuleInterop": true
     // 다른 필요한 옵션들...
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "extends": ["./tsconfig.path.json"]
 }
