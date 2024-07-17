@@ -30,6 +30,7 @@ const FormInput = forwardRef<HTMLInputElement, Props>(
               type={isVisible ? 'text' : type}
               placeholder="닉네임 입력"
               $isError={!!errors[fieldName]}
+              inputMode={type === 'password' ? 'numeric' : 'text'}
               {...props}
             />
             {hasVisibility && (
@@ -101,6 +102,8 @@ const Input = styled.input<{ $isError: boolean }>`
   font-style: normal;
   font-weight: 500;
   line-height: 26px;
+  border-radius: 0;
+  ime-mode: active;
 
   border: none;
   border-bottom: 2px solid rgba(31, 31, 60, 0.12);
