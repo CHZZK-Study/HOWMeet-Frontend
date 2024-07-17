@@ -1,12 +1,17 @@
+import MemberLogin from '@/components/login/MemberLogin';
 import TapHeader from '@/components/login/TapHeader';
 import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 function LoginPage() {
+  const [searchParams] = useSearchParams();
+  const loginType = searchParams.get('type');
+
   return (
     <Container>
       <TapHeader />
-      <div>login</div>
+      {loginType === 'one-time' ? <div>onetime</div> : <MemberLogin />}
     </Container>
   );
 }
