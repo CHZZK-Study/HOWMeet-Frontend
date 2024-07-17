@@ -22,7 +22,7 @@ const FormInput = forwardRef<HTMLInputElement, Props>(
 
     return (
       <Container>
-        <span className="input-name">{fieldName}</span>
+        <span className="input-name">{FORM[fieldName].title}</span>
         <div className="input-container">
           <InputWrapper>
             <Input
