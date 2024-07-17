@@ -23,7 +23,10 @@ const GlobalStyle = createGlobalStyle`
 
   button {
     box-sizing: content-box;
+    background: none;
+    border: none;
     cursor: pointer;
+    padding: 0;
   }
 
   html {
