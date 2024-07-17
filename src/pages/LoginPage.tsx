@@ -37,7 +37,6 @@ const Content = styled.div`
   padding: 40px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 60px;
   color: black;
 `;

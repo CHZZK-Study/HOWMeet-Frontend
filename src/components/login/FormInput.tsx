@@ -1,10 +1,12 @@
+import FORM from '@/constants/form';
 import ICONS from '@/constants/icons';
 import React, { ForwardedRef, forwardRef, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   type: 'text' | 'password';
-  fieldName: string;
+  fieldName: 'nickname' | 'password';
   hasVisibility?: boolean;
 }
 
@@ -13,6 +15,9 @@ const FormInput = forwardRef<HTMLInputElement, Props>(
     { type, fieldName, hasVisibility = false, ...props }: Props,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
+    const {
+      formState: { errors },
+    } = useFormContext();
     const [isVisible, setIsVisible] = useState(false);
 
     return (
@@ -23,7 +28,7 @@ const FormInput = forwardRef<HTMLInputElement, Props>(
             ref={ref}
             type={isVisible ? 'text' : type}
             placeholder="닉네임 입력"
-            $isError={false}
+            $isError={!!errors[fieldName]}
             {...props}
           />
           {hasVisibility && (
@@ -42,6 +47,9 @@ const FormInput = forwardRef<HTMLInputElement, Props>(
                 width={20}
               />
             </button>
+          )}
+          {errors[fieldName] && (
+            <ErrorMessage>{FORM[fieldName].message}</ErrorMessage>
           )}
         </InputWrapper>
       </Container>
@@ -69,6 +77,9 @@ const Container = styled.div`
 const InputWrapper = styled.div`
   width: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 
   .icon {
     position: absolute;
@@ -122,4 +133,13 @@ const Input = styled.input<{ $isError: boolean }>`
       },
     };
   }}
+`;
+
+const ErrorMessage = styled.span`
+  width: 100%;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  color: red;
 `;
