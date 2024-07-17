@@ -12,10 +12,15 @@
   "dependencies": {
     "@mswjs/http-middleware": "^0.10.1",
     "cors": "^2.8.5",
+    "date-fns": "^3.6.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "express": "^4.19.2",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-datepicker": "^7.3.0",
+    "react-dom": "^18.3.1",
+    "react-modal-sheet": "^3.1.0",
+    "react-spring": "^9.7.3",
+    "react-spring-bottom-sheet": "^3.4.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
