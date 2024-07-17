@@ -23,35 +23,37 @@ const FormInput = forwardRef<HTMLInputElement, Props>(
     return (
       <Container>
         <span className="input-name">{fieldName}</span>
-        <InputWrapper>
-          <Input
-            ref={ref}
-            type={isVisible ? 'text' : type}
-            placeholder="닉네임 입력"
-            $isError={!!errors[fieldName]}
-            {...props}
-          />
-          {hasVisibility && (
-            <button
-              className="icon"
-              type="button"
-              onClick={() => setIsVisible((prev) => !prev)}
-            >
-              <img
-                src={
-                  isVisible
-                    ? ICONS.form.visibility_on
-                    : ICONS.form.visibility_off
-                }
-                alt="clear"
-                width={20}
-              />
-            </button>
-          )}
-          {errors[fieldName] && (
-            <ErrorMessage>{FORM[fieldName].message}</ErrorMessage>
-          )}
-        </InputWrapper>
+        <div className="input-container">
+          <InputWrapper>
+            <Input
+              ref={ref}
+              type={isVisible ? 'text' : type}
+              placeholder="닉네임 입력"
+              $isError={!!errors[fieldName]}
+              {...props}
+            />
+            {hasVisibility && (
+              <button
+                className="icon"
+                type="button"
+                onClick={() => setIsVisible((prev) => !prev)}
+              >
+                <img
+                  src={
+                    isVisible
+                      ? ICONS.form.visibility_on
+                      : ICONS.form.visibility_off
+                  }
+                  alt="clear"
+                  width={20}
+                />
+              </button>
+            )}
+          </InputWrapper>
+          <ErrorMessage>
+            {errors[fieldName] && FORM[fieldName].message}
+          </ErrorMessage>
+        </div>
       </Container>
     );
   }
@@ -72,14 +74,18 @@ const Container = styled.div`
     font-weight: 700;
     line-height: 22px;
   }
+
+  .input-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
 `;
 
 const InputWrapper = styled.div`
   width: 100%;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
 
   .icon {
     position: absolute;
@@ -137,6 +143,7 @@ const Input = styled.input<{ $isError: boolean }>`
 
 const ErrorMessage = styled.span`
   width: 100%;
+  height: 14px;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;

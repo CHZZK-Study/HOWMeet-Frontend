@@ -26,7 +26,7 @@ function NonMemberLogin() {
 
   return (
     <FormProvider {...methods}>
-      <Form onSubmit={handleSubmit(handleSubmitForm)}>
+      <Form onSubmit={handleSubmit(handleSubmitForm, () => console.log('err'))}>
         <Wrapper>
           <TitleWrapper>
             <Title>
