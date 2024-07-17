@@ -1,5 +1,6 @@
 import { Title } from '@/styles/components/text';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import FORM from '@/constants/form';
@@ -11,6 +12,7 @@ interface NonMemberForm {
 }
 
 function NonMemberLogin() {
+  const navigate = useNavigate();
   const methods = useForm<NonMemberForm>({ mode: 'onChange' });
   const {
     register,
@@ -22,6 +24,7 @@ function NonMemberLogin() {
   const handleSubmitForm = (data: NonMemberForm) => {
     // TODO: 서버 연동
     console.log(data);
+    navigate('/new-meeting');
   };
 
   return (
