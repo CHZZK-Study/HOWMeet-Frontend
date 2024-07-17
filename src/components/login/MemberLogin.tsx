@@ -1,3 +1,4 @@
+import { Title } from '@/styles/components/text';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -31,17 +32,6 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 14px;
-  }
-`;
-
-const Title = styled.div`
-  font-size: 20px;
-  font-style: normal;
-  line-height: 140%;
-  letter-spacing: 0.02px;
-
-  strong {
-    font-weight: 700;
   }
 `;
 
