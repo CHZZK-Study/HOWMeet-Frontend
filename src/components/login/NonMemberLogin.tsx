@@ -22,8 +22,15 @@ function NonMemberLogin() {
           <FormInput type="text" fieldName="닉네임" />
           <FormInput type="password" fieldName="비밀번호" hasVisibility />
         </InputContainer>
+
+        <Caption>
+          *비회원 방 만들기는 1회 성으로 완료 버튼을 선택하면 바로 방이
+          만들어집니다. <strong>비밀번호를 잃지 않게 메모해 두세요!</strong>
+        </Caption>
       </Wrapper>
-      <button type="button">dd</button>
+      <SubmitButton type="button" disabled={false}>
+        완료
+      </SubmitButton>
     </>
   );
 }
@@ -50,6 +57,10 @@ const Caption = styled.span`
   font-style: normal;
   font-weight: 400;
   line-height: 130%;
+
+  strong {
+    color: red;
+  }
 `;
 
 const InputContainer = styled.div`
@@ -57,4 +68,18 @@ const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 45px;
+`;
+
+const SubmitButton = styled.button<{ disabled: boolean }>`
+  width: 100%;
+  background-color: ${({ disabled }) => (disabled ? '#D0D0D0' : '#212121')};
+  text-align: center;
+  padding: 16px 0;
+  border-radius: 8px;
+
+  color: white;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 22px;
 `;
