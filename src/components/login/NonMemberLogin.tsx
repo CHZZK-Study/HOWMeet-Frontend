@@ -26,7 +26,7 @@ function NonMemberLogin() {
 
   return (
     <FormProvider {...methods}>
-      <Form onSubmit={handleSubmit(handleSubmitForm, () => console.log('err'))}>
+      <Form onSubmit={handleSubmit(handleSubmitForm)}>
         <Wrapper>
           <TitleWrapper>
             <Title>
@@ -87,7 +87,7 @@ const Wrapper = styled.div`
   gap: 60px;
 `;
 
-const Form = styled.div`
+const Form = styled.form`
   flex: 1;
   display: flex;
   flex-direction: column;
