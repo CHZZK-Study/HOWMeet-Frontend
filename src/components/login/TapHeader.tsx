@@ -22,14 +22,14 @@ function TapHeader() {
       <TapBar $loginType={loginType}>
         <div className="wrapper">
           <Tap
-            $isSelected={loginType !== 'one-time'}
+            $isSelected={loginType !== 'non-member'}
             onClick={() => handleClickTap('member')}
           >
             간편 로그인
           </Tap>
           <Tap
-            $isSelected={loginType === 'one-time'}
-            onClick={() => handleClickTap('one-time')}
+            $isSelected={loginType === 'non-member'}
+            onClick={() => handleClickTap('non-member')}
           >
             비회원 방 만들기
           </Tap>
@@ -98,7 +98,7 @@ const TapBar = styled.div<{ $loginType: string | null }>`
     transition: all 0.3s ease-in-out;
     position: absolute;
     bottom: 0;
-    left: ${({ $loginType }) => ($loginType === 'one-time' ? '50%' : '0')};
+    left: ${({ $loginType }) => ($loginType === 'non-member' ? '50%' : '0')};
   }
 `;
 

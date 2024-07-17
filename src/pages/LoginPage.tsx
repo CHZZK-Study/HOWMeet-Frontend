@@ -1,4 +1,5 @@
 import MemberLogin from '@/components/login/MemberLogin';
+import NonMemberLogin from '@/components/login/NonMemberLogin';
 import TapHeader from '@/components/login/TapHeader';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -11,7 +12,9 @@ function LoginPage() {
   return (
     <Container>
       <TapHeader />
-      {loginType === 'one-time' ? <div>onetime</div> : <MemberLogin />}
+      <Content>
+        {loginType === 'non-member' ? <NonMemberLogin /> : <MemberLogin />}
+      </Content>
     </Container>
   );
 }
@@ -20,8 +23,21 @@ export default LoginPage;
 
 const Container = styled.main`
   width: 100%;
-  height: fit-content;
+  min-height: 100dvh;
+  height: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
+`;
+
+const Content = styled.div`
+  width: 100%;
+  flex: 1;
+  height: fit-content;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 60px;
+  color: black;
 `;

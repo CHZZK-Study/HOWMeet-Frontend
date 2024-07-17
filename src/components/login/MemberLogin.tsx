@@ -3,47 +3,45 @@ import styled from 'styled-components';
 
 function MemberLogin() {
   return (
-    <Container>
-      <h1 className="title">
+    <Wrapper>
+      <Title>
         간편 로그인으로 이용하면,
         <br />
         일정을 <strong>여러 번</strong> 조율할 수 있어요
-      </h1>
-      <div className="buttonContainer">
+      </Title>
+      <div className="button-container">
         <SocialLoginButton>카카오 계정 로그인</SocialLoginButton>
         <SocialLoginButton>네이버 계정 로그인</SocialLoginButton>
         <SocialLoginButton>구글 계정 로그인</SocialLoginButton>
       </div>
-    </Container>
+    </Wrapper>
   );
 }
 
 export default MemberLogin;
 
-const Container = styled.div`
+const Wrapper = styled.div`
   width: 100%;
-  padding: 40px 20px;
   display: flex;
   flex-direction: column;
   gap: 60px;
-  color: black;
 
-  .title {
-    font-size: 20px;
-    font-style: normal;
-    line-height: 140%;
-    letter-spacing: 0.02px;
-
-    strong {
-      font-weight: 700;
-    }
-  }
-
-  .buttonContainer {
+  .button-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 14px;
+  }
+`;
+
+const Title = styled.div`
+  font-size: 20px;
+  font-style: normal;
+  line-height: 140%;
+  letter-spacing: 0.02px;
+
+  strong {
+    font-weight: 700;
   }
 `;
 
