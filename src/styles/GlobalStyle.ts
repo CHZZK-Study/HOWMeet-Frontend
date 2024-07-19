@@ -23,7 +23,10 @@ const GlobalStyle = createGlobalStyle`
 
   button {
     box-sizing: content-box;
+    background: none;
+    border: none;
     cursor: pointer;
+    padding: 0;
   }
 
   html {
@@ -35,7 +38,11 @@ const GlobalStyle = createGlobalStyle`
     min-height: 100dvh;
     height: 100%;
     overflow: auto;
-    background-color: black;
+    background-color: white;
+
+    @media screen and (min-width: 430px) {
+      background-color: black;
+    }
   }
 
   #root {
@@ -50,11 +57,11 @@ const GlobalStyle = createGlobalStyle`
 
     margin: 0px auto;
     background-color: white;
-
+    
     /* PC view setting */
-  @media screen and (min-width: 430px) {
-    width: 450px;
-  }
+    @media screen and (min-width: 430px) {
+      width: 450px;
+    }
   }
 `;
 

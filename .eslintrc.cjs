@@ -18,6 +18,10 @@ module.exports = {
   },
   plugins: ['react-refresh', '@typescript-eslint', 'prettier'],
   rules: {
+    'react/jsx-props-no-spreading': 'off',
+    'react/require-default-props': 'off',
+    'import/prefer-default-export': 'off',
+    '@typescript-eslint/no-use-before-define': 'off',
     'import/no-extraneous-dependencies': 'off',
     'react/function-component-definition': [
       'error',
@@ -45,7 +49,7 @@ module.exports = {
       },
       {
         selector: 'variable',
-        format: ['camelCase', 'UPPER_CASE'],
+        format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
       },
       {
         selector: 'function', // exported function (컴포넌트 명)
