@@ -72,7 +72,6 @@ const ButtonContainer = styled.div`
 
   display: flex;
   align-items: end;
-  /* border: 1px solid black; */
   padding-bottom: 24px;
 
   background: linear-gradient(
