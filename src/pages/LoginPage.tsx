@@ -1,7 +1,6 @@
 import MemberLogin from '@/components/login/MemberLogin';
 import NonMemberLogin from '@/components/login/NonMemberLogin';
 import TapHeader from '@/components/login/TapHeader';
-import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 

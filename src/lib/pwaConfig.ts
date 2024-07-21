@@ -21,8 +21,8 @@ export const pwaConfig: Partial<VitePWAOptions> = {
         type: 'image/x-icon',
       },
       {
-        src: 'assets/icons/icon-192x192.png',
-        sizes: '192x192',
+        src: 'assets/icons/icon-196x196.png',
+        sizes: '196x196',
         type: 'image/png',
       },
       {
