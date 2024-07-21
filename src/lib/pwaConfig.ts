@@ -2,7 +2,10 @@ import { type VitePWAOptions } from 'vite-plugin-pwa';
 
 export const pwaConfig: Partial<VitePWAOptions> = {
   registerType: 'autoUpdate',
-  includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+  includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
+  devOptions: {
+    enabled: true,
+  },
   manifest: {
     name: 'HowMeet',
     short_name: 'HowMeet',
