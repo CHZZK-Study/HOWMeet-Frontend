@@ -9,6 +9,11 @@ const ICONS = {
     visibility_off: `${BASE_PATH}/form/visibility-off.svg`,
     visibility_on: `${BASE_PATH}/form/visibility-on.svg`,
   },
+  main: {
+    share: `${BASE_PATH}/main/share.svg`,
+    chart: `${BASE_PATH}/main/bar-chart.svg`,
+    watch: `${BASE_PATH}/main/watch.svg`,
+  },
 } as const;
 
 export default ICONS;
