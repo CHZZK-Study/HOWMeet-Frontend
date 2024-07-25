@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
+import 'public/assets/font/font.css';
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -39,6 +40,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
     overflow: auto;
     background-color: white;
+    font-family: 'Pretendard';
 
     @media screen and (min-width: 430px) {
       background-color: black;

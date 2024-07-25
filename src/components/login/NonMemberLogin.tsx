@@ -4,6 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import FORM from '@/constants/form';
 import FormInput from './FormInput';
+import Button from '../common/Button';
 
 interface NonMemberForm {
   nickname: string;
@@ -72,9 +73,9 @@ function NonMemberLogin() {
             만들어집니다. <strong>비밀번호를 잃지 않게 메모해 두세요!</strong>
           </Caption>
         </Wrapper>
-        <SubmitButton type="submit" disabled={!isValid}>
+        <Button type="submit" disabled={!isValid}>
           완료
-        </SubmitButton>
+        </Button>
       </Form>
     </FormProvider>
   );
@@ -121,18 +122,4 @@ const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 45px;
-`;
-
-const SubmitButton = styled.button<{ disabled: boolean }>`
-  width: 100%;
-  background-color: ${({ disabled }) => (disabled ? '#D0D0D0' : '#212121')};
-  text-align: center;
-  padding: 16px 0;
-  border-radius: 8px;
-
-  color: white;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 22px;
 `;
