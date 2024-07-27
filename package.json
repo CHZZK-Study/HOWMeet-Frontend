@@ -17,6 +17,8 @@
     "express": "^4.19.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-grid-heatmap": "^1.3.0",
+    "react-heatmap-grid": "^0.9.0",
     "react-hook-form": "^7.52.1",
     "react-router-dom": "^6.24.1",
     "styled-components": "^6.1.11",

@@ -1,5 +1,7 @@
+import TimeSelect from '@/components/meeting/TimeSelect';
+
 function NewMeetingPage() {
-  return <div>NewMeetingPage</div>;
+  return <TimeSelect />;
 }
 
 export default NewMeetingPage;
