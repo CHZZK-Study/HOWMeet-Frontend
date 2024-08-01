@@ -5,7 +5,7 @@ const ICONS = {
     x: `${BASE_PATH}/common/x-icon.svg`,
   },
   form: {
-    clear: `${BASE_PATH}/form/clear-icon.svg`,
+    clear: `${BASE_PATH}/form/clear.svg`,
     visibility_off: `${BASE_PATH}/form/visibility-off.svg`,
     visibility_on: `${BASE_PATH}/form/visibility-on.svg`,
   },

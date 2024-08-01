@@ -1,8 +1,8 @@
 import FORM from '@/constants/form';
-import ICONS from '@/constants/icons';
 import React, { ForwardedRef, forwardRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
+import FormInputButton from './FormInputButton';
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   type: 'text' | 'password';
@@ -32,23 +32,12 @@ const FormInput = forwardRef<HTMLInputElement, Props>(
               inputMode={type === 'password' ? 'numeric' : 'text'}
               {...props}
             />
-            {hasVisibility && (
-              <button
-                className="icon"
-                type="button"
-                onClick={() => setIsVisible((prev) => !prev)}
-              >
-                <img
-                  src={
-                    isVisible
-                      ? ICONS.form.visibility_on
-                      : ICONS.form.visibility_off
-                  }
-                  alt="clear"
-                  width={20}
-                />
-              </button>
-            )}
+            <FormInputButton
+              hasVisibility={hasVisibility}
+              fieldName={fieldName}
+              isVisible={isVisible}
+              toggleVisibility={() => setIsVisible((prev) => !prev)}
+            />
           </InputWrapper>
           <ErrorMessage>
             {errors[fieldName] && FORM[fieldName].message}
@@ -86,13 +75,6 @@ const Container = styled.div`
 const InputWrapper = styled.div`
   width: 100%;
   position: relative;
-
-  .icon {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-  }
 `;
 
 const Input = styled.input<{ $isError: boolean }>`
