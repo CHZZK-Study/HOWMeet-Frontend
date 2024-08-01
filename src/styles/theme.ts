@@ -7,7 +7,7 @@ const typo = {
         line-height: 36px;
       `,
       20: `
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 700;
         line-height: 36px;
       `,

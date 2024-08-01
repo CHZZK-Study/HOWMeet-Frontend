@@ -35,7 +35,9 @@ function MakingRoomPage() {
         />
       </ContentContainer>
       <ButtonContainer>
-        <Button disabled={!isValid}>다음</Button>
+        <Button $style="solid" disabled={!isValid}>
+          다음
+        </Button>
       </ButtonContainer>
     </FlexColContainer>
   );
