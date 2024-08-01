@@ -9,12 +9,12 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'svg.d.ts'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: ['./tsconfig.app.json', './tsconfig.node.json'],
+    project: ['./tsconfig.json', './tsconfig.node.json'],
   },
   plugins: ['react-refresh', '@typescript-eslint', 'prettier'],
   rules: {
