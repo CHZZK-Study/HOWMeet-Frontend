@@ -2,9 +2,9 @@ import { Title } from '@/styles/components/text';
 import { useNavigate } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import FORM from '@/constants/form';
-import FormInput from './FormInput';
+import { ButtonContainer } from '@/styles/components/container';
 import Button from '../common/Button';
+import LoginForm from './LoginForm';
 
 interface NonMemberForm {
   nickname: string;
@@ -15,8 +15,6 @@ function NonMemberLogin() {
   const navigate = useNavigate();
   const methods = useForm<NonMemberForm>({ mode: 'onChange' });
   const {
-    register,
-    trigger,
     handleSubmit,
     formState: { isValid },
   } = methods;
@@ -37,58 +35,39 @@ function NonMemberLogin() {
               <br />
               일정을 <strong>한 번만</strong> 조율할 수 있어요
             </Title>
-            <Caption>
-              *결과 공유 후에는 결과 외의 모든 데이터가 삭제됩니다.
-            </Caption>
           </TitleWrapper>
+          <LoginForm />
 
-          <InputContainer>
-            <FormInput
-              type="text"
-              fieldName="nickname"
-              {...register('nickname', {
-                required: true,
-                pattern: FORM.nickname.regExp,
-                onBlur: () => {
-                  trigger('nickname');
-                },
-              })}
-            />
-            <FormInput
-              type="password"
-              fieldName="password"
-              hasVisibility
-              {...register('password', {
-                required: true,
-                pattern: /^\d{4,}$/,
-                onBlur: () => {
-                  trigger('password');
-                },
-              })}
-            />
-          </InputContainer>
-
-          <Caption>
-            *비회원 방 만들기는 1회 성으로 완료 버튼을 선택하면 바로 방이
-            만들어집니다. <strong>비밀번호를 잃지 않게 메모해 두세요!</strong>
-          </Caption>
+          <Guide>
+            <h3>로그인 전 꼭 확인해 두세요!</h3>
+            <ul>
+              <li>비회원 일정 생성은 1회성입니다.</li>
+              <li>
+                새로운 일정 조율을 원하시면 사용 중이 아닌 새로운 닉네임과
+                비밀번호로 로그인 해주세요.
+              </li>
+              <li>
+                10일간 일정 확정이 되지 않을 경우 일정이 자동으로 삭제됩니다.
+              </li>
+              <li>결과 공유 후에 결과 화면은 10일 뒤 자동으로 삭제됩니다.</li>
+              <li>
+                로그인 완료 시 바로 새로운 일정을 조율할 수 있어요. 비밀번호를
+                잃지 않게 기억해 주세요!
+              </li>
+            </ul>
+          </Guide>
         </Wrapper>
-        <Button type="submit" disabled={!isValid}>
-          완료
-        </Button>
+        <ButtonContainer>
+          <Button type="submit" disabled={!isValid}>
+            완료
+          </Button>
+        </ButtonContainer>
       </Form>
     </FormProvider>
   );
 }
 
 export default NonMemberLogin;
-
-const Wrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
-`;
 
 const Form = styled.form`
   flex: 1;
@@ -98,6 +77,14 @@ const Form = styled.form`
   gap: 60px;
 `;
 
+const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  padding: 0 20px;
+`;
+
 const TitleWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -105,21 +92,32 @@ const TitleWrapper = styled.div`
   gap: 6px;
 `;
 
-const Caption = styled.span`
-  color: #5e5e5e;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 130%;
-
-  strong {
-    color: red;
-  }
-`;
-
-const InputContainer = styled.div`
-  width: 100%;
+const Guide = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 45px;
+  gap: 16px;
+
+  h3 {
+    color: #222325;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  li {
+    list-style-type: disc;
+    margin-left: 18px;
+    color: #84888f;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+  }
 `;

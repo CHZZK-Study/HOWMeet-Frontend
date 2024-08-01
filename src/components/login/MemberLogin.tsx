@@ -4,7 +4,7 @@ import ICONS from '@/constants/icons';
 
 function MemberLogin() {
   return (
-    <>
+    <Container>
       <Title>
         간편 로그인으로 이용하면,
         <br />
@@ -24,11 +24,18 @@ function MemberLogin() {
           <span className="button-text">구글 계정 로그인</span>
         </SocialLoginButton>
       </ButtonWrapper>
-    </>
+    </Container>
   );
 }
 
 export default MemberLogin;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+  gap: 48px;
+`;
 
 const ButtonWrapper = styled.div`
   width: 100%;

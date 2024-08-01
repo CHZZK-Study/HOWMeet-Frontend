@@ -25,9 +25,5 @@ const Content = styled.div`
   width: 100%;
   flex: 1;
   height: fit-content;
-  padding: 40px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
-  color: black;
+  padding: 40px 0;
 `;

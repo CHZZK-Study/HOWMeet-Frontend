@@ -53,6 +53,7 @@ const Header = styled.header`
   position: -webkit-sticky;
   top: 0;
   left: 0;
+  z-index: 999;
 `;
 
 const Title = styled.div`

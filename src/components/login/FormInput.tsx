@@ -28,7 +28,6 @@ const FormInput = forwardRef<HTMLInputElement, Props>(
             <Input
               ref={ref}
               type={isVisible ? 'text' : type}
-              placeholder="닉네임 입력"
               $isError={!!errors[fieldName]}
               inputMode={type === 'password' ? 'numeric' : 'text'}
               {...props}
@@ -66,13 +65,13 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   color: black;
 
   .input-name {
-    font-size: 16px;
+    font-size: 18px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 600;
     line-height: 22px;
   }
 
@@ -98,19 +97,21 @@ const InputWrapper = styled.div`
 
 const Input = styled.input<{ $isError: boolean }>`
   width: 100%;
-  font-size: 20px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: 26px;
   border-radius: 0;
   ime-mode: active;
+  background: none;
 
   border: none;
-  border-bottom: 2px solid rgba(31, 31, 60, 0.12);
+  border-bottom: 1px solid rgba(31, 31, 60, 0.12);
   padding: 8px 0px;
   padding-right: 35px;
 
   &::placeholder {
+    color: #84888f;
     font-weight: 400;
   }
 
@@ -121,24 +122,24 @@ const Input = styled.input<{ $isError: boolean }>`
   ${({ $isError }) => {
     if ($isError) {
       return {
-        borderBottom: '2px solid red',
-        color: 'red',
+        borderBottom: '1px solid #F34822',
+        color: '#F34822',
         '&::placeholder': {
-          color: 'red',
+          color: '#F34822',
         },
         '&:focus': {
-          borderBottom: '2px solid red',
+          borderBottom: '1px solid #F34822',
         },
       };
     }
     return {
-      borderBottom: '2px solid rgba(31, 31, 60, 0.12)',
+      borderBottom: '1px solid rgba(31, 31, 60, 0.12)',
       color: 'black',
       '&::placeholder': {
         color: 'rgba(31, 31, 60, 0.4)',
       },
       '&:focus': {
-        borderBottom: '2px solid black',
+        borderBottom: '1px solid black',
       },
     };
   }}
@@ -151,5 +152,5 @@ const ErrorMessage = styled.span`
   font-style: normal;
   font-weight: 500;
   line-height: 18px;
-  color: red;
+  color: #f34822;
 `;
