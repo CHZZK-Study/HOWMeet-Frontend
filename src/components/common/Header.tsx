@@ -8,7 +8,7 @@ interface Props {
 function Header({ title }: Props) {
   return (
     <HeeaderContainer>
-      <img className="back-button" src={ICONS.nav.back} alt="back button" />
+      <img className="back-button" src={ICONS.common.left} alt="back button" />
       <HeadTitle>{title}</HeadTitle>
     </HeeaderContainer>
   );
