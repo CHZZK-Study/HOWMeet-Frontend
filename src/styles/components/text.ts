@@ -12,10 +12,14 @@ export const Title = styled.div`
 `;
 
 export const PageTitle = styled.div`
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 36px;
+  ${({ theme }) => theme.typo.heading.bold[24]}
 
   padding: 10px 12px 10px 0;
   margin-top: 20px;
+`;
+
+export const SubTitle = styled.div`
+  color: ${({ theme }) => theme.color.primary.black};
+  ${({ theme }) => theme.typo.body.semi_bold[18]};
+  word-wrap: break-word;
 `;
