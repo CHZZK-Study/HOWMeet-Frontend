@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import FormInput from './FormInput';
 
 function LoginForm() {
-  const { register, trigger } = useFormContext();
+  const { register } = useFormContext();
   return (
     <InputContainer>
       <FormInput
@@ -15,8 +15,9 @@ function LoginForm() {
         {...register('nickname', {
           required: true,
           pattern: FORM.nickname.regExp,
-          onBlur: () => {
-            trigger('nickname');
+          validate: (value: string) => {
+            const regexp = /^(?:[_-]+)$/;
+            return !regexp.test(value);
           },
         })}
       />
@@ -27,10 +28,7 @@ function LoginForm() {
         hasVisibility
         {...register('password', {
           required: true,
-          pattern: /^\d{4,}$/,
-          onBlur: () => {
-            trigger('password');
-          },
+          pattern: FORM.password.regExp,
         })}
       />
     </InputContainer>
