@@ -11,8 +11,9 @@ const ICONS = {
   },
   main: {
     share: `${BASE_PATH}/main/share.svg`,
-    chart: `${BASE_PATH}/main/bar-chart.svg`,
+    chart: `${BASE_PATH}/main/checkbox.svg`,
     watch: `${BASE_PATH}/main/watch.svg`,
+    title: `${BASE_PATH}/logo/logo-title.svg`,
   },
 } as const;
 

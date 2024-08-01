@@ -11,7 +11,7 @@ export default Button;
 
 const StyledButton = styled.button<{ disabled: boolean }>`
   width: 100%;
-  background-color: ${({ disabled }) => (disabled ? '#D0D0D0' : '#212121')};
+  background-color: ${({ disabled }) => (disabled ? '#D0D0D0' : '#642DFF')};
   text-align: center;
   padding: 16px 0;
   border-radius: 8px;

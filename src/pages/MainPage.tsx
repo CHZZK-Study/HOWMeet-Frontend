@@ -1,10 +1,10 @@
 import Button from '@/components/common/Button';
 import GuideList from '@/components/main/GuideList';
 import { FlexColContainer } from '@/styles/components/container';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-        
+import LogoTitle from 'public/assets/icons/logo/logo-title.svg?react';
+
 function MainPage() {
   const navigate = useNavigate();
 
@@ -12,7 +12,7 @@ function MainPage() {
     <Container>
       <div className="wrapper">
         <TitleWrapper>
-          <h1>How Meet?</h1>
+          <LogoTitle />
           <h2>우리 어떻게 만나?</h2>
         </TitleWrapper>
         <GuideList />
@@ -29,15 +29,15 @@ function MainPage() {
 export default MainPage;
 
 const Container = styled(FlexColContainer)`
-  gap: 40px;
-  padding: 50px 24px 24px 24px;
+  padding-top: 50px;
   justify-content: space-between;
 
   .wrapper {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    padding: 0 24px;
+    gap: 48px;
   }
 `;
 
@@ -46,19 +46,15 @@ const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 
   color: black;
   font-style: normal;
-  font-weight: 700;
-  line-height: 140%;
-
-  h1 {
-    font-size: 28px;
-  }
 
   h2 {
     font-size: 24px;
+    font-weight: 600;
+    line-height: 150%;
   }
 `;
 
@@ -72,12 +68,13 @@ const ButtonContainer = styled.div`
 
   display: flex;
   align-items: end;
-  padding-bottom: 24px;
+  padding: 24px;
+  padding-top: 0px;
 
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0) 0%,
-    #fff 18.82%,
-    #fff 100%
+    rgba(244, 245, 245, 0) 0%,
+    #f4f5f5 18.82%,
+    #f4f5f5 100%
   );
 `;
