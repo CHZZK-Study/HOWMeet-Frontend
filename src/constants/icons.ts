@@ -14,6 +14,9 @@ const ICONS = {
     chart: `${BASE_PATH}/main/bar-chart.svg`,
     watch: `${BASE_PATH}/main/watch.svg`,
   },
+  nav: {
+    back: `${BASE_PATH}/nav/back-arrow.svg`,
+  },
 } as const;
 
 export default ICONS;

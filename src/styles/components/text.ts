@@ -10,3 +10,12 @@ export const Title = styled.div`
     font-weight: 700;
   }
 `;
+
+export const PageTitle = styled.div`
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 36px;
+
+  padding: 10px 12px 10px 0;
+  margin-top: 20px;
+`;
