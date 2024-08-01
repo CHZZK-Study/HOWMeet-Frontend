@@ -8,5 +8,6 @@ export const Title = styled.div`
 
   strong {
     font-weight: 700;
+    color: #17b609;
   }
 `;

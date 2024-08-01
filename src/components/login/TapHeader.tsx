@@ -46,7 +46,7 @@ const Header = styled.header`
   height: fit-content;
   display: flex;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.color.white};
+  background-color: #f4f5f5;
   color: black;
 
   position: sticky;

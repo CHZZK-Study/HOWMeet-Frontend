@@ -15,6 +15,11 @@ const ICONS = {
     watch: `${BASE_PATH}/main/watch.svg`,
     title: `${BASE_PATH}/logo/logo-title.svg`,
   },
+  login: {
+    kakao: `${BASE_PATH}/login/kakao.svg`,
+    naver: `${BASE_PATH}/login/naver.svg`,
+    google: `${BASE_PATH}/login/google.svg`,
+  },
 } as const;
 
 export default ICONS;
