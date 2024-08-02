@@ -11,10 +11,35 @@ const typo = {
         font-weight: 700;
         line-height: 36px;
       `,
+      16: `
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 22px;
+      `,
     },
   },
   body: {
     semi_bold: {
+      24: `
+          font-size: 24px;
+          font-weight: 600;
+          line-height: 36px;
+      `,
+      22: `
+          font-size: 22px;
+          font-weight: 600;
+          line-height: 26.25px;
+        `,
+      20: `
+          font-size: 20px;
+          font-weight: 600;
+          line-height: 30px;
+      `,
+      19: `
+          font-size: 19px;
+          font-weight: 600;
+          line-height: 24.7px;
+       `,
       18: `
           font-size: 18px;
           font-weight: 600;
@@ -25,6 +50,16 @@ const typo = {
           font-weight: 600;
           line-height: 24px;
         `,
+      15: `
+          font-size: 15px;
+          font-weight: 600;
+          line-height: 17.9px;
+      `,
+      13: `
+          font-size: 13px;
+          font-weight: 600;
+          line-height: 19.5px;
+      `,
       12: `
           font-size: 12px;
           font-weight: 600;
@@ -32,6 +67,11 @@ const typo = {
         `,
     },
     medium: {
+      22: `
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 30.8px;
+      `,
       16: `
         font-size: 16px;
         font-weight: 500;
@@ -41,6 +81,18 @@ const typo = {
         font-size: 14px;
         font-weight: 500;
         line-height: 21px;
+      `,
+    },
+    regular: {
+      16: `
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+      `,
+      12: `
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 15.6px;
       `,
     },
   },

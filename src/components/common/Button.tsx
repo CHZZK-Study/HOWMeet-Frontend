@@ -50,8 +50,5 @@ const StyledButton = styled.button<Props>`
     `;
   }}
 
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 22px;
+  ${({ theme }) => theme.typo.heading.bold[16]}
 `;
