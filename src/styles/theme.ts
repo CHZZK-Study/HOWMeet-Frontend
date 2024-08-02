@@ -20,6 +20,11 @@ const typo = {
           font-weight: 600;
           line-height: normal;
         `,
+      16: `
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 24px;
+        `,
       12: `
           font-size: 12px;
           font-weight: 600;
@@ -27,6 +32,11 @@ const typo = {
         `,
     },
     medium: {
+      16: `
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 22px;
+      `,
       14: `
         font-size: 14px;
         font-weight: 500;
