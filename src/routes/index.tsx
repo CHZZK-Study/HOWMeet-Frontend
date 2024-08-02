@@ -7,6 +7,7 @@ import MeetingPage from '@/pages/MeetingPage';
 import SelectPage from '@/pages/SelectPage';
 import ResultPage from '@/pages/ResultPage';
 import MakingRoomPage from '@/pages/MakingRoomPage';
+import ConfirmMeeting from '@/pages/ConfirmMeeting';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: 'new-meeting',
     element: <NewMeetingPage />,
+  },
+  {
+    path: 'confirm-meeting',
+    element: <ConfirmMeeting />,
   },
   {
     path: 'meetings',
