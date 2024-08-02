@@ -1,4 +1,5 @@
 import ICONS from '@/constants/icons';
+import { SUB_TITLE } from '@/constants/title';
 import { Badge } from '@/styles/components/badge';
 import {
   SelectContainer,
@@ -11,7 +12,7 @@ import styled from 'styled-components';
 function SelectTime() {
   return (
     <SelectContainer>
-      <SubTitle>시간 선택</SubTitle>
+      <SubTitle>{SUB_TITLE.time}</SubTitle>
       <SelectWrapper horizontal>
         <SelectableItem>
           <TimeWrapper>
@@ -23,7 +24,7 @@ function SelectTime() {
         <SelectableItem>
           <TimeWrapper>
             <Time>0:00</Time>
-            <Badge>이후</Badge>
+            <Badge>이전</Badge>
           </TimeWrapper>
           <img src={ICONS.common.right} alt="right" />
         </SelectableItem>

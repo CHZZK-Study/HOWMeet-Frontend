@@ -1,4 +1,5 @@
 import ICONS from '@/constants/icons';
+import { SUB_TITLE } from '@/constants/title';
 import { Badge } from '@/styles/components/badge';
 import {
   SelectableItem,
@@ -11,7 +12,7 @@ import styled from 'styled-components';
 function SelectDate() {
   return (
     <SelectContainer>
-      <SubTitle>날짜 선택</SubTitle>
+      <SubTitle>{SUB_TITLE.date}</SubTitle>
       <SelectWrapper>
         <SelectableItem>
           <DateWrapper>
@@ -22,7 +23,7 @@ function SelectDate() {
         </SelectableItem>
         <SelectableItem>
           <DateWrapper>
-            <Badge>시작일</Badge>
+            <Badge>종료일</Badge>
             <Date>2024. 07. 11</Date>
           </DateWrapper>
           <img src={ICONS.common.right} alt="right" />

@@ -8,7 +8,7 @@ import RoomInput from '@/components/room/RoomInput';
 import Header from '@/components/common/Header';
 import HEAD_TITLE from '@/constants/header';
 import INPUT from '@/constants/input';
-import TITLE from '@/constants/title';
+import { TITLE } from '@/constants/title';
 import { PageTitle } from '@/styles/components/text';
 
 import { useForm } from 'react-hook-form';
