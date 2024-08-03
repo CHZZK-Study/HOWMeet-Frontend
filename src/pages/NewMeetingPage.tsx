@@ -11,12 +11,17 @@ import {
   FlexColContainer,
 } from '@/styles/components/container';
 import { PageTitle } from '@/styles/components/text';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
 function NewMeetingPage() {
   // TODO 소셜 로그인 유무에 따른 PageTitle 변경 및 버튼 변경
-  const methods = useForm({ mode: 'onChange' });
+  const methods = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      newMeeting: '',
+    },
+  });
   const {
     register,
     formState: { isValid },
@@ -27,14 +32,16 @@ function NewMeetingPage() {
       <Header title={HEAD_TITLE.newMeeting} />
       <ContentContainer>
         <PageTitle>{TITLE.newMeeting}</PageTitle>
-        <RoomInput
-          placeholder={INPUT.newMeeting.placeholder}
-          label={INPUT.newMeeting.label}
-          {...register('newMeeting', {
-            required: true,
-            minLength: 1,
-          })}
-        />
+        <FormProvider {...methods}>
+          <RoomInput
+            placeholder={INPUT.newMeeting.placeholder}
+            label={INPUT.newMeeting.label}
+            {...register('newMeeting', {
+              required: true,
+              minLength: 1,
+            })}
+          />
+        </FormProvider>
         <SelectDate />
         <SelectTime />
       </ContentContainer>

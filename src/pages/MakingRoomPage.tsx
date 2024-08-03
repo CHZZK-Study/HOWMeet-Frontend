@@ -11,10 +11,13 @@ import INPUT from '@/constants/input';
 import { TITLE } from '@/constants/title';
 import { PageTitle } from '@/styles/components/text';
 
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
 function MakingRoomPage() {
-  const methods = useForm({ mode: 'onChange' });
+  const methods = useForm({
+    mode: 'onChange',
+    defaultValues: { roomName: '' },
+  });
   const {
     register,
     formState: { isValid },
@@ -25,14 +28,16 @@ function MakingRoomPage() {
       <Header title={HEAD_TITLE.makeRoom} />
       <ContentContainer>
         <PageTitle>{TITLE.makeRoom}</PageTitle>
-        <RoomInput
-          placeholder={INPUT.makeRoom.placeholder}
-          label={INPUT.makeRoom.label}
-          {...register('roomName', {
-            required: true,
-            minLength: 1,
-          })}
-        />
+        <FormProvider {...methods}>
+          <RoomInput
+            placeholder={INPUT.makeRoom.placeholder}
+            label={INPUT.makeRoom.label}
+            {...register('roomName', {
+              required: true,
+              minLength: 1,
+            })}
+          />
+        </FormProvider>
       </ContentContainer>
       <ButtonContainer>
         <Button $style="solid" disabled={!isValid}>
