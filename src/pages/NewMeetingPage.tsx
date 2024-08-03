@@ -1,5 +1,7 @@
+import ArrowNavbar from '@/components/common/ArrowNavbar';
+import Button from '@/components/common/Button';
 import TimeSelect from '@/components/meeting/TimeSelect';
-import TimeSelectNavbar from '@/components/meeting/TimeSelectNavbar';
+import TimeSelectTitle from '@/components/meeting/TimeSelectTitle';
 
 function NewMeetingPage() {
   const timeTableData = {
@@ -18,14 +20,16 @@ function NewMeetingPage() {
       '21',
       '22',
     ],
-    days: ['월', '화', '수', '목', '금', '토', '일'],
-    dates: ['1', '2', '3', '4', '5', '6', '7'],
-    months: ['7/1', '7/2', '7/3', '7/4', '7/5', '7/6', '7/7'],
+    days: ['월', '화', '수'],
+    dates: ['1', '2', '3'],
+    months: ['7/1', '7/2', '7/3'],
   };
   return (
     <>
-      <TimeSelectNavbar />
-      <TimeSelect data={timeTableData} />;
+      <ArrowNavbar title="새로운 미팅" arrowPosition="left" />
+      <TimeSelectTitle />
+      <TimeSelect data={timeTableData} />
+      <Button>시간 선택 완료</Button>
     </>
   );
 }
