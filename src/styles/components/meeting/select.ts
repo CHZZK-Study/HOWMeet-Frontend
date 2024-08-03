@@ -6,9 +6,9 @@ export const SelectContainer = styled.div`
   gap: 16px;
 `;
 
-export const SelectWrapper = styled.ul<{ horizontal?: boolean }>`
+export const SelectWrapper = styled.ul<{ $horizontal?: boolean }>`
   display: flex;
-  flex-direction: ${({ horizontal }) => (horizontal ? 'row' : 'column')};
+  flex-direction: ${({ $horizontal }) => ($horizontal ? 'row' : 'column')};
   gap: 8px;
 `;
 

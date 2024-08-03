@@ -13,7 +13,7 @@ function SelectTime() {
   return (
     <SelectContainer>
       <SubTitle>{SUB_TITLE.time}</SubTitle>
-      <SelectWrapper horizontal>
+      <SelectWrapper $horizontal>
         <SelectableItem>
           <TimeWrapper>
             <Time>0:00</Time>
