@@ -4,7 +4,9 @@ import PrevIcon from 'public/assets/icons/common/prev.svg';
 import NextIcon from 'public/assets/icons/common/next.svg';
 import moment from 'moment';
 import { useState } from 'react';
-import { SelectedDate } from '@/types/calendar';
+
+type DatePiece = Date | null;
+type SelectedDate = DatePiece | [DatePiece, DatePiece];
 
 interface Props {
   $isOver?: boolean;
