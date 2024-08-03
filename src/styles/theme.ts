@@ -123,9 +123,13 @@ const color = {
       },
       green: {
         8: 'rgba(65, 211, 53, 0.2)',
+        1: 'rgba(23, 182, 9, 1)',
       },
       gray: {
         800: '#4C545C',
+      },
+      red: {
+        red: 'rgba(243, 72, 34, 1)',
       },
     },
     transparent: {
