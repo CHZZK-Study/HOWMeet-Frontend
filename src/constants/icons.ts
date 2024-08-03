@@ -3,6 +3,8 @@ const BASE_PATH = '/assets/icons';
 const ICONS = {
   common: {
     x: `${BASE_PATH}/common/x-icon.svg`,
+    left: `${BASE_PATH}/common/left-arrow.svg`,
+    right: `${BASE_PATH}/common/right-arrow.svg`,
   },
   form: {
     clear: `${BASE_PATH}/form/clear-icon.svg`,

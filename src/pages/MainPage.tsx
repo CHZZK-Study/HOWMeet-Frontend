@@ -4,7 +4,7 @@ import { FlexColContainer } from '@/styles/components/container';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-        
+
 function MainPage() {
   const navigate = useNavigate();
 
@@ -65,6 +65,7 @@ const TitleWrapper = styled.div`
 const ButtonContainer = styled.div`
   width: 100%;
   height: 130px;
+
   position: sticky;
   bottom: 0;
   left: 0;
