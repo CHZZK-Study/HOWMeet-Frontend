@@ -3,6 +3,7 @@ import create from 'zustand';
 
 interface TimeSlot {
   hour: string;
+  minute: string;
   day: string;
   date: string;
   month: string;
@@ -18,7 +19,8 @@ export const useTimeStore = create<TimeStore>((set) => ({
   toggleTime: (time) =>
     set((state) => {
       const index = state.selectedTimes.findIndex(
-        (t) => t.hour === time.hour && t.day === time.day
+        (t) =>
+          t.hour === time.hour && t.minute === time.minute && t.day === time.day
       );
       if (index > -1) {
         return {

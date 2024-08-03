@@ -1,4 +1,5 @@
 import TimeSelect from '@/components/meeting/TimeSelect';
+import TimeSelectNavbar from '@/components/meeting/TimeSelectNavbar';
 
 function NewMeetingPage() {
   const timeTableData = {
@@ -21,7 +22,12 @@ function NewMeetingPage() {
     dates: ['1', '2', '3', '4', '5', '6', '7'],
     months: ['7/1', '7/2', '7/3', '7/4', '7/5', '7/6', '7/7'],
   };
-  return <TimeSelect data={timeTableData} />;
+  return (
+    <>
+      <TimeSelectNavbar />
+      <TimeSelect data={timeTableData} />;
+    </>
+  );
 }
 
 export default NewMeetingPage;

@@ -10,7 +10,7 @@ const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
   user-select: none;
-  width: 90%;
+  width: 100%;
 `;
 
 const Header = styled.div`
@@ -21,10 +21,17 @@ const Row = styled.div`
   display: flex;
 `;
 
+const HourCell = styled.div`
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+`;
+
 const CellGroup = styled.div`
   flex: 1;
-  height: 100px;
-  aspect-ratio: 1 / 1;
+  height: 40px;
   border: 1px solid #ccc;
   display: flex;
   flex-direction: column;
@@ -41,17 +48,9 @@ const HalfCell = styled.div<CellProps>`
   }
 `;
 
-const HourCell = styled.div`
-  width: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 10px;
-`;
-
 const DateCell = styled.div`
   flex: 1;
-  aspect-ratio: 1 / 1;
+  height: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -60,7 +59,7 @@ const DateCell = styled.div`
 
 const MonthCell = styled.div`
   flex: 1;
-  aspect-ratio: 1 / 1;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,7 +89,6 @@ function TimeSelect({ data }: TimeTableProps) {
 
   const handleMouseDown = useCallback(
     (timeSlot: TimeSlot) => {
-      console.log('마우스 뗀다', timeSlot);
       setIsDragging(true);
       setDragStartTime(timeSlot);
       toggleTime(timeSlot);
@@ -100,7 +98,6 @@ function TimeSelect({ data }: TimeTableProps) {
 
   const handleMouseEnter = useCallback(
     (timeSlot: TimeSlot) => {
-      console.log('마우스 들어간다', timeSlot);
       if (isDragging) {
         toggleTime(timeSlot);
       }
