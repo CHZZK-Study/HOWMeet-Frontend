@@ -13,11 +13,11 @@ const RoomInput = forwardRef<HTMLInputElement, Props>(
   ({ placeholder, label, name, ...props }, ref) => {
     const { setValue, watch, trigger } = useFormContext();
 
-    const inputValue = watch(`${name}`);
+    const inputValue = watch(name);
 
     const handleDeleteAll = () => {
-      setValue(`${name}`, '');
-      trigger(`${name}`);
+      setValue(name, '');
+      trigger(name);
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,8 +86,7 @@ const Input = styled.input`
   border: none;
   background: none;
 
-  font-size: 16px;
-  line-height: 26px;
+  ${({ theme }) => theme.typo.body.medium[16]}
 
   &::placeholder {
     color: ${({ theme }) => theme.color.secondary.solid.bk[600]};
