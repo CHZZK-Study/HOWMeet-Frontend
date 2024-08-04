@@ -20,22 +20,22 @@ export const pwaConfig: Partial<VitePWAOptions> = {
     theme_color: '#ffffff',
     icons: [
       {
-        src: 'assets/icons/favicon.ico',
-        sizes: '64x64',
+        src: '/favicon.ico',
+        sizes: '32x32',
         type: 'image/x-icon',
       },
       {
-        src: 'assets/icons/icon-196x196.png',
+        src: '/icon-196x196.png',
         sizes: '196x196',
         type: 'image/png',
       },
       {
-        src: 'assets/icons/icon-512x512.png',
+        src: '/icon-512x512.png',
         sizes: '512x512',
         type: 'image/png',
       },
       {
-        src: 'assets/icons/icon-512x512.png',
+        src: '/icon-512x512.png',
         sizes: '512x512',
         type: 'image/png',
         purpose: 'maskable',
