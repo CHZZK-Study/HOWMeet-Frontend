@@ -11,7 +11,6 @@ export const FlexColContainer = styled.main`
   align-items: center;
 `;
 
-<<<<<<< HEAD
 export const ButtonContainer = styled.div`
   width: 100%;
   height: 130px;
@@ -31,7 +30,8 @@ export const ButtonContainer = styled.div`
     #f4f5f5 18.82%,
     #f4f5f5 100%
   );
-=======
+`;
+
 export const ContentContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -41,5 +41,4 @@ export const ContentContainer = styled.div`
   flex-direction: column;
   gap: 25px;
   flex: 1;
->>>>>>> dev
 `;

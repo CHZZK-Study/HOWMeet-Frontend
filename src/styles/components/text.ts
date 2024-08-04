@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 
 export const Title = styled.div`
-  font-size: 22px;
-  font-style: normal;
-  line-height: 140%;
+  ${({ theme }) => theme.typo.body.regular[22]}
   letter-spacing: 0.02px;
 
   strong {
     font-weight: 700;
-    color: #17b609;
+    color: ${({ theme }) => theme.color.point.green};
   }
 `;
 

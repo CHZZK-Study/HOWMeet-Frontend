@@ -6,10 +6,7 @@ import {
 } from '@/styles/components/container';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-<<<<<<< HEAD
 import LogoTitle from 'public/assets/icons/logo/logo-title.svg?react';
-=======
->>>>>>> dev
 
 function MainPage() {
   const navigate = useNavigate();
@@ -24,7 +21,7 @@ function MainPage() {
         <GuideList />
       </div>
       <ButtonContainer>
-        <Button type="button" onClick={() => navigate('/login')}>
+        <Button type="button" $style="solid" onClick={() => navigate('/login')}>
           시작하기
         </Button>
       </ButtonContainer>
@@ -54,36 +51,10 @@ const TitleWrapper = styled.div`
   align-items: center;
   gap: 8px;
 
-  color: black;
+  color: ${({ theme }) => theme.color.secondary.solid.bk[900]};
   font-style: normal;
 
   h2 {
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 150%;
+    ${({ theme }) => theme.typo.body.semi_bold[24]}
   }
 `;
-<<<<<<< HEAD
-=======
-
-const ButtonContainer = styled.div`
-  width: 100%;
-  height: 130px;
-
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  z-index: 999;
-
-  display: flex;
-  align-items: end;
-  padding-bottom: 24px;
-
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0) 0%,
-    #fff 18.82%,
-    #fff 100%
-  );
-`;
->>>>>>> dev

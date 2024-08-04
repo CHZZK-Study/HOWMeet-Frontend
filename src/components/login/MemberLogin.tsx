@@ -47,7 +47,7 @@ const ButtonWrapper = styled.div`
 const SocialLoginButton = styled.button`
   width: 100%;
   height: 60px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.color.primary.white};
   box-sizing: border-box;
   text-align: center;
   padding: 16px;
@@ -61,10 +61,7 @@ const SocialLoginButton = styled.button`
   .button-text {
     flex: 1;
     text-align: start;
-    color: #53555b;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 22px;
+    color: ${({ theme }) => theme.color.secondary.solid.bk[700]};
+    ${({ theme }) => theme.typo.body.medium[16]}
   }
 `;

@@ -55,13 +55,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  color: black;
+  color: ${({ theme }) => theme.color.secondary.solid.bk[900]};
 
   .input-name {
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 22px;
+    ${({ theme }) => theme.typo.body.semi_bold[18]}
   }
 
   .input-container {
@@ -79,21 +76,18 @@ const InputWrapper = styled.div`
 
 const Input = styled.input<{ $isError: boolean }>`
   width: 100%;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 26px;
+  ${({ theme }) => theme.typo.body.medium[16]}
   border-radius: 0;
   ime-mode: active;
   background: none;
 
   border: none;
-  border-bottom: 1px solid rgba(31, 31, 60, 0.12);
+  border-bottom: 1px solid ${({ theme }) => theme.color.secondary.solid.bk[300]};
   padding: 8px 0px;
   padding-right: 35px;
 
   &::placeholder {
-    color: #84888f;
+    color: ${({ theme }) => theme.color.secondary.solid.bk[600]};
     font-weight: 400;
   }
 
@@ -101,27 +95,27 @@ const Input = styled.input<{ $isError: boolean }>`
     outline: none;
   }
 
-  ${({ $isError }) => {
+  ${({ $isError, theme }) => {
     if ($isError) {
       return {
-        borderBottom: '1px solid #F34822',
-        color: '#F34822',
+        borderBottom: `1px solid ${theme.color.secondary.solid.red.red}`,
+        color: theme.color.secondary.solid.red.red,
         '&::placeholder': {
-          color: '#F34822',
+          color: theme.color.secondary.solid.red.red,
         },
         '&:focus': {
-          borderBottom: '1px solid #F34822',
+          borderBottom: `1px solid ${theme.color.secondary.solid.red.red}`,
         },
       };
     }
     return {
-      borderBottom: '1px solid rgba(31, 31, 60, 0.12)',
-      color: 'black',
+      borderBottom: `1px solid ${theme.color.secondary.solid.bk[300]}`,
+      color: theme.color.secondary.solid.bk[900],
       '&::placeholder': {
-        color: 'rgba(31, 31, 60, 0.4)',
+        color: theme.color.secondary.solid.bk[600],
       },
       '&:focus': {
-        borderBottom: '1px solid black',
+        borderBottom: `1px solid ${theme.color.secondary.solid.bk[900]}`,
       },
     };
   }}
@@ -130,9 +124,6 @@ const Input = styled.input<{ $isError: boolean }>`
 const ErrorMessage = styled.span`
   width: 100%;
   height: 14px;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 18px;
-  color: #f34822;
+  ${({ theme }) => theme.typo.body.medium[14]}
+  color: ${({ theme }) => theme.color.secondary.solid.red.red};
 `;

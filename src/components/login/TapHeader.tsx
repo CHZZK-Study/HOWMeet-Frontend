@@ -46,8 +46,8 @@ const Header = styled.header`
   height: fit-content;
   display: flex;
   flex-direction: column;
-  background-color: #f4f5f5;
-  color: black;
+  background-color: ${({ theme }) => theme.color.secondary.solid.bk[50]};
+  color: ${({ theme }) => theme.color.secondary.solid.bk[700]};
 
   position: sticky;
   position: -webkit-sticky;
@@ -61,9 +61,7 @@ const Title = styled.div`
   display: flex;
   justify-content: center;
   padding: 18px 0px;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 175%;
+  ${({ theme }) => theme.typo.body.medium[16]}
   position: relative;
 `;
 
@@ -87,13 +85,14 @@ const TapBar = styled.div<{ $loginType: string | null }>`
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    border-bottom: 2px solid #eaeaea;
+    border-bottom: 2px solid
+      ${({ theme }) => theme.color.secondary.solid.bk[200]};
   }
 
   .bar {
     width: 50%;
     height: 2px;
-    background-color: #4b4b4b;
+    background-color: ${({ theme }) => theme.color.secondary.solid.bk[700]};
 
     transition: all 0.3s ease-in-out;
     position: absolute;
@@ -103,9 +102,12 @@ const TapBar = styled.div<{ $loginType: string | null }>`
 `;
 
 const Tap = styled.button<{ $isSelected: boolean }>`
-  font-size: 14px;
+  ${({ theme }) => theme.typo.body.regular[16]}
   padding: 14px 16px;
   transition: all 0.3s ease-in-out;
 
-  color: ${({ $isSelected }) => ($isSelected ? '#4b4b4b' : '#B4B4B4')};
+  color: ${({ $isSelected, theme }) =>
+    $isSelected
+      ? theme.color.secondary.solid.bk[700]
+      : theme.color.secondary.solid.bk[400]};
 `;

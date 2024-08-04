@@ -19,10 +19,6 @@ export default Button;
 
 const StyledButton = styled.button<Props>`
   width: 100%;
-<<<<<<< HEAD
-  background-color: ${({ disabled }) => (disabled ? '#D0D0D0' : '#642DFF')};
-=======
->>>>>>> dev
   text-align: center;
   padding: 16px 0;
   border-radius: 8px;

@@ -58,7 +58,7 @@ function NonMemberLogin() {
           </Guide>
         </Wrapper>
         <ButtonContainer>
-          <Button type="submit" disabled={!isValid}>
+          <Button type="submit" $style="solid" disabled={!isValid}>
             완료
           </Button>
         </ButtonContainer>
@@ -98,11 +98,8 @@ const Guide = styled.div`
   gap: 16px;
 
   h3 {
-    color: #222325;
-    font-size: 19px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 130%;
+    color: ${({ theme }) => theme.color.secondary.solid.bk[900]};
+    ${({ theme }) => theme.typo.body.medium[22]}
   }
 
   ul {
@@ -114,10 +111,7 @@ const Guide = styled.div`
   li {
     list-style-type: disc;
     margin-left: 18px;
-    color: #84888f;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 130%;
+    color: ${({ theme }) => theme.color.secondary.solid.bk[600]};
+    ${({ theme }) => theme.typo.body.regular[12]}
   }
 `;
