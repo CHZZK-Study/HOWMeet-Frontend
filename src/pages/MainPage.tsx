@@ -7,6 +7,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoTitle from 'public/assets/icons/logo/logo-title.svg?react';
+import { PATH } from '@/constants/path';
 
 function MainPage() {
   const navigate = useNavigate();
@@ -21,7 +22,11 @@ function MainPage() {
         <GuideList />
       </div>
       <ButtonContainer>
-        <Button type="button" $style="solid" onClick={() => navigate('/login')}>
+        <Button
+          type="button"
+          $style="solid"
+          onClick={() => navigate(PATH.login)}
+        >
           시작하기
         </Button>
       </ButtonContainer>

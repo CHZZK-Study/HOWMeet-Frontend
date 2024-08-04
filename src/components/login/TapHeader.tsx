@@ -1,8 +1,10 @@
 import styled from 'styled-components';
-import { useSearchParams } from 'react-router-dom';
+import { PATH } from '@/constants/path';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import ICONS from '../../constants/icons';
 
 function TapHeader() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const loginType = searchParams.get('type');
 
@@ -14,7 +16,7 @@ function TapHeader() {
     <Header>
       <Title>
         <h1>로그인</h1>
-        <Button>
+        <Button type="button" onClick={() => navigate(PATH.main)}>
           <img src={ICONS.common.x} alt="x" />
         </Button>
       </Title>
