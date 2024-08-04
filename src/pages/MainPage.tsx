@@ -6,7 +6,10 @@ import {
 } from '@/styles/components/container';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+<<<<<<< HEAD
 import LogoTitle from 'public/assets/icons/logo/logo-title.svg?react';
+=======
+>>>>>>> dev
 
 function MainPage() {
   const navigate = useNavigate();
@@ -60,3 +63,27 @@ const TitleWrapper = styled.div`
     line-height: 150%;
   }
 `;
+<<<<<<< HEAD
+=======
+
+const ButtonContainer = styled.div`
+  width: 100%;
+  height: 130px;
+
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+
+  display: flex;
+  align-items: end;
+  padding-bottom: 24px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    #fff 18.82%,
+    #fff 100%
+  );
+`;
+>>>>>>> dev

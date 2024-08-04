@@ -11,3 +11,16 @@ export const Title = styled.div`
     color: #17b609;
   }
 `;
+
+export const PageTitle = styled.div`
+  ${({ theme }) => theme.typo.heading.bold[24]}
+
+  padding: 10px 12px 10px 0;
+  margin-top: 20px;
+`;
+
+export const SubTitle = styled.div`
+  color: ${({ theme }) => theme.color.primary.black};
+  ${({ theme }) => theme.typo.body.semi_bold[18]};
+  word-wrap: break-word;
+`;
