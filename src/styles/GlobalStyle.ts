@@ -58,7 +58,6 @@ const GlobalStyle = createGlobalStyle`
     align-items: center;
 
     margin: 0px auto;
-    background-color: #F4F5F5;
     
     /* PC view setting */
     @media screen and (min-width: 430px) {

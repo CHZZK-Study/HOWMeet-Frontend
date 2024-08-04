@@ -6,12 +6,16 @@ export const pwaConfig: Partial<VitePWAOptions> = {
   devOptions: {
     enabled: true,
   },
+  workbox: {
+    sourcemap: true,
+  },
   manifest: {
     name: 'HowMeet',
     short_name: 'HowMeet',
-    description: '',
+    description: '일정 조율 서비스',
     start_url: '/',
     display: 'standalone',
+    prefer_related_applications: false,
     background_color: '#FFFFFF',
     theme_color: '#ffffff',
     icons: [
