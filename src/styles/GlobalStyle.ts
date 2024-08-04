@@ -65,6 +65,10 @@ const GlobalStyle = createGlobalStyle`
       width: 450px;
     }
   }
+
+  input {
+    outline: none;
+  }
 `;
 
 export default GlobalStyle;
