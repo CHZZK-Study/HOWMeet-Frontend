@@ -1,3 +1,4 @@
+import TimeTableLayout from '@/layouts/TimeTableLayout';
 import { ResultHeatmapProps } from '@/types/ResultHeatmap';
 import getAdjustedColor from '@/utils/getAdjustedColor';
 import { useMemo, useState } from 'react';
@@ -77,49 +78,16 @@ function ResultHeatmap({ data, roomInfo }: TimeTableProps) {
   }, [data, groupedTimeSlots, roomInfo]);
 
   return (
-    <TableContainer>
-      <Header>
-        <HourCell />
-        {data.months.map((month) => (
-          <MonthCell>{month}</MonthCell>
-        ))}
-      </Header>
-      <Header>
-        <HourCell />
-        {data.days.map((day) => (
-          <DateCell>{day}</DateCell>
-        ))}
-      </Header>
-      {renderCells}
+    <>
+      <TimeTableLayout data={data} renderCells={renderCells} />
       {hoveredTimeSlot && (
-        <Tooltip>
-          <h4>{new Date(hoveredTimeSlot.time).toLocaleString()}</h4>
-          <ul>
-            {hoveredTimeSlot.users.map((name) => (
-              <li key={name}>{name}</li>
-            ))}
-          </ul>
-        </Tooltip>
+        <Tooltip>{`${hoveredTimeSlot.users.join(', ')} ${hoveredTimeSlot.userCount}명`}</Tooltip>
       )}
-    </TableContainer>
+    </>
   );
 }
 
 export default ResultHeatmap;
-
-const TableContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  user-select: none;
-  width: 100%;
-  overflow-x: auto;
-  margin-bottom: 20px;
-  padding: 0 15px;
-`;
-
-const Header = styled.div`
-  display: flex;
-`;
 
 const Row = styled.div`
   display: flex;
@@ -151,23 +119,6 @@ const HalfCell = styled.div<CellProps>`
   &:first-child {
     border-bottom: 1px dashed #ccc;
   }
-`;
-
-const DateCell = styled.div`
-  flex: 1;
-  height: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const MonthCell = styled.div`
-  flex: 1;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const Tooltip = styled.div`
