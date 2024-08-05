@@ -7,14 +7,20 @@ const ICONS = {
     right: `${BASE_PATH}/common/right-arrow.svg`,
   },
   form: {
-    clear: `${BASE_PATH}/form/clear-icon.svg`,
+    clear: `${BASE_PATH}/form/clear.svg`,
     visibility_off: `${BASE_PATH}/form/visibility-off.svg`,
     visibility_on: `${BASE_PATH}/form/visibility-on.svg`,
   },
   main: {
     share: `${BASE_PATH}/main/share.svg`,
-    chart: `${BASE_PATH}/main/bar-chart.svg`,
+    chart: `${BASE_PATH}/main/checkbox.svg`,
     watch: `${BASE_PATH}/main/watch.svg`,
+    title: `${BASE_PATH}/logo/logo-title.svg`,
+  },
+  login: {
+    kakao: `${BASE_PATH}/login/kakao.svg`,
+    naver: `${BASE_PATH}/login/naver.svg`,
+    google: `${BASE_PATH}/login/google.svg`,
   },
 } as const;
 

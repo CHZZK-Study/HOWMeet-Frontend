@@ -2,7 +2,6 @@ import MemberLogin from '@/components/login/MemberLogin';
 import NonMemberLogin from '@/components/login/NonMemberLogin';
 import TapHeader from '@/components/login/TapHeader';
 import { FlexColContainer } from '@/styles/components/container';
-import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -26,9 +25,5 @@ const Content = styled.div`
   width: 100%;
   flex: 1;
   height: fit-content;
-  padding: 40px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
-  color: black;
+  padding: 40px 0;
 `;
