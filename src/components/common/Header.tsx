@@ -7,14 +7,14 @@ interface Props {
 
 function Header({ title }: Props) {
   return (
-    <HeeaderContainer>
+    <HeaderContainer>
       <img className="back-button" src={ICONS.common.left} alt="back button" />
       <HeadTitle>{title}</HeadTitle>
-    </HeeaderContainer>
+    </HeaderContainer>
   );
 }
 
-const HeeaderContainer = styled.div`
+const HeaderContainer = styled.div`
   width: 100%;
   height: 52px;
 
