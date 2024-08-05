@@ -73,26 +73,3 @@ const MonthCell = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
-const Row = styled.div`
-  display: flex;
-`;
-
-const CellGroup = styled.div`
-  flex: 1;
-  height: 40px;
-  border: 1px solid #ccc;
-  display: flex;
-  flex-direction: column;
-`;
-
-const HalfCell = styled.div<CellProps>`
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${(props) => (props.selected ? '#E2F5E3' : 'white')};
-  &:first-child {
-    border-bottom: 1px dashed #ccc;
-  }
-`;

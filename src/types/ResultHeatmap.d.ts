@@ -18,3 +18,11 @@ export interface ResultHeatmapProps {
 export interface AdjustColorProps {
   ratio: number;
 }
+
+export interface TimeSlot {
+  hour: string;
+  minute: string;
+  day: string;
+  date: string;
+  month: string;
+}
