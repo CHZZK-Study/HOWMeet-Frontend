@@ -1,3 +1,4 @@
+import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
 import ResultHeatmap from '@/components/meeting/result/ResultHeatmap';
 import { ResultHeatmapProps } from '@/types/ResultHeatmap';
 
@@ -113,7 +114,12 @@ function ResultPage() {
     },
   ];
 
-  return <ResultHeatmap data={timeTableData} roomInfo={selectedTimeSlots} />;
+  return (
+    <>
+      <AttendStatusHeader TotalParticipants={9} currentParticipants={8} />
+      <ResultHeatmap data={timeTableData} roomInfo={selectedTimeSlots} />
+    </>
+  );
 }
 
 export default ResultPage;
