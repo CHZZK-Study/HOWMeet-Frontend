@@ -1,8 +1,8 @@
 import FORM from '@/constants/form';
-import ICONS from '@/constants/icons';
 import React, { ForwardedRef, forwardRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
+import FormInputButton from './FormInputButton';
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   type: 'text' | 'password';
@@ -28,28 +28,16 @@ const FormInput = forwardRef<HTMLInputElement, Props>(
             <Input
               ref={ref}
               type={isVisible ? 'text' : type}
-              placeholder="닉네임 입력"
               $isError={!!errors[fieldName]}
               inputMode={type === 'password' ? 'numeric' : 'text'}
               {...props}
             />
-            {hasVisibility && (
-              <button
-                className="icon"
-                type="button"
-                onClick={() => setIsVisible((prev) => !prev)}
-              >
-                <img
-                  src={
-                    isVisible
-                      ? ICONS.form.visibility_on
-                      : ICONS.form.visibility_off
-                  }
-                  alt="clear"
-                  width={20}
-                />
-              </button>
-            )}
+            <FormInputButton
+              hasVisibility={hasVisibility}
+              fieldName={fieldName}
+              isVisible={isVisible}
+              toggleVisibility={() => setIsVisible((prev) => !prev)}
+            />
           </InputWrapper>
           <ErrorMessage>
             {errors[fieldName] && FORM[fieldName].message}
@@ -66,14 +54,11 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  color: black;
+  gap: 16px;
+  color: ${({ theme }) => theme.color.secondary.solid.bk[900]};
 
   .input-name {
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 22px;
+    ${({ theme }) => theme.typo.body.semi_bold[18]}
   }
 
   .input-container {
@@ -87,30 +72,22 @@ const Container = styled.div`
 const InputWrapper = styled.div`
   width: 100%;
   position: relative;
-
-  .icon {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-  }
 `;
 
 const Input = styled.input<{ $isError: boolean }>`
   width: 100%;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 26px;
+  ${({ theme }) => theme.typo.body.medium[16]}
   border-radius: 0;
   ime-mode: active;
+  background: none;
 
   border: none;
-  border-bottom: 2px solid rgba(31, 31, 60, 0.12);
+  border-bottom: 1px solid ${({ theme }) => theme.color.secondary.solid.bk[300]};
   padding: 8px 0px;
   padding-right: 35px;
 
   &::placeholder {
+    color: ${({ theme }) => theme.color.secondary.solid.bk[600]};
     font-weight: 400;
   }
 
@@ -118,27 +95,27 @@ const Input = styled.input<{ $isError: boolean }>`
     outline: none;
   }
 
-  ${({ $isError }) => {
+  ${({ $isError, theme }) => {
     if ($isError) {
       return {
-        borderBottom: '2px solid red',
-        color: 'red',
+        borderBottom: `1px solid ${theme.color.secondary.solid.red.red}`,
+        color: theme.color.secondary.solid.red.red,
         '&::placeholder': {
-          color: 'red',
+          color: theme.color.secondary.solid.red.red,
         },
         '&:focus': {
-          borderBottom: '2px solid red',
+          borderBottom: `1px solid ${theme.color.secondary.solid.red.red}`,
         },
       };
     }
     return {
-      borderBottom: '2px solid rgba(31, 31, 60, 0.12)',
-      color: 'black',
+      borderBottom: `1px solid ${theme.color.secondary.solid.bk[300]}`,
+      color: theme.color.secondary.solid.bk[900],
       '&::placeholder': {
-        color: 'rgba(31, 31, 60, 0.4)',
+        color: theme.color.secondary.solid.bk[600],
       },
       '&:focus': {
-        borderBottom: '2px solid black',
+        borderBottom: `1px solid ${theme.color.secondary.solid.bk[900]}`,
       },
     };
   }}
@@ -147,9 +124,6 @@ const Input = styled.input<{ $isError: boolean }>`
 const ErrorMessage = styled.span`
   width: 100%;
   height: 14px;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 18px;
-  color: red;
+  ${({ theme }) => theme.typo.body.medium[14]}
+  color: ${({ theme }) => theme.color.secondary.solid.red.red};
 `;

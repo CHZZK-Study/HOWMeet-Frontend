@@ -1,8 +1,10 @@
 import styled from 'styled-components';
-import { useSearchParams } from 'react-router-dom';
+import { PATH } from '@/constants/path';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import ICONS from '../../constants/icons';
 
 function TapHeader() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const loginType = searchParams.get('type');
 
@@ -14,7 +16,7 @@ function TapHeader() {
     <Header>
       <Title>
         <h1>로그인</h1>
-        <Button>
+        <Button type="button" onClick={() => navigate(PATH.main)}>
           <img src={ICONS.common.x} alt="x" />
         </Button>
       </Title>
@@ -46,13 +48,14 @@ const Header = styled.header`
   height: fit-content;
   display: flex;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.color.white};
-  color: black;
+  background-color: ${({ theme }) => theme.color.secondary.solid.bk[50]};
+  color: ${({ theme }) => theme.color.secondary.solid.bk[700]};
 
   position: sticky;
   position: -webkit-sticky;
   top: 0;
   left: 0;
+  z-index: 999;
 `;
 
 const Title = styled.div`
@@ -60,9 +63,7 @@ const Title = styled.div`
   display: flex;
   justify-content: center;
   padding: 18px 0px;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 175%;
+  ${({ theme }) => theme.typo.body.medium[16]}
   position: relative;
 `;
 
@@ -86,13 +87,14 @@ const TapBar = styled.div<{ $loginType: string | null }>`
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    border-bottom: 2px solid #eaeaea;
+    border-bottom: 2px solid
+      ${({ theme }) => theme.color.secondary.solid.bk[200]};
   }
 
   .bar {
     width: 50%;
     height: 2px;
-    background-color: #4b4b4b;
+    background-color: ${({ theme }) => theme.color.secondary.solid.bk[700]};
 
     transition: all 0.3s ease-in-out;
     position: absolute;
@@ -102,9 +104,12 @@ const TapBar = styled.div<{ $loginType: string | null }>`
 `;
 
 const Tap = styled.button<{ $isSelected: boolean }>`
-  font-size: 14px;
+  ${({ theme }) => theme.typo.body.regular[16]}
   padding: 14px 16px;
   transition: all 0.3s ease-in-out;
 
-  color: ${({ $isSelected }) => ($isSelected ? '#4b4b4b' : '#B4B4B4')};
+  color: ${({ $isSelected, theme }) =>
+    $isSelected
+      ? theme.color.secondary.solid.bk[700]
+      : theme.color.secondary.solid.bk[400]};
 `;
