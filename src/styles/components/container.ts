@@ -42,3 +42,13 @@ export const ContentContainer = styled.div`
   gap: 25px;
   flex: 1;
 `;
+
+export const NormalContainer = styled.div`
+  width: 100%;
+  min-height: 100dvh;
+  height: 100%;
+  background: rgb(244, 245, 245);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`;

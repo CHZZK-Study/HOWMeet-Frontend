@@ -4,8 +4,10 @@ import MeetingHeader from '@/components/meeting/MeetingHeader';
 import TimeSelect from '@/components/meeting/select/TimeSelect';
 import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
 import { useTimeStore } from '@/store/meeting/timeStore';
-import { ButtonContainer } from '@/styles/components/container';
-import styled from 'styled-components';
+import {
+  ButtonContainer,
+  NormalContainer,
+} from '@/styles/components/container';
 
 function SelectPage() {
   const timeTableData = {
@@ -32,7 +34,7 @@ function SelectPage() {
   const { selectedTimes } = useTimeStore();
 
   return (
-    <Container>
+    <NormalContainer>
       <HowMeetHeader />
       <MeetingHeader />
       <TimeSelectTitle />
@@ -42,18 +44,8 @@ function SelectPage() {
           확인
         </Button>
       </ButtonContainer>
-    </Container>
+    </NormalContainer>
   );
 }
 
 export default SelectPage;
-
-const Container = styled.div`
-  width: 100%;
-  min-height: 100dvh;
-  height: 100%;
-  background: rgb(244, 245, 245);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-`;

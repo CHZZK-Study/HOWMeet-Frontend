@@ -5,7 +5,7 @@ import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
 import ResultHeatmap from '@/components/meeting/result/ResultHeatmap';
 import {
   ButtonContainer,
-  FlexColContainer,
+  NormalContainer,
 } from '@/styles/components/container';
 import { ResultHeatmapProps } from '@/types/ResultHeatmap';
 
@@ -113,7 +113,7 @@ function ResultPage() {
   ];
 
   return (
-    <FlexColContainer>
+    <NormalContainer>
       <HowMeetHeader />
       <MeetingHeader />
       <AttendStatusHeader
@@ -129,7 +129,7 @@ function ResultPage() {
       <ButtonContainer>
         <Button $style="solid">일정 조율 완료</Button>
       </ButtonContainer>
-    </FlexColContainer>
+    </NormalContainer>
   );
 }
 
