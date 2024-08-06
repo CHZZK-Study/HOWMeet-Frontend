@@ -3,6 +3,7 @@ import HowMeetHeader from '@/components/common/HowMeetHeader';
 import MeetingHeader from '@/components/meeting/MeetingHeader';
 import TimeSelect from '@/components/meeting/select/TimeSelect';
 import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
+import { useTimeStore } from '@/store/meeting/timeStore';
 import styled from 'styled-components';
 
 function SelectPage() {
@@ -27,6 +28,8 @@ function SelectPage() {
     months: ['7/1', '7/2', '7/3'],
   };
 
+  const { selectedTimes } = useTimeStore();
+
   return (
     <Container>
       <HowMeetHeader />
@@ -34,7 +37,7 @@ function SelectPage() {
       <TimeSelectTitle />
       <TimeSelect data={timeTableData} />
       <ButtonContainer>
-        <Button $style="solid" disabled>
+        <Button $style="solid" disabled={selectedTimes.length === 0}>
           확인
         </Button>
       </ButtonContainer>
