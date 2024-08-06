@@ -11,11 +11,13 @@ interface TimeSlot {
 
 interface TimeStore {
   selectedTimes: TimeSlot[];
+  formatTime: string[];
   toggleTime: (time: TimeSlot) => void;
 }
 
 export const useTimeStore = create<TimeStore>((set) => ({
   selectedTimes: [],
+  formatTime: [],
   toggleTime: (time) =>
     set((state) => {
       const index = state.selectedTimes.findIndex(
@@ -27,6 +29,8 @@ export const useTimeStore = create<TimeStore>((set) => ({
           selectedTimes: state.selectedTimes.filter((_, i) => i !== index),
         };
       }
-      return { selectedTimes: [...state.selectedTimes, time] };
+      return {
+        selectedTimes: [...state.selectedTimes, time],
+      };
     }),
 }));

@@ -115,14 +115,17 @@ function ResultPage() {
       <MeetingHeader />
       <AttendStatusHeader
         TotalParticipants={9}
-        currentParticipants={6}
+        currentParticipants={1}
         participatedUsers={selectedTimeSlots[0].participatedUsers.names}
         unParticipatedUsers={selectedTimeSlots[0].totalParticipants.names.filter(
           (name) => !selectedTimeSlots[0].participatedUsers.names.includes(name)
         )}
       />
       <ResultHeatmap data={timeTableData} roomInfo={selectedTimeSlots} />
-      <Button $style="solid">일정 조율 완료</Button>
+
+      <ButtonContainer>
+        <Button $style="solid">일정 조율 완료</Button>
+      </ButtonContainer>
     </Container>
   );
 }
@@ -134,4 +137,10 @@ const Container = styled.div`
   width: 100%;
 `;
 
+const ButtonContainer = styled.div`
+  bottom: 0;
+  width: 100%;
+  padding: 10px 20px;
+  z-index: 10;
+`;
 export default ResultPage;

@@ -102,12 +102,10 @@ const AttendStatus = styled.div`
   margin-left: 10px;
 `;
 
-const AttendParticipantCount = styled.button`
+const AttendParticipantCount = styled.span`
   font-size: 16px;
   font-weight: bold;
   margin-left: 5px;
-  display: flex;
-  align-items: center;
   color: #33c894;
   cursor: pointer;
 `;

@@ -26,6 +26,7 @@ function SelectPage() {
     dates: ['1', '2', '3'],
     months: ['7/1', '7/2', '7/3'],
   };
+
   return (
     <Container>
       <HowMeetHeader />
