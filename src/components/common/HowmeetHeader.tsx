@@ -3,7 +3,7 @@ import styled from 'styled-components';
 function HowMeetHeader() {
   return (
     <HeaderContainer>
-      <Title>Howmeet</Title>
+      <Title>How Meet</Title>
     </HeaderContainer>
   );
 }
