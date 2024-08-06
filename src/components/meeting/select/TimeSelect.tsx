@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { useTimeStore } from '@/store/meeting/timeStore';
 import TimeTableLayout from '@/layouts/TimeTableLayout';
@@ -21,7 +21,11 @@ function TimeSelect({ data }: TimeTableProps) {
   const [dragStartTime, setDragStartTime] = useState<TimeSlot | null>(null);
   const { selectedTimes, toggleTime } = useTimeStore();
 
-  const handleMouseDown = useCallback(
+  useEffect(() => {
+    console.log(selectedTimes);
+  }, [selectedTimes]);
+
+  const handleDragStart = useCallback(
     (timeSlot: TimeSlot) => {
       setIsDragging(true);
       setDragStartTime(timeSlot);
@@ -30,7 +34,7 @@ function TimeSelect({ data }: TimeTableProps) {
     [toggleTime]
   );
 
-  const handleMouseEnter = useCallback(
+  const handleDragMove = useCallback(
     (timeSlot: TimeSlot) => {
       if (isDragging) {
         toggleTime(timeSlot);
@@ -39,7 +43,7 @@ function TimeSelect({ data }: TimeTableProps) {
     [isDragging, toggleTime]
   );
 
-  const handleMouseUp = useCallback(() => {
+  const handleDragEnd = useCallback(() => {
     setIsDragging(false);
     setDragStartTime(null);
   }, []);
@@ -72,9 +76,27 @@ function TimeSelect({ data }: TimeTableProps) {
                 <HalfCell
                   key={`${hour}-${day}-${minute}`}
                   selected={isSelected(hour, minute, day)}
-                  onMouseDown={() => handleMouseDown(timeSlot)}
-                  onMouseEnter={() => handleMouseEnter(timeSlot)}
-                  onMouseUp={handleMouseUp}
+                  onMouseDown={() => handleDragStart(timeSlot)}
+                  onMouseEnter={() => handleDragMove(timeSlot)}
+                  onMouseUp={handleDragEnd}
+                  onTouchStart={(e) => {
+                    handleDragStart(timeSlot);
+                  }}
+                  onTouchMove={(e) => {
+                    const touch = e.touches[0];
+                    const element = document.elementFromPoint(
+                      touch.clientX,
+                      touch.clientY
+                    );
+                    if (element && element.getAttribute('data-timeslot')) {
+                      const touchedTimeSlot = JSON.parse(
+                        element.getAttribute('data-timeslot') || '{}'
+                      );
+                      handleDragMove(touchedTimeSlot);
+                    }
+                  }}
+                  onTouchEnd={handleDragEnd}
+                  data-timeslot={JSON.stringify(timeSlot)}
                 />
               );
             })}
@@ -82,13 +104,14 @@ function TimeSelect({ data }: TimeTableProps) {
         ))}
       </Row>
     ));
-  }, [data, handleMouseDown, handleMouseEnter, isSelected, handleMouseUp]);
+  }, [data, handleDragStart, handleDragMove, isSelected, handleDragEnd]);
 
   return <TimeTableLayout data={data} renderCells={renderCells} />;
 }
 
 export default TimeSelect;
 
+// 기존의 styled-components 코드는 그대로 유지
 const Row = styled.div`
   display: flex;
 `;

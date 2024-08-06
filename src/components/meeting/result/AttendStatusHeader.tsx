@@ -3,6 +3,7 @@ import {
   BottomSheetHeader,
   BottomSheetTitle,
 } from '@/styles/components/bottomsheet/bottomsheet';
+import theme from '@/styles/theme';
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
@@ -19,6 +20,8 @@ function AttendStatusHeader({
 }) {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
+  const participatedUsersList = participatedUsers.join(', ');
+  const unParticipatedUsersList = unParticipatedUsers.join(', ');
   const toggleBottomSheet = () => {
     setIsBottomSheetOpen(!isBottomSheetOpen);
   };
@@ -46,29 +49,29 @@ function AttendStatusHeader({
             <BottomSheetTitle>현재 참여 인원</BottomSheetTitle>
             <CloseButton onClick={toggleBottomSheet}>X</CloseButton>
           </BottomSheetHeader>
-          <ParticipantCountContainer>
-            <ParticipantState>
+          <UserCountContainer>
+            <UserState>
               총 참여 인원 :
               <ParticipantCount>{TotalParticipants}명</ParticipantCount>
-            </ParticipantState>
+            </UserState>
             <VerticalDivider />
-            <ParticipantState>
-              참여 완료 : {currentParticipants}
-            </ParticipantState>
-            <ParticipantState>
+            <UserState>참여 완료 : {currentParticipants}</UserState>
+            <UserState>
               미참여 : {TotalParticipants - currentParticipants}
-            </ParticipantState>
-          </ParticipantCountContainer>
-          <ParticipantListContainer>
-            <ParticipantIcon isParticipant>참여 완료</ParticipantIcon>
-            <ParticipantList isParticipant>{participatedUsers}</ParticipantList>
-          </ParticipantListContainer>
-          <ParticipantListContainer>
-            <ParticipantIcon isParticipant={false}>미참여</ParticipantIcon>
-            <ParticipantList isParticipant={false}>
-              {unParticipatedUsers}
+            </UserState>
+          </UserCountContainer>
+          <UserListContainer>
+            <ParticipantIcon participant>참여 완료</ParticipantIcon>
+            <ParticipantList participant>
+              {participatedUsersList}
             </ParticipantList>
-          </ParticipantListContainer>
+          </UserListContainer>
+          <UserListContainer>
+            <ParticipantIcon participant={false}>미참여</ParticipantIcon>
+            <ParticipantList participant={false}>
+              {unParticipatedUsersList}
+            </ParticipantList>
+          </UserListContainer>
           <Button $style="solid">일정 조율 완료</Button>
         </BottomSheetContainer>
       )}
@@ -92,8 +95,7 @@ const AttendStatusHeaderContainer = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 20px;
-  font-weight: bold;
+  ${theme.typo.heading.bold[20]}
 `;
 
 const AttendStatus = styled.div`
@@ -118,7 +120,7 @@ const CloseButton = styled.button`
   border: none;
   cursor: pointer;
 `;
-const ParticipantCountContainer = styled.div`
+const UserCountContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -133,7 +135,7 @@ const VerticalDivider = styled.div`
   margin: 0 15px;
 `;
 
-const ParticipantState = styled.div`
+const UserState = styled.div`
   font-size: 19px;
   display: flex;
   align-items: center;
@@ -144,7 +146,7 @@ const ParticipantCount = styled.span`
   font-weight: bold;
   margin-left: 10px;
 `;
-const ParticipantListContainer = styled.div`
+const UserListContainer = styled.div`
   display: flex;
   width: 100%;
   gap: 10px;
@@ -152,16 +154,16 @@ const ParticipantListContainer = styled.div`
   margin: 15px;
 `;
 
-const ParticipantList = styled.div<{ isParticipant: boolean }>`
+const ParticipantList = styled.div<{ participant: boolean }>`
   font-size: 14px;
   font-weight: bold;
   color: ${(props) =>
-    props.isParticipant ? colors.participantText : colors.nonParticipantText};
+    props.participant ? colors.participantText : colors.nonParticipantText};
 `;
 
-const ParticipantIcon = styled.div<{ isParticipant: boolean }>`
+const ParticipantIcon = styled.div<{ participant: boolean }>`
   background-color: ${(props) =>
-    props.isParticipant
+    props.participant
       ? colors.participantBackground
       : colors.nonParticipantBackground};
   border-radius: 40px;
@@ -197,7 +199,7 @@ export const BottomSheetContainer = styled.div`
   gap: 5px;
 
   border-radius: 20px 20px 0px 0px;
-  background: ${({ theme }) => theme.color.primary.white};
+  background: ${theme.color.primary.white};
 
   animation: ${slideIn} 240ms cubic-bezier(0.5, 0.1, 0.34, 1);
 `;
