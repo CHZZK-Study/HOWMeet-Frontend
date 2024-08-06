@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useTimeStore } from '@/store/meeting/timeStore';
 import TimeTableLayout from '@/layouts/TimeTableLayout';
@@ -20,6 +20,7 @@ function TimeSelect({ data }: TimeTableProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartTime, setDragStartTime] = useState<TimeSlot | null>(null);
   const { selectedTimes, toggleTime } = useTimeStore();
+  const lastToggledTimeSlot = useRef<string | null>(null);
 
   useEffect(() => {
     console.log(selectedTimes);
@@ -30,6 +31,7 @@ function TimeSelect({ data }: TimeTableProps) {
       setIsDragging(true);
       setDragStartTime(timeSlot);
       toggleTime(timeSlot);
+      lastToggledTimeSlot.current = JSON.stringify(timeSlot);
     },
     [toggleTime]
   );
@@ -37,7 +39,11 @@ function TimeSelect({ data }: TimeTableProps) {
   const handleDragMove = useCallback(
     (timeSlot: TimeSlot) => {
       if (isDragging) {
-        toggleTime(timeSlot);
+        const timeSlotString = JSON.stringify(timeSlot);
+        if (lastToggledTimeSlot.current !== timeSlotString) {
+          toggleTime(timeSlot);
+          lastToggledTimeSlot.current = timeSlotString;
+        }
       }
     },
     [isDragging, toggleTime]
@@ -46,6 +52,7 @@ function TimeSelect({ data }: TimeTableProps) {
   const handleDragEnd = useCallback(() => {
     setIsDragging(false);
     setDragStartTime(null);
+    lastToggledTimeSlot.current = null;
   }, []);
 
   const isSelected = useCallback(
@@ -57,6 +64,16 @@ function TimeSelect({ data }: TimeTableProps) {
     },
     [selectedTimes]
   );
+
+  useEffect(() => {
+    const preventDefault = (e: Event) => e.preventDefault();
+    document.body.addEventListener('touchmove', preventDefault, {
+      passive: false,
+    });
+    return () => {
+      document.body.removeEventListener('touchmove', preventDefault);
+    };
+  }, []);
 
   const renderCells = useMemo(() => {
     return data.hours.map((hour) => (
@@ -79,7 +96,7 @@ function TimeSelect({ data }: TimeTableProps) {
                   onMouseDown={() => handleDragStart(timeSlot)}
                   onMouseEnter={() => handleDragMove(timeSlot)}
                   onMouseUp={handleDragEnd}
-                  onTouchStart={(e) => {
+                  onTouchStart={() => {
                     handleDragStart(timeSlot);
                   }}
                   onTouchMove={(e) => {
@@ -95,7 +112,9 @@ function TimeSelect({ data }: TimeTableProps) {
                       handleDragMove(touchedTimeSlot);
                     }
                   }}
-                  onTouchEnd={handleDragEnd}
+                  onTouchEnd={() => {
+                    handleDragEnd();
+                  }}
                   data-timeslot={JSON.stringify(timeSlot)}
                 />
               );
@@ -111,7 +130,6 @@ function TimeSelect({ data }: TimeTableProps) {
 
 export default TimeSelect;
 
-// 기존의 styled-components 코드는 그대로 유지
 const Row = styled.div`
   display: flex;
 `;

@@ -3,8 +3,11 @@ import HowMeetHeader from '@/components/common/HowMeetHeader';
 import MeetingHeader from '@/components/meeting/MeetingHeader';
 import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
 import ResultHeatmap from '@/components/meeting/result/ResultHeatmap';
+import {
+  ButtonContainer,
+  FlexColContainer,
+} from '@/styles/components/container';
 import { ResultHeatmapProps } from '@/types/ResultHeatmap';
-import styled from 'styled-components';
 
 function ResultPage() {
   const timeTableData = {
@@ -110,7 +113,7 @@ function ResultPage() {
   ];
 
   return (
-    <Container>
+    <FlexColContainer>
       <HowMeetHeader />
       <MeetingHeader />
       <AttendStatusHeader
@@ -126,21 +129,8 @@ function ResultPage() {
       <ButtonContainer>
         <Button $style="solid">일정 조율 완료</Button>
       </ButtonContainer>
-    </Container>
+    </FlexColContainer>
   );
 }
 
-const Container = styled.div`
-  background-color: #f5f5f5;
-  min-height: 90vh;
-
-  width: 100%;
-`;
-
-const ButtonContainer = styled.div`
-  bottom: 0;
-  width: 100%;
-  padding: 10px 20px;
-  z-index: 10;
-`;
 export default ResultPage;

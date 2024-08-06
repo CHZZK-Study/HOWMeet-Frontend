@@ -4,6 +4,7 @@ import MeetingHeader from '@/components/meeting/MeetingHeader';
 import TimeSelect from '@/components/meeting/select/TimeSelect';
 import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
 import { useTimeStore } from '@/store/meeting/timeStore';
+import { ButtonContainer } from '@/styles/components/container';
 import styled from 'styled-components';
 
 function SelectPage() {
@@ -47,15 +48,12 @@ function SelectPage() {
 
 export default SelectPage;
 
-const ButtonContainer = styled.div`
-  bottom: 0;
-  width: 100%;
-  padding: 10px 20px;
-  z-index: 10;
-`;
-
 const Container = styled.div`
-  background-color: #f5f5f5;
-  max-height: 100vh;
   width: 100%;
+  min-height: 100dvh;
+  height: 100%;
+  background: rgb(244, 245, 245);
+  position: relative;
+  display: flex;
+  flex-direction: column;
 `;
