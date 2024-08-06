@@ -42,7 +42,7 @@ const TableContainer = styled.div`
   width: 100%;
   overflow-x: auto;
   margin-bottom: 20px;
-  padding: 0 15px;
+  padding: 0 15px 0 0px;
 `;
 
 const Header = styled.div`
@@ -55,6 +55,7 @@ const HourCell = styled.div`
   align-items: center;
   justify-content: flex-end;
   padding-right: 10px;
+  font-size: 12px;
 `;
 
 const DateCell = styled.div`
@@ -64,6 +65,7 @@ const DateCell = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-size: 12px;
 `;
 
 const MonthCell = styled.div`
@@ -72,4 +74,5 @@ const MonthCell = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 12px;
 `;

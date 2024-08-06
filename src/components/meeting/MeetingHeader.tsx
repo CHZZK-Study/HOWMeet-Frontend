@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 
-function HowmeetHeader() {
+function MeetingHeader() {
   return (
     <HeaderContainer>
-      <Title>Howmeet</Title>
+      <Title>취지직 전체회의</Title>
     </HeaderContainer>
   );
 }
 
-export default HowmeetHeader;
+export default MeetingHeader;
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -20,4 +20,5 @@ const HeaderContainer = styled.div`
 
 const Title = styled.div`
   font-size: 25px;
+  font-weight: bold;
 `;

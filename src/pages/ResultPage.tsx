@@ -1,6 +1,10 @@
+import Button from '@/components/common/Button';
+import HowmeetHeader from '@/components/common/HowmeetHeader';
+import MeetingHeader from '@/components/meeting/meetingHeader';
 import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
 import ResultHeatmap from '@/components/meeting/result/ResultHeatmap';
 import { ResultHeatmapProps } from '@/types/ResultHeatmap';
+import styled from 'styled-components';
 
 function ResultPage() {
   const timeTableData = {
@@ -99,27 +103,35 @@ function ResultPage() {
         },
       ],
       participatedUsers: {
-        names: [
-          '오영',
-          '채림',
-          '구예진',
-          '고세종',
-          '류지민',
-          '김유희',
-          '김수현',
-          '김민우',
-        ],
+        names: ['오영', '구예진', '고세종', '류지민', '김유희', '김수현'],
         count: 8,
       },
     },
   ];
 
   return (
-    <>
-      <AttendStatusHeader TotalParticipants={9} currentParticipants={8} />
+    <Container>
+      <HowmeetHeader />
+      <MeetingHeader />
+      <AttendStatusHeader
+        TotalParticipants={9}
+        currentParticipants={6}
+        participatedUsers={selectedTimeSlots[0].participatedUsers.names}
+        unParticipatedUsers={selectedTimeSlots[0].totalParticipants.names.filter(
+          (name) => !selectedTimeSlots[0].participatedUsers.names.includes(name)
+        )}
+      />
       <ResultHeatmap data={timeTableData} roomInfo={selectedTimeSlots} />
-    </>
+      <Button $style="solid">일정 조율 완료</Button>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  background-color: #f5f5f5;
+  min-height: 90vh;
+
+  width: 100%;
+`;
 
 export default ResultPage;
