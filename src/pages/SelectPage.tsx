@@ -1,7 +1,6 @@
 import Button from '@/components/common/Button';
-import Header from '@/components/common/Header';
-import HowmeetHeader from '@/components/common/HowmeetHeader';
-import MeetingHeader from '@/components/meeting/meetingHeader';
+import HowMeetHeader from '@/components/common/HowMeetHeader';
+import MeetingHeader from '@/components/meeting/MeetingHeader';
 import TimeSelect from '@/components/meeting/select/TimeSelect';
 import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
 import styled from 'styled-components';
@@ -29,7 +28,7 @@ function SelectPage() {
   };
   return (
     <Container>
-      <HowmeetHeader />
+      <HowMeetHeader />
       <MeetingHeader />
       <TimeSelectTitle />
       <TimeSelect data={timeTableData} />
@@ -47,14 +46,12 @@ export default SelectPage;
 const ButtonContainer = styled.div`
   bottom: 0;
   width: 100%;
-  padding: 20px 16px;
-  background: ${({ theme }) => theme.color.primary.white};
-  box-shadow: 0px -4px 12px rgba(0, 0, 0, 0.04);
+  padding: 10px 20px;
   z-index: 10;
 `;
 
 const Container = styled.div`
   background-color: #f5f5f5;
-  min-height: 100vh;
+  max-height: 100vh;
   width: 100%;
 `;

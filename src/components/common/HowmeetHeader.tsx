@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-function HowmeetHeader() {
+function HowMeetHeader() {
   return (
     <HeaderContainer>
       <Title>Howmeet</Title>
@@ -8,7 +8,7 @@ function HowmeetHeader() {
   );
 }
 
-export default HowmeetHeader;
+export default HowMeetHeader;
 
 const HeaderContainer = styled.div`
   display: flex;

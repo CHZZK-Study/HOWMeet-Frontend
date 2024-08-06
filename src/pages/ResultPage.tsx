@@ -1,6 +1,6 @@
 import Button from '@/components/common/Button';
-import HowmeetHeader from '@/components/common/HowmeetHeader';
-import MeetingHeader from '@/components/meeting/meetingHeader';
+import HowMeetHeader from '@/components/common/HowMeetHeader';
+import MeetingHeader from '@/components/meeting/MeetingHeader';
 import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
 import ResultHeatmap from '@/components/meeting/result/ResultHeatmap';
 import { ResultHeatmapProps } from '@/types/ResultHeatmap';
@@ -111,7 +111,7 @@ function ResultPage() {
 
   return (
     <Container>
-      <HowmeetHeader />
+      <HowMeetHeader />
       <MeetingHeader />
       <AttendStatusHeader
         TotalParticipants={9}
