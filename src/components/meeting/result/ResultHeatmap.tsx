@@ -1,6 +1,6 @@
 import TimeTableLayout from '@/layouts/TimeTableLayout';
 import { ResultHeatmapProps } from '@/types/ResultHeatmap';
-import getAdjustedColor from '@/utils/timetable/getAdjustedColor';
+import getAdjustedColor from '@/utils/meeting/timetable/getAdjustedColor';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 

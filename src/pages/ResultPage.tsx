@@ -73,9 +73,9 @@ function ResultPage() {
           userCount: 1,
         },
         {
-          time: '2024-07-03T12:30',
-          users: ['채림'],
-          userCount: 1,
+          time: '2024-07-01T20:30',
+          users: ['구예진', '고세종', '류지민', '김유희'],
+          userCount: 4,
         },
         {
           time: '2024-07-01T20:00',
@@ -127,7 +127,7 @@ function ResultPage() {
       <ResultHeatmap data={timeTableData} roomInfo={selectedTimeSlots} />
 
       <ButtonContainer>
-        <Button $style="solid">일정 조율 완료</Button>
+        <Button $style="solid">결과보기</Button>
       </ButtonContainer>
     </NormalContainer>
   );
