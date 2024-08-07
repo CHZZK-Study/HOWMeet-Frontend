@@ -1,11 +1,15 @@
+import EndDate from '@/components/bottomsheet/EndDate';
+import StartDate from '@/components/bottomsheet/StartDate';
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
+import Modal from '@/components/common/Modal';
 import RoomInput from '@/components/room/RoomInput';
 import SelectDate from '@/components/room/SelectDate';
 import SelectTime from '@/components/room/SelectTime';
 import HEAD_TITLE from '@/constants/header';
 import INPUT from '@/constants/input';
 import { TITLE } from '@/constants/title';
+import { useEndDateModal, useStartDateModal } from '@/store/useModalStore';
 import {
   ContentContainer,
   FlexColContainer,
@@ -16,6 +20,10 @@ import styled from 'styled-components';
 
 function NewMeetingPage() {
   // TODO 소셜 로그인 유무에 따른 PageTitle 변경 및 버튼 변경
+  const { isOpen: isStartDateOpen, close: closeStartDate } =
+    useStartDateModal();
+  const { isOpen: isEndDateOpen, close: closeEndDate } = useEndDateModal();
+
   const methods = useForm({
     mode: 'onChange',
     defaultValues: {
@@ -52,6 +60,16 @@ function NewMeetingPage() {
           <Button $style="outlined">건너 뛰기</Button>
         )}
       </ButtonContainer>
+      {isStartDateOpen && (
+        <Modal onClose={closeStartDate}>
+          <StartDate />
+        </Modal>
+      )}
+      {isEndDateOpen && (
+        <Modal onClose={closeEndDate}>
+          <EndDate />
+        </Modal>
+      )}
     </FlexColContainer>
   );
 }
