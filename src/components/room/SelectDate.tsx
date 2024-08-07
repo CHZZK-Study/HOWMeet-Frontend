@@ -1,5 +1,7 @@
 import ICONS from '@/constants/icons';
 import { SUB_TITLE } from '@/constants/title';
+import { useEndDateStore, useStartDateStore } from '@/store/useDateStore';
+import { useEndDateModal, useStartDateModal } from '@/store/useModalStore';
 import { Badge } from '@/styles/components/badge';
 import {
   SelectableItem,
@@ -10,21 +12,26 @@ import { SubTitle } from '@/styles/components/text';
 import styled from 'styled-components';
 
 function SelectDate() {
+  const openStartDate = useStartDateModal((state) => state.open);
+  const openEndDate = useEndDateModal((state) => state.open);
+  const startDate = useStartDateStore((state) => state.date);
+  const endDate = useEndDateStore((state) => state.date);
+
   return (
     <SelectContainer>
       <SubTitle>{SUB_TITLE.date}</SubTitle>
       <SelectWrapper>
-        <SelectableItem>
+        <SelectableItem onClick={openStartDate}>
           <DateWrapper>
             <Badge>시작일</Badge>
-            <Date>2024. 07. 11</Date>
+            <Date>{startDate}</Date>
           </DateWrapper>
           <img src={ICONS.common.right} alt="right" />
         </SelectableItem>
-        <SelectableItem>
+        <SelectableItem onClick={openEndDate}>
           <DateWrapper>
             <Badge>종료일</Badge>
-            <Date>2024. 07. 11</Date>
+            <Date>{endDate}</Date>
           </DateWrapper>
           <img src={ICONS.common.right} alt="right" />
         </SelectableItem>
