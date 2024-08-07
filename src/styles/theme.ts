@@ -43,7 +43,7 @@ const typo = {
       18: `
           font-size: 18px;
           font-weight: 600;
-          line-height: normal;
+          line-height: 22px;
         `,
       16: `
           font-size: 16px;
@@ -84,6 +84,16 @@ const typo = {
       `,
     },
     regular: {
+      22: `
+        font-size: 22px;
+        font-weight: 400;
+        line-height: 30.8px;
+      `,
+      18: `
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 24px;
+      `,
       16: `
         font-size: 16px;
         font-weight: 400;
@@ -101,6 +111,7 @@ const typo = {
 const color = {
   point: {
     purple: '#642DFF',
+    green: '#17B609',
   },
 
   primary: {

@@ -1,5 +1,4 @@
 import guideData from '@/data/guide';
-import React from 'react';
 import styled from 'styled-components';
 
 function GuideList() {
@@ -32,14 +31,13 @@ const GuideBox = styled.div`
   align-items: center;
   gap: 14px;
   border-radius: 12px;
-  background: rgba(0, 0, 0, 0.04);
+  background-color: ${({ theme }) => theme.color.primary.white};
+  box-shadow: 0px 4px 10px 0px rgba(90, 90, 90, 0.1);
   white-space: pre-wrap;
 
   p {
+    color: ${({ theme }) => theme.color.secondary.solid.bk[800]};
     text-align: center;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 140%;
+    ${({ theme }) => theme.typo.body.regular[18]}
   }
 `;

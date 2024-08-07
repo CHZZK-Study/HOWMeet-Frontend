@@ -39,7 +39,7 @@ const GlobalStyle = createGlobalStyle`
     min-height: 100dvh;
     height: 100%;
     overflow: auto;
-    background-color: white;
+    background-color: #F4F5F5;
     font-family: 'Pretendard';
 
     @media screen and (min-width: 430px) {
@@ -58,7 +58,6 @@ const GlobalStyle = createGlobalStyle`
     align-items: center;
 
     margin: 0px auto;
-    background-color: white;
     
     /* PC view setting */
     @media screen and (min-width: 430px) {
