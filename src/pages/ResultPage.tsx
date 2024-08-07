@@ -1,5 +1,5 @@
 import Button from '@/components/common/Button';
-import HowMeetHeader from '@/components/common/HowMeetHeader';
+// import HowMeetHeader from '@/components/common/HowMeetHeader';
 import MeetingHeader from '@/components/meeting/MeetingHeader';
 import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
 import ResultHeatmap from '@/components/meeting/result/ResultHeatmap';
@@ -114,7 +114,7 @@ function ResultPage() {
 
   return (
     <NormalContainer>
-      <HowMeetHeader />
+      {/* <HowMeetHeader /> */}
       <MeetingHeader />
       <AttendStatusHeader
         TotalParticipants={9}

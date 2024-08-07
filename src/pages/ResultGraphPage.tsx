@@ -1,4 +1,4 @@
-import HowMeetHeader from '@/components/common/HowMeetHeader';
+// import HowMeetHeader from '@/components/common/HowMeetHeader';
 import MeetingHeader from '@/components/meeting/MeetingHeader';
 import ResultGraph from '@/components/meeting/result/ResultGraph';
 import { NormalContainer } from '@/styles/components/container';
@@ -95,7 +95,7 @@ function ResultGraphPage() {
   ];
   return (
     <NormalContainer>
-      <HowMeetHeader />
+      {/* <HowMeetHeader /> */}
       <MeetingHeader />
       <ResultGraph selectedTimeSlots={dummyData} />
     </NormalContainer>
