@@ -11,7 +11,8 @@ export const login = async (req: LoginReq) => {
     return result;
   } catch (err) {
     if (err instanceof AxiosError && err.status === 400) {
-      return false;
+      // TODO: 비속어 예외처리
+      window.alert('닉네임은 비속어를 포함할 수 없습니다.');
     }
     window.alert('다시 시도해주세요.');
   }
