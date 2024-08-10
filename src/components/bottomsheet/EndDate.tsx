@@ -54,7 +54,7 @@ function EndDate() {
         <Badge>종료일</Badge>
         <BottomSheetInfo>{endDate}</BottomSheetInfo>
       </BottomSheetInfoWrapper>
-      <Calendar onChange={handleChangeCalendar} $isOver={isOver} />
+      <Calendar onChange={handleChangeCalendar} isOver={isOver} />
       <ButtonContainer>
         <Button $style="solid" onClick={handleClickButton}>
           완료
