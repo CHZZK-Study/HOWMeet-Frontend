@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import styled from 'styled-components';
-import DeleteAll from 'public/assets/icons/common/delete-all.svg';
 import { useFormContext } from 'react-hook-form';
+import { DeleteAllIcon } from 'public/assets/icons';
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   placeholder: string;
@@ -42,7 +42,7 @@ const RoomInput = forwardRef<HTMLInputElement, Props>(
               type="button"
               onClick={handleDeleteAll}
             >
-              <img src={DeleteAll} alt="delete all" />
+              <DeleteAllIcon />
             </button>
           )}
           <BoderBottomLine $isTyping={inputValue.length > 0} />

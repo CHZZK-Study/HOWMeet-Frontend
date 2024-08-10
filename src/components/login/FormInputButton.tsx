@@ -1,4 +1,4 @@
-import ICONS from '@/constants/icons';
+import { ClearIcon, EyeOffIcon, EyeOnIcon } from 'public/assets/icons';
 import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 
@@ -22,13 +22,11 @@ function FormInputButton({
     <Container className="icon-wrapper">
       {hasVisibility && (
         <button className="icon" type="button" onClick={toggleVisibility}>
-          <img
-            src={
-              isVisible ? ICONS.form.visibility_on : ICONS.form.visibility_off
-            }
-            alt="visibility"
-            width={20}
-          />
+          {isVisible ? (
+            <EyeOnIcon width={20} height={20} />
+          ) : (
+            <EyeOffIcon width={20} height={20} />
+          )}
         </button>
       )}
       {isClearable && (
@@ -40,7 +38,7 @@ function FormInputButton({
             trigger(fieldName);
           }}
         >
-          <img src={ICONS.form.clear} alt="clear" width={20} />
+          <ClearIcon width={20} height={20} />
         </button>
       )}
     </Container>

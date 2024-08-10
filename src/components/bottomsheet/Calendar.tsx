@@ -1,9 +1,9 @@
 import Calendar from 'react-calendar';
 import styled, { css } from 'styled-components';
-import PrevIcon from 'public/assets/icons/common/prev.svg';
-import NextIcon from 'public/assets/icons/common/next.svg';
+
 import moment from 'moment';
 import { useState } from 'react';
+import { NextIcon, PrevIcon } from 'public/assets/icons';
 
 type DatePiece = Date | null;
 type SelectedDate = DatePiece | [DatePiece, DatePiece];
@@ -27,8 +27,8 @@ function CalendarComponent({ $isOver = false, onChange }: Props) {
       prev2Label={null}
       onChange={(date) => handleOnChange(date)}
       value={selectedDate}
-      prevLabel={<img className="icon" src={PrevIcon} alt="prev" />}
-      nextLabel={<img className="icon" src={NextIcon} alt="prev" />}
+      prevLabel={<PrevIcon className="icon" />}
+      nextLabel={<NextIcon className="icon" />}
       calendarType="gregory"
       formatDay={(_, date) => moment(date).format('DD')}
       showNeighboringMonth={false}
