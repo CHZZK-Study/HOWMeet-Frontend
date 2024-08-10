@@ -1,4 +1,5 @@
-import { http, HttpResponse } from 'msw';
+import { LoginReq } from '@/models/user.model';
+import { http, HttpResponse, PathParams } from 'msw';
 
 const handlers = [
   http.get('https://example.com/user', () => {
@@ -7,6 +8,22 @@ const handlers = [
       firstName: 'John',
       lastName: 'Maverick',
     });
+  }),
+  http.post<PathParams, LoginReq>('/mock/login', async ({ request }) => {
+    const { nickname, password } = await request.json();
+
+    if (nickname === '테스트' && password === '1234') {
+      return HttpResponse.json(
+        {
+          accessToken:
+            'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJpZFwiOjEsXCJuaWNrbmFtZVwiOlwi6rmA66-87JqwXCIsXCJyb2xlXCI6XCJURU1QT1JBUllcIixcImd1ZXN0XCI6dHJ1ZSxcIm1lbWJlclwiOmZhbHNlfSIsImlhdCI6MTcyMjQ4NjkwNywiZXhwIjoxNzIyNDkwNTA3fQ.qp9uZqvGbRRGi41af05poj98WjB7DeEGSwJrXNORm7HId9v_gojtZvVaRkCSNM2kSFCn54xm2QyKhXQsTlKV6g',
+          guestId: 1,
+          nickname: '테스터',
+        },
+        { status: 201 }
+      );
+    }
+    return HttpResponse.json(null, { status: 400 });
   }),
 ];
 

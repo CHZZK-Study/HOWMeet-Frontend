@@ -19,6 +19,7 @@ module.exports = {
   },
   plugins: ['react-refresh', '@typescript-eslint', 'prettier'],
   rules: {
+    'consistent-return': 'off',
     'jsx-a11y/control-has-associated-label': 'off',
     'react/destructuring-assignment': 'off',
     'react/jsx-props-no-spreading': 'off',
