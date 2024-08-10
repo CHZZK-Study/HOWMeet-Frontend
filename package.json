@@ -12,6 +12,7 @@
   "dependencies": {
     "@mswjs/http-middleware": "^0.10.1",
     "@types/node": "^20.14.10",
+    "axios": "^1.7.3",
     "cors": "^2.8.5",
     "eslint-import-resolver-typescript": "^3.6.1",
     "express": "^4.19.2",
