@@ -25,6 +25,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     'import/no-extraneous-dependencies': 'off',
+    'react/no-array-index-key': 'off',
     'react/function-component-definition': [
       'error',
       {
