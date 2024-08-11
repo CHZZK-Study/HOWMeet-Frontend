@@ -1,5 +1,5 @@
 import Button from '@/components/common/Button';
-// import HowMeetHeader from '@/components/common/HowMeetHeader';
+import HowMeetHeader from '@/components/common/HowMeetHeader';
 import MeetingHeader from '@/components/meeting/MeetingHeader';
 import TimeSelect from '@/components/meeting/select/TimeSelect';
 import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
@@ -35,7 +35,7 @@ function SelectPage() {
 
   return (
     <NormalContainer>
-      {/* <HowMeetHeader /> */}
+      <HowMeetHeader />
       <MeetingHeader />
       <TimeSelectTitle />
       <TimeSelect data={timeTableData} />

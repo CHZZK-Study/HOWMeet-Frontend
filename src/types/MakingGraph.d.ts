@@ -10,3 +10,11 @@ export interface RankedTimeSlot {
   users: string[];
   rank: number;
 }
+
+export interface ChartData {
+  rank: number;
+  users: string[];
+  userCount: number;
+  startTime: string;
+  endTime: string;
+}

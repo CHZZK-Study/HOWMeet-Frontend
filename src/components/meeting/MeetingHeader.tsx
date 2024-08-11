@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { HeaderContainer, Title } from '@/styles/components/container';
 
 function MeetingHeader() {
   return (
@@ -9,16 +9,3 @@ function MeetingHeader() {
 }
 
 export default MeetingHeader;
-
-const HeaderContainer = styled.div`
-  display: flex;
-  height: 50px;
-  padding: 0 20px;
-  box-sizing: border-box;
-  align-items: center;
-`;
-
-const Title = styled.div`
-  font-size: 25px;
-  font-weight: bold;
-`;
