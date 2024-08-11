@@ -26,23 +26,6 @@ export const BottomSheetContainer = styled.div`
   animation: ${slideIn} 240ms cubic-bezier(0.5, 0.1, 0.34, 1);
 `;
 
-export const BottomSheetHeader = styled.div`
-  width: 100%;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  img {
-    cursor: pointer;
-  }
-`;
-
-export const BottomSheetTitle = styled.div`
-  ${({ theme }) => theme.typo.body.semi_bold[22]}
-  color: ${({ theme }) => theme.color.secondary.solid.bk[900]};
-`;
-
 export const BottomSheetInfoWrapper = styled.div`
   width: 100%;
 
