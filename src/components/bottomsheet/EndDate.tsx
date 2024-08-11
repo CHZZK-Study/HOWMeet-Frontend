@@ -1,6 +1,5 @@
 import { Badge } from '@/styles/components/badge';
 import styled from 'styled-components';
-import CloseIcon from 'public/assets/icons/common/close.svg';
 import { useState } from 'react';
 import moment from 'moment';
 import { useEndDateModal } from '@/store/useModalStore';
@@ -8,13 +7,12 @@ import { useEndDateStore, useStartDateStore } from '@/store/useDateStore';
 import calculateDate from '@/utils/calculateDate';
 import {
   BottomSheetContainer,
-  BottomSheetHeader,
-  BottomSheetTitle,
   BottomSheetInfoWrapper,
   BottomSheetInfo,
 } from '@/styles/components/bottomsheet/bottomsheet';
 import Button from '../common/Button';
 import Calendar from './Calendar';
+import BottomSheetHeader from './BottomSheetHeader';
 
 function EndDate() {
   const [endDate, setEndDate] = useState(
@@ -44,12 +42,7 @@ function EndDate() {
 
   return (
     <BottomSheetContainer>
-      <BottomSheetHeader>
-        <BottomSheetTitle>종료일 선택</BottomSheetTitle>
-        <button type="button" onClick={closeEndDate}>
-          <img src={CloseIcon} alt="close" />
-        </button>
-      </BottomSheetHeader>
+      <BottomSheetHeader title="종료일 선택" onClick={closeEndDate} />
       <BottomSheetInfoWrapper>
         <Badge>종료일</Badge>
         <BottomSheetInfo>{endDate}</BottomSheetInfo>
