@@ -1,11 +1,12 @@
 import { Badge } from '@/styles/components/badge';
 import styled from 'styled-components';
-import CloseIcon from 'public/assets/icons/common/close.svg';
+
 import { useState } from 'react';
 import moment from 'moment';
 import { useEndDateModal } from '@/store/useModalStore';
 import { useEndDateStore, useStartDateStore } from '@/store/useDateStore';
 import calculateDate from '@/utils/calculateDate';
+import { CloseIcon } from 'public/assets/icons';
 import {
   BottomSheetContainer,
   BottomSheetHeader,
@@ -47,7 +48,7 @@ function EndDate() {
       <BottomSheetHeader>
         <BottomSheetTitle>종료일 선택</BottomSheetTitle>
         <button type="button" onClick={closeEndDate}>
-          <img src={CloseIcon} alt="close" />
+          <CloseIcon />
         </button>
       </BottomSheetHeader>
       <BottomSheetInfoWrapper>

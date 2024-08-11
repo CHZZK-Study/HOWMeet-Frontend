@@ -1,4 +1,3 @@
-import ICONS from '@/constants/icons';
 import { SUB_TITLE } from '@/constants/title';
 import { useEndDateStore, useStartDateStore } from '@/store/useDateStore';
 import { useEndDateModal, useStartDateModal } from '@/store/useModalStore';
@@ -9,6 +8,7 @@ import {
   SelectWrapper,
 } from '@/styles/components/meeting/select';
 import { SubTitle } from '@/styles/components/text';
+import { RightArrowIcon } from 'public/assets/icons';
 import styled from 'styled-components';
 
 function SelectDate() {
@@ -26,14 +26,14 @@ function SelectDate() {
             <Badge>시작일</Badge>
             <Date>{startDate}</Date>
           </DateWrapper>
-          <img src={ICONS.common.right} alt="right" />
+          <RightArrowIcon />
         </SelectableItem>
         <SelectableItem onClick={openEndDate}>
           <DateWrapper>
             <Badge>종료일</Badge>
             <Date>{endDate}</Date>
           </DateWrapper>
-          <img src={ICONS.common.right} alt="right" />
+          <RightArrowIcon />
         </SelectableItem>
       </SelectWrapper>
     </SelectContainer>

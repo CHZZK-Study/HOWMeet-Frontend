@@ -1,4 +1,4 @@
-import ICONS from '@/constants/icons';
+import { LeftArrowIcon } from 'public/assets/icons';
 import styled from 'styled-components';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 function Header({ title }: Props) {
   return (
     <HeaderContainer>
-      <img className="back-button" src={ICONS.common.left} alt="back button" />
+      <LeftArrowIcon className="back-button" />
       <HeadTitle>{title}</HeadTitle>
     </HeaderContainer>
   );

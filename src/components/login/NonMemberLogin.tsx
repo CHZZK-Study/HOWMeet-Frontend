@@ -1,5 +1,5 @@
 import { Title } from '@/styles/components/text';
-import { useNavigate } from 'react-router-dom';
+import { useLogin } from '@/hooks/useLogin';
 import { FormProvider, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { ButtonContainer } from '@/styles/components/container';
@@ -12,22 +12,16 @@ interface NonMemberForm {
 }
 
 function NonMemberLogin() {
-  const navigate = useNavigate();
+  const { handleLogin } = useLogin();
   const methods = useForm<NonMemberForm>({ mode: 'onChange' });
   const {
     handleSubmit,
     formState: { isValid },
   } = methods;
 
-  const handleSubmitForm = (data: NonMemberForm) => {
-    // TODO: 서버 연동
-    console.log(data);
-    navigate('/new-meeting');
-  };
-
   return (
     <FormProvider {...methods}>
-      <Form onSubmit={handleSubmit(handleSubmitForm)}>
+      <Form onSubmit={handleSubmit(handleLogin)}>
         <Wrapper>
           <TitleWrapper>
             <Title>
