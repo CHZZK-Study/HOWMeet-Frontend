@@ -1,5 +1,6 @@
 import EndDate from '@/components/bottomsheet/EndDate';
 import StartDate from '@/components/bottomsheet/StartDate';
+import TimePicker from '@/components/bottomsheet/TimePicker';
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
 import Modal from '@/components/common/Modal';
@@ -9,20 +10,32 @@ import SelectTime from '@/components/room/SelectTime';
 import HEAD_TITLE from '@/constants/header';
 import INPUT from '@/constants/input';
 import { TITLE } from '@/constants/title';
-import { useEndDateModal, useStartDateModal } from '@/store/useModalStore';
+import {
+  useEndDateModal,
+  useStartDateModal,
+  useTimeModal,
+} from '@/store/useModalStore';
 import {
   ContentContainer,
   FlexColContainer,
 } from '@/styles/components/container';
 import { PageTitle } from '@/styles/components/text';
+import { SetTime } from '@/types/SetTime';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
 function NewMeetingPage() {
+  const [timeType, setTimeType] = useState<SetTime>('start');
   // TODO 소셜 로그인 유무에 따른 PageTitle 변경 및 버튼 변경
   const { isOpen: isStartDateOpen, close: closeStartDate } =
     useStartDateModal();
   const { isOpen: isEndDateOpen, close: closeEndDate } = useEndDateModal();
+  const {
+    isOpen: isTimeOpen,
+    open: openTime,
+    close: closeTime,
+  } = useTimeModal();
 
   const methods = useForm({
     mode: 'onChange',
@@ -34,6 +47,11 @@ function NewMeetingPage() {
     register,
     formState: { isValid },
   } = methods;
+
+  const handleSetType = (type: SetTime) => {
+    setTimeType(type);
+    openTime();
+  };
 
   return (
     <FlexColContainer>
@@ -51,7 +69,7 @@ function NewMeetingPage() {
           />
         </FormProvider>
         <SelectDate />
-        <SelectTime />
+        <SelectTime onClick={handleSetType} />
       </ContentContainer>
       <ButtonContainer>
         {isValid ? (
@@ -68,6 +86,11 @@ function NewMeetingPage() {
       {isEndDateOpen && (
         <Modal onClose={closeEndDate}>
           <EndDate />
+        </Modal>
+      )}
+      {isTimeOpen && (
+        <Modal onClose={closeTime}>
+          <TimePicker type={timeType} />
         </Modal>
       )}
     </FlexColContainer>
