@@ -1,8 +1,5 @@
+import BottomSheetHeader from '@/components/bottomsheet/BottomSheetHeader';
 import Button from '@/components/common/Button';
-import {
-  BottomSheetHeader,
-  BottomSheetTitle,
-} from '@/styles/components/bottomsheet/bottomsheet';
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
@@ -42,10 +39,10 @@ function AttendStatusHeader({
       )}
       {isBottomSheetOpen && (
         <BottomSheetContainer>
-          <BottomSheetHeader>
-            <BottomSheetTitle>현재 참여 인원</BottomSheetTitle>
-            <CloseButton onClick={toggleBottomSheet}>X</CloseButton>
-          </BottomSheetHeader>
+          <BottomSheetHeader
+            title="현재 참여 인원"
+            onClick={toggleBottomSheet}
+          />
           <ParticipantCountContainer>
             <ParticipantState>
               총 참여 인원 :
@@ -112,14 +109,6 @@ const AttendParticipantCount = styled.button`
   cursor: pointer;
 `;
 
-const CloseButton = styled.button`
-  font-size: 16px;
-  font-weight: bold;
-  color: #33c894;
-  background: none;
-  border: none;
-  cursor: pointer;
-`;
 const ParticipantCountContainer = styled.div`
   display: flex;
   width: 100%;

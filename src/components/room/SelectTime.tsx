@@ -1,4 +1,5 @@
 import { SUB_TITLE } from '@/constants/title';
+import { useEndTimeStore, useStartTimeStore } from '@/store/useTimeStore';
 import { Badge } from '@/styles/components/badge';
 import {
   SelectContainer,
@@ -6,24 +7,31 @@ import {
   SelectableItem,
 } from '@/styles/components/meeting/select';
 import { SubTitle } from '@/styles/components/text';
-import { RightArrowIcon } from 'public/assets/icons';
+import { SetTime } from '@/types/SetTime';
 import styled from 'styled-components';
 
-function SelectTime() {
+interface Props {
+  onClick: (value: SetTime) => void;
+}
+
+function SelectTime({ onClick }: Props) {
+  const startTime = useStartTimeStore((state) => state.time);
+  const endTime = useEndTimeStore((state) => state.time);
+
   return (
     <SelectContainer>
       <SubTitle>{SUB_TITLE.time}</SubTitle>
       <SelectWrapper $horizontal>
-        <SelectableItem>
+        <SelectableItem onClick={() => onClick('start')}>
           <TimeWrapper>
-            <Time>0:00</Time>
+            <Time>{startTime}</Time>
             <Badge>이후</Badge>
           </TimeWrapper>
           <RightArrowIcon />
         </SelectableItem>
-        <SelectableItem>
+        <SelectableItem onClick={() => onClick('end')}>
           <TimeWrapper>
-            <Time>0:00</Time>
+            <Time>{endTime}</Time>
             <Badge>이전</Badge>
           </TimeWrapper>
           <RightArrowIcon />
