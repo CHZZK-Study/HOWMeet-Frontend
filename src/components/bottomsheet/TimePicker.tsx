@@ -34,14 +34,18 @@ function TimePicker({ type }: Props) {
     const hourList = hourListRef.current;
 
     if (hourList) {
-      hourList.addEventListener('scroll', (event) => {
+      const handleScroll = (event: Event) => {
         const target = event.target as HTMLUListElement;
         const maxScrollHeight = target.scrollHeight - target.clientHeight;
 
         if (hourList.scrollTop === maxScrollHeight) {
           setHours((prev) => [...prev, ...hours]);
         }
-      });
+      };
+
+      hourList.addEventListener('scroll', handleScroll);
+
+      return () => hourList.removeEventListener('scroll', handleScroll);
     }
     return undefined;
   }, [hours]);
