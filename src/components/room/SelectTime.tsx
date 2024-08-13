@@ -1,4 +1,3 @@
-import ICONS from '@/constants/icons';
 import { SUB_TITLE } from '@/constants/title';
 import { useEndTimeStore, useStartTimeStore } from '@/store/useTimeStore';
 import { Badge } from '@/styles/components/badge';
@@ -28,14 +27,14 @@ function SelectTime({ onClick }: Props) {
             <Time>{startTime}</Time>
             <Badge>이후</Badge>
           </TimeWrapper>
-          <img src={ICONS.common.right} alt="right" />
+          <RightArrowIcon />
         </SelectableItem>
         <SelectableItem onClick={() => onClick('end')}>
           <TimeWrapper>
             <Time>{endTime}</Time>
             <Badge>이전</Badge>
           </TimeWrapper>
-          <img src={ICONS.common.right} alt="right" />
+          <RightArrowIcon />
         </SelectableItem>
       </SelectWrapper>
     </SelectContainer>

@@ -9,7 +9,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs', 'svg.d.ts'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'svg.d.ts', 'public'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
@@ -19,6 +19,8 @@ module.exports = {
   },
   plugins: ['react-refresh', '@typescript-eslint', 'prettier'],
   rules: {
+    'consistent-return': 'off',
+    'jsx-a11y/control-has-associated-label': 'off',
     'react/destructuring-assignment': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/require-default-props': 'off',

@@ -5,6 +5,7 @@ import moment from 'moment';
 import { useEndDateModal } from '@/store/useModalStore';
 import { useEndDateStore, useStartDateStore } from '@/store/useDateStore';
 import calculateDate from '@/utils/calculateDate';
+import { CloseIcon } from 'public/assets/icons';
 import {
   BottomSheetContainer,
   BottomSheetInfoWrapper,
@@ -47,7 +48,7 @@ function EndDate() {
         <Badge>종료일</Badge>
         <BottomSheetInfo>{endDate}</BottomSheetInfo>
       </BottomSheetInfoWrapper>
-      <Calendar onChange={handleChangeCalendar} $isOver={isOver} />
+      <Calendar onChange={handleChangeCalendar} isOver={isOver} />
       <ButtonContainer>
         <Button $style="solid" onClick={handleClickButton}>
           완료
