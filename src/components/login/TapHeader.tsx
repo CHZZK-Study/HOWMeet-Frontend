@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { PATH } from '@/constants/path';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import ICONS from '../../constants/icons';
+import { CancelIcon } from 'public/assets/icons';
 
 function TapHeader() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function TapHeader() {
       <Title>
         <h1>로그인</h1>
         <Button type="button" onClick={() => navigate(PATH.main)}>
-          <img src={ICONS.common.x} alt="x" />
+          <CancelIcon />
         </Button>
       </Title>
       <TapBar $loginType={loginType}>

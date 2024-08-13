@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Title } from '@/styles/components/text';
-import ICONS from '@/constants/icons';
+import { GoogleIcon, KakaoIcon, NaverIcon } from 'public/assets/icons';
 
 function MemberLogin() {
   return (
@@ -12,15 +12,15 @@ function MemberLogin() {
       </Title>
       <ButtonWrapper>
         <SocialLoginButton>
-          <img src={ICONS.login.kakao} alt="kakao" width={34} height={34} />
+          <KakaoIcon width={34} height={34} />
           <span className="button-text">카카오 계정 로그인</span>
         </SocialLoginButton>
         <SocialLoginButton>
-          <img src={ICONS.login.naver} alt="kakao" width={34} height={30} />
+          <NaverIcon width={34} height={30} />
           <span className="button-text">네이버 계정 로그인</span>
         </SocialLoginButton>
         <SocialLoginButton>
-          <img src={ICONS.login.google} alt="kakao" width={34} height={30} />
+          <GoogleIcon width={34} height={30} />
           <span className="button-text">구글 계정 로그인</span>
         </SocialLoginButton>
       </ButtonWrapper>

@@ -1,6 +1,6 @@
 import { Badge } from '@/styles/components/badge';
 import styled from 'styled-components';
-import CloseIcon from 'public/assets/icons/common/close.svg';
+import { CloseIcon } from 'public/assets/icons';
 import { useState } from 'react';
 import moment from 'moment';
 import { useStartDateModal } from '@/store/useModalStore';
@@ -32,7 +32,7 @@ function StartDate() {
       <BottomSheetHeader>
         <BottomSheetTitle>시작일 선택</BottomSheetTitle>
         <button type="button" onClick={closeStartDate}>
-          <img src={CloseIcon} alt="close" />
+          <CloseIcon />
         </button>
       </BottomSheetHeader>
       <BottomSheetInfoWrapper>

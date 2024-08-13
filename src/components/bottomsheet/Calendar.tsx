@@ -1,5 +1,6 @@
 import Calendar from 'react-calendar';
 import styled, { css } from 'styled-components';
+
 import PrevIcon from 'public/assets/icons/calendar/prev.svg?react';
 import NextIcon from 'public/assets/icons/calendar/next.svg?react';
 import moment from 'moment';

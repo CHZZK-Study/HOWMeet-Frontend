@@ -1,4 +1,3 @@
-import ICONS from '@/constants/icons';
 import { SUB_TITLE } from '@/constants/title';
 import { Badge } from '@/styles/components/badge';
 import {
@@ -7,6 +6,7 @@ import {
   SelectableItem,
 } from '@/styles/components/meeting/select';
 import { SubTitle } from '@/styles/components/text';
+import { RightArrowIcon } from 'public/assets/icons';
 import styled from 'styled-components';
 
 function SelectTime() {
@@ -19,14 +19,14 @@ function SelectTime() {
             <Time>0:00</Time>
             <Badge>이후</Badge>
           </TimeWrapper>
-          <img src={ICONS.common.right} alt="right" />
+          <RightArrowIcon />
         </SelectableItem>
         <SelectableItem>
           <TimeWrapper>
             <Time>0:00</Time>
             <Badge>이전</Badge>
           </TimeWrapper>
-          <img src={ICONS.common.right} alt="right" />
+          <RightArrowIcon />
         </SelectableItem>
       </SelectWrapper>
     </SelectContainer>

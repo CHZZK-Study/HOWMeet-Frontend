@@ -6,7 +6,7 @@ function GuideList() {
     <BoxContainer>
       {guideData.map((data) => (
         <GuideBox>
-          <img src={data.icon} alt={data.alt} width={48} height={48} />
+          {data.icon}
           <p>{data.text}</p>
         </GuideBox>
       ))}

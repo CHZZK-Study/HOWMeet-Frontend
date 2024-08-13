@@ -1,4 +1,14 @@
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(<App />);
+const mocking = async (): Promise<void> => {
+  const isDev = import.meta.env.DEV;
+  if (isDev) {
+    const { worker } = await import('./mocks/browser');
+    worker.start();
+  }
+};
+
+mocking().then(() => {
+  ReactDOM.createRoot(document.getElementById('root')!).render(<App />);
+});
