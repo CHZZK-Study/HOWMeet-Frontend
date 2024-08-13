@@ -13,8 +13,8 @@ interface Props {
 }
 
 function TimePicker({ type }: Props) {
-  const [selectedHour, setSelectedHour] = useState('');
-  const [selectedMin, setSelectedMin] = useState('');
+  const [selectedHour, setSelectedHour] = useState<string>();
+  const [selectedMin, setSelectedMin] = useState<string>();
   const [hours, setHours] = useState<string[]>(
     Array.from({ length: 24 }, (_, index) => String(index))
   );
@@ -80,7 +80,7 @@ function TimePicker({ type }: Props) {
       <ButtonContainer>
         <Button
           $style="solid"
-          disabled={selectedHour === '' || selectedMin === ''}
+          disabled={!selectedHour || !selectedMin}
           onClick={handleClickButton}
         >
           완료
