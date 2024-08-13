@@ -1,19 +1,21 @@
 import Calendar from 'react-calendar';
 import styled, { css } from 'styled-components';
 
+import PrevIcon from 'public/assets/icons/calendar/prev.svg?react';
+import NextIcon from 'public/assets/icons/calendar/next.svg?react';
 import moment from 'moment';
 import { useState } from 'react';
-import { NextIcon, PrevIcon } from 'public/assets/icons';
+import DashedBorder from 'public/assets/icons/calendar/dashed.svg';
 
 type DatePiece = Date | null;
 type SelectedDate = DatePiece | [DatePiece, DatePiece];
 
 interface Props {
-  $isOver?: boolean;
+  isOver?: boolean;
   onChange: (value: string) => void;
 }
 
-function CalendarComponent({ $isOver = false, onChange }: Props) {
+function CalendarComponent({ isOver = false, onChange }: Props) {
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
 
   const handleOnChange = (date: SelectedDate) => {
@@ -22,28 +24,46 @@ function CalendarComponent({ $isOver = false, onChange }: Props) {
   };
 
   return (
-    <StyledCalendar
-      next2Label={null}
-      prev2Label={null}
-      onChange={(date) => handleOnChange(date)}
-      value={selectedDate}
-      prevLabel={<PrevIcon className="icon" />}
-      nextLabel={<NextIcon className="icon" />}
-      calendarType="gregory"
-      formatDay={(_, date) => moment(date).format('DD')}
-      showNeighboringMonth={false}
-      $isOver={$isOver}
-    />
+    <>
+      <StyledCalendar
+        next2Label={null}
+        prev2Label={null}
+        onChange={(date) => handleOnChange(date)}
+        value={selectedDate}
+        prevLabel={<StyledIcon as={PrevIcon} />}
+        nextLabel={<StyledIcon as={NextIcon} />}
+        calendarType="gregory"
+        formatDay={(_, date) => moment(date).format('DD')}
+        showNeighboringMonth={false}
+        minDate={new Date()}
+        $isOver={isOver}
+      />
+      {isOver && <ErrorMessage>최대 7일 이내로 선택해 주세요</ErrorMessage>}
+    </>
   );
 }
+
+const ErrorMessage = styled.p`
+  color: ${({ theme }) => theme.color.secondary.solid.red.red};
+  ${({ theme }) => theme.typo.body.semi_bold[13]}
+`;
+
+const StyledIcon = styled.svg`
+  width: 24px;
+  height: 24px;
+  fill: ${({ theme }) => theme.color.secondary.solid.bk[300]};
+  transition: fill 0.3s ease;
+
+  &:hover {
+    fill: ${({ theme }) => theme.color.point.green};
+  }
+`;
 
 const StyledCalendar = styled(Calendar)<{ $isOver: boolean }>`
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
-
-  margin-bottom: 20%;
 
   .icon {
     width: 24px;
@@ -86,7 +106,7 @@ const StyledCalendar = styled(Calendar)<{ $isOver: boolean }>`
   }
 
   .react-calendar__tile {
-    height: 57px;
+    aspect-ratio: 1;
     border-radius: 100%;
 
     color: ${({ theme }) => theme.color.secondary.solid.bk[900]};
@@ -103,7 +123,7 @@ const StyledCalendar = styled(Calendar)<{ $isOver: boolean }>`
         return css`
           background: ${theme.color.primary.white};
           color: ${theme.color.secondary.solid.red.red};
-          border: 1px dashed ${theme.color.secondary.solid.red.red};
+          background: url(${DashedBorder}) no-repeat round;
         `;
       }
       return css`

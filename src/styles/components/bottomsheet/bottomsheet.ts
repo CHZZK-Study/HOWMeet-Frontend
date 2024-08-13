@@ -7,7 +7,7 @@ const slideIn = keyframes`
 
 export const BottomSheetContainer = styled.div`
   width: 100%;
-  height: 80%;
+  height: 85%;
 
   position: absolute;
   bottom: 0;
