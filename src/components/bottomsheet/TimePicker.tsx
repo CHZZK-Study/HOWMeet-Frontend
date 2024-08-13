@@ -4,6 +4,7 @@ import { useTimeModal } from '@/store/useModalStore';
 import { useEffect, useRef, useState } from 'react';
 import { useEndTimeStore, useStartTimeStore } from '@/store/useTimeStore';
 import { SetTime } from '@/types/SetTime';
+import throttle from 'lodash/throttle';
 import BottomSheetHeader from './BottomSheetHeader';
 import Button from '../common/Button';
 
@@ -34,14 +35,17 @@ function TimePicker({ type }: Props) {
     const hourList = hourListRef.current;
 
     if (hourList) {
-      const handleScroll = (event: Event) => {
+      const handleScroll = throttle((event: Event) => {
         const target = event.target as HTMLUListElement;
         const maxScrollHeight = target.scrollHeight - target.clientHeight;
 
-        if (hourList.scrollTop === maxScrollHeight) {
+        if (
+          Math.floor(target.scrollTop) === maxScrollHeight ||
+          Math.floor(target.scrollTop) === maxScrollHeight - 1
+        ) {
           setHours((prev) => [...prev, ...hours]);
         }
-      };
+      }, 1000);
 
       hourList.addEventListener('scroll', handleScroll);
 
