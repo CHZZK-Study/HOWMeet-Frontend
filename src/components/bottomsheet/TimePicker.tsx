@@ -135,10 +135,10 @@ const SelectItem = styled.li<{ $isSelected: boolean }>`
 
     ${({ theme }) => theme.typo.body.regular[22]}
 
-    ${({ theme, $isSelected }) => {
-      if ($isSelected) return `color: ${theme.color.point.purple}`;
-      return `color: ${theme.color.secondary.solid.bk[400]}`;
-    }}
+    color: ${({ theme, $isSelected }) =>
+      $isSelected
+        ? theme.color.point.purple
+        : theme.color.secondary.solid.bk[400]}
   }
 `;
 
