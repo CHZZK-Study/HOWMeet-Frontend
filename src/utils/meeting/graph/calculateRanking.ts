@@ -1,12 +1,7 @@
-import { ChartData, RankedTimeSlot } from '@/types/MakingGraph';
+import { RankedTimeSlot, TimeSlot } from '@/types/MakingGraph';
+import { addMinutes, parseISO, format } from 'date-fns';
 
-interface TimeSlot {
-  time: string;
-  users: string[];
-  userCount: number;
-}
-
-export const calculateTimeRanking = (data: TimeSlot[]): ChartData[] => {
+export const calculateTimeRanking = (data: TimeSlot[]): RankedTimeSlot[] => {
   const sortedTimeSlots = data.sort(
     (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()
   );
@@ -26,20 +21,29 @@ export const calculateTimeRanking = (data: TimeSlot[]): ChartData[] => {
     ) {
       j += 1;
     }
+
+    const startTime = sortedTimeSlots[i].time;
+    let endTime: string;
+
+    if (sortedTimeSlots[i].time === sortedTimeSlots[j].time) {
+      const endTimeDate = addMinutes(parseISO(startTime), 30);
+      endTime = format(endTimeDate, "yyyy-MM-dd'T'HH:mm");
+    } else {
+      endTime = sortedTimeSlots[j].time;
+    }
+
     timeRanges.push({
-      startTime: sortedTimeSlots[i].time,
-      endTime: sortedTimeSlots[j].time,
+      startTime,
+      endTime,
       users: sortedTimeSlots[i].users,
       userCount: sortedTimeSlots[i].userCount,
     });
   }
 
   const rankedTimeRanges = timeRanges.sort((a, b) => {
-    // 우선 사용자 수로 정렬
     if (b.userCount !== a.userCount) {
       return b.userCount - a.userCount;
     }
-    // 사용자 수가 같다면 시간 길이로 정렬
     const aDuration =
       new Date(a.endTime).getTime() - new Date(a.startTime).getTime();
     const bDuration =
@@ -47,11 +51,9 @@ export const calculateTimeRanking = (data: TimeSlot[]): ChartData[] => {
     if (bDuration !== aDuration) {
       return bDuration - aDuration;
     }
-    // 시간 길이도 같다면 시작 시간이 빠른 순으로 정렬
     return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
   });
 
-  // 겹치는 시간 제거
   const finalRankedTimeRanges: RankedTimeSlot[] = [];
   let currentRank = 1;
   let lastUserCount = -1;
@@ -94,7 +96,7 @@ function isOverlapping(
     return rangeStart < rankedEnd && rangeEnd > rankedStart;
   });
 }
-// 시간이 연속적인지 확인해주는 함수
+
 const isConsecutiveTime = (time1: string, time2: string) => {
   const time1Obj = new Date(time1);
   const time2Obj = new Date(time2);

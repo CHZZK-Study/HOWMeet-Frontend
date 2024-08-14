@@ -15,6 +15,7 @@
     "axios": "^1.7.3",
     "cors": "^2.8.5",
     "d3": "^7.9.0",
+    "date-fns": "^3.6.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "express": "^4.19.2",
     "lodash": "^4.17.21",

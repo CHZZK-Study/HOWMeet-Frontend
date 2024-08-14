@@ -1,16 +1,21 @@
+import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { Tooltip } from 'react-tooltip';
-import { ChartData } from '@/types/MakingGraph';
+import { ChartData, RankedTimeSlot } from '@/types/MakingGraph';
 import getAdjustedColor from '@/utils/meeting/timetable/getAdjustedColor';
-import 'react-tooltip/dist/react-tooltip.css';
 
 interface ChartProps {
-  data: ChartData[];
+  data: RankedTimeSlot[];
   maxPeople: number;
 }
 
 function TimeRankingChart({ data, maxPeople }: ChartProps) {
-  const PLACES = ['top-end', 'bottom-end'];
+  const [activeItem, setActiveItem] = useState<ChartData | null>(null);
+  const [tooltipPosition, setTooltipPosition] = useState({
+    top: 0,
+    left: 0,
+    arrowLeft: '50%',
+  });
+  const chartRef = useRef<HTMLDivElement>(null);
 
   const groupedData = data.reduce(
     (acc, item) => {
@@ -23,50 +28,73 @@ function TimeRankingChart({ data, maxPeople }: ChartProps) {
     {} as Record<number, ChartData[]>
   );
 
+  useEffect(() => {
+    if (activeItem && chartRef.current) {
+      const barElement = document.getElementById(`bar-${activeItem.startTime}`);
+      if (barElement) {
+        const barRect = barElement.getBoundingClientRect();
+        const chartRect = chartRef.current.getBoundingClientRect();
+        const barCenter = barRect.left + barRect.width / 2 - chartRect.left;
+        setTooltipPosition({
+          top: barRect.bottom - chartRect.top + 10,
+          left: Math.max(0, Math.min(chartRect.width - 200, barCenter - 100)), // 툴팁 너비를 200px로 가정
+          arrowLeft: `${barCenter - Math.max(0, Math.min(chartRect.width - 200, barCenter - 100))}px`,
+        });
+      }
+    }
+  }, [activeItem]);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+    return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}(${dayNames[date.getDay()]})`;
+  };
+
+  const formatTime = (timeString: string) =>
+    timeString.split('T')[1].slice(0, 5);
+
   return (
-    <ChartContainer>
+    <ChartContainer ref={chartRef}>
       {Object.entries(groupedData)
         .sort(([a], [b]) => Number(a) - Number(b))
         .map(([rank, items]) => (
           <RankGroup key={rank}>
             <RankLabel>{rank}순위</RankLabel>
-            {items.map((item) => {
-              const date = new Date(item.startTime);
-              const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
-              const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}(${dayNames[date.getDay()]})`;
-              const startTime = item.startTime.split('T')[1].slice(0, 5);
-              const endTime = item.endTime.split('T')[1].slice(0, 5);
-              const barWidth = (item.userCount / maxPeople) * 100;
-
-              return (
-                <BarContainer
-                  key={item.startTime}
-                  width={barWidth}
-                  data-tooltip-id="chart-tooltip"
-                  data-tooltip-content={item.users.join(', ')}
-                >
-                  <Bar>
-                    <DateTimeLabel>{`${formattedDate} ${startTime}-${endTime}`}</DateTimeLabel>
-                    <CountLabel>{`${item.userCount}명`}</CountLabel>
-                  </Bar>
-                </BarContainer>
-              );
-            })}
+            {items.map((item) => (
+              <BarContainer
+                key={item.startTime}
+                id={`bar-${item.startTime}`}
+                width={(item.userCount / maxPeople) * 100}
+                onMouseEnter={() => setActiveItem(item)}
+                onMouseLeave={() => setActiveItem(null)}
+              >
+                <Bar>
+                  <DateTimeLabel>
+                    {`${formatDate(item.startTime)} ${formatTime(item.startTime)}-${formatTime(item.endTime)}`}
+                  </DateTimeLabel>
+                  <CountLabel>{`${item.userCount}명`}</CountLabel>
+                </Bar>
+              </BarContainer>
+            ))}
           </RankGroup>
         ))}
-      <Tooltip
-        id="chart-tooltip"
-        place="bottom"
-        style={{
-          backgroundColor: 'white',
-          color: 'black',
-          padding: '10px',
-          borderRadius: '5px',
-          boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-          fontSize: '16px',
-          fontWeight: 'bold',
-        }}
-      />
+      {activeItem && (
+        <CustomTooltip
+          style={{
+            top: `${tooltipPosition.top}px`,
+            left: `${tooltipPosition.left}px`,
+          }}
+        >
+          <TooltipArrow style={{ left: tooltipPosition.arrowLeft }} />
+          <TooltipContent>
+            {activeItem.users.map((user, index) => (
+              <UserName key={`${activeItem.startTime}-${index}`}>
+                {user}
+              </UserName>
+            ))}
+          </TooltipContent>
+        </CustomTooltip>
+      )}
     </ChartContainer>
   );
 }
@@ -96,6 +124,7 @@ const BarContainer = styled.div<{ width: number }>`
   margin-bottom: 10px;
   width: ${(props) => props.width}%;
   min-width: 50%;
+  cursor: pointer;
 `;
 
 const Bar = styled.div`
@@ -111,6 +140,39 @@ const DateTimeLabel = styled.span`
 `;
 
 const CountLabel = styled.span`
+  font-weight: bold;
+`;
+
+const CustomTooltip = styled.div`
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 100%;
+`;
+
+const TooltipArrow = styled.div`
+  position: absolute;
+  top: -10px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid white;
+  transform: translateX(-50%);
+`;
+
+const TooltipContent = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const UserName = styled.span`
+  margin: 5px;
+  font-size: 14px;
   font-weight: bold;
 `;
 
