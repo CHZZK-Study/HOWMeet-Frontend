@@ -13,7 +13,7 @@ interface RankedTimeSlot {
   rank: number;
 }
 
-export const calculateTimeRanking = (data: TimeSlot[]): ChartData => {
+export const calculateTimeRanking = (data: TimeSlot[]): ChartData[] => {
   const sortedTimeSlots = data.sort(
     (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()
   );
@@ -69,7 +69,6 @@ export const calculateTimeRanking = (data: TimeSlot[]): ChartData => {
       const duration =
         new Date(range.endTime).getTime() - new Date(range.startTime).getTime();
 
-      // 동점 처리: 사용자 수와 시간 길이가 이전 항목과 같으면 같은 랭크 부여
       if (range.userCount !== lastUserCount || duration !== lastDuration) {
         currentRank = finalRankedTimeRanges.length + 1;
       }

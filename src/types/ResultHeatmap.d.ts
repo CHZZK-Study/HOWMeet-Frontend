@@ -4,15 +4,23 @@ export interface ResultHeatmapProps {
     count: number;
     names: string[];
   };
+
   selectTime: {
     time: string;
     users: string[];
     userCount: number;
   }[];
+
   participatedUsers: {
     count: number;
     names: string[];
   };
+}
+
+export interface ResultHeatmapCellInfo {
+  time: string;
+  users: string[];
+  userCount: number;
 }
 
 export interface AdjustColorProps {

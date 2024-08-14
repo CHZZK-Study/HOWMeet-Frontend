@@ -1,6 +1,7 @@
 // import HowMeetHeader from '@/components/common/HowMeetHeader';
 import MeetingHeader from '@/components/meeting/MeetingHeader';
 import SelectNavbar from '@/components/meeting/result/navbar/SelectNavbar';
+import ResultHeatmap from '@/components/meeting/result/ResultHeatmap';
 import TimeRankingChart from '@/components/meeting/result/TimeRankingChart';
 // import ResultGraph from '@/components/meeting/result/ResultGraph';
 import { NormalContainer } from '@/styles/components/container';
@@ -15,6 +16,36 @@ function ResultGraphPage() {
   const handleSelectOption = (option: string) => {
     setSelectedOption(option);
   };
+
+  const timeTableData = {
+    hours: [
+      '10',
+      '11',
+      '12',
+      '13',
+      '14',
+      '15',
+      '16',
+      '17',
+      '18',
+      '19',
+      '20',
+      '21',
+      '22',
+    ],
+    days: ['월', '화', '수', '목', '금', '토', '일'],
+    dates: [
+      '2024-08-02',
+      '2024-08-03',
+      '2024-08-04',
+      '2024-08-05',
+      '2024-08-06',
+      '2024-08-07',
+      '2024-08-08',
+    ],
+    months: ['8/2', '8/3', '8/4', '8/5', '8/6', '8/7', '8/8'],
+  };
+
   const dummyData: ResultHeatmapProps = {
     RoomId: 12,
     totalParticipants: {
@@ -195,10 +226,14 @@ function ResultGraphPage() {
         handleSelectOption={handleSelectOption}
         selectedOption={selectedOption}
       />
-      <TimeRankingChart
-        data={calculateTimeRanking(dummyData.selectTime)}
-        maxPeople={maxPeople}
-      />
+      {selectedOption === '최적의 회의 시간' ? (
+        <TimeRankingChart
+          data={calculateTimeRanking(dummyData.selectTime)}
+          maxPeople={maxPeople}
+        />
+      ) : (
+        <ResultHeatmap data={timeTableData} roomInfo={dummyData} />
+      )}
     </NormalContainer>
   );
 }

@@ -1,5 +1,8 @@
 import TimeTableLayout from '@/layouts/TimeTableLayout';
-import { ResultHeatmapProps } from '@/types/ResultHeatmap';
+import {
+  ResultHeatmapCellInfo,
+  ResultHeatmapProps,
+} from '@/types/ResultHeatmap';
 import getAdjustedColor from '@/utils/meeting/timetable/getAdjustedColor';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
@@ -15,17 +18,17 @@ interface TimeTableProps {
     dates: string[];
     months: string[];
   };
-  roomInfo: ResultHeatmapProps[];
+  roomInfo: ResultHeatmapProps;
 }
 
 function ResultHeatmap({ data, roomInfo }: TimeTableProps) {
-  const [hoveredTimeSlot, setHoveredTimeSlot] = useState<
-    ResultHeatmapProps['selectTime'][0] | null
-  >(null);
+  const [hoveredTimeSlot, setHoveredTimeSlot] =
+    useState<ResultHeatmapCellInfo | null>(null);
 
+  console.log('roomInfo: ', roomInfo);
   const groupedTimeSlots = useMemo(() => {
-    const { selectTime } = roomInfo[0];
-    const grouped: { [key: string]: ResultHeatmapProps['selectTime'][0] } = {};
+    const { selectTime } = roomInfo;
+    const grouped: { [key: string]: ResultHeatmapCellInfo } = {};
     selectTime.forEach((selectCell) => {
       const date = selectCell.time.split('T')[0];
       const time = selectCell.time.split('T')[1];
@@ -60,7 +63,7 @@ function ResultHeatmap({ data, roomInfo }: TimeTableProps) {
               const slot = groupedTimeSlots[key];
 
               const intensity = slot
-                ? slot.userCount / roomInfo[0].totalParticipants.count
+                ? slot.userCount / roomInfo.totalParticipants.count
                 : 0;
               return (
                 <HalfCell
@@ -117,7 +120,7 @@ const HalfCell = styled.div<CellProps>`
   background-color: ${(prop) => getAdjustedColor({ ratio: prop.intensity })};
 
   &:first-child {
-    border-bottom: 1px dashed #ccc;
+    border-bottom: 0.9px dashed #ccc;
   }
 `;
 
