@@ -3,7 +3,11 @@ import HowMeetHeader from '@/components/common/HowMeetHeader';
 import MeetingHeader from '@/components/meeting/MeetingHeader';
 import TimeSelect from '@/components/meeting/select/TimeSelect';
 import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
-import styled from 'styled-components';
+import { useTimeStore } from '@/store/meeting/timeStore';
+import {
+  ButtonContainer,
+  NormalContainer,
+} from '@/styles/components/container';
 
 function SelectPage() {
   const timeTableData = {
@@ -26,32 +30,22 @@ function SelectPage() {
     dates: ['1', '2', '3'],
     months: ['7/1', '7/2', '7/3'],
   };
+
+  const { selectedTimes } = useTimeStore();
+
   return (
-    <Container>
+    <NormalContainer>
       <HowMeetHeader />
       <MeetingHeader />
       <TimeSelectTitle />
       <TimeSelect data={timeTableData} />
       <ButtonContainer>
-        <Button $style="solid" disabled>
+        <Button $style="solid" disabled={selectedTimes.length === 0}>
           확인
         </Button>
       </ButtonContainer>
-    </Container>
+    </NormalContainer>
   );
 }
 
 export default SelectPage;
-
-const ButtonContainer = styled.div`
-  bottom: 0;
-  width: 100%;
-  padding: 10px 20px;
-  z-index: 10;
-`;
-
-const Container = styled.div`
-  background-color: #f5f5f5;
-  max-height: 100vh;
-  width: 100%;
-`;
