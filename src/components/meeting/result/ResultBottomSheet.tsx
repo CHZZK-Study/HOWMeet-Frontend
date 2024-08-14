@@ -1,8 +1,5 @@
+import BottomSheetHeader from '@/components/bottomsheet/BottomSheetHeader';
 import Button from '@/components/common/Button';
-import {
-  BottomSheetHeader,
-  BottomSheetTitle,
-} from '@/styles/components/bottomsheet/bottomsheet';
 import theme from '@/styles/theme';
 import styled, { keyframes } from 'styled-components';
 
@@ -24,10 +21,7 @@ function ResultBottomSheet({
 
   return (
     <BottomSheetContainer>
-      <BottomSheetHeader>
-        <BottomSheetTitle>현재 참여 인원</BottomSheetTitle>
-        <CloseButton onClick={onClose}>X</CloseButton>
-      </BottomSheetHeader>
+      <BottomSheetHeader title="현재 참여 인원" onClick={onClose} />
       <UserCountContainer>
         <UserState>
           총 참여 인원 :
@@ -72,13 +66,6 @@ const UserCountContainer = styled.div`
   margin-right: 25px;
 `;
 
-const CloseButton = styled.button`
-  font-size: 16px;
-  font-weight: bold;
-  background: none;
-  border: none;
-  cursor: pointer;
-`;
 const VerticalDivider = styled.div`
   width: 1px;
   height: 40px;
