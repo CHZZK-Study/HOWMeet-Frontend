@@ -1,4 +1,5 @@
 // import HowMeetHeader from '@/components/common/HowMeetHeader';
+import HowMeetHeader from '@/components/common/HowMeetHeader';
 import MeetingHeader from '@/components/meeting/MeetingHeader';
 import SelectNavbar from '@/components/meeting/result/navbar/SelectNavbar';
 import ResultHeatmap from '@/components/meeting/result/ResultHeatmap';
@@ -220,7 +221,7 @@ function ResultGraphPage() {
   const maxPeople = dummyData.participatedUsers.count;
   return (
     <NormalContainer>
-      {/* <HowMeetHeader /> */}
+      <HowMeetHeader />
       <MeetingHeader />
       <SelectNavbar
         handleSelectOption={handleSelectOption}

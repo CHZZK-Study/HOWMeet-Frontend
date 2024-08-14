@@ -39,12 +39,12 @@ function ResultHeatmap({ data, roomInfo }: TimeTableProps) {
 
       if (grouped[key]) {
         grouped[key].users.push(...selectCell.users);
-        grouped[key].userCount += selectCell.userCount;
+        grouped[key].userCount += selectCell.users.length;
       } else {
         grouped[key] = {
           time: selectCell.time,
           users: selectCell.users,
-          userCount: selectCell.userCount,
+          userCount: selectCell.users.length,
         };
       }
     });

@@ -26,6 +26,7 @@
     "react-heatmap-grid": "^0.9.0",
     "react-hook-form": "^7.52.1",
     "react-router-dom": "^6.24.1",
+    "react-tooltip": "^5.28.0",
     "styled-components": "^6.1.11",
     "styled-reset": "^4.5.2",
     "zustand": "^4.5.4"
