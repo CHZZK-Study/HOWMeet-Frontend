@@ -1,16 +1,9 @@
-import { ChartData } from '@/types/MakingGraph';
+import { ChartData, RankedTimeSlot } from '@/types/MakingGraph';
 
 interface TimeSlot {
   time: string;
   users: string[];
   userCount: number;
-}
-
-interface RankedTimeSlot {
-  startTime: string;
-  endTime: string;
-  users: string[];
-  rank: number;
 }
 
 export const calculateTimeRanking = (data: TimeSlot[]): ChartData[] => {
