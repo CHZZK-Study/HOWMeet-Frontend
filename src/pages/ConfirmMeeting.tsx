@@ -4,9 +4,8 @@ import {
 } from '@/styles/components/container';
 import { PageTitle, SubTitle } from '@/styles/components/text';
 import styled from 'styled-components';
-import ShareIcon from 'public/assets/icons/common/share.svg';
+import { ShareIcon } from 'public/assets/icons';
 import Button from '@/components/common/Button';
-
 import { SUB_TITLE, TITLE } from '@/constants/title';
 import ConfirmContent from '@/components/room/ConfirmContent';
 
@@ -16,7 +15,7 @@ function ConfirmMeeting() {
       <ContentContainer>
         <HeaderWrapper>
           <PageTitle>{TITLE.confirmMeeting}</PageTitle>
-          <img src={ShareIcon} alt="share" />
+          <ShareIcon />
         </HeaderWrapper>
         <SubTitle>{SUB_TITLE.newMeeting}</SubTitle>
         <ConfirmContent />

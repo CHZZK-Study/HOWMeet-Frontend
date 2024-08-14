@@ -6,8 +6,8 @@ import {
 } from '@/styles/components/container';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import LogoTitle from 'public/assets/icons/logo/logo-title.svg?react';
 import { PATH } from '@/constants/path';
+import { LogoTitleIcon } from 'public/assets/icons';
 
 function MainPage() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ function MainPage() {
     <Container>
       <div className="wrapper">
         <TitleWrapper>
-          <LogoTitle />
+          <LogoTitleIcon />
           <h2>우리 어떻게 만나?</h2>
         </TitleWrapper>
         <GuideList />
