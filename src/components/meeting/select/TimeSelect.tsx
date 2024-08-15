@@ -1,64 +1,14 @@
-import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
+import { useMemo } from 'react';
 import styled from 'styled-components';
-import { useTimeStore } from '@/store/meeting/timeStore';
 import TimeTableLayout from '@/layouts/TimeTableLayout';
+import { TimeTableProps } from '@/types/SelectedTime';
 import { TimeSlot } from '@/types/ResultHeatmap';
-import { CellProps, TimeTableProps } from '@/types/SelectedTime';
+import { useTimeSelectionLogic } from '@/hooks/useTimeSelectionLogic';
+import TimeCell from '../common/TimeCell';
 
-function TimeSelect({ data, dragDisabled }: TimeTableProps) {
-  const [isDragging, setIsDragging] = useState(false);
-  // const [dragStartTime, setDragStartTime] = useState<TimeSlot | null>(null);
-  const { selectedTimes, toggleTime } = useTimeStore();
-  const lastToggledTimeSlot = useRef<string | null>(null);
-
-  const handleDragStart = useCallback(
-    (timeSlot: TimeSlot) => {
-      setIsDragging(true);
-      // setDragStartTime(timeSlot);
-      toggleTime(timeSlot);
-      lastToggledTimeSlot.current = JSON.stringify(timeSlot);
-    },
-    [toggleTime]
-  );
-
-  const handleDragMove = useCallback(
-    (timeSlot: TimeSlot) => {
-      if (isDragging) {
-        const timeSlotString = JSON.stringify(timeSlot);
-        if (lastToggledTimeSlot.current !== timeSlotString) {
-          toggleTime(timeSlot);
-          lastToggledTimeSlot.current = timeSlotString;
-        }
-      }
-    },
-    [isDragging, toggleTime]
-  );
-
-  const handleDragEnd = useCallback(() => {
-    setIsDragging(false);
-    // setDragStartTime(null);
-    lastToggledTimeSlot.current = null;
-  }, []);
-
-  const isSelected = useCallback(
-    (hour: string, minute: string, day: string): boolean => {
-      return selectedTimes.some(
-        (time) =>
-          time.hour === hour && time.minute === minute && time.day === day
-      );
-    },
-    [selectedTimes]
-  );
-
-  useEffect(() => {
-    const preventDefault = (e: Event) => e.preventDefault();
-    document.body.addEventListener('touchmove', preventDefault, {
-      passive: false,
-    });
-    return () => {
-      document.body.removeEventListener('touchmove', preventDefault);
-    };
-  }, []);
+function TimeSelect({ data, dragDisabled = false }: TimeTableProps) {
+  const { handleDragStart, handleDragMove, handleDragEnd, isSelected } =
+    useTimeSelectionLogic();
 
   const renderCells = useMemo(() => {
     return data.hours.map((hour) => (
@@ -75,51 +25,14 @@ function TimeSelect({ data, dragDisabled }: TimeTableProps) {
                 month: data.months[index],
               };
               return (
-                <HalfCell
+                <TimeCell
                   key={`${hour}-${day}-${minute}`}
-                  selected={isSelected(hour, minute, day)}
-                  onMouseDown={
-                    dragDisabled ? undefined : () => handleDragStart(timeSlot)
-                  }
-                  onMouseEnter={
-                    dragDisabled ? undefined : () => handleDragMove(timeSlot)
-                  }
-                  onMouseUp={dragDisabled ? undefined : handleDragEnd}
-                  onTouchStart={
-                    dragDisabled
-                      ? undefined
-                      : () => {
-                          handleDragStart(timeSlot);
-                        }
-                  }
-                  onTouchMove={
-                    dragDisabled
-                      ? undefined
-                      : (e) => {
-                          const touch = e.touches[0];
-                          const element = document.elementFromPoint(
-                            touch.clientX,
-                            touch.clientY
-                          );
-                          if (
-                            element &&
-                            element.getAttribute('data-timeslot')
-                          ) {
-                            const touchedTimeSlot = JSON.parse(
-                              element.getAttribute('data-timeslot') || '{}'
-                            );
-                            handleDragMove(touchedTimeSlot);
-                          }
-                        }
-                  }
-                  onTouchEnd={
-                    dragDisabled
-                      ? undefined
-                      : () => {
-                          handleDragEnd();
-                        }
-                  }
-                  data-timeslot={JSON.stringify(timeSlot)}
+                  timeSlot={timeSlot}
+                  isSelected={isSelected(hour, minute, day)}
+                  dragDisabled={dragDisabled}
+                  onDragStart={handleDragStart}
+                  onDragMove={handleDragMove}
+                  onDragEnd={handleDragEnd}
                 />
               );
             })}
@@ -159,15 +72,4 @@ const CellGroup = styled.div`
   border: 1px solid #ccc;
   display: flex;
   flex-direction: column;
-`;
-
-const HalfCell = styled.div<CellProps>`
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${(props) => (props.selected ? '#E2F5E3' : 'white')};
-  &:first-child {
-    border-bottom: 1px dashed #ccc;
-  }
 `;
