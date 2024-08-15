@@ -43,7 +43,9 @@ function ResultBottomSheet({
           {unParticipatedUsersList}
         </ParticipantList>
       </UserListContainer>
-      <Button $style="solid">일정 조율 완료</Button>
+      <Button $style="solid" onClick={onClose}>
+        확인
+      </Button>
     </BottomSheetContainer>
   );
 }
@@ -125,7 +127,7 @@ const slideIn = keyframes`
 
 export const BottomSheetContainer = styled.div`
   width: 100%;
-  height: 50vh;
+  height: 65vh;
 
   z-index: 1000;
   position: absolute;

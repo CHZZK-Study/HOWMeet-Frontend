@@ -23,7 +23,7 @@ function AttendStatusHeader({
     <>
       {TotalParticipants === currentParticipants ? (
         <AttendStatusHeaderContainer>
-          <Title>모든 팀원 일정 조율 완료되었습니다!</Title>
+          <Title>모든 팀원 일정 조율 완료!</Title>
         </AttendStatusHeaderContainer>
       ) : (
         <AttendStatusHeaderContainer>

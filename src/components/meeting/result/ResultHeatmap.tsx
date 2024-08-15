@@ -19,9 +19,14 @@ interface TimeTableProps {
     months: string[];
   };
   roomInfo: ResultHeatmapProps;
+  dragDisabled?: boolean;
 }
 
-function ResultHeatmap({ data, roomInfo }: TimeTableProps) {
+function ResultHeatmap({
+  data,
+  roomInfo,
+  dragDisabled = true,
+}: TimeTableProps) {
   // const [hoveredTimeSlot, setHoveredTimeSlot] =
   //   useState<ResultHeatmapCellInfo | null>(null);
 

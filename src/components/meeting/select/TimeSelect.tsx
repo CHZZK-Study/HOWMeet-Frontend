@@ -14,9 +14,10 @@ interface TimeTableProps {
     dates: string[];
     months: string[];
   };
+  dragDisabled?: boolean;
 }
 
-function TimeSelect({ data }: TimeTableProps) {
+function TimeSelect({ data, dragDisabled }: TimeTableProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartTime, setDragStartTime] = useState<TimeSlot | null>(null);
   const { selectedTimes, toggleTime } = useTimeStore();
@@ -93,28 +94,47 @@ function TimeSelect({ data }: TimeTableProps) {
                 <HalfCell
                   key={`${hour}-${day}-${minute}`}
                   selected={isSelected(hour, minute, day)}
-                  onMouseDown={() => handleDragStart(timeSlot)}
-                  onMouseEnter={() => handleDragMove(timeSlot)}
-                  onMouseUp={handleDragEnd}
-                  onTouchStart={() => {
-                    handleDragStart(timeSlot);
-                  }}
-                  onTouchMove={(e) => {
-                    const touch = e.touches[0];
-                    const element = document.elementFromPoint(
-                      touch.clientX,
-                      touch.clientY
-                    );
-                    if (element && element.getAttribute('data-timeslot')) {
-                      const touchedTimeSlot = JSON.parse(
-                        element.getAttribute('data-timeslot') || '{}'
-                      );
-                      handleDragMove(touchedTimeSlot);
-                    }
-                  }}
-                  onTouchEnd={() => {
-                    handleDragEnd();
-                  }}
+                  onMouseDown={
+                    dragDisabled ? undefined : () => handleDragStart(timeSlot)
+                  }
+                  onMouseEnter={
+                    dragDisabled ? undefined : () => handleDragMove(timeSlot)
+                  }
+                  onMouseUp={dragDisabled ? undefined : handleDragEnd}
+                  onTouchStart={
+                    dragDisabled
+                      ? undefined
+                      : () => {
+                          handleDragStart(timeSlot);
+                        }
+                  }
+                  onTouchMove={
+                    dragDisabled
+                      ? undefined
+                      : (e) => {
+                          const touch = e.touches[0];
+                          const element = document.elementFromPoint(
+                            touch.clientX,
+                            touch.clientY
+                          );
+                          if (
+                            element &&
+                            element.getAttribute('data-timeslot')
+                          ) {
+                            const touchedTimeSlot = JSON.parse(
+                              element.getAttribute('data-timeslot') || '{}'
+                            );
+                            handleDragMove(touchedTimeSlot);
+                          }
+                        }
+                  }
+                  onTouchEnd={
+                    dragDisabled
+                      ? undefined
+                      : () => {
+                          handleDragEnd();
+                        }
+                  }
                   data-timeslot={JSON.stringify(timeSlot)}
                 />
               );
@@ -123,7 +143,14 @@ function TimeSelect({ data }: TimeTableProps) {
         ))}
       </Row>
     ));
-  }, [data, handleDragStart, handleDragMove, isSelected, handleDragEnd]);
+  }, [
+    data,
+    handleDragStart,
+    handleDragMove,
+    isSelected,
+    handleDragEnd,
+    dragDisabled,
+  ]);
 
   return <TimeTableLayout data={data} renderCells={renderCells} />;
 }

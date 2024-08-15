@@ -1,4 +1,5 @@
 import Button from '@/components/common/Button';
+import Header from '@/components/common/Header';
 import HowMeetHeader from '@/components/common/HowMeetHeader';
 import MeetingHeader from '@/components/meeting/MeetingHeader';
 import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
@@ -8,6 +9,7 @@ import {
   NormalContainer,
 } from '@/styles/components/container';
 import { ResultHeatmapProps } from '@/types/ResultHeatmap';
+import { useState } from 'react';
 
 function ResultPage() {
   const timeTableData = {
@@ -109,13 +111,14 @@ function ResultPage() {
       count: 8,
     },
   };
+
+  const [isDragged, setisDragged] = useState<boolean>(true);
   return (
     <NormalContainer>
-      <HowMeetHeader />
-      <MeetingHeader />
+      <Header title="일정 조율" />
       <AttendStatusHeader
         TotalParticipants={9}
-        currentParticipants={1}
+        currentParticipants={2}
         participatedUsers={selectedTimeSlots.participatedUsers.names}
         unParticipatedUsers={selectedTimeSlots.totalParticipants.names.filter(
           (name) => !selectedTimeSlots.participatedUsers.names.includes(name)
@@ -124,7 +127,9 @@ function ResultPage() {
       <ResultHeatmap data={timeTableData} roomInfo={selectedTimeSlots} />
 
       <ButtonContainer>
-        <Button $style="solid">결과보기</Button>
+        <Button $style="solid" disabled={isDragged}>
+          {isDragged ? '드래그로 시간 확정하기' : '일정 확정하기'}
+        </Button>
       </ButtonContainer>
     </NormalContainer>
   );

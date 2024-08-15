@@ -43,6 +43,7 @@ const TableContainer = styled.div`
   overflow-x: auto;
   margin-bottom: 20px;
   padding: 0 15px 0 0px;
+  height: 80%;
 `;
 
 const Header = styled.div`
