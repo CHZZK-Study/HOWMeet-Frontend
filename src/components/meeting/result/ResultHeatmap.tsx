@@ -1,11 +1,12 @@
+import React, { useMemo, useState, useRef } from 'react';
+import styled from 'styled-components';
 import TimeTableLayout from '@/layouts/TimeTableLayout';
 import {
   ResultHeatmapCellInfo,
   ResultHeatmapProps,
 } from '@/types/ResultHeatmap';
 import getAdjustedColor from '@/utils/meeting/timetable/getAdjustedColor';
-import { useMemo } from 'react';
-import styled from 'styled-components';
+import ToolTip from '@/components/common/ToolTip';
 
 interface CellProps {
   intensity: number;
@@ -22,13 +23,13 @@ interface TimeTableProps {
   dragDisabled?: boolean;
 }
 
-function ResultHeatmap({
-  data,
-  roomInfo,
-  dragDisabled = true,
-}: TimeTableProps) {
-  // const [hoveredTimeSlot, setHoveredTimeSlot] =
-  //   useState<ResultHeatmapCellInfo | null>(null);
+function ResultHeatmap({ data, roomInfo, dragDisabled }: TimeTableProps) {
+  const [tooltipInfo, setTooltipInfo] = useState<{
+    content: string;
+    x: number;
+    y: number;
+  } | null>(null);
+  const heatmapRef = useRef<HTMLDivElement>(null);
 
   const groupedTimeSlots = useMemo(() => {
     const { selectTime } = roomInfo;
@@ -55,7 +56,24 @@ function ResultHeatmap({
     return grouped;
   }, [roomInfo]);
 
-  // 셀 여러개 렌더링
+  const handleCellHover = (
+    event: React.MouseEvent,
+    slot: ResultHeatmapCellInfo | null
+  ) => {
+    if (slot && heatmapRef.current) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const heatmapRect = heatmapRef.current.getBoundingClientRect();
+
+      setTooltipInfo({
+        content: `${slot.users.join(', ')} ${slot.userCount}명`,
+        x: rect.left - heatmapRect.left + rect.width / 2,
+        y: rect.bottom - heatmapRect.top,
+      });
+    } else {
+      setTooltipInfo(null);
+    }
+  };
+
   const renderCells = useMemo(() => {
     return data.hours.map((hour) => (
       <Row key={hour}>
@@ -73,8 +91,8 @@ function ResultHeatmap({
                 <HalfCell
                   key={`${hour}-${date}-${minute}`}
                   intensity={intensity}
-                  // onMouseEnter={() => slot && setHoveredTimeSlot(slot)}
-                  // onMouseLeave={() => setHoveredTimeSlot(null)}
+                  onMouseEnter={(e) => handleCellHover(e, slot)}
+                  onMouseLeave={() => setTooltipInfo(null)}
                 />
               );
             })}
@@ -85,16 +103,24 @@ function ResultHeatmap({
   }, [data, groupedTimeSlots, roomInfo]);
 
   return (
-    <>
+    <HeatmapContainer ref={heatmapRef}>
       <TimeTableLayout data={data} renderCells={renderCells} />
-      {/* {hoveredTimeSlot && (
-        <Tooltip>{`${hoveredTimeSlot.users.join(', ')} ${hoveredTimeSlot.userCount}명`}</Tooltip>
-      )} */}
-    </>
+      {tooltipInfo && (
+        <ToolTip
+          content={tooltipInfo.content}
+          x={tooltipInfo.x}
+          y={tooltipInfo.y}
+        />
+      )}
+    </HeatmapContainer>
   );
 }
 
 export default ResultHeatmap;
+
+const HeatmapContainer = styled.div`
+  position: relative;
+`;
 
 const Row = styled.div`
   display: flex;

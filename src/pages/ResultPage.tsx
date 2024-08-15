@@ -1,7 +1,5 @@
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
-import HowMeetHeader from '@/components/common/HowMeetHeader';
-import MeetingHeader from '@/components/meeting/MeetingHeader';
 import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
 import ResultHeatmap from '@/components/meeting/result/ResultHeatmap';
 import {

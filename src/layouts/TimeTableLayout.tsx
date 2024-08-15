@@ -19,7 +19,7 @@ function TimeTableLayout({ data, renderCells }: TimeTableLayoutProps) {
       <Header>
         <HourCell />
         {data.months.map((month) => (
-          <MonthCell>{month}</MonthCell>
+          <MonthCell key={month}>{month}</MonthCell>
         ))}
       </Header>
       <Header>
