@@ -1,7 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { ChartData, RankedTimeSlot } from '@/types/MakingGraph';
+import { RankedTimeSlot } from '@/types/MakingGraph';
 import getAdjustedColor from '@/utils/meeting/timetable/getAdjustedColor';
+import {
+  rankToFont,
+  rankToWidth,
+} from '@/utils/meeting/graph/calculateRanking';
 
 interface ChartProps {
   data: RankedTimeSlot[];
@@ -9,11 +13,10 @@ interface ChartProps {
 }
 
 function TimeRankingChart({ data, maxPeople }: ChartProps) {
-  const [activeItem, setActiveItem] = useState<ChartData | null>(null);
+  const [activeItem, setActiveItem] = useState<RankedTimeSlot | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState({
     top: 0,
     left: 0,
-    arrowLeft: '50%',
   });
   const chartRef = useRef<HTMLDivElement>(null);
 
@@ -25,7 +28,7 @@ function TimeRankingChart({ data, maxPeople }: ChartProps) {
       acc[item.rank].push(item);
       return acc;
     },
-    {} as Record<number, ChartData[]>
+    {} as Record<number, RankedTimeSlot[]>
   );
 
   useEffect(() => {
@@ -35,10 +38,15 @@ function TimeRankingChart({ data, maxPeople }: ChartProps) {
         const barRect = barElement.getBoundingClientRect();
         const chartRect = chartRef.current.getBoundingClientRect();
         const barCenter = barRect.left + barRect.width / 2 - chartRect.left;
+        const tooltipWidth = 200; // Assumed tooltip width
+
+        let left = barCenter - tooltipWidth / 2;
+        // Ensure the tooltip doesn't overflow the chart container
+        left = Math.max(0, Math.min(chartRect.width - tooltipWidth, left));
+
         setTooltipPosition({
           top: barRect.bottom - chartRect.top + 10,
-          left: Math.max(0, Math.min(chartRect.width - 200, barCenter - 100)), // 툴팁 너비를 200px로 가정
-          arrowLeft: `${barCenter - Math.max(0, Math.min(chartRect.width - 200, barCenter - 100))}px`,
+          left,
         });
       }
     }
@@ -64,11 +72,11 @@ function TimeRankingChart({ data, maxPeople }: ChartProps) {
               <BarContainer
                 key={item.startTime}
                 id={`bar-${item.startTime}`}
-                width={(item.userCount / maxPeople) * 100}
+                size={rankToWidth(item.rank)}
                 onMouseEnter={() => setActiveItem(item)}
                 onMouseLeave={() => setActiveItem(null)}
               >
-                <Bar>
+                <Bar size={rankToFont(rank)}>
                   <DateTimeLabel>
                     {`${formatDate(item.startTime)} ${formatTime(item.startTime)}-${formatTime(item.endTime)}`}
                   </DateTimeLabel>
@@ -85,7 +93,7 @@ function TimeRankingChart({ data, maxPeople }: ChartProps) {
             left: `${tooltipPosition.left}px`,
           }}
         >
-          <TooltipArrow style={{ left: tooltipPosition.arrowLeft }} />
+          <TooltipArrow />
           <TooltipContent>
             {activeItem.users.map((user, index) => (
               <UserName key={`${activeItem.startTime}-${index}`}>
@@ -117,17 +125,17 @@ const RankLabel = styled.div`
   margin-bottom: 10px;
 `;
 
-const BarContainer = styled.div<{ width: number }>`
+const BarContainer = styled.div<{ size: number }>`
   background-color: ${getAdjustedColor({ ratio: 1 })};
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 10px;
-  width: ${(props) => props.width}%;
-  min-width: 50%;
+  width: ${(props) => props.size}%;
+  font-size: ${(props) => (props.size < 50 ? 12 : 14)}px;
   cursor: pointer;
 `;
 
-const Bar = styled.div`
+const Bar = styled.div<{ size: number }>`
   padding: 15px;
   color: white;
   font-size: 14px;
@@ -150,12 +158,14 @@ const CustomTooltip = styled.div`
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  width: 100%;
+  padding: 10px;
+  width: 200px;
 `;
 
 const TooltipArrow = styled.div`
   position: absolute;
   top: -10px;
+  left: 50%;
   width: 0;
   height: 0;
   border-left: 10px solid transparent;

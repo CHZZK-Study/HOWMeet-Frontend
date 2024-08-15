@@ -103,3 +103,47 @@ const isConsecutiveTime = (time1: string, time2: string) => {
 
   return time1Obj.getTime() + 30 * 60 * 1000 === time2Obj.getTime();
 };
+
+export const rankToFont = (rank: number) => {
+  if (rank === 1) {
+    return 14;
+  }
+  if (rank === 2) {
+    return 12;
+  }
+  if (rank === 3) {
+    return 10;
+  }
+  if (rank === 4) {
+    return 8;
+  }
+  return 8;
+};
+
+export const rankToWidth = (rank: number) => {
+  if (rank === 1) {
+    return 100;
+  }
+  if (rank === 2) {
+    return 85;
+  }
+  if (rank === 3) {
+    return 75;
+  }
+  if (rank === 4) {
+    return 65;
+  }
+  if (rank === 5) {
+    return 55;
+  }
+  if (rank === 6) {
+    return 50;
+  }
+  if (rank === 7) {
+    return 45;
+  }
+  if (rank === 8) {
+    return 40;
+  }
+  return 40;
+};

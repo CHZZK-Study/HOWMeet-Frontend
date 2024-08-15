@@ -1,10 +1,8 @@
-// import HowMeetHeader from '@/components/common/HowMeetHeader';
 import HowMeetHeader from '@/components/common/HowMeetHeader';
 import MeetingHeader from '@/components/meeting/MeetingHeader';
 import SelectNavbar from '@/components/meeting/result/navbar/SelectNavbar';
 import ResultHeatmap from '@/components/meeting/result/ResultHeatmap';
 import TimeRankingChart from '@/components/meeting/result/TimeRankingChart';
-// import ResultGraph from '@/components/meeting/result/ResultGraph';
 import { NormalContainer } from '@/styles/components/container';
 import { ResultHeatmapProps } from '@/types/ResultHeatmap';
 import { calculateTimeRanking } from '@/utils/meeting/graph/calculateRanking';

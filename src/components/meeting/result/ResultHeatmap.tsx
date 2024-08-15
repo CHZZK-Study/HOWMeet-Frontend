@@ -4,7 +4,7 @@ import {
   ResultHeatmapProps,
 } from '@/types/ResultHeatmap';
 import getAdjustedColor from '@/utils/meeting/timetable/getAdjustedColor';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import styled from 'styled-components';
 
 interface CellProps {
@@ -22,10 +22,9 @@ interface TimeTableProps {
 }
 
 function ResultHeatmap({ data, roomInfo }: TimeTableProps) {
-  const [hoveredTimeSlot, setHoveredTimeSlot] =
-    useState<ResultHeatmapCellInfo | null>(null);
+  // const [hoveredTimeSlot, setHoveredTimeSlot] =
+  //   useState<ResultHeatmapCellInfo | null>(null);
 
-  console.log('roomInfo: ', roomInfo);
   const groupedTimeSlots = useMemo(() => {
     const { selectTime } = roomInfo;
     const grouped: { [key: string]: ResultHeatmapCellInfo } = {};
@@ -69,8 +68,8 @@ function ResultHeatmap({ data, roomInfo }: TimeTableProps) {
                 <HalfCell
                   key={`${hour}-${date}-${minute}`}
                   intensity={intensity}
-                  onMouseEnter={() => slot && setHoveredTimeSlot(slot)}
-                  onMouseLeave={() => setHoveredTimeSlot(null)}
+                  // onMouseEnter={() => slot && setHoveredTimeSlot(slot)}
+                  // onMouseLeave={() => setHoveredTimeSlot(null)}
                 />
               );
             })}
@@ -83,9 +82,9 @@ function ResultHeatmap({ data, roomInfo }: TimeTableProps) {
   return (
     <>
       <TimeTableLayout data={data} renderCells={renderCells} />
-      {hoveredTimeSlot && (
+      {/* {hoveredTimeSlot && (
         <Tooltip>{`${hoveredTimeSlot.users.join(', ')} ${hoveredTimeSlot.userCount}명`}</Tooltip>
-      )}
+      )} */}
     </>
   );
 }
@@ -122,13 +121,4 @@ const HalfCell = styled.div<CellProps>`
   &:first-child {
     border-bottom: 0.9px dashed #ccc;
   }
-`;
-
-const Tooltip = styled.div`
-  position: absolute;
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;
