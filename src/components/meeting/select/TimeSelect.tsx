@@ -19,7 +19,7 @@ interface TimeTableProps {
 
 function TimeSelect({ data, dragDisabled }: TimeTableProps) {
   const [isDragging, setIsDragging] = useState(false);
-  const [dragStartTime, setDragStartTime] = useState<TimeSlot | null>(null);
+  // const [dragStartTime, setDragStartTime] = useState<TimeSlot | null>(null);
   const { selectedTimes, toggleTime } = useTimeStore();
   const lastToggledTimeSlot = useRef<string | null>(null);
 
@@ -30,7 +30,7 @@ function TimeSelect({ data, dragDisabled }: TimeTableProps) {
   const handleDragStart = useCallback(
     (timeSlot: TimeSlot) => {
       setIsDragging(true);
-      setDragStartTime(timeSlot);
+      // setDragStartTime(timeSlot);
       toggleTime(timeSlot);
       lastToggledTimeSlot.current = JSON.stringify(timeSlot);
     },
@@ -52,7 +52,7 @@ function TimeSelect({ data, dragDisabled }: TimeTableProps) {
 
   const handleDragEnd = useCallback(() => {
     setIsDragging(false);
-    setDragStartTime(null);
+    // setDragStartTime(null);
     lastToggledTimeSlot.current = null;
   }, []);
 
