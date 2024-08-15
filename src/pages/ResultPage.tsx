@@ -39,6 +39,7 @@ function ResultPage() {
     ],
     months: ['7/1', '7/2', '7/3', '7/4', '7/5', '7/6', '7/7'],
   };
+  const [isDragged, setisDragged] = useState<boolean>(true);
 
   const { isPending, error, data } = useQuery({
     queryKey: ['selectedTimeData'],
@@ -48,7 +49,7 @@ function ResultPage() {
   const selectedTimeSlots = data as ResultHeatmapProps;
   console.log(isPending, error, data);
 
-  const [isDragged, setisDragged] = useState<boolean>(true);
+  if (isPending) return <div>로딩중...</div>;
   return (
     <NormalContainer>
       <Header title="일정 조율" />
@@ -60,7 +61,11 @@ function ResultPage() {
           (name) => !selectedTimeSlots.participatedUsers.names.includes(name)
         )}
       />
-      <ResultHeatmap data={timeTableData} roomInfo={selectedTimeSlots} />
+      <ResultHeatmap
+        data={timeTableData}
+        roomInfo={selectedTimeSlots}
+        dragDisabled
+      />
 
       <ButtonContainer>
         <Button $style="solid" disabled={isDragged}>

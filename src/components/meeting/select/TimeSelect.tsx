@@ -3,29 +3,13 @@ import styled from 'styled-components';
 import { useTimeStore } from '@/store/meeting/timeStore';
 import TimeTableLayout from '@/layouts/TimeTableLayout';
 import { TimeSlot } from '@/types/ResultHeatmap';
-
-interface CellProps {
-  selected: boolean;
-}
-interface TimeTableProps {
-  data: {
-    hours: string[];
-    days: string[];
-    dates: string[];
-    months: string[];
-  };
-  dragDisabled?: boolean;
-}
+import { CellProps, TimeTableProps } from '@/types/SelectedTime';
 
 function TimeSelect({ data, dragDisabled }: TimeTableProps) {
   const [isDragging, setIsDragging] = useState(false);
   // const [dragStartTime, setDragStartTime] = useState<TimeSlot | null>(null);
   const { selectedTimes, toggleTime } = useTimeStore();
   const lastToggledTimeSlot = useRef<string | null>(null);
-
-  useEffect(() => {
-    console.log(selectedTimes);
-  }, [selectedTimes]);
 
   const handleDragStart = useCallback(
     (timeSlot: TimeSlot) => {

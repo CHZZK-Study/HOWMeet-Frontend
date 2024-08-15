@@ -129,7 +129,6 @@ const Row = styled.div`
 const HourCell = styled.div`
   width: 40px;
   display: flex;
-  align-items: center;
   justify-content: flex-end;
   padding-right: 10px;
 `;
@@ -137,7 +136,7 @@ const HourCell = styled.div`
 const CellGroup = styled.div`
   flex: 1;
   height: 40px;
-  border: 1px solid #ccc;
+  border: 0.8px solid #ccc;
   display: flex;
   flex-direction: column;
 `;
@@ -150,6 +149,6 @@ const HalfCell = styled.div<CellProps>`
   background-color: ${(prop) => getAdjustedColor({ ratio: prop.intensity })};
 
   &:first-child {
-    border-bottom: 0.9px dashed #ccc;
+    border-bottom: 1px dashed #ccc;
   }
 `;
