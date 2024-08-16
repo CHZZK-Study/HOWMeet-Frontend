@@ -1,17 +1,17 @@
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
-import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
-import ResultHeatmap from '@/components/meeting/result/ResultHeatmap';
+import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
+import { ResultHeatmapProps, TimeTableData } from '@/types/timeTableTypes';
 import {
   ButtonContainer,
   NormalContainer,
 } from '@/styles/components/container';
-import { ResultHeatmapProps } from '@/types/ResultHeatmap';
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import AttendStatusHeader from '@/components/meeting/result/navbar/AttendStatusHeader';
 
 function ResultPage() {
-  const timeTableData = {
+  const timeTableData: TimeTableData = {
     hours: [
       '10',
       '11',
@@ -39,37 +39,40 @@ function ResultPage() {
     ],
     months: ['7/1', '7/2', '7/3', '7/4', '7/5', '7/6', '7/7'],
   };
-  const [isDragged, setisDragged] = useState<boolean>(true);
+  const [isDragged, setIsDragged] = useState<boolean>(false);
 
-  const { isPending, error, data } = useQuery({
+  const { isPending, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['selectedTimeData'],
     queryFn: () => fetch('/selectedResult').then((res) => res.json()),
   });
 
-  const selectedTimeSlots = data as ResultHeatmapProps;
-  console.log(isPending, error, data);
-
   if (isPending) return <div>로딩중...</div>;
+  if (error) return <div>에러가 발생했습니다</div>;
+  if (!data) return <div>데이터가 없습니다</div>;
+
+  const handleDrag = () => {
+    setIsDragged(true);
+  };
+
   return (
     <NormalContainer>
       <Header title="일정 조율" />
       <AttendStatusHeader
-        TotalParticipants={selectedTimeSlots.totalParticipants.names.length}
-        currentParticipants={selectedTimeSlots.participatedUsers.names.length}
-        participatedUsers={selectedTimeSlots.participatedUsers.names}
-        unParticipatedUsers={selectedTimeSlots.totalParticipants.names.filter(
-          (name) => !selectedTimeSlots.participatedUsers.names.includes(name)
+        TotalParticipants={data.totalParticipants.names.length}
+        currentParticipants={data.participatedUsers.names.length}
+        participatedUsers={data.participatedUsers.names}
+        unParticipatedUsers={data.totalParticipants.names.filter(
+          (name) => !data.participatedUsers.names.includes(name)
         )}
       />
-      <ResultHeatmap
+      <ResultTimeTable
         data={timeTableData}
-        roomInfo={selectedTimeSlots}
-        dragDisabled
+        roomInfo={data}
+        dragDisabled={!isDragged}
       />
-
       <ButtonContainer>
-        <Button $style="solid" disabled={isDragged}>
-          {isDragged ? '드래그로 시간 확정하기' : '일정 확정하기'}
+        <Button $style="solid" onClick={handleDrag} disabled={isDragged}>
+          {isDragged ? '일정 확정하기' : '드래그로 시간 확정하기'}
         </Button>
       </ButtonContainer>
     </NormalContainer>

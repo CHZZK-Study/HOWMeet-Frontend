@@ -1,7 +1,6 @@
+import { CellProps, TimeSlot } from '@/types/timeTableTypes';
 import React from 'react';
 import styled from 'styled-components';
-import { TimeSlot } from '@/types/ResultHeatmap';
-import { CellProps } from '@/types/SelectedTime';
 
 interface TimeCellProps {
   timeSlot: TimeSlot;

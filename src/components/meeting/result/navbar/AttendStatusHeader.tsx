@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
-import ResultBottomSheet from './ResultBottomSheet';
+import ResultBottomSheet from '../bottomsheet/ResultBottomSheet';
 
 function AttendStatusHeader({
   TotalParticipants,
