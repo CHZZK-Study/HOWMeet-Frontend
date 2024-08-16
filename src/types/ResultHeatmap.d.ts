@@ -21,6 +21,11 @@ export interface ResultHeatmapCellInfo {
   time: string;
   users: string[];
   userCount: number;
+  hour: string;
+  minute: string;
+  day: string;
+  date: string;
+  month: string;
 }
 
 export interface AdjustColorProps {

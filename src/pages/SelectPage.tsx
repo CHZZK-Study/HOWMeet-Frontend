@@ -3,7 +3,8 @@ import Header from '@/components/common/Header';
 import TimeSelect from '@/components/meeting/select/TimeSelect';
 import TimeSelectModalComp from '@/components/meeting/select/TimeSelectCompModal';
 import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
-import { useTimeStore } from '@/store/meeting/timeStore';
+import { useTimeStore } from '@/store/meeting/useTimeStore';
+
 import {
   ButtonContainer,
   NormalContainer,

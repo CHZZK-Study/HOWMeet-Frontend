@@ -1,12 +1,18 @@
 import { useTimeStore } from '@/store/meeting/useTimeStore';
-import { TimeSlot } from '@/types/ResultHeatmap';
+import { ResultHeatmapCellInfo, TimeSlot } from '@/types/ResultHeatmap';
 import { useCallback, useState, useRef, useEffect } from 'react';
 
-export const useTimeSelectionLogic = () => {
+export const useTimeResultSelectionLogic = () => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const { selectedTimes, toggleTime } = useTimeStore();
+  const { selectedResult, toggleTime } = useTimeStore();
   const lastToggledTimeSlot = useRef<string | null>(null);
 
+  const heatmapRef = useRef<HTMLDivElement>(null);
+  const [tooltipInfo, setTooltipInfo] = useState<{
+    content: string;
+    x: number;
+    y: number;
+  } | null>(null);
   const handleDragStart = useCallback(
     (timeSlot: TimeSlot) => {
       setIsDragging(true);
@@ -36,14 +42,31 @@ export const useTimeSelectionLogic = () => {
 
   const isSelected = useCallback(
     (hour: string, minute: string, day: string): boolean => {
-      return selectedTimes.some(
+      return selectedResult.some(
         (time) =>
           time.hour === hour && time.minute === minute && time.day === day
       );
     },
-    [selectedTimes]
+    [selectedResult]
   );
 
+  const handleCellHover = (
+    event: React.MouseEvent,
+    slot: ResultHeatmapCellInfo | null
+  ) => {
+    if (slot && heatmapRef.current) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const heatmapRect = heatmapRef.current.getBoundingClientRect();
+
+      setTooltipInfo({
+        content: `${slot.users.join(', ')} ${slot.userCount}명`,
+        x: rect.left - heatmapRect.left + rect.width / 2,
+        y: rect.bottom - heatmapRect.top,
+      });
+    } else {
+      setTooltipInfo(null);
+    }
+  };
   useEffect(() => {
     const preventDefault = (e: Event) => e.preventDefault();
     document.body.addEventListener('touchmove', preventDefault, {
@@ -54,5 +77,12 @@ export const useTimeSelectionLogic = () => {
     };
   }, []);
 
-  return { handleDragStart, handleDragMove, handleDragEnd, isSelected };
+  return {
+    handleDragStart,
+    handleDragMove,
+    handleDragEnd,
+    isSelected,
+    handleCellHover,
+    tooltipInfo,
+  };
 };

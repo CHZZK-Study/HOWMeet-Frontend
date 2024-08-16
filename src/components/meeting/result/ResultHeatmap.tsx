@@ -74,6 +74,10 @@ function ResultHeatmap({ data, roomInfo, dragDisabled }: TimeTableProps) {
     }
   };
 
+  const handleCellClick = (slot: ResultHeatmapCellInfo) => {
+    console.log(slot);
+  };
+
   const renderCells = useMemo(() => {
     return data.hours.map((hour) => (
       <Row key={hour}>
@@ -93,6 +97,7 @@ function ResultHeatmap({ data, roomInfo, dragDisabled }: TimeTableProps) {
                   intensity={intensity}
                   onMouseEnter={(e) => handleCellHover(e, slot)}
                   onMouseLeave={() => setTooltipInfo(null)}
+                  onClick={() => handleCellClick(slot)}
                 />
               );
             })}

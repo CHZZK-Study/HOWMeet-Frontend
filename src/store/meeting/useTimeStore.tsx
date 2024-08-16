@@ -1,4 +1,5 @@
 // timeStore.ts
+import { ResultHeatmapCellInfo } from '@/types/ResultHeatmap';
 import create from 'zustand';
 
 interface TimeSlot {
@@ -13,11 +14,28 @@ interface TimeStore {
   selectedTimes: TimeSlot[];
   formatTime: string[];
   toggleTime: (time: TimeSlot) => void;
+  selectedResult: ResultHeatmapCellInfo[];
+  toggleSelectedResult: (result: ResultHeatmapCellInfo) => void;
 }
 
 export const useTimeStore = create<TimeStore>((set) => ({
   selectedTimes: [],
   formatTime: [],
+  selectedResult: [],
+  toggleSelectedResult: (result) =>
+    set((state) => {
+      const index = state.selectedResult.findIndex(
+        (r) => r.time === result.time
+      );
+      if (index > -1) {
+        return {
+          selectedResult: state.selectedResult.filter((_, i) => i !== index),
+        };
+      }
+      return {
+        selectedResult: [...state.selectedResult, result],
+      };
+    }),
   toggleTime: (time) =>
     set((state) => {
       const index = state.selectedTimes.findIndex(
