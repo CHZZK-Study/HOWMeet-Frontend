@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 function MeetingListPage() {
   return (
-    <FlexColContainer>
+    <Container>
       <Header title="방 목록" />
       <ContentContainer>
         <Title>
@@ -22,7 +22,7 @@ function MeetingListPage() {
           <CreateRoomPlusIcon />
         </CreateRoomButton>
       </ContentContainer>
-    </FlexColContainer>
+    </Container>
   );
 }
 
@@ -50,6 +50,10 @@ const CreateRoomButton = styled.button`
   border-radius: 100%;
 
   background: ${({ theme }) => theme.color.point.purple};
+`;
+
+const Container = styled(FlexColContainer)`
+  height: 100dvh;
 `;
 
 export default MeetingListPage;

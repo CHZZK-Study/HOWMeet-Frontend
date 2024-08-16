@@ -55,8 +55,8 @@ function RoomList() {
 }
 
 const RoomListContainer = styled.ul`
-  height: 75vh;
   overflow-y: scroll;
+  height: 80%;
 
   display: flex;
   flex-direction: column;
