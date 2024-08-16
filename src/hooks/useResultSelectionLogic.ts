@@ -84,5 +84,7 @@ export const useTimeResultSelectionLogic = () => {
     isSelected,
     handleCellHover,
     tooltipInfo,
+    setTooltipInfo,
+    heatmapRef,
   };
 };
