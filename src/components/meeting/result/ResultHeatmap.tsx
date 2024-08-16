@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useRef } from 'react';
+import { useMemo } from 'react';
 import styled from 'styled-components';
 import TimeTableLayout from '@/layouts/TimeTableLayout';
 import {
@@ -7,6 +7,7 @@ import {
 } from '@/types/ResultHeatmap';
 import getAdjustedColor from '@/utils/meeting/timetable/getAdjustedColor';
 import ToolTip from '@/components/common/ToolTip';
+import { useTimeResultSelectionLogic } from '@/hooks/useResultSelectionLogic';
 
 interface CellProps {
   intensity: number;
@@ -24,12 +25,16 @@ interface TimeTableProps {
 }
 
 function ResultHeatmap({ data, roomInfo, dragDisabled }: TimeTableProps) {
-  const [tooltipInfo, setTooltipInfo] = useState<{
-    content: string;
-    x: number;
-    y: number;
-  } | null>(null);
-  const heatmapRef = useRef<HTMLDivElement>(null);
+  const {
+    handleCellHover,
+    handleDragEnd,
+    handleDragMove,
+    handleDragStart,
+    heatmapRef,
+    isSelected,
+    setTooltipInfo,
+    tooltipInfo,
+  } = useTimeResultSelectionLogic();
 
   const groupedTimeSlots = useMemo(() => {
     const { selectTime } = roomInfo;
@@ -50,29 +55,14 @@ function ResultHeatmap({ data, roomInfo, dragDisabled }: TimeTableProps) {
           time: selectCell.time,
           users: selectCell.users,
           userCount: selectCell.users.length,
+          date,
+          hour,
+          minute,
         };
       }
     });
     return grouped;
   }, [roomInfo]);
-
-  const handleCellHover = (
-    event: React.MouseEvent,
-    slot: ResultHeatmapCellInfo | null
-  ) => {
-    if (slot && heatmapRef.current) {
-      const rect = event.currentTarget.getBoundingClientRect();
-      const heatmapRect = heatmapRef.current.getBoundingClientRect();
-
-      setTooltipInfo({
-        content: `${slot.users.join(', ')} ${slot.userCount}명`,
-        x: rect.left - heatmapRect.left + rect.width / 2,
-        y: rect.bottom - heatmapRect.top,
-      });
-    } else {
-      setTooltipInfo(null);
-    }
-  };
 
   const handleCellClick = (slot: ResultHeatmapCellInfo) => {
     console.log(slot);
@@ -105,7 +95,14 @@ function ResultHeatmap({ data, roomInfo, dragDisabled }: TimeTableProps) {
         ))}
       </Row>
     ));
-  }, [data, groupedTimeSlots, roomInfo]);
+  }, [
+    data.dates,
+    data.hours,
+    groupedTimeSlots,
+    handleCellHover,
+    roomInfo.totalParticipants.count,
+    setTooltipInfo,
+  ]);
 
   return (
     <HeatmapContainer ref={heatmapRef}>
