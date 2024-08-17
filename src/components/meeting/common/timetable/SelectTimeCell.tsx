@@ -79,7 +79,8 @@ function SelectTimeCell({
   );
 }
 
-export default React.memo(SelectTimeCell);
+const MemoizedSelectTimeCell = React.memo(SelectTimeCell);
+export default MemoizedSelectTimeCell;
 
 const SelectHalfCell = styled.div<CellProps>`
   flex: 1;

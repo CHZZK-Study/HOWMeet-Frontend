@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTimeSelectionLogic } from '@/hooks/useTimeSelectionLogic';
 import {
   TimeTableData,
