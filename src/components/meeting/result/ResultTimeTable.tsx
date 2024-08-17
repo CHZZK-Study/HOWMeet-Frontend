@@ -24,7 +24,7 @@ function ResultTimeTable({
     handleDragMove,
     handleDragEnd,
     isSelected,
-    handleCellHover,
+    handleCellInteraction,
     tooltipInfo,
     heatmapRef,
   } = useTimeSelectionLogic({ isSelectOption: false });
@@ -54,7 +54,7 @@ function ResultTimeTable({
         isSelected={isSelected(hour, minute, timeSlot.day)}
         intensity={intensity}
         dragDisabled={dragDisabled}
-        onHover={(e) => handleCellHover(e, timeSlot)}
+        onCellInteraction={handleCellInteraction}
         onDragStart={handleDragStart}
         onDragMove={handleDragMove}
         onDragEnd={handleDragEnd}

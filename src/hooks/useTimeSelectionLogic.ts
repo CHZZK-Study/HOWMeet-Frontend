@@ -2,10 +2,7 @@ import { useTimeStore } from '@/store/meeting/useTimeStore';
 import { ResultHeatmapCellInfo, TimeSlot } from '@/types/timeTableTypes';
 import { useCallback, useState, useRef, useEffect } from 'react';
 
-// 타임테이블 컴포넌트에서 사용하는 로직을 분리하여 커스텀 훅으로 만들어서 사용
-
 export const useTimeSelectionLogic = ({
-  // 시간 선택 옵션인지 결과 선택 옵션인지
   isSelectOption,
 }: {
   isSelectOption: boolean;
@@ -99,8 +96,11 @@ export const useTimeSelectionLogic = ({
     initialSelectionState.current = null;
   }, []);
 
-  const handleCellHover = useCallback(
-    (event: React.MouseEvent | null, slot: ResultHeatmapCellInfo | null) => {
+  const handleCellInteraction = useCallback(
+    (
+      event: React.MouseEvent | React.TouchEvent,
+      slot: ResultHeatmapCellInfo | null
+    ) => {
       if (slot && event && heatmapRef.current) {
         const rect = (event.target as HTMLElement).getBoundingClientRect();
         const heatmapRect = heatmapRef.current.getBoundingClientRect();
@@ -122,7 +122,7 @@ export const useTimeSelectionLogic = ({
     handleDragMove,
     handleDragEnd,
     isSelected,
-    handleCellHover,
+    handleCellInteraction,
     tooltipInfo,
     heatmapRef,
     setTooltipInfo,

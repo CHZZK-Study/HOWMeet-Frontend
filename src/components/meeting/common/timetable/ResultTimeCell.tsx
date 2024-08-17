@@ -11,8 +11,8 @@ interface ResultTimeCellProps {
   onDragStart: (timeSlot: ResultHeatmapCellInfo) => void;
   onDragMove: (timeSlot: ResultHeatmapCellInfo) => void;
   onDragEnd: () => void;
-  onHover: (
-    event: React.MouseEvent | null,
+  onCellInteraction: (
+    event: React.MouseEvent | React.TouchEvent,
     slot: ResultHeatmapCellInfo | null
   ) => void;
 }
@@ -25,7 +25,7 @@ function ResultTimeCell({
   onDragStart,
   onDragMove,
   onDragEnd,
-  onHover,
+  onCellInteraction,
 }: ResultTimeCellProps) {
   const cellRef = useRef<HTMLDivElement>(null);
 
@@ -34,9 +34,10 @@ function ResultTimeCell({
       if (!dragDisabled) {
         e.preventDefault();
         onDragStart(timeSlot);
+        onCellInteraction(e as unknown as React.TouchEvent, timeSlot);
       }
     },
-    [dragDisabled, onDragStart, timeSlot]
+    [dragDisabled, onDragStart, onCellInteraction, timeSlot]
   );
 
   const handleTouchMove = useCallback(
@@ -50,10 +51,11 @@ function ResultTimeCell({
             element.getAttribute('data-timeslot') || '{}'
           );
           onDragMove(touchedTimeSlot);
+          onCellInteraction(e as unknown as React.TouchEvent, touchedTimeSlot);
         }
       }
     },
-    [dragDisabled, onDragMove]
+    [dragDisabled, onDragMove, onCellInteraction]
   );
 
   useEffect(() => {
@@ -83,8 +85,11 @@ function ResultTimeCell({
         !dragDisabled && e.buttons === 1 && onDragMove(timeSlot)
       }
       onMouseUp={onDragEnd}
-      onMouseOver={(e) => onHover(e, timeSlot)}
-      onMouseOut={() => onHover(null, null)}
+      onMouseOver={(e) => onCellInteraction(e, timeSlot)}
+      onMouseOut={() =>
+        onCellInteraction(null as unknown as React.MouseEvent, null)
+      }
+      onClick={(e) => onCellInteraction(e, timeSlot)}
       data-timeslot={JSON.stringify(timeSlot)}
       data-hour={timeSlot.hour}
     />
