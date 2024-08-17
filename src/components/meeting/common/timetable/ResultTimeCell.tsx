@@ -8,8 +8,14 @@ interface ResultTimeCellProps {
   isSelected: boolean;
   dragDisabled: boolean;
   intensity: number;
-  onDragStart: (timeSlot: ResultHeatmapCellInfo) => void;
-  onDragMove: (timeSlot: ResultHeatmapCellInfo) => void;
+  onDragStart: (
+    timeSlot: ResultHeatmapCellInfo,
+    event: React.MouseEvent | React.TouchEvent
+  ) => void;
+  onDragMove: (
+    timeSlot: ResultHeatmapCellInfo,
+    event: React.MouseEvent | React.TouchEvent
+  ) => void;
   onDragEnd: () => void;
   onCellInteraction: (
     event: React.MouseEvent | React.TouchEvent,
@@ -33,11 +39,10 @@ function ResultTimeCell({
     (e: TouchEvent) => {
       if (!dragDisabled) {
         e.preventDefault();
-        onDragStart(timeSlot);
-        onCellInteraction(e as unknown as React.TouchEvent, timeSlot);
+        onDragStart(timeSlot, e as unknown as React.TouchEvent);
       }
     },
-    [dragDisabled, onDragStart, onCellInteraction, timeSlot]
+    [dragDisabled, onDragStart, timeSlot]
   );
 
   const handleTouchMove = useCallback(
@@ -50,12 +55,11 @@ function ResultTimeCell({
           const touchedTimeSlot = JSON.parse(
             element.getAttribute('data-timeslot') || '{}'
           );
-          onDragMove(touchedTimeSlot);
-          onCellInteraction(e as unknown as React.TouchEvent, touchedTimeSlot);
+          onDragMove(touchedTimeSlot, e as unknown as React.TouchEvent);
         }
       }
     },
-    [dragDisabled, onDragMove, onCellInteraction]
+    [dragDisabled, onDragMove]
   );
 
   useEffect(() => {
@@ -80,15 +84,13 @@ function ResultTimeCell({
       ref={cellRef}
       selected={isSelected}
       intensity={intensity}
-      onMouseDown={() => !dragDisabled && onDragStart(timeSlot)}
+      onMouseDown={(e) => !dragDisabled && onDragStart(timeSlot, e)}
       onMouseEnter={(e) =>
-        !dragDisabled && e.buttons === 1 && onDragMove(timeSlot)
+        !dragDisabled && e.buttons === 1 && onDragMove(timeSlot, e)
       }
       onMouseUp={onDragEnd}
       onMouseOver={(e) => onCellInteraction(e, timeSlot)}
-      onMouseOut={() =>
-        onCellInteraction(null as unknown as React.MouseEvent, null)
-      }
+      onMouseOut={() => onCellInteraction({} as React.MouseEvent, null)}
       onClick={(e) => onCellInteraction(e, timeSlot)}
       data-timeslot={JSON.stringify(timeSlot)}
       data-hour={timeSlot.hour}

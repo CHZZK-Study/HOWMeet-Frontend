@@ -7,9 +7,10 @@ export const useTimeSelectionLogic = ({
 }: {
   isSelectOption: boolean;
 }) => {
-  const [isDragging, setIsDragging] = useState<boolean>(false);
   const { selectedTimes, selectedResult, toggleTime, toggleSelectedResult } =
     useTimeStore();
+
+  const isDraggingRef = useRef<boolean>(false);
   const lastToggledTimeSlot = useRef<string | null>(null);
   const initialSelectionState = useRef<boolean | null>(null);
 
@@ -31,13 +32,46 @@ export const useTimeSelectionLogic = ({
     [isSelectOption, selectedResult, selectedTimes]
   );
 
-  useEffect(() => {
-    const preventDefault = (e: TouchEvent) => {
-      if (isDragging) {
-        e.preventDefault();
-      }
-    };
+  const handleCellInteraction = useCallback(
+    (
+      event: React.MouseEvent | React.TouchEvent,
+      slot: ResultHeatmapCellInfo | null
+    ) => {
+      if (slot && event && heatmapRef.current) {
+        let clientX: number;
+        let clientY: number;
 
+        if ('touches' in event && event.touches[0]) {
+          clientX = event.touches[0].clientX;
+          clientY = event.touches[0].clientY;
+        } else if ('clientX' in event) {
+          clientX = event.clientX;
+          clientY = event.clientY;
+        } else {
+          return;
+        }
+
+        const heatmapRect = heatmapRef.current.getBoundingClientRect();
+
+        setTooltipInfo({
+          content: `${slot.users.join(', ')} ${slot.userCount}명`,
+          x: clientX - heatmapRect.left,
+          y: clientY - heatmapRect.top + 20,
+        });
+      } else {
+        setTooltipInfo(null);
+      }
+    },
+    []
+  );
+
+  const preventDefault = useCallback((e: TouchEvent) => {
+    if (isDraggingRef.current) {
+      e.preventDefault();
+    }
+  }, []);
+
+  useEffect(() => {
     document.body.addEventListener('touchmove', preventDefault, {
       passive: false,
     });
@@ -45,11 +79,14 @@ export const useTimeSelectionLogic = ({
     return () => {
       document.body.removeEventListener('touchmove', preventDefault);
     };
-  }, [isDragging]);
+  }, [preventDefault]);
 
   const handleDragStart = useCallback(
-    (timeSlot: TimeSlot | ResultHeatmapCellInfo) => {
-      setIsDragging(true);
+    (
+      timeSlot: TimeSlot | ResultHeatmapCellInfo,
+      event: React.MouseEvent | React.TouchEvent
+    ) => {
+      isDraggingRef.current = true;
       initialSelectionState.current = !isSelected(
         timeSlot.hour,
         timeSlot.minute,
@@ -61,13 +98,23 @@ export const useTimeSelectionLogic = ({
         toggleSelectedResult(timeSlot as ResultHeatmapCellInfo);
       }
       lastToggledTimeSlot.current = JSON.stringify(timeSlot);
+      handleCellInteraction(event, timeSlot as ResultHeatmapCellInfo);
     },
-    [isSelectOption, isSelected, toggleSelectedResult, toggleTime]
+    [
+      handleCellInteraction,
+      isSelectOption,
+      isSelected,
+      toggleSelectedResult,
+      toggleTime,
+    ]
   );
 
   const handleDragMove = useCallback(
-    (timeSlot: TimeSlot | ResultHeatmapCellInfo) => {
-      if (isDragging) {
+    (
+      timeSlot: TimeSlot | ResultHeatmapCellInfo,
+      event: React.MouseEvent | React.TouchEvent
+    ) => {
+      if (isDraggingRef.current) {
         const timeSlotString = JSON.stringify(timeSlot);
         if (lastToggledTimeSlot.current !== timeSlotString) {
           const currentlySelected = isSelected(
@@ -84,38 +131,26 @@ export const useTimeSelectionLogic = ({
           }
           lastToggledTimeSlot.current = timeSlotString;
         }
+        handleCellInteraction(event, timeSlot as ResultHeatmapCellInfo);
       }
     },
-    [isDragging, isSelectOption, isSelected, toggleSelectedResult, toggleTime]
+    [
+      handleCellInteraction,
+      isDraggingRef,
+      isSelectOption,
+      isSelected,
+      toggleSelectedResult,
+      toggleTime,
+    ]
   );
 
   const handleDragEnd = useCallback(() => {
     console.log('Drag End');
-    setIsDragging(false);
+    isDraggingRef.current = false;
     lastToggledTimeSlot.current = null;
     initialSelectionState.current = null;
+    setTooltipInfo(null);
   }, []);
-
-  const handleCellInteraction = useCallback(
-    (
-      event: React.MouseEvent | React.TouchEvent,
-      slot: ResultHeatmapCellInfo | null
-    ) => {
-      if (slot && event && heatmapRef.current) {
-        const rect = (event.target as HTMLElement).getBoundingClientRect();
-        const heatmapRect = heatmapRef.current.getBoundingClientRect();
-
-        setTooltipInfo({
-          content: `${slot.users.join(', ')} ${slot.userCount}명`,
-          x: rect.left - heatmapRect.left + rect.width / 2,
-          y: rect.bottom - heatmapRect.top,
-        });
-      } else {
-        setTooltipInfo(null);
-      }
-    },
-    []
-  );
 
   return {
     handleDragStart,
