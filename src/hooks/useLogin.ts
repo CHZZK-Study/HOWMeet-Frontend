@@ -1,5 +1,6 @@
 import { login } from '@/apis/user.api';
 import { STORAGE_KEY } from '@/constants/storage';
+import { handleAllowNotification } from '@/lib/notification';
 import { LoginReq } from '@/models/user.model';
 import useUserStore from '@/store/userStore';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +16,7 @@ export const useLogin = () => {
 
         setUser({ username: nickname, guestId });
         sessionStorage.setItem(STORAGE_KEY.accessToken, accessToken);
+        handleAllowNotification();
         navigate('/new-meeting');
       }
     });
