@@ -65,7 +65,7 @@ function ResultTimeTable({
   return (
     <div ref={heatmapRef} style={{ position: 'relative' }}>
       <BaseTimeTable data={data} renderCell={renderCell} />
-      {tooltipInfo && (
+      {tooltipInfo?.content && (
         <ToolTip
           content={tooltipInfo.content}
           x={tooltipInfo.x}

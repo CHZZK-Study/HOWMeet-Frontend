@@ -54,7 +54,7 @@ export const useTimeSelectionLogic = ({
         const heatmapRect = heatmapRef.current.getBoundingClientRect();
 
         setTooltipInfo({
-          content: `${slot.users.join(', ')} ${slot.userCount}명`,
+          content: `${slot.users.join(', ')}`,
           x: clientX - heatmapRect.left,
           y: clientY - heatmapRect.top + 20,
         });
@@ -145,7 +145,6 @@ export const useTimeSelectionLogic = ({
   );
 
   const handleDragEnd = useCallback(() => {
-    console.log('Drag End');
     isDraggingRef.current = false;
     lastToggledTimeSlot.current = null;
     initialSelectionState.current = null;
