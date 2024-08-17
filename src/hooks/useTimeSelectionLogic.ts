@@ -19,6 +19,7 @@ export const useTimeSelectionLogic = ({
     content: string;
     x: number;
     y: number;
+    isAbove: boolean;
   } | null>(null);
 
   const isSelected = useCallback(
@@ -38,25 +39,33 @@ export const useTimeSelectionLogic = ({
       slot: ResultHeatmapCellInfo | null
     ) => {
       if (slot && event && heatmapRef.current) {
-        let clientX: number;
         let clientY: number;
 
         if ('touches' in event && event.touches[0]) {
-          clientX = event.touches[0].clientX;
           clientY = event.touches[0].clientY;
         } else if ('clientX' in event) {
-          clientX = event.clientX;
           clientY = event.clientY;
         } else {
           return;
         }
 
         const heatmapRect = heatmapRef.current.getBoundingClientRect();
+        const tooltipHeight = 50; // 툴팁의 예상 높이, 실제 높이에 맞게 조정 필요
+        const heatmapHeight = heatmapRect.height;
+        const relativeY = clientY - heatmapRect.top;
+
+        const target = event.target as HTMLElement;
+        const cellRect = target.getBoundingClientRect();
+        const cellCenterX =
+          cellRect.left + cellRect.width / 2 - heatmapRect.left;
+
+        const isNearBottom = relativeY + tooltipHeight + 100 > heatmapHeight;
 
         setTooltipInfo({
           content: `${slot.users.join(', ')}`,
-          x: clientX - heatmapRect.left,
-          y: clientY - heatmapRect.top + 20,
+          x: cellCenterX,
+          y: isNearBottom ? relativeY - tooltipHeight - 30 : relativeY + 20,
+          isAbove: isNearBottom,
         });
       } else {
         setTooltipInfo(null);

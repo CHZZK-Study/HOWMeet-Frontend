@@ -70,6 +70,7 @@ function ResultTimeTable({
           content={tooltipInfo.content}
           x={tooltipInfo.x}
           y={tooltipInfo.y}
+          isAbove={tooltipInfo.isAbove}
         />
       )}
     </div>
