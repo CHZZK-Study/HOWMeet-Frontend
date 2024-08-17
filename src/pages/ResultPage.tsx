@@ -9,6 +9,8 @@ import {
   NormalContainer,
 } from '@/styles/components/container';
 import AttendStatusHeader from '@/components/meeting/result/navbar/AttendStatusHeader';
+import { useTimeStore } from '@/store/meeting/useTimeStore';
+import { formatPostDateTime } from '@/utils/meeting/timetable/formatDateTime';
 
 function ResultPage() {
   const timeTableData: TimeTableData = {
@@ -39,7 +41,9 @@ function ResultPage() {
     ],
     months: ['7/1', '7/2', '7/3', '7/4', '7/5', '7/6', '7/7'],
   };
-  const [isDragged, setIsDragged] = useState<boolean>(false);
+  const [isSelected, setIsSelected] = useState<boolean>(false);
+
+  const { selectedResult } = useTimeStore();
 
   const { isPending, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['selectedTimeData'],
@@ -51,7 +55,7 @@ function ResultPage() {
   if (!data) return <div>데이터가 없습니다</div>;
 
   const handleDrag = () => {
-    setIsDragged(true);
+    console.log('selectedResult: ', formatPostDateTime(selectedResult));
   };
 
   return (
@@ -68,11 +72,17 @@ function ResultPage() {
       <ResultTimeTable
         data={timeTableData}
         roomInfo={data}
-        dragDisabled={!isDragged}
+        dragDisabled={isSelected}
       />
       <ButtonContainer>
-        <Button $style="solid" onClick={handleDrag} disabled={isDragged}>
-          {isDragged ? '드래그로 시간 확정하기' : '일정 확정하기'}
+        <Button
+          $style="solid"
+          onClick={handleDrag}
+          disabled={selectedResult.length === 0}
+        >
+          {selectedResult.length === 0
+            ? '드래그로 시간 확정하기'
+            : '일정 확정하기'}
         </Button>
       </ButtonContainer>
     </NormalContainer>

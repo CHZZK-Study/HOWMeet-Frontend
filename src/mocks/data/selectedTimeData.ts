@@ -1,3 +1,25 @@
+import { TimeTableData } from '@/types/timeTableTypes';
+
+export const timeTableData: TimeTableData = {
+  hours: [
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20',
+    '21',
+    '22',
+  ],
+  days: ['월', '화', '수'],
+  dates: ['2024-07-01', '2024-07-02', '2024-07-03'],
+  months: ['7/1', '7/2', '7/3'],
+};
 export const selectedTimeData = {
   RoomId: 11,
   totalParticipants: {

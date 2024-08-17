@@ -87,10 +87,10 @@ const SelectHalfCell = styled.div<CellProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #ccc;
+  border: 0.1px solid rgba(83, 85, 91, 1);
   background-color: ${(props) => (props.selected ? '#E2F5E3' : 'white')};
   &:first-child {
-    border-bottom: 1px dashed #ccc;
+    border-bottom: 2px dashed #ccc;
   }
   touch-action: none;
 `;

@@ -3,12 +3,14 @@ import Header from '@/components/common/Header';
 import SelectableTimeTable from '@/components/meeting/select/SelectableTimeTable';
 import TimeSelectModalComp from '@/components/meeting/select/TimeSelectCompModal';
 import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
+import useModal from '@/hooks/useModal';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
 import {
   ButtonContainer,
   NormalContainer,
 } from '@/styles/components/container';
 import { TimeTableData } from '@/types/timeTableTypes';
+import { formatPostDateTime } from '@/utils/meeting/timetable/formatDateTime';
 import { useState } from 'react';
 
 function SelectPage() {
@@ -35,7 +37,7 @@ function SelectPage() {
 
   const { selectedTimes } = useTimeStore();
 
-  const [openModal, setOpenModal] = useState(false);
+  const { closeModal, isOpen, openModal } = useModal();
   const [isSelected, setIsSelected] = useState(false);
 
   const handleReWrite = () => {
@@ -43,12 +45,13 @@ function SelectPage() {
   };
 
   const handleModalOpen = () => {
-    setOpenModal(true);
+    closeModal();
     setIsSelected(true);
+    console.log('selectedTimes: ', formatPostDateTime(selectedTimes));
   };
 
   const handleModalClose = () => {
-    setOpenModal(false);
+    openModal();
   };
 
   return (
@@ -71,7 +74,7 @@ function SelectPage() {
           {isSelected ? '수정하기' : '시간 선택 완료'}
         </Button>
       </ButtonContainer>
-      {openModal && <TimeSelectModalComp handleModalClose={handleModalClose} />}
+      {isOpen && <TimeSelectModalComp handleModalClose={handleModalClose} />}
     </NormalContainer>
   );
 }
