@@ -55,7 +55,6 @@ const Header = styled.div`
 const HourCell = styled.div`
   width: 40px;
   display: flex;
-  align-items: center;
   justify-content: flex-end;
   padding-right: 10px;
   font-size: 12px;

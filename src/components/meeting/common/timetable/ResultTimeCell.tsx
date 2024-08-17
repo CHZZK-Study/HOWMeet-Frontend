@@ -99,12 +99,11 @@ const ResultHalfCell = styled.div<CellProps & { intensity: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: ${(props) =>
-    props.selected ? '1.5px solid #000' : '1px solid #ccc'};
+  border: ${(props) => (props.selected ? '2px solid white' : '1px solid #ccc')};
   background-color: ${(props) => getAdjustedColor({ ratio: props.intensity })};
   &:first-child {
     border-bottom: ${(props) =>
-      props.selected ? '1.5px solid #000' : '1px dashed #ccc;'};
+      props.selected ? '2px solid white' : '1px dashed #ccc;'};
   }
   touch-action: none;
   user-select: none;
