@@ -5,8 +5,8 @@ import {
   ResultHeatmapCellInfo,
 } from '@/types/timeTableTypes';
 import ToolTip from '@/components/common/ToolTip';
-import BaseTimeTable from '../common/timetable/BaseTimeTable';
-import ResultTimeCell from '../common/timetable/ResultTimeCell';
+import BaseTimeTable from '../timetable/BaseTimeTable';
+import ResultTimeCell from '../timetable/ResultTimeCell';
 
 interface ResultTimeTableProps {
   data: TimeTableData;

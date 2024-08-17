@@ -1,7 +1,7 @@
-import { TimeTableData } from '@/types/timeTableTypes';
+import { TimeSlot, TimeTableData } from '@/types/timeTableTypes';
 import { useTimeSelectionLogic } from '@/hooks/useTimeSelectionLogic';
-import BaseTimeTable from '../common/timetable/BaseTimeTable';
-import SelectTimeCell from '../common/timetable/SelectTimeCell';
+import BaseTimeTable from '../timetable/BaseTimeTable';
+import SelectTimeCell from '../timetable/SelectTimeCell';
 
 interface SelectableTimeTableProps {
   data: TimeTableData;
@@ -30,8 +30,8 @@ function SelectableTimeTable({
         timeSlot={timeSlot}
         isSelected={isSelected(hour, minute, timeSlot.day)}
         dragDisabled={dragDisabled}
-        onDragStart={handleDragStart}
-        onDragMove={handleDragMove}
+        onDragStart={handleDragStart as (timeSlot: TimeSlot) => void}
+        onDragMove={handleDragMove as (timeSlot: TimeSlot) => void}
         onDragEnd={handleDragEnd}
       />
     );
