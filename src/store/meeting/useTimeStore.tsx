@@ -24,7 +24,12 @@ export const useTimeStore = create<TimeStore>((set) => ({
   selectedResult: [],
   toggleSelectedResult: (result) =>
     set((state) => {
-      const index = state.selectedTimes.findIndex(
+      if (state.selectedResult[0]?.date !== result.date) {
+        return {
+          selectedResult: [result],
+        };
+      }
+      const index = state.selectedResult.findIndex(
         (t) =>
           t.hour === result.hour &&
           t.minute === result.minute &&

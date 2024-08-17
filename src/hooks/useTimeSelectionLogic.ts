@@ -49,7 +49,6 @@ export const useTimeSelectionLogic = ({
 
   const handleDragStart = useCallback(
     (timeSlot: TimeSlot | ResultHeatmapCellInfo) => {
-      console.log('Drag Start:', timeSlot);
       setIsDragging(true);
       initialSelectionState.current = !isSelected(
         timeSlot.hour,
@@ -68,7 +67,6 @@ export const useTimeSelectionLogic = ({
 
   const handleDragMove = useCallback(
     (timeSlot: TimeSlot | ResultHeatmapCellInfo) => {
-      console.log('Drag Move:', timeSlot);
       if (isDragging) {
         const timeSlotString = JSON.stringify(timeSlot);
         if (lastToggledTimeSlot.current !== timeSlotString) {
