@@ -1,10 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import {
-  CellProps,
-  TimeSlot,
-  ResultHeatmapCellInfo,
-} from '@/types/timeTableTypes';
+import { CellProps, ResultHeatmapCellInfo } from '@/types/timeTableTypes';
 import getAdjustedColor from '@/utils/meeting/timetable/getAdjustedColor';
 
 interface ResultTimeCellProps {
@@ -12,8 +8,8 @@ interface ResultTimeCellProps {
   isSelected: boolean;
   dragDisabled: boolean;
   intensity: number;
-  onDragStart: (timeSlot: TimeSlot) => void;
-  onDragMove: (timeSlot: TimeSlot) => void;
+  onDragStart: () => void;
+  onDragMove: () => void;
   onDragEnd: () => void;
   onHover: (
     event: React.MouseEvent | null,
@@ -35,43 +31,42 @@ function ResultTimeCell({
     (e: React.TouchEvent) => {
       if (!dragDisabled) {
         e.preventDefault();
-        onDragStart(timeSlot);
+        onDragStart();
       }
     },
-    [dragDisabled, onDragStart, timeSlot]
+    [dragDisabled, onDragStart]
   );
 
   const handleTouchMove = useCallback(
     (e: React.TouchEvent) => {
       if (!dragDisabled) {
         e.preventDefault();
-        const touch = e.touches[0];
-        const element = document.elementFromPoint(touch.clientX, touch.clientY);
-        if (element && element.getAttribute('data-timeslot')) {
-          const touchedTimeSlot = JSON.parse(
-            element.getAttribute('data-timeslot') || '{}'
-          );
-          onDragMove(touchedTimeSlot);
-        }
+        onDragMove();
       }
     },
     [dragDisabled, onDragMove]
   );
 
+  const handleMouseDown = useCallback(() => {
+    if (!dragDisabled) {
+      onDragStart();
+    }
+  }, [dragDisabled, onDragStart]);
+
   const handleMouseEnter = useCallback(
     (e: React.MouseEvent) => {
       if (!dragDisabled && e.buttons === 1) {
-        onDragMove(timeSlot);
+        onDragMove();
       }
     },
-    [dragDisabled, onDragMove, timeSlot]
+    [dragDisabled, onDragMove]
   );
 
   return (
     <ResultHalfCell
       selected={isSelected}
       intensity={intensity}
-      onMouseDown={() => !dragDisabled && onDragStart(timeSlot)}
+      onMouseDown={handleMouseDown}
       onMouseEnter={handleMouseEnter}
       onMouseUp={onDragEnd}
       onTouchStart={handleTouchStart}
@@ -85,13 +80,16 @@ function ResultTimeCell({
   );
 }
 
-export default React.memo(ResultTimeCell);
+const MemoizedResultTimeCell = React.memo(ResultTimeCell);
+export default MemoizedResultTimeCell;
 
 const ResultHalfCell = styled.div<CellProps & { intensity: number }>`
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: ${(props) =>
+    props.selected ? '1.5px solid #000' : '1px solid #ccc'};
   background-color: ${(props) => getAdjustedColor({ ratio: props.intensity })};
   &:first-child {
     border-bottom: 1px dashed #ccc;

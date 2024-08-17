@@ -1,6 +1,6 @@
 // timeStore.ts
 import { ResultHeatmapCellInfo } from '@/types/timeTableTypes';
-import create from 'zustand';
+import { create } from 'zustand';
 
 interface TimeSlot {
   hour: string;
@@ -24,8 +24,11 @@ export const useTimeStore = create<TimeStore>((set) => ({
   selectedResult: [],
   toggleSelectedResult: (result) =>
     set((state) => {
-      const index = state.selectedResult.findIndex(
-        (r) => r.time === result.time
+      const index = state.selectedTimes.findIndex(
+        (t) =>
+          t.hour === result.hour &&
+          t.minute === result.minute &&
+          t.day === result.day
       );
       if (index > -1) {
         return {

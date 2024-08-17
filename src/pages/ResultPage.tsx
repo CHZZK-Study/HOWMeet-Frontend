@@ -72,7 +72,7 @@ function ResultPage() {
       />
       <ButtonContainer>
         <Button $style="solid" onClick={handleDrag} disabled={isDragged}>
-          {isDragged ? '일정 확정하기' : '드래그로 시간 확정하기'}
+          {isDragged ? '드래그로 시간 확정하기' : '일정 확정하기'}
         </Button>
       </ButtonContainer>
     </NormalContainer>

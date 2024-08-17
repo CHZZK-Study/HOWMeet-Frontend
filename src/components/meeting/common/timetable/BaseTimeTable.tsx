@@ -87,7 +87,6 @@ const Row = styled.div`
 const CellGroup = styled.div`
   flex: 1;
   height: 40px;
-  border: 1px solid #ccc;
   display: flex;
   flex-direction: column;
 `;

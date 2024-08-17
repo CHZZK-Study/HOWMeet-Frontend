@@ -48,7 +48,8 @@ export const useTimeSelectionLogic = ({
   }, [isDragging]);
 
   const handleDragStart = useCallback(
-    (timeSlot: TimeSlot) => {
+    (timeSlot: TimeSlot | ResultHeatmapCellInfo) => {
+      console.log('Drag Start:', timeSlot);
       setIsDragging(true);
       initialSelectionState.current = !isSelected(
         timeSlot.hour,
@@ -56,9 +57,9 @@ export const useTimeSelectionLogic = ({
         timeSlot.day
       );
       if (isSelectOption) {
-        toggleTime(timeSlot);
+        toggleTime(timeSlot as TimeSlot);
       } else {
-        toggleSelectedResult(timeSlot);
+        toggleSelectedResult(timeSlot as ResultHeatmapCellInfo);
       }
       lastToggledTimeSlot.current = JSON.stringify(timeSlot);
     },
@@ -66,7 +67,8 @@ export const useTimeSelectionLogic = ({
   );
 
   const handleDragMove = useCallback(
-    (timeSlot: TimeSlot) => {
+    (timeSlot: TimeSlot | ResultHeatmapCellInfo) => {
+      console.log('Drag Move:', timeSlot);
       if (isDragging) {
         const timeSlotString = JSON.stringify(timeSlot);
         if (lastToggledTimeSlot.current !== timeSlotString) {
@@ -77,9 +79,9 @@ export const useTimeSelectionLogic = ({
           );
           if (currentlySelected !== initialSelectionState.current) {
             if (isSelectOption) {
-              toggleTime(timeSlot);
+              toggleTime(timeSlot as TimeSlot);
             } else {
-              toggleSelectedResult(timeSlot);
+              toggleSelectedResult(timeSlot as ResultHeatmapCellInfo);
             }
           }
           lastToggledTimeSlot.current = timeSlotString;
@@ -90,6 +92,7 @@ export const useTimeSelectionLogic = ({
   );
 
   const handleDragEnd = useCallback(() => {
+    console.log('Drag End');
     setIsDragging(false);
     lastToggledTimeSlot.current = null;
     initialSelectionState.current = null;

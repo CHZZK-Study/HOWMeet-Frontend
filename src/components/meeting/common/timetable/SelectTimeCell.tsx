@@ -86,6 +86,7 @@ const SelectHalfCell = styled.div<CellProps>`
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid #ccc;
   background-color: ${(props) => (props.selected ? '#E2F5E3' : 'white')};
   &:first-child {
     border-bottom: 1px dashed #ccc;

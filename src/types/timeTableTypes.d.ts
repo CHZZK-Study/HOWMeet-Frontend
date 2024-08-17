@@ -16,7 +16,6 @@ export interface ResultHeatmapProps {
 }
 
 export interface ResultHeatmapCellInfo {
-  time: string;
   users: string[];
   userCount: number;
   hour: string;
