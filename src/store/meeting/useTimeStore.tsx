@@ -1,5 +1,5 @@
 // timeStore.ts
-import { ResultHeatmapCellInfo } from '@/types/ResultHeatmap';
+import { ResultHeatmapCellInfo } from '@/types/timeTableTypes';
 import create from 'zustand';
 
 interface TimeSlot {

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { CellProps, TimeSlot } from '@/types/timeTableTypes';
 
-interface TimeCellProps {
+interface SelectTimeCellProps {
   timeSlot: TimeSlot;
   isSelected: boolean;
   dragDisabled: boolean;
@@ -11,18 +11,18 @@ interface TimeCellProps {
   onDragEnd: () => void;
 }
 
-function TimeCell({
+function SelectTimeCell({
   timeSlot,
   isSelected,
   dragDisabled,
   onDragStart,
   onDragMove,
   onDragEnd,
-}: TimeCellProps) {
+}: SelectTimeCellProps) {
   const handleTouchStart = useCallback(
     (e: React.TouchEvent) => {
       if (!dragDisabled) {
-        e.preventDefault(); // Prevent scrolling
+        e.preventDefault();
         onDragStart(timeSlot);
       }
     },
@@ -32,7 +32,7 @@ function TimeCell({
   const handleTouchMove = useCallback(
     (e: React.TouchEvent) => {
       if (!dragDisabled) {
-        e.preventDefault(); // Prevent scrolling
+        e.preventDefault();
         const touch = e.touches[0];
         const element = document.elementFromPoint(touch.clientX, touch.clientY);
         if (element && element.getAttribute('data-timeslot')) {
@@ -46,16 +46,8 @@ function TimeCell({
     [dragDisabled, onDragMove]
   );
 
-  const handleTouchEnd = useCallback(
-    (e: React.TouchEvent) => {
-      e.preventDefault(); // Prevent any default behavior
-      onDragEnd();
-    },
-    [onDragEnd]
-  );
-
   return (
-    <HalfCell
+    <SelectHalfCell
       selected={isSelected}
       onMouseDown={() => !dragDisabled && onDragStart(timeSlot)}
       onMouseEnter={(e) =>
@@ -64,16 +56,15 @@ function TimeCell({
       onMouseUp={onDragEnd}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
+      onTouchEnd={onDragEnd}
       data-timeslot={JSON.stringify(timeSlot)}
     />
   );
 }
 
-const MemoizedTimeCell = React.memo(TimeCell);
-export default MemoizedTimeCell;
+export default React.memo(SelectTimeCell);
 
-const HalfCell = styled.div<CellProps>`
+const SelectHalfCell = styled.div<CellProps>`
   flex: 1;
   display: flex;
   align-items: center;
@@ -82,5 +73,5 @@ const HalfCell = styled.div<CellProps>`
   &:first-child {
     border-bottom: 1px dashed #ccc;
   }
-  touch-action: none; // Disable browser handling of all panning and zooming gestures
+  touch-action: none;
 `;

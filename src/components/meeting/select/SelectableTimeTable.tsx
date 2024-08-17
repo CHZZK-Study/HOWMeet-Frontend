@@ -1,7 +1,7 @@
-import { TimeTableData, TimeSlot } from '@/types/timeTableTypes';
-import BaseTimeTable from '../common/timetable/BaseTimeTable';
-import TimeCell from '../common/timetable/TimeCell';
+import { TimeTableData } from '@/types/timeTableTypes';
 import { useTimeSelectionLogic } from '@/hooks/useTimeSelectionLogic';
+import BaseTimeTable from '../common/timetable/BaseTimeTable';
+import SelectTimeCell from '../common/timetable/SelectTimeCell';
 
 interface SelectableTimeTableProps {
   data: TimeTableData;
@@ -13,10 +13,10 @@ function SelectableTimeTable({
   dragDisabled = false,
 }: SelectableTimeTableProps) {
   const { handleDragStart, handleDragMove, handleDragEnd, isSelected } =
-    useTimeSelectionLogic();
+    useTimeSelectionLogic({ isSelectOption: true });
 
   const renderCell = (hour: string, date: string, minute: string) => {
-    const timeSlot: TimeSlot = {
+    const timeSlot = {
       hour,
       minute,
       day: data.days[data.dates.indexOf(date)],
@@ -25,14 +25,14 @@ function SelectableTimeTable({
     };
 
     return (
-      <TimeCell
+      <SelectTimeCell
         key={`${hour}-${date}-${minute}`}
         timeSlot={timeSlot}
         isSelected={isSelected(hour, minute, timeSlot.day)}
-        onDragStart={dragDisabled ? undefined : handleDragStart}
-        onDragMove={dragDisabled ? undefined : handleDragMove}
-        onDragEnd={dragDisabled ? undefined : handleDragEnd}
-        mode="select"
+        dragDisabled={dragDisabled}
+        onDragStart={handleDragStart}
+        onDragMove={handleDragMove}
+        onDragEnd={handleDragEnd}
       />
     );
   };
