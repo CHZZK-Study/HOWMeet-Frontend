@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useTimeSelectionLogic } from '@/hooks/useTimeSelectionLogic';
 import {
   TimeTableData,
@@ -30,30 +30,6 @@ function ResultTimeTable({
     heatmapRef,
   } = useTimeSelectionLogic({ isSelectOption: false });
 
-  const handleCellDragStart = useCallback(
-    (timeSlot: ResultHeatmapCellInfo) => {
-      if (!dragDisabled) {
-        handleDragStart(timeSlot);
-      }
-    },
-    [dragDisabled, handleDragStart]
-  );
-
-  const handleCellDragMove = useCallback(
-    (timeSlot: ResultHeatmapCellInfo) => {
-      if (!dragDisabled) {
-        handleDragMove(timeSlot);
-      }
-    },
-    [dragDisabled, handleDragMove]
-  );
-
-  const handleCellDragEnd = useCallback(() => {
-    if (!dragDisabled) {
-      handleDragEnd();
-    }
-  }, [dragDisabled, handleDragEnd]);
-
   const renderCell = (hour: string, date: string, minute: string) => {
     const slot = roomInfo.selectTime.find(
       (s) => s.time === `${date}T${hour}:${minute}`
@@ -80,9 +56,9 @@ function ResultTimeTable({
         intensity={intensity}
         dragDisabled={dragDisabled}
         onHover={(e) => handleCellHover(e, timeSlot)}
-        onDragStart={() => handleCellDragStart(timeSlot)}
-        onDragMove={() => handleCellDragMove(timeSlot)}
-        onDragEnd={handleCellDragEnd}
+        onDragStart={handleDragStart}
+        onDragMove={handleDragMove}
+        onDragEnd={handleDragEnd}
       />
     );
   };

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { CellProps, ResultHeatmapCellInfo } from '@/types/timeTableTypes';
 import getAdjustedColor from '@/utils/meeting/timetable/getAdjustedColor';
@@ -8,8 +8,8 @@ interface ResultTimeCellProps {
   isSelected: boolean;
   dragDisabled: boolean;
   intensity: number;
-  onDragStart: () => void;
-  onDragMove: () => void;
+  onDragStart: (timeSlot: ResultHeatmapCellInfo) => void;
+  onDragMove: (timeSlot: ResultHeatmapCellInfo) => void;
   onDragEnd: () => void;
   onHover: (
     event: React.MouseEvent | null,
@@ -27,51 +27,62 @@ function ResultTimeCell({
   onDragEnd,
   onHover,
 }: ResultTimeCellProps) {
+  const cellRef = useRef<HTMLDivElement>(null);
+
   const handleTouchStart = useCallback(
-    (e: React.TouchEvent) => {
+    (e: TouchEvent) => {
       if (!dragDisabled) {
         e.preventDefault();
-        onDragStart();
+        onDragStart(timeSlot);
       }
     },
-    [dragDisabled, onDragStart]
+    [dragDisabled, onDragStart, timeSlot]
   );
 
   const handleTouchMove = useCallback(
-    (e: React.TouchEvent) => {
+    (e: TouchEvent) => {
       if (!dragDisabled) {
         e.preventDefault();
-        onDragMove();
+        const touch = e.touches[0];
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (element && element.getAttribute('data-timeslot')) {
+          const touchedTimeSlot = JSON.parse(
+            element.getAttribute('data-timeslot') || '{}'
+          );
+          onDragMove(touchedTimeSlot);
+        }
       }
     },
     [dragDisabled, onDragMove]
   );
 
-  const handleMouseDown = useCallback(() => {
-    if (!dragDisabled) {
-      onDragStart();
+  useEffect(() => {
+    const cell = cellRef.current;
+    if (cell) {
+      cell.addEventListener('touchstart', handleTouchStart, { passive: false });
+      cell.addEventListener('touchmove', handleTouchMove, { passive: false });
+      cell.addEventListener('touchend', onDragEnd, { passive: false });
     }
-  }, [dragDisabled, onDragStart]);
 
-  const handleMouseEnter = useCallback(
-    (e: React.MouseEvent) => {
-      if (!dragDisabled && e.buttons === 1) {
-        onDragMove();
+    return () => {
+      if (cell) {
+        cell.removeEventListener('touchstart', handleTouchStart);
+        cell.removeEventListener('touchmove', handleTouchMove);
+        cell.removeEventListener('touchend', onDragEnd);
       }
-    },
-    [dragDisabled, onDragMove]
-  );
+    };
+  }, [handleTouchStart, handleTouchMove, onDragEnd]);
 
   return (
     <ResultHalfCell
+      ref={cellRef}
       selected={isSelected}
       intensity={intensity}
-      onMouseDown={handleMouseDown}
-      onMouseEnter={handleMouseEnter}
+      onMouseDown={() => !dragDisabled && onDragStart(timeSlot)}
+      onMouseEnter={(e) =>
+        !dragDisabled && e.buttons === 1 && onDragMove(timeSlot)
+      }
       onMouseUp={onDragEnd}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={onDragEnd}
       onMouseOver={(e) => onHover(e, timeSlot)}
       onMouseOut={() => onHover(null, null)}
       data-timeslot={JSON.stringify(timeSlot)}
@@ -92,7 +103,9 @@ const ResultHalfCell = styled.div<CellProps & { intensity: number }>`
     props.selected ? '1.5px solid #000' : '1px solid #ccc'};
   background-color: ${(props) => getAdjustedColor({ ratio: props.intensity })};
   &:first-child {
-    border-bottom: 1px dashed #ccc;
+    border-bottom: ${(props) =>
+      props.selected ? '1.5px solid #000' : '1px dashed #ccc;'};
   }
   touch-action: none;
+  user-select: none;
 `;
