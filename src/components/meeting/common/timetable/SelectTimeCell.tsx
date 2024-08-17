@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { CellProps, TimeSlot } from '@/types/timeTableTypes';
 
@@ -19,8 +19,10 @@ function SelectTimeCell({
   onDragMove,
   onDragEnd,
 }: SelectTimeCellProps) {
+  const cellRef = useRef<HTMLDivElement>(null);
+
   const handleTouchStart = useCallback(
-    (e: React.TouchEvent) => {
+    (e: TouchEvent) => {
       if (!dragDisabled) {
         e.preventDefault();
         onDragStart(timeSlot);
@@ -30,7 +32,7 @@ function SelectTimeCell({
   );
 
   const handleTouchMove = useCallback(
-    (e: React.TouchEvent) => {
+    (e: TouchEvent) => {
       if (!dragDisabled) {
         e.preventDefault();
         const touch = e.touches[0];
@@ -46,17 +48,32 @@ function SelectTimeCell({
     [dragDisabled, onDragMove]
   );
 
+  useEffect(() => {
+    const cell = cellRef.current;
+    if (cell) {
+      cell.addEventListener('touchstart', handleTouchStart, { passive: false });
+      cell.addEventListener('touchmove', handleTouchMove, { passive: false });
+      cell.addEventListener('touchend', onDragEnd, { passive: false });
+    }
+
+    return () => {
+      if (cell) {
+        cell.removeEventListener('touchstart', handleTouchStart);
+        cell.removeEventListener('touchmove', handleTouchMove);
+        cell.removeEventListener('touchend', onDragEnd);
+      }
+    };
+  }, [handleTouchStart, handleTouchMove, onDragEnd]);
+
   return (
     <SelectHalfCell
+      ref={cellRef}
       selected={isSelected}
       onMouseDown={() => !dragDisabled && onDragStart(timeSlot)}
       onMouseEnter={(e) =>
         !dragDisabled && e.buttons === 1 && onDragMove(timeSlot)
       }
       onMouseUp={onDragEnd}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={onDragEnd}
       data-timeslot={JSON.stringify(timeSlot)}
     />
   );

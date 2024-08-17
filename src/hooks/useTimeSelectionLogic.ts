@@ -22,13 +22,8 @@ export const useTimeSelectionLogic = ({
 
   const isSelected = useCallback(
     (hour: string, minute: string, day: string): boolean => {
-      if (isSelectOption) {
-        return selectedTimes.some(
-          (time) =>
-            time.hour === hour && time.minute === minute && time.day === day
-        );
-      }
-      return selectedResult.some(
+      const selectedArray = isSelectOption ? selectedTimes : selectedResult;
+      return selectedArray.some(
         (time) =>
           time.hour === hour && time.minute === minute && time.day === day
       );
@@ -100,23 +95,23 @@ export const useTimeSelectionLogic = ({
     initialSelectionState.current = null;
   }, []);
 
-  const handleCellHover = (
-    event: React.MouseEvent,
-    slot: ResultHeatmapCellInfo | null
-  ) => {
-    if (slot && heatmapRef.current) {
-      const rect = event.currentTarget.getBoundingClientRect();
-      const heatmapRect = heatmapRef.current.getBoundingClientRect();
+  const handleCellHover = useCallback(
+    (event: React.MouseEvent | null, slot: ResultHeatmapCellInfo | null) => {
+      if (slot && event && heatmapRef.current) {
+        const rect = (event.target as HTMLElement).getBoundingClientRect();
+        const heatmapRect = heatmapRef.current.getBoundingClientRect();
 
-      setTooltipInfo({
-        content: `${slot.users.join(', ')} ${slot.userCount}명`,
-        x: rect.left - heatmapRect.left + rect.width / 2,
-        y: rect.bottom - heatmapRect.top,
-      });
-    } else {
-      setTooltipInfo(null);
-    }
-  };
+        setTooltipInfo({
+          content: `${slot.users.join(', ')} ${slot.userCount}명`,
+          x: rect.left - heatmapRect.left + rect.width / 2,
+          y: rect.bottom - heatmapRect.top,
+        });
+      } else {
+        setTooltipInfo(null);
+      }
+    },
+    []
+  );
 
   return {
     handleDragStart,

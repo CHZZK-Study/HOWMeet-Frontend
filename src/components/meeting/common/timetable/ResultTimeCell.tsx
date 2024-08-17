@@ -16,7 +16,7 @@ interface ResultTimeCellProps {
   onDragMove: (timeSlot: TimeSlot) => void;
   onDragEnd: () => void;
   onHover: (
-    event: React.MouseEvent,
+    event: React.MouseEvent | null,
     slot: ResultHeatmapCellInfo | null
   ) => void;
 }
@@ -31,7 +31,6 @@ function ResultTimeCell({
   onDragEnd,
   onHover,
 }: ResultTimeCellProps) {
-  console.log('intensity: ', intensity);
   const handleTouchStart = useCallback(
     (e: React.TouchEvent) => {
       if (!dragDisabled) {
@@ -52,22 +51,16 @@ function ResultTimeCell({
           const touchedTimeSlot = JSON.parse(
             element.getAttribute('data-timeslot') || '{}'
           );
-          if (touchedTimeSlot.hour === timeSlot.hour) {
-            onDragMove(touchedTimeSlot);
-          }
+          onDragMove(touchedTimeSlot);
         }
       }
     },
-    [dragDisabled, onDragMove, timeSlot.hour]
+    [dragDisabled, onDragMove]
   );
 
   const handleMouseEnter = useCallback(
     (e: React.MouseEvent) => {
-      if (
-        !dragDisabled &&
-        e.buttons === 1 &&
-        e.currentTarget.getAttribute('data-hour') === timeSlot.hour
-      ) {
+      if (!dragDisabled && e.buttons === 1) {
         onDragMove(timeSlot);
       }
     },
@@ -85,7 +78,7 @@ function ResultTimeCell({
       onTouchMove={handleTouchMove}
       onTouchEnd={onDragEnd}
       onMouseOver={(e) => onHover(e, timeSlot)}
-      onMouseOut={() => onHover({} as React.MouseEvent, null)}
+      onMouseOut={() => onHover(null, null)}
       data-timeslot={JSON.stringify(timeSlot)}
       data-hour={timeSlot.hour}
     />
@@ -99,8 +92,7 @@ const ResultHalfCell = styled.div<CellProps & { intensity: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => getAdjustedColor(props.intensity)};
-
+  background-color: ${(props) => getAdjustedColor({ ratio: props.intensity })};
   &:first-child {
     border-bottom: 1px dashed #ccc;
   }
