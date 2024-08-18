@@ -1,11 +1,14 @@
+import { useLogOutModal } from '@/store/useModalStore';
 import { LogoTitleIcon, LogOutIcon } from 'public/assets/icons';
 import styled from 'styled-components';
 
 function HomeHeader() {
+  const openLogout = useLogOutModal((state) => state.open);
+
   return (
     <Header>
       <LogoTitleIcon />
-      <LogOutIcon />
+      <LogOutIcon onClick={openLogout} />
     </Header>
   );
 }
