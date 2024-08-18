@@ -8,9 +8,11 @@ import {
   ButtonContainer,
   NormalContainer,
 } from '@/styles/components/container';
-import AttendStatusHeader from '@/components/meeting/result/navbar/AttendStatusHeader';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
 import { formatPostDateTime } from '@/utils/meeting/timetable/formatDateTime';
+import ResultTimeSeleModal from '@/components/meeting/result/ResultTimeSeleModal';
+import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
+import useModal from '@/hooks/useModal';
 
 function ResultPage() {
   const timeTableData: TimeTableData = {
@@ -41,8 +43,9 @@ function ResultPage() {
     ],
     months: ['7/1', '7/2', '7/3', '7/4', '7/5', '7/6', '7/7'],
   };
-  const [isSelected, setIsSelected] = useState<boolean>(false);
 
+  const [isSelected, setIsSelected] = useState(false);
+  const { isOpen, closeModal, openModal } = useModal();
   const { selectedResult } = useTimeStore();
 
   const { isPending, error, data } = useQuery<ResultHeatmapProps>({
@@ -54,7 +57,9 @@ function ResultPage() {
   if (error) return <div>에러가 발생했습니다</div>;
   if (!data) return <div>데이터가 없습니다</div>;
 
-  const handleDrag = () => {
+  const handleDecide = () => {
+    openModal();
+    setIsSelected(true);
     console.log('selectedResult: ', formatPostDateTime(selectedResult));
   };
 
@@ -77,7 +82,7 @@ function ResultPage() {
       <ButtonContainer>
         <Button
           $style="solid"
-          onClick={handleDrag}
+          onClick={handleDecide}
           disabled={selectedResult.length === 0}
         >
           {selectedResult.length === 0
@@ -85,6 +90,12 @@ function ResultPage() {
             : '일정 확정하기'}
         </Button>
       </ButtonContainer>
+      {isOpen ? (
+        <ResultTimeSeleModal
+          handleModalClose={closeModal}
+          decidedTime={selectedResult}
+        />
+      ) : null}
     </NormalContainer>
   );
 }

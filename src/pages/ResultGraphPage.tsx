@@ -1,13 +1,64 @@
+import Button from '@/components/common/Button';
+import Header from '@/components/common/Header';
+import ResultInfoComp from '@/components/meeting/result/ResultInfoComp';
+import ResultNavbar from '@/components/meeting/result/ResultNavbar';
+import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
 import { NormalContainer } from '@/styles/components/container';
+import { ResultHeatmapProps, TimeTableData } from '@/types/timeTableTypes';
+import { useQuery } from '@tanstack/react-query';
 
 function ResultGraphPage() {
+  const timeTableData: TimeTableData = {
+    hours: [
+      '10',
+      '11',
+      '12',
+      '13',
+      '14',
+      '15',
+      '16',
+      '17',
+      '18',
+      '19',
+      '20',
+      '21',
+      '22',
+    ],
+    days: ['월', '화', '수', '목', '금', '토', '일'],
+    dates: [
+      '2024-07-01',
+      '2024-07-02',
+      '2024-07-03',
+      '2024-07-04',
+      '2024-07-05',
+      '2024-07-06',
+      '2024-07-07',
+    ],
+    months: ['7/1', '7/2', '7/3', '7/4', '7/5', '7/6', '7/7'],
+  };
+
+  const { isPending, error, data } = useQuery<ResultHeatmapProps>({
+    queryKey: ['selectedTimeData'],
+    queryFn: () => fetch('/selectedResult').then((res) => res.json()),
+  });
+
+  if (isPending) return <div>로딩중...</div>;
+  if (error) return <div>에러가 발생했습니다</div>;
+  if (!data) return <div>데이터가 없습니다</div>;
+
+  const handleClick = () => {
+    console.log('click');
+  };
+
   return (
     <NormalContainer>
-      {/* <SelectNavbar
-        handleSelectOption={handleSelectOption}
-        selectedOption={selectedOption}
-      />
-      <ResultHeatmap data={timeTableData} roomInfo={dummyData} /> */}
+      <Header title="일정 조율" />
+      <ResultNavbar />
+      <ResultInfoComp />
+      <ResultTimeTable roomInfo={data} data={timeTableData} dragDisabled />
+      <Button $style="solid" onClick={handleClick}>
+        공유하기
+      </Button>
     </NormalContainer>
   );
 }

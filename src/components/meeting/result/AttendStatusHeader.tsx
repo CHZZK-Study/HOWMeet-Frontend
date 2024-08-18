@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
-import ResultBottomSheet from '../bottomsheet/ResultBottomSheet';
+import ResultBottomSheet from './ResultBottomSheet';
 
 function AttendStatusHeader({
   TotalParticipants,
@@ -28,8 +28,9 @@ function AttendStatusHeader({
       ) : (
         <AttendStatusHeaderContainer>
           <Title>일정 조율 중</Title>
+          <GrayColLine />
           <AttendStatus>
-            (현재 참여인원 : {TotalParticipants}명 중) 참여자
+            현재 참여인원 : {TotalParticipants}명 중 참여자
             <AttendParticipantCount onClick={openBottomSheet}>
               {currentParticipants}명
             </AttendParticipantCount>
@@ -65,6 +66,13 @@ const AttendStatus = styled.div`
   display: flex;
   align-items: center;
   margin-left: 10px;
+`;
+
+const GrayColLine = styled.div`
+  width: 1px;
+  height: 20px;
+  background-color: ${theme.color.primary.black};
+  margin: 0 10px;
 `;
 
 const AttendParticipantCount = styled.span`
