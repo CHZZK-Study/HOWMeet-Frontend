@@ -68,7 +68,7 @@ const AttendStatus = styled.div`
   margin-left: 10px;
 `;
 
-const GrayColLine = styled.div`
+export const GrayColLine = styled.div`
   width: 1px;
   height: 20px;
   background-color: ${theme.color.primary.black};

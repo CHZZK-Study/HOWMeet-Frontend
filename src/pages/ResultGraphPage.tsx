@@ -6,6 +6,8 @@ import ResultInfoComp, {
 } from '@/components/meeting/result/ResultInfoComp';
 import ResultNavbar from '@/components/meeting/result/ResultNavbar';
 import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
+import UrlShareModal from '@/components/meeting/result/UrlShareModal';
+import useModal from '@/hooks/useModal';
 import {
   ButtonContainer,
   NormalContainer,
@@ -14,6 +16,8 @@ import { ResultHeatmapProps, TimeTableData } from '@/types/timeTableTypes';
 import { useQuery } from '@tanstack/react-query';
 
 function ResultGraphPage() {
+  const { isOpen, closeModal, openModal } = useModal();
+
   const timeTableData: TimeTableData = {
     hours: [
       '10',
@@ -53,6 +57,7 @@ function ResultGraphPage() {
   if (!data) return <div>데이터가 없습니다</div>;
 
   const handleClick = () => {
+    openModal();
     console.log('click');
   };
 
@@ -71,6 +76,7 @@ function ResultGraphPage() {
           공유하기
         </Button>
       </ButtonContainer>
+      {isOpen && <UrlShareModal handleModalClose={closeModal} />}
     </NormalContainer>
   );
 }

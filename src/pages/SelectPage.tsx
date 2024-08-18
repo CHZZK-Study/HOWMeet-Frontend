@@ -11,7 +11,7 @@ import {
 } from '@/styles/components/container';
 import { TimeTableData } from '@/types/timeTableTypes';
 import { formatPostDateTime } from '@/utils/meeting/timetable/formatDateTime';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function SelectPage() {
   const timeTableData: TimeTableData = {
@@ -40,18 +40,18 @@ function SelectPage() {
   const { closeModal, isOpen, openModal } = useModal();
   const [isSelected, setIsSelected] = useState(false);
 
+  useEffect(() => {
+    console.log(isOpen);
+  }, [isOpen]);
+
   const handleReWrite = () => {
     setIsSelected(false);
   };
 
   const handleModalOpen = () => {
-    closeModal();
+    openModal();
     setIsSelected(true);
     console.log('selectedTimes: ', formatPostDateTime(selectedTimes));
-  };
-
-  const handleModalClose = () => {
-    openModal();
   };
 
   return (
@@ -74,7 +74,7 @@ function SelectPage() {
           {isSelected ? '수정하기' : '시간 선택 완료'}
         </Button>
       </ButtonContainer>
-      {isOpen && <TimeSelectModalComp handleModalClose={handleModalClose} />}
+      {isOpen && <TimeSelectModalComp handleModalClose={closeModal} />}
     </NormalContainer>
   );
 }

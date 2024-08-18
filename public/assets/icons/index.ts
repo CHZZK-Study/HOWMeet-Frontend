@@ -13,7 +13,7 @@ export { default as ClearIcon } from './form/clear.svg?react';
 export { default as EyeOffIcon } from './form/visibility-off.svg?react';
 export { default as EyeOnIcon } from './form/visibility-on.svg?react';
 export { default as CheckIcon } from './form/check.svg?react';
-export { default as urlIcon } from './form/url.svg?react';
+export { default as UrlIcon } from './form/url.svg?react';
 
 // login
 export { default as GoogleIcon } from './login/google.svg?react';
