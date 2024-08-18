@@ -1,9 +1,15 @@
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
-import ResultInfoComp from '@/components/meeting/result/ResultInfoComp';
+import ResultInfoComp, {
+  BackLayout,
+  Container,
+} from '@/components/meeting/result/ResultInfoComp';
 import ResultNavbar from '@/components/meeting/result/ResultNavbar';
 import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
-import { NormalContainer } from '@/styles/components/container';
+import {
+  ButtonContainer,
+  NormalContainer,
+} from '@/styles/components/container';
 import { ResultHeatmapProps, TimeTableData } from '@/types/timeTableTypes';
 import { useQuery } from '@tanstack/react-query';
 
@@ -55,10 +61,16 @@ function ResultGraphPage() {
       <Header title="일정 조율" />
       <ResultNavbar />
       <ResultInfoComp />
-      <ResultTimeTable roomInfo={data} data={timeTableData} dragDisabled />
-      <Button $style="solid" onClick={handleClick}>
-        공유하기
-      </Button>
+      <BackLayout>
+        <Container>
+          <ResultTimeTable roomInfo={data} data={timeTableData} dragDisabled />
+        </Container>
+      </BackLayout>
+      <ButtonContainer>
+        <Button $style="solid" onClick={handleClick}>
+          공유하기
+        </Button>
+      </ButtonContainer>
     </NormalContainer>
   );
 }

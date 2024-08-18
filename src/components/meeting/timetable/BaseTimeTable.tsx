@@ -46,6 +46,7 @@ const TableContainer = styled.div`
   margin-bottom: 20px;
   padding: 0 15px 0 0;
   flex 1;
+  overflow-x: auto;
 `;
 
 const Header = styled.div`

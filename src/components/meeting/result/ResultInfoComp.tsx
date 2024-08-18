@@ -22,14 +22,15 @@ function ResultInfoComp() {
 
 export default ResultInfoComp;
 
-const BackLayout = styled.div`
-  width: 100%;
-  height: 100%;
+export const BackLayout = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  width: 100%;
+  margin-top: 20px;
 `;
-const Container = styled.div`
+export const Container = styled.div`
   width: 90%;
   display: flex;
   flex-direction: column;
