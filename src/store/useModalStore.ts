@@ -16,5 +16,6 @@ const createModalStore = (initialState: boolean) =>
 const useStartDateModal = createModalStore(false);
 const useEndDateModal = createModalStore(false);
 const useTimeModal = createModalStore(false);
+const useLogOutModal = createModalStore(false);
 
-export { useStartDateModal, useEndDateModal, useTimeModal };
+export { useStartDateModal, useEndDateModal, useTimeModal, useLogOutModal };
