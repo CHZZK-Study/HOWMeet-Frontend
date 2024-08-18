@@ -8,6 +8,7 @@ import {
 } from '@/styles/components/meeting/select';
 import { SubTitle } from '@/styles/components/text';
 import { SetTime } from '@/types/SetTime';
+import { RightArrowIcon } from 'public/assets/icons';
 import styled from 'styled-components';
 
 interface Props {
