@@ -35,10 +35,8 @@ const HeaderContainer = styled.div`
   }
 `;
 
-const HeadTitle = styled.div`
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
+const HeadTitle = styled.h1`
+  ${({ theme }) => theme.typo.body.semi_bold[16]};
 `;
 
 export default Header;

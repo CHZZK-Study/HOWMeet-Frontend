@@ -27,3 +27,6 @@ export { default as LogoTitleIcon } from './logo/logo-title.svg?react';
 export { default as CheckBoxIcon } from './main/checkbox.svg?react';
 export { default as MainShareIcon } from './main/share.svg?react';
 export { default as WatchIcon } from './main/watch.svg?react';
+
+//button
+export { default as CreateRoomPlusIcon } from './button/create-room-plus.svg?react';
