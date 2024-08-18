@@ -1,8 +1,11 @@
+import LogOut from '@/components/bottomsheet/LogOut';
+import Modal from '@/components/common/Modal';
 import HomeHeader from '@/components/home/HomeHeader';
 import UpComming from '@/components/home/UpComming';
 import CreateRoomButton from '@/components/roomlist/CreateRoomButton';
 import RoomList from '@/components/roomlist/RoomList';
 import { SUB_TITLE, TITLE } from '@/constants/title';
+import { useLogOutModal } from '@/store/useModalStore';
 import {
   ContentContainer,
   FlexColContainer,
@@ -24,6 +27,8 @@ const mockRoom = [
 ];
 
 function HomePage() {
+  const { isOpen: isLogOutOpen, close: closeLogOut } = useLogOutModal();
+
   return (
     <FlexColContainer>
       <ContentContainer>
@@ -40,6 +45,11 @@ function HomePage() {
         <TotalButton>전체 모임보기</TotalButton>
         <CreateRoomButton />
       </ContentContainer>
+      {isLogOutOpen && (
+        <Modal onClose={closeLogOut}>
+          <LogOut />
+        </Modal>
+      )}
     </FlexColContainer>
   );
 }
