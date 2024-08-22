@@ -1,4 +1,4 @@
-import { Title } from '@/styles/components/text';
+import { GuestTitle, Title } from '@/styles/components/text';
 import { useLogin } from '@/hooks/useLogin';
 import { FormProvider, useForm } from 'react-hook-form';
 import styled from 'styled-components';
@@ -11,7 +11,11 @@ interface NonMemberForm {
   password: string;
 }
 
-function NonMemberLogin() {
+interface Props {
+  type?: 'guest' | 'default';
+}
+
+function NonMemberLogin({ type = 'default' }: Props) {
   const { handleLogin } = useLogin();
   const methods = useForm<NonMemberForm>({ mode: 'onChange' });
   const {
@@ -23,13 +27,25 @@ function NonMemberLogin() {
     <FormProvider {...methods}>
       <Form onSubmit={handleSubmit(handleLogin)}>
         <Wrapper>
-          <TitleWrapper>
-            <Title>
-              비회원으로 이용하면
-              <br />
-              일정을 <strong>한 번만</strong> 조율할 수 있어요
-            </Title>
-          </TitleWrapper>
+          {type === 'guest' ? (
+            <GuestTitle>
+              <h2>일정 이름</h2>
+              <span>
+                비회원으로 일정을 만든 경우에는
+                <br />
+                결과가 공유될 때 로그인 정보가 삭제됩니다.
+              </span>
+            </GuestTitle>
+          ) : (
+            <TitleWrapper>
+              <Title>
+                비회원으로 이용하면
+                <br />
+                일정을 <strong>한 번만</strong> 조율할 수 있어요
+              </Title>
+            </TitleWrapper>
+          )}
+
           <LoginForm />
 
           <Guide>
