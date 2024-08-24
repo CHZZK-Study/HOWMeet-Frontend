@@ -2,11 +2,14 @@
 export { default as CloseIcon } from './common/close.svg?react';
 export { default as DeleteAllIcon } from './common/delete-all.svg?react';
 export { default as LeftArrowIcon } from './common/left-arrow.svg?react';
-export { default as NextIcon } from './common/next.svg?react';
-export { default as PrevIcon } from './common/prev.svg?react';
 export { default as RightArrowIcon } from './common/right-arrow.svg?react';
 export { default as ShareIcon } from './common/share.svg?react';
 export { default as CancelIcon } from './common/x-icon.svg?react';
+export { default as LogOutIcon } from './common/logout.svg?react';
+
+//calendar
+export { default as NextIcon } from './calendar/next.svg?react';
+export { default as PrevIcon } from './calendar/prev.svg?react';
 
 // form
 export { default as ClearIcon } from './form/clear.svg?react';
