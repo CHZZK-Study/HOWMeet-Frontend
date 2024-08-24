@@ -8,7 +8,6 @@ import SelectPage from '@/pages/SelectPage';
 import ResultPage from '@/pages/ResultPage';
 import MakingRoomPage from '@/pages/MakingRoomPage';
 import ConfirmMeeting from '@/pages/ConfirmMeeting';
-import GuestLoginPage from '@/pages/GuestLoginPage';
 
 const router = createBrowserRouter([
   {
@@ -18,10 +17,6 @@ const router = createBrowserRouter([
   {
     path: 'login',
     element: <LoginPage />,
-  },
-  {
-    path: 'guest-login',
-    element: <GuestLoginPage />,
   },
   {
     path: 'make-room',

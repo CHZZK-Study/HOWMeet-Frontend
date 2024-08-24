@@ -15,11 +15,11 @@ function MemberLogin({ type = 'default' }: Props) {
           <span>간편 로그인 후에 일정을 조율해 보세요.</span>
         </GuestTitle>
       ) : (
-        <Title>
+        <LoginTitle>
           간편 로그인으로 이용하면,
           <br />
           일정을 <strong>여러 번</strong> 조율할 수 있어요
-        </Title>
+        </LoginTitle>
       )}
       <ButtonWrapper>
         <SocialLoginButton>
@@ -54,6 +54,10 @@ const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 14px;
+`;
+
+const LoginTitle = styled(Title)`
+  padding-top: 30px;
 `;
 
 const SocialLoginButton = styled.button`

@@ -37,13 +37,11 @@ function NonMemberLogin({ type = 'default' }: Props) {
               </span>
             </GuestTitle>
           ) : (
-            <TitleWrapper>
-              <Title>
-                비회원으로 이용하면
-                <br />
-                일정을 <strong>한 번만</strong> 조율할 수 있어요
-              </Title>
-            </TitleWrapper>
+            <LoginTitle>
+              비회원으로 이용하면
+              <br />
+              일정을 <strong>한 번만</strong> 조율할 수 있어요
+            </LoginTitle>
           )}
 
           <LoginForm />
@@ -95,11 +93,8 @@ const Wrapper = styled.div`
   padding: 0 20px;
 `;
 
-const TitleWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+const LoginTitle = styled(Title)`
+  padding-top: 30px;
 `;
 
 const Guide = styled.div`
