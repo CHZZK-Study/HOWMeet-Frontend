@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { useLogOutModal } from '@/store/useModalStore';
-import { BottomSheetContainer } from '../meeting/result/AttendStatusHeader';
 import BottomSheetHeader from './BottomSheetHeader';
 import Button from '../common/Button';
+import { BottomSheetContainer } from '../meeting/result/ResultBottomSheet';
 
 function LogOut() {
   const closeLogOut = useLogOutModal((state) => state.close);
