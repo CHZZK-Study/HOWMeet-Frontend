@@ -42,6 +42,8 @@ export interface TimeTableData {
   days: string[];
   dates: string[];
   months: string[];
+  isStartHalfMinute: boolean;
+  isEndHalfMinute: boolean;
 }
 
 export interface TimeTableProps {

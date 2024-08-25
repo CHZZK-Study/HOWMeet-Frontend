@@ -9,12 +9,19 @@ import {
   NormalContainer,
 } from '@/styles/components/container';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
-import { formatPostDateTime } from '@/utils/meeting/timetable/formatDateTime';
+import {
+  formatPostDateTime,
+  formatTimeTableData,
+} from '@/utils/meeting/timetable/formatDateTime';
 import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
 import useModal from '@/hooks/useModal';
 import ResultTimeSelectModal from '@/components/meeting/result/ResultTimeSelectModal';
 
 function ResultPage() {
+  const input = ['2024-06-29T10:00:00', '2024-07-07T21:00:00'];
+  const result = formatTimeTableData(input);
+  console.log('result: ', result);
+
   const timeTableData: TimeTableData = {
     hours: [
       '10',
@@ -42,6 +49,8 @@ function ResultPage() {
       '2024-07-07',
     ],
     months: ['7/1', '7/2', '7/3', '7/4', '7/5', '7/6', '7/7'],
+    isEndHalfMinute: false,
+    isStartHalfMinute: false,
   };
 
   const [isSelected, setIsSelected] = useState(false);

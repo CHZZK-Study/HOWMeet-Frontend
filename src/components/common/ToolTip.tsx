@@ -43,7 +43,7 @@ const CustomTooltip = styled.div`
 
 export const TooltipArrow = styled.div<{ isAbove: boolean }>`
   position: absolute;
-  top: ${(props) => (props.isAbove ? `36px` : `-9.5px`)};
+  top: ${({ isAbove }) => (isAbove ? `36px` : `-9.5px`)};
   width: 20px;
   height: 20px;
   background-color: white;
