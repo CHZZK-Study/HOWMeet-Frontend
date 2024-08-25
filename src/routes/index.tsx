@@ -8,7 +8,9 @@ import SelectPage from '@/pages/SelectPage';
 import ResultPage from '@/pages/ResultPage';
 import MakingRoomPage from '@/pages/MakingRoomPage';
 import ConfirmMeeting from '@/pages/ConfirmMeeting';
+import ResultGraphPage from '@/pages/ResultGraphPage';
 import HomePage from '@/pages/HomePage';
+
 
 const router = createBrowserRouter([
   {
@@ -50,6 +52,10 @@ const router = createBrowserRouter([
   {
     path: 'meeting/:id/result',
     element: <ResultPage />,
+  },
+  {
+    path: 'meeting/:id/result/graph',
+    element: <ResultGraphPage />,
   },
 ]);
 
