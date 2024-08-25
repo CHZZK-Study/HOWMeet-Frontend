@@ -10,9 +10,9 @@ import {
 } from '@/styles/components/container';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
 import { formatPostDateTime } from '@/utils/meeting/timetable/formatDateTime';
-import ResultTimeSeleModal from '@/components/meeting/result/ResultTimeSeleModal';
 import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
 import useModal from '@/hooks/useModal';
+import ResultTimeSelectModal from '@/components/meeting/result/ResultTimeSelectModal';
 
 function ResultPage() {
   const timeTableData: TimeTableData = {
@@ -83,6 +83,7 @@ function ResultPage() {
         <Button
           $style="solid"
           onClick={handleDecide}
+          $theme="primary"
           disabled={selectedResult.length === 0}
         >
           {selectedResult.length === 0
@@ -91,7 +92,7 @@ function ResultPage() {
         </Button>
       </ButtonContainer>
       {isOpen ? (
-        <ResultTimeSeleModal
+        <ResultTimeSelectModal
           handleModalClose={closeModal}
           decidedTime={selectedResult}
         />

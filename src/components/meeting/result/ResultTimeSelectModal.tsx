@@ -4,7 +4,7 @@ import Button from '@/components/common/Button';
 import { TimeSlot } from '@/types/timeTableTypes';
 import theme from '@/styles/theme';
 
-function ResultTimeSeleModal({
+function ResultTimeSelectModal({
   handleModalClose,
   decidedTime,
 }: {
@@ -49,7 +49,7 @@ function ResultTimeSeleModal({
   );
 }
 
-export default ResultTimeSeleModal;
+export default ResultTimeSelectModal;
 
 const ModalOverlay = styled.div`
   position: fixed;

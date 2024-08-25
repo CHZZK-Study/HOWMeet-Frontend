@@ -68,6 +68,7 @@ function SelectPage() {
         <Button
           onClick={isSelected ? handleReWrite : handleModalOpen}
           $style="solid"
+          $theme="primary"
           disabled={selectedTimes.length === 0}
         >
           {isSelected ? '수정하기' : '시간 선택 완료'}
