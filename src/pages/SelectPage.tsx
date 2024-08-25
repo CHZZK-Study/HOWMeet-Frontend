@@ -1,12 +1,20 @@
 import Button from '@/components/common/Button';
-import HowMeetHeader from '@/components/common/HowMeetHeader';
-import MeetingHeader from '@/components/meeting/MeetingHeader';
-import TimeSelect from '@/components/meeting/select/TimeSelect';
+import Header from '@/components/common/Header';
+import SelectableTimeTable from '@/components/meeting/select/SelectableTimeTable';
+import TimeSelectModalComp from '@/components/meeting/select/TimeSelectCompModal';
 import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
-import styled from 'styled-components';
+import useModal from '@/hooks/useModal';
+import { useTimeStore } from '@/store/meeting/useTimeStore';
+import {
+  ButtonContainer,
+  NormalContainer,
+} from '@/styles/components/container';
+import { TimeTableData } from '@/types/timeTableTypes';
+import { formatPostDateTime } from '@/utils/meeting/timetable/formatDateTime';
+import { useEffect, useState } from 'react';
 
 function SelectPage() {
-  const timeTableData = {
+  const timeTableData: TimeTableData = {
     hours: [
       '10',
       '11',
@@ -23,35 +31,52 @@ function SelectPage() {
       '22',
     ],
     days: ['월', '화', '수'],
-    dates: ['1', '2', '3'],
+    dates: ['2024-07-01', '2024-07-02', '2024-07-03'],
     months: ['7/1', '7/2', '7/3'],
   };
+
+  const { selectedTimes } = useTimeStore();
+
+  const { closeModal, isOpen, openModal } = useModal();
+  const [isSelected, setIsSelected] = useState(false);
+
+  useEffect(() => {
+    console.log(isOpen);
+  }, [isOpen]);
+
+  const handleReWrite = () => {
+    setIsSelected(false);
+  };
+
+  const handleModalOpen = () => {
+    openModal();
+    setIsSelected(true);
+    console.log('selectedTimes: ', formatPostDateTime(selectedTimes));
+  };
+
   return (
-    <Container>
-      <HowMeetHeader />
-      <MeetingHeader />
-      <TimeSelectTitle />
-      <TimeSelect data={timeTableData} />
+    <NormalContainer>
+      <Header title="일정 조율" />
+      <TimeSelectTitle
+        Title={
+          isSelected
+            ? `00님이 제출한 시간을 확인해보세요`
+            : `가능한 시간을 드래그 해주세요!`
+        }
+      />
+      <SelectableTimeTable data={timeTableData} dragDisabled={isSelected} />
       <ButtonContainer>
-        <Button $style="solid" disabled>
-          확인
+        <Button
+          onClick={isSelected ? handleReWrite : handleModalOpen}
+          $style="solid"
+          disabled={selectedTimes.length === 0}
+        >
+          {isSelected ? '수정하기' : '시간 선택 완료'}
         </Button>
       </ButtonContainer>
-    </Container>
+      {isOpen && <TimeSelectModalComp handleModalClose={closeModal} />}
+    </NormalContainer>
   );
 }
 
 export default SelectPage;
-
-const ButtonContainer = styled.div`
-  bottom: 0;
-  width: 100%;
-  padding: 10px 20px;
-  z-index: 10;
-`;
-
-const Container = styled.div`
-  background-color: #f5f5f5;
-  max-height: 100vh;
-  width: 100%;
-`;

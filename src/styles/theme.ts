@@ -6,6 +6,11 @@ const typo = {
         font-weight: 700;
         line-height: 36px;
       `,
+      22: `
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 26px;
+      `,
       20: `
         font-size: 20px;
         font-weight: 700;
@@ -71,6 +76,11 @@ const typo = {
         font-size: 22px;
         font-weight: 500;
         line-height: 30.8px;
+      `,
+      20: `
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 24px;
       `,
       16: `
         font-size: 16px;

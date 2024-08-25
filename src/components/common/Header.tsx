@@ -17,7 +17,6 @@ function Header({ title }: Props) {
 const HeaderContainer = styled.div`
   width: 100%;
   height: 52px;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,10 +35,8 @@ const HeaderContainer = styled.div`
   }
 `;
 
-const HeadTitle = styled.div`
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
+const HeadTitle = styled.h1`
+  ${({ theme }) => theme.typo.body.semi_bold[16]};
 `;
 
 export default Header;

@@ -1,5 +1,15 @@
 import styled from 'styled-components';
 
+function TimeSelectTitle({ Title }: { Title: string }) {
+  return (
+    <TitleContainer>
+      <TextContainer>{Title}</TextContainer>
+    </TitleContainer>
+  );
+}
+
+export default TimeSelectTitle;
+
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -17,13 +27,3 @@ const TextContainer = styled.div`
   display: flex;
   align-items: center;
 `;
-
-function TimeSelectTitle() {
-  return (
-    <TitleContainer>
-      <TextContainer>가능한 시간을 드래그해주세요!</TextContainer>
-    </TitleContainer>
-  );
-}
-
-export default TimeSelectTitle;

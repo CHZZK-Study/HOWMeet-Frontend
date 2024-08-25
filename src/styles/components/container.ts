@@ -37,8 +37,34 @@ export const ContentContainer = styled.div`
   height: 100%;
   padding: 0px 24px;
 
+  overflow: hidden;
+
   display: flex;
   flex-direction: column;
+  align-items: unset;
   gap: 25px;
   flex: 1;
+`;
+
+export const NormalContainer = styled.div`
+  width: 100%;
+  min-height: 100dvh;
+  height: 100%;
+  background: rgb(244, 245, 245);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const HeaderContainer = styled.div`
+  display: flex;
+  height: 50px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  align-items: center;
+`;
+
+export const Title = styled.div`
+  font-size: 25px;
+  font-weight: bold;
 `;
