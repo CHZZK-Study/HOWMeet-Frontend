@@ -9,4 +9,5 @@ export const SUB_TITLE = {
   date: '날짜 선택',
   time: '시간 선택',
   newMeeting: '새 일정 정보',
+  upcomming: '다가오는 일정',
 };

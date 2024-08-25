@@ -73,9 +73,13 @@ function NewMeetingPage() {
       </ContentContainer>
       <ButtonContainer>
         {isValid ? (
-          <Button $style="solid">완료</Button>
+          <Button $style="solid" $theme="primary">
+            완료
+          </Button>
         ) : (
-          <Button $style="outlined">건너 뛰기</Button>
+          <Button $style="outlined" $theme="primary">
+            건너 뛰기
+          </Button>
         )}
       </ButtonContainer>
       {isStartDateOpen && (
