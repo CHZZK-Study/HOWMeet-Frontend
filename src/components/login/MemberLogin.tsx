@@ -1,15 +1,26 @@
 import styled from 'styled-components';
-import { Title } from '@/styles/components/text';
+import { GuestTitle, Title } from '@/styles/components/text';
 import { GoogleIcon, KakaoIcon, NaverIcon } from 'public/assets/icons';
 
-function MemberLogin() {
+interface Props {
+  type?: 'guest' | 'default';
+}
+
+function MemberLogin({ type = 'default' }: Props) {
   return (
     <Container>
-      <Title>
-        간편 로그인으로 이용하면,
-        <br />
-        일정을 <strong>여러 번</strong> 조율할 수 있어요
-      </Title>
+      {type === 'guest' ? (
+        <GuestTitle>
+          <h2>일정 이름</h2>
+          <span>간편 로그인 후에 일정을 조율해 보세요.</span>
+        </GuestTitle>
+      ) : (
+        <LoginTitle>
+          간편 로그인으로 이용하면,
+          <br />
+          일정을 <strong>여러 번</strong> 조율할 수 있어요
+        </LoginTitle>
+      )}
       <ButtonWrapper>
         <SocialLoginButton>
           <KakaoIcon width={34} height={34} />
@@ -32,6 +43,7 @@ export default MemberLogin;
 
 const Container = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   padding: 0 20px;
   gap: 48px;
@@ -42,6 +54,10 @@ const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 14px;
+`;
+
+const LoginTitle = styled(Title)`
+  padding-top: 30px;
 `;
 
 const SocialLoginButton = styled.button`
