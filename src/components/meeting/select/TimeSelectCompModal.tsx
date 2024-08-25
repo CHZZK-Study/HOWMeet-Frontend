@@ -37,7 +37,7 @@ function TimeSelectModalComp({
 
 export default TimeSelectModalComp;
 
-const ModalOverlay = styled.div`
+export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -50,7 +50,7 @@ const ModalOverlay = styled.div`
   z-index: 1000;
 `;
 
-const ModalContainer = styled.div`
+export const ModalContainer = styled.div`
   background-color: #fff;
   border-radius: 10px;
   padding: 20px;
@@ -77,14 +77,15 @@ const ModalContainer = styled.div`
   }
 `;
 
-const ModalHeader = styled.div`
+export const ModalHeader = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
   width: 100%;
+  margin-top: 20px;
 `;
 
-const CloseButton = styled.button`
+export const CloseButton = styled.button`
   color: ${theme.color.secondary.solid.gray[800]};
   border: none;
   cursor: pointer;
@@ -102,30 +103,30 @@ const CloseButton = styled.button`
   }
 `;
 
-const ModalContentContainer = styled.div`
+export const ModalContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-grow: 1; // 여유 공간을 차지하여 버튼이 아래로 밀리게 함
+  flex-grow: 1;
   gap: 10px;
   margin-top: 20px;
   padding: 20px;
 `;
 
-const ModalTitle = styled.h1`
+export const ModalTitle = styled.h1`
   font-size: 20px;
   font-weight: 500;
   margin-bottom: 10px;
 `;
 
-const ModalContent = styled.div`
+export const ModalContent = styled.div`
   text-align: center;
   font-size: 16px;
   font-weight: normal;
   margin-bottom: 10px;
 `;
 
-const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
