@@ -1,4 +1,5 @@
 import Header from '@/components/common/Header';
+import CreateRoomButton from '@/components/roomlist/CreateRoomButton';
 import RoomList from '@/components/roomlist/RoomList';
 import { TITLE } from '@/constants/title';
 import {
@@ -6,8 +7,50 @@ import {
   FlexColContainer,
 } from '@/styles/components/container';
 import { PageTitle } from '@/styles/components/text';
-import { CreateRoomPlusIcon } from 'public/assets/icons';
 import styled from 'styled-components';
+
+const mock = [
+  {
+    title: '마이팀 방',
+    date: '2024. 07. 08 14:00~15:00',
+    member: '김민석님 외 12명',
+  },
+  {
+    title: '아자아자 방',
+    date: '2024. 07. 09 12:00~16:00',
+    member: '김민석님 외 12명',
+  },
+  {
+    title: '마이팀 방',
+    date: '2024. 07. 08 14:00~15:00',
+    member: '김민석님 외 12명',
+  },
+  {
+    title: '아자아자 방',
+    date: '2024. 07. 09 12:00~16:00',
+    member: '김민석님 외 12명',
+  },
+  {
+    title: '마이팀 방',
+    date: '2024. 07. 08 14:00~15:00',
+    member: '김민석님 외 12명',
+  },
+  {
+    title: '아자아자 방',
+    date: '2024. 07. 09 12:00~16:00',
+    member: '김민석님 외 12명',
+  },
+  {
+    title: '마이팀 방',
+    date: '2024. 07. 08 14:00~15:00',
+    member: '김민석님 외 12명',
+  },
+  {
+    title: '아자아자 방',
+    date: '2024. 07. 09 12:00~16:00',
+    member: '김민석님 외 12명',
+  },
+];
 
 function MeetingListPage() {
   return (
@@ -17,10 +60,8 @@ function MeetingListPage() {
         <Title>
           {TITLE.attendRoom} <span className="currentNumber">6</span>
         </Title>
-        <RoomList />
-        <CreateRoomButton>
-          <CreateRoomPlusIcon />
-        </CreateRoomButton>
+        <RoomList mock={mock} />
+        <CreateRoomButton />
       </ContentContainer>
     </Container>
   );
@@ -32,24 +73,6 @@ const Title = styled(PageTitle)`
   .currentNumber {
     color: ${({ theme }) => theme.color.point.green};
   }
-`;
-
-const CreateRoomButton = styled.button`
-  position: absolute;
-  right: 16px;
-  bottom: 64px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 52px;
-  height: 52px;
-
-  box-shadow: 0px 4px 12px 0px rgba(137, 137, 137, 0.25);
-  border-radius: 100%;
-
-  background: ${({ theme }) => theme.color.point.purple};
 `;
 
 const Container = styled(FlexColContainer)`

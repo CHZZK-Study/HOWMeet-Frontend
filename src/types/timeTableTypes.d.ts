@@ -15,6 +15,16 @@ export interface ResultHeatmapProps {
   };
 }
 
+export interface ResultHeatmapCellInfo {
+  users: string[];
+  userCount: number;
+  hour: string;
+  minute: string;
+  day: string;
+  date: string;
+  month: string;
+}
+
 export interface AdjustColorProps {
   ratio: number;
 }
@@ -25,4 +35,20 @@ export interface TimeSlot {
   day: string;
   date: string;
   month: string;
+}
+
+export interface TimeTableData {
+  hours: string[];
+  days: string[];
+  dates: string[];
+  months: string[];
+}
+
+export interface TimeTableProps {
+  data: TimeTableData;
+  dragDisabled?: boolean;
+}
+
+export interface CellProps {
+  selected: boolean;
 }
