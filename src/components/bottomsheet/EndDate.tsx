@@ -5,7 +5,6 @@ import moment from 'moment';
 import { useEndDateModal } from '@/store/useModalStore';
 import { useEndDateStore, useStartDateStore } from '@/store/useDateStore';
 import calculateDate from '@/utils/calculateDate';
-import { CloseIcon } from 'public/assets/icons';
 import {
   BottomSheetContainer,
   BottomSheetInfoWrapper,

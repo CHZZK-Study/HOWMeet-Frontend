@@ -3,12 +3,14 @@ import styled, { css } from 'styled-components';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   $style: 'solid' | 'outlined';
+  $theme?: 'primary' | 'neutral';
 }
 
-function Button({ $style, ...props }: Props) {
+function Button({ $style, $theme, ...props }: Props) {
   return (
     <StyledButton
       $style={$style}
+      $theme={$theme}
       {...props}
       disabled={props.disabled || false}
     />
@@ -23,7 +25,7 @@ const StyledButton = styled.button<Props>`
   padding: 16px 0;
   border-radius: 8px;
 
-  ${({ theme, $style, disabled }) => {
+  ${({ theme, $style, $theme, disabled }) => {
     if (disabled) {
       return css`
         color: ${theme.color.primary.white};
@@ -43,9 +45,14 @@ const StyledButton = styled.button<Props>`
         }
       `;
     }
+
     return css`
-      background: ${theme.color.point.purple};
-      color: ${theme.color.primary.white};
+      background: ${$theme === 'primary'
+        ? theme.color.point.purple
+        : theme.color.secondary.solid.bk[200]};
+      color: ${$theme === 'primary'
+        ? theme.color.primary.white
+        : theme.color.secondary.solid.bk[700]};
       border: none;
     `;
   }}
