@@ -16,7 +16,7 @@ function MainPage() {
     <Container>
       <div className="wrapper">
         <TitleWrapper>
-          <LogoTitleIcon />
+          <LogoTitleIcon width={212} height={28} />
           <h2>우리 어떻게 만나?</h2>
         </TitleWrapper>
         <GuideList />
