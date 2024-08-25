@@ -23,14 +23,17 @@ function BaseTimeTable({ data, renderCell }: BaseTimeTableProps) {
         ))}
       </Header>
       {data.hours.map((hour) => (
-        <Row key={`hour-${hour}`}>
-          <HourCell>{hour}</HourCell>
-          {data.dates.map((date) => (
-            <CellGroup key={`${hour}-${date}`}>
-              {['00', '30'].map((minute) => renderCell(hour, date, minute))}
-            </CellGroup>
-          ))}
-        </Row>
+        <React.Fragment key={`hour-${hour}`}>
+          <Row>
+            <HourCell>{hour}</HourCell>
+            {data.dates.map((date) => (
+              <CellGroup key={`${hour}-${date}`}>
+                {renderCell(hour, date, '00')}
+                {renderCell(hour, date, '30')}
+              </CellGroup>
+            ))}
+          </Row>
+        </React.Fragment>
       ))}
     </TableContainer>
   );

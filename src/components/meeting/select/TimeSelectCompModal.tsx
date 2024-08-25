@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import CloseIcon from 'public/assets/icons/common/close.svg'; // CloseIcon 임포트
-import CheckIcon from 'public/assets/icons/form/check.svg';
 import Button from '@/components/common/Button';
+import theme from '@/styles/theme';
+import { CheckIcon, CloseIcon } from 'public/assets/icons';
 
 function TimeSelectModalComp({
   handleModalClose,
@@ -13,10 +13,10 @@ function TimeSelectModalComp({
       <ModalContainer>
         <ModalHeader>
           <CloseButton onClick={handleModalClose}>
-            <img src={CloseIcon} alt="Close" />
+            <CloseIcon />
           </CloseButton>
         </ModalHeader>
-        <img src={CheckIcon} alt="Check" />
+        <CheckIcon />
         <ModalContentContainer>
           <ModalTitle>일정이 제출되었어요!</ModalTitle>
           <ModalContent>
@@ -25,9 +25,11 @@ function TimeSelectModalComp({
             잠시만 기다려주세요 :)
           </ModalContent>
         </ModalContentContainer>
-        <Button $style="solid" onClick={handleModalClose}>
-          확인
-        </Button>
+        <ButtonContainer>
+          <Button $style="solid" onClick={handleModalClose}>
+            확인
+          </Button>
+        </ButtonContainer>
       </ModalContainer>
     </ModalOverlay>
   );
@@ -45,7 +47,7 @@ const ModalOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 1000;
 `;
 
 const ModalContainer = styled.div`
@@ -55,12 +57,14 @@ const ModalContainer = styled.div`
   position: relative;
 
   width: 80%;
-  max-width: 300px; // 최대 너비 설정
+  max-width: 300px;
   height: 80%;
+  max-height: 500px;
 
   display: flex;
   flex-direction: column;
-  box-sizing: border-box; // 패딩 포함
+  align-items: center;
+  box-sizing: border-box;
 
   @media (min-width: 768px) {
     width: 50%;
@@ -75,18 +79,26 @@ const ModalContainer = styled.div`
 
 const ModalHeader = styled.div`
   display: flex;
-  justify-content: flex-end; // 닫기 버튼을 오른쪽 끝에 배치
+  justify-content: flex-end;
   align-items: center;
+  width: 100%;
 `;
 
 const CloseButton = styled.button`
-  background: none;
+  color: ${theme.color.secondary.solid.gray[800]};
   border: none;
   cursor: pointer;
+  padding: 5px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
 
-  img {
-    width: 20px; // 아이콘 크기 조정
-    height: 20px;
+  &:focus {
+    outline: none;
   }
 `;
 
@@ -94,6 +106,7 @@ const ModalContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-grow: 1; // 여유 공간을 차지하여 버튼이 아래로 밀리게 함
   gap: 10px;
   margin-top: 20px;
   padding: 20px;
@@ -110,4 +123,11 @@ const ModalContent = styled.div`
   font-size: 16px;
   font-weight: normal;
   margin-bottom: 10px;
+`;
+
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
 `;
