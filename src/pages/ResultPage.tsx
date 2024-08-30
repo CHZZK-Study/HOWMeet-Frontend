@@ -13,6 +13,7 @@ import {
   NormalContainer,
 } from '@/styles/components/container';
 import { ResultHeatmapProps, TimeTableData } from '@/types/timeTableTypes';
+import { formatResultTime } from '@/utils/meeting/timetable/formatDateTime';
 import { useQuery } from '@tanstack/react-query';
 
 function ResultPage() {
@@ -60,14 +61,37 @@ function ResultPage() {
 
   const handleClick = () => {
     openModal();
-    console.log('click');
   };
+
+  const dateTimes = [
+    '2024-07-01T16:00',
+    '2024-07-01T16:30',
+    '2024-07-01T17:00',
+    '2024-07-01T17:30',
+    '2024-07-01T18:00',
+  ];
+
+  const participant = [
+    '구예진',
+    '경효선',
+    '김유희',
+    '류지민',
+    '권오영',
+    '고세종',
+    '김민우',
+    '이수현',
+    '이채림',
+  ];
 
   return (
     <NormalContainer>
       <Header title="일정 조율" />
       <ResultNavbar />
-      <ResultInfoComp />
+      <ResultInfoComp
+        decidedTime={formatResultTime(dateTimes)}
+        title="류세영의 방"
+        participants={participant}
+      />
       <BackLayout>
         <Container>
           <ResultTimeTable roomInfo={data} data={timeTableData} dragDisabled />

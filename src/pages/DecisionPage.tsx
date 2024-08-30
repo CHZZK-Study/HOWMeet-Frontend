@@ -16,11 +16,17 @@ import {
 import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
 import useModal from '@/hooks/useModal';
 import ResultTimeSelectModal from '@/components/meeting/result/ResultTimeSelectModal';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function DecisionPage() {
-  const input = ['2024-06-29T10:00:00', '2024-07-07T21:00:00'];
-  const result = formatTimeTableData(input);
-  console.log('result: ', result);
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const timeData = formatTimeTableData([
+    '2024-07-01T10:00',
+    '2024-07-07T22:00',
+  ]);
+  console.log('timeData: ', timeData);
 
   const timeTableData: TimeTableData = {
     hours: [
@@ -67,8 +73,8 @@ function DecisionPage() {
   if (!data) return <div>데이터가 없습니다</div>;
 
   const handleDecide = () => {
-    openModal();
     setIsSelected(true);
+    navigate(`/meeting/${id}/result`);
     console.log('selectedResult: ', formatPostDateTime(selectedResult));
   };
 
@@ -91,7 +97,7 @@ function DecisionPage() {
       <ButtonContainer>
         <Button
           $style="solid"
-          onClick={handleDecide}
+          onClick={openModal}
           $theme="primary"
           disabled={selectedResult.length === 0}
         >
@@ -104,6 +110,7 @@ function DecisionPage() {
         <ResultTimeSelectModal
           handleModalClose={closeModal}
           decidedTime={selectedResult}
+          handleDecide={handleDecide}
         />
       ) : null}
     </NormalContainer>

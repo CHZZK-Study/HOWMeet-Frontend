@@ -7,17 +7,21 @@ import theme from '@/styles/theme';
 import {
   CloseButton,
   ModalContainer,
+  ModalContent,
   ModalContentContainer,
   ModalHeader,
   ModalOverlay,
+  ModalTitle,
 } from '../select/TimeSelectCompModal';
 
 function ResultTimeSelectModal({
   handleModalClose,
   decidedTime,
+  handleDecide,
 }: {
   handleModalClose: () => void;
   decidedTime: TimeSlot[];
+  handleDecide: () => void;
 }) {
   const decidedDate = decidedTime[0].date;
   const startHour = decidedTime[0].hour;
@@ -45,11 +49,11 @@ function ResultTimeSelectModal({
           {decidedDate} {startHour}:{startMinute} ~ {endHour}:{endMinute}
         </ModalDecisionTime>
         <ButtonContainer>
-          <Button $style="outlined" onClick={handleModalClose}>
-            취소
+          <Button $style="solid" $theme="neutral" onClick={handleModalClose}>
+            다시 선택
           </Button>
-          <Button $style="solid" onClick={handleModalClose}>
-            확인
+          <Button $style="solid" $theme="primary" onClick={handleDecide}>
+            완료
           </Button>
         </ButtonContainer>
       </ModalContainer>
@@ -64,21 +68,6 @@ const GrayColLine = styled.div`
   height: 20px;
   background-color: ${theme.color.primary.black};
   margin: 0 10px;
-`;
-
-const ModalTitle = styled.h1`
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 10px;
-`;
-
-const ModalContent = styled.div`
-  display: flex;
-  align-items: center;
-  text-align: center;
-  font-size: 16px;
-  font-weight: normal;
-  margin-bottom: 30px;
 `;
 
 const ModalRoomTitleAndCont = styled.div`

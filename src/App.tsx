@@ -1,4 +1,6 @@
 import { ThemeProvider } from 'styled-components';
+import { Toaster } from 'sonner';
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import GlobalStyle from './styles/GlobalStyle';
 import Router from './routes';
@@ -10,6 +12,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <Toaster position="top-center" closeButton richColors />
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Router />
