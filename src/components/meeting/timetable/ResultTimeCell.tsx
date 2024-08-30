@@ -106,16 +106,17 @@ const ResultHalfCell = styled.div<CellProps & { intensity: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: ${(props) =>
-    props.selected ? '2px solid white' : '0.5px solid rgba(83, 85, 91, 1)'};
-  background-color: ${(props) => getAdjustedColor({ ratio: props.intensity })};
+  border: ${({ selected }) =>
+    selected ? '2px solid white' : '0.5px solid rgba(83, 85, 91, 1)'};
+  background-color: ${({ intensity }) =>
+    getAdjustedColor({ ratio: intensity })};
   &:first-child {
-    border-bottom: ${(props) =>
-      props.selected ? '2px solid white' : '1px dashed #ccc;'};
+    border-bottom: ${({ selected }) =>
+      selected ? '2px solid white' : '1px dashed #ccc;'};
   }
   &:last-child {
-    border-top: ${(props) =>
-      props.selected ? '2px solid white' : '1px dashed #ccc;'};
+    border-top: ${({ selected }) =>
+      selected ? '2px solid white' : '1px dashed #ccc;'};
   }
   touch-action: none;
   user-select: none;

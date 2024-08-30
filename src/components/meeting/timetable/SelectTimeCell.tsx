@@ -91,12 +91,15 @@ const SelectHalfCell = styled.div<CellProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-top: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   border-right: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   border-left: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   background-color: ${(props) => (props.selected ? '#E2F5E3' : 'white')};
   &:first-child {
-    border-bottom: 2px dashed #ccc;
+    ${({ isEndCell }) =>
+      isEndCell
+        ? `border-bottom: 0.1px solid ${theme.color.secondary.solid.gray[800]};`
+        : `border-bottom: 2px dashed #ccc;`}
+    border-top: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   }
   touch-action: none;
 `;
