@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { CellProps, TimeSlot } from '@/types/timeTableTypes';
+import theme from '@/styles/theme';
 
 interface SelectTimeCellProps {
   timeSlot: TimeSlot;
@@ -9,6 +10,7 @@ interface SelectTimeCellProps {
   onDragStart: (timeSlot: TimeSlot) => void;
   onDragMove: (timeSlot: TimeSlot) => void;
   onDragEnd: () => void;
+  isEndCell: boolean;
 }
 
 function SelectTimeCell({
@@ -18,6 +20,7 @@ function SelectTimeCell({
   onDragStart,
   onDragMove,
   onDragEnd,
+  isEndCell,
 }: SelectTimeCellProps) {
   const cellRef = useRef<HTMLDivElement>(null);
 
@@ -75,6 +78,7 @@ function SelectTimeCell({
       }
       onMouseUp={onDragEnd}
       data-timeslot={JSON.stringify(timeSlot)}
+      isEndCell={timeSlot.minute === '30' || isEndCell}
     />
   );
 }
@@ -87,7 +91,9 @@ const SelectHalfCell = styled.div<CellProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 0.1px solid rgba(83, 85, 91, 1);
+  border-top: 0.1px solid ${theme.color.secondary.solid.gray[800]};
+  border-right: 0.1px solid ${theme.color.secondary.solid.gray[800]};
+  border-left: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   background-color: ${(props) => (props.selected ? '#E2F5E3' : 'white')};
   &:first-child {
     border-bottom: 2px dashed #ccc;

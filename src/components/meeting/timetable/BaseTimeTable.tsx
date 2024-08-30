@@ -4,7 +4,12 @@ import styled from 'styled-components';
 
 interface BaseTimeTableProps {
   data: TimeTableData;
-  renderCell: (hour: string, date: string, minute: string) => React.ReactNode;
+  renderCell: (
+    hour: string,
+    date: string,
+    minute: string,
+    isHalf: boolean
+  ) => React.ReactNode;
 }
 
 function BaseTimeTable({ data, renderCell }: BaseTimeTableProps) {
@@ -22,14 +27,42 @@ function BaseTimeTable({ data, renderCell }: BaseTimeTableProps) {
           <DateCell key={`day-${index}`}>{day}</DateCell>
         ))}
       </Header>
-      {data.hours.map((hour) => (
+      {data.hours.map((hour, hourIndex) => (
         <React.Fragment key={`hour-${hour}`}>
           <Row>
             <HourCell>{hour}</HourCell>
+            {/* 셀 만드는 로직 */}
             {data.dates.map((date) => (
-              <CellGroup key={`${hour}-${date}`}>
-                {renderCell(hour, date, '00')}
-                {renderCell(hour, date, '30')}
+              <CellGroup
+                key={`${hour}-${date}`}
+                isHalf={
+                  (hourIndex === 0 && data.isStartHalfMinute) ||
+                  (hourIndex === data.hours.length - 1 && data.isEndHalfMinute)
+                }
+              >
+                {
+                  hourIndex === 0 && data.isStartHalfMinute
+                    ? null // 첫 번째 시간대가 '30'으로 시작
+                    : renderCell(
+                        hour,
+                        date,
+                        '00',
+                        (hourIndex === 0 && data.isStartHalfMinute) ||
+                          (hourIndex === data.hours.length - 1 &&
+                            data.isEndHalfMinute)
+                      ) /* 나머지는 '00' */
+                }
+
+                {hourIndex === data.hours.length - 1 && data.isEndHalfMinute
+                  ? null
+                  : renderCell(
+                      hour,
+                      date,
+                      '30',
+                      (hourIndex === 0 && data.isStartHalfMinute) ||
+                        (hourIndex === data.hours.length - 1 &&
+                          data.isEndHalfMinute)
+                    )}
               </CellGroup>
             ))}
           </Row>
@@ -48,7 +81,7 @@ const TableContainer = styled.div`
   overflow-x: auto;
   margin-bottom: 20px;
   padding: 0 15px 0 0;
-  flex 1;
+  flex: 1;
   overflow-x: auto;
 `;
 
@@ -87,9 +120,9 @@ const Row = styled.div`
   display: flex;
 `;
 
-const CellGroup = styled.div`
+const CellGroup = styled.div<{ isHalf: boolean }>`
   flex: 1;
-  height: 40px;
+  height: ${({ isHalf }) => (isHalf ? '20px;' : '40px;')}
   display: flex;
   flex-direction: column;
 `;

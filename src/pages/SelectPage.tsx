@@ -10,38 +10,22 @@ import {
   NormalContainer,
 } from '@/styles/components/container';
 import { TimeTableData } from '@/types/timeTableTypes';
-import { formatPostDateTime } from '@/utils/meeting/timetable/formatDateTime';
-import { useEffect, useState } from 'react';
+import {
+  formatPostDateTime,
+  formatTimeTableData,
+} from '@/utils/meeting/timetable/formatDateTime';
+import { useState } from 'react';
 
 function SelectPage() {
-  const timeTableData: TimeTableData = {
-    hours: [
-      '10',
-      '11',
-      '12',
-      '13',
-      '14',
-      '15',
-      '16',
-      '17',
-      '18',
-      '19',
-      '20',
-      '21',
-    ],
-    days: ['월', '화', '수'],
-    dates: ['2024-07-01', '2024-07-02', '2024-07-03'],
-    months: ['7/1', '7/2', '7/3'],
-  };
+  const timeTableData: TimeTableData = formatTimeTableData([
+    '2024-07-01T11:30',
+    '2024-07-03T21:30',
+  ]);
 
   const { selectedTimes } = useTimeStore();
 
   const { closeModal, isOpen, openModal } = useModal();
   const [isSelected, setIsSelected] = useState(false);
-
-  useEffect(() => {
-    console.log(isOpen);
-  }, [isOpen]);
 
   const handleReWrite = () => {
     setIsSelected(false);
