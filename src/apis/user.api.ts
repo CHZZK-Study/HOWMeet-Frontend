@@ -1,4 +1,9 @@
-import { LoginReq, LoginRes } from '@/models/user.model';
+import {
+  LoginReq,
+  LoginRes,
+  SocialLoginReq,
+  SocialLoginRes,
+} from '@/models/user.model';
 import { AxiosError, AxiosResponse } from 'axios';
 import { axiosInstance } from './instance';
 
@@ -16,4 +21,12 @@ export const login = async (req: LoginReq) => {
     }
     window.alert('다시 시도해주세요.');
   }
+};
+
+export const socialLogin = async (req: SocialLoginReq) => {
+  const result: AxiosResponse<SocialLoginRes> = await axiosInstance.post(
+    '/oauth/login',
+    req
+  );
+  return result;
 };
