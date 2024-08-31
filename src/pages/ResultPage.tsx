@@ -13,42 +13,19 @@ import {
   NormalContainer,
 } from '@/styles/components/container';
 import { ResultHeatmapProps, TimeTableData } from '@/types/timeTableTypes';
-import { formatResultTime } from '@/utils/meeting/timetable/formatDateTime';
+import {
+  formatResultTime,
+  formatTimeTableData,
+} from '@/utils/meeting/timetable/formatDateTime';
 import { useQuery } from '@tanstack/react-query';
 
 function ResultPage() {
   const { isOpen, closeModal, openModal } = useModal();
 
-  const timeTableData: TimeTableData = {
-    hours: [
-      '10',
-      '11',
-      '12',
-      '13',
-      '14',
-      '15',
-      '16',
-      '17',
-      '18',
-      '19',
-      '20',
-      '21',
-      '22',
-    ],
-    days: ['월', '화', '수', '목', '금', '토', '일'],
-    dates: [
-      '2024-07-01',
-      '2024-07-02',
-      '2024-07-03',
-      '2024-07-04',
-      '2024-07-05',
-      '2024-07-06',
-      '2024-07-07',
-    ],
-    months: ['7/1', '7/2', '7/3', '7/4', '7/5', '7/6', '7/7'],
-    isEndHalfMinute: false,
-    isStartHalfMinute: false,
-  };
+  const timeTableData: TimeTableData = formatTimeTableData([
+    '2024-07-01T10:30',
+    '2024-07-07T22:30',
+  ]);
 
   const { isPending, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['selectedTimeData'],
@@ -94,7 +71,11 @@ function ResultPage() {
       />
       <BackLayout>
         <Container>
-          <ResultTimeTable roomInfo={data} data={timeTableData} dragDisabled />
+          <ResultTimeTable
+            roomInfo={data}
+            timetableInfo={timeTableData}
+            dragDisabled
+          />
         </Container>
       </BackLayout>
       <ButtonContainer>

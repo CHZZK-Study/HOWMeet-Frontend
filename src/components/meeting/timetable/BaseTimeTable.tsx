@@ -8,8 +8,8 @@ interface BaseTimeTableProps {
     hour: string,
     date: string,
     minute: string,
-    isEndCellHalf: boolean,
-    isStartCellHalf: boolean
+    isStartCellHalf: boolean,
+    isEndCellHalf: boolean
   ) => React.ReactNode;
 }
 

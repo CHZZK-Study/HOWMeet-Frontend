@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
 import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
-import { ResultHeatmapProps, TimeTableData } from '@/types/timeTableTypes';
+import { ResultHeatmapProps } from '@/types/timeTableTypes';
 import {
   ButtonContainer,
   NormalContainer,
@@ -22,42 +22,10 @@ function DecisionPage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const timeData = formatTimeTableData([
-    '2024-07-01T10:00',
-    '2024-07-07T22:00',
+  const timeTableData = formatTimeTableData([
+    '2024-07-01T10:30',
+    '2024-07-07T22:30',
   ]);
-  console.log('timeData: ', timeData);
-
-  const timeTableData: TimeTableData = {
-    hours: [
-      '10',
-      '11',
-      '12',
-      '13',
-      '14',
-      '15',
-      '16',
-      '17',
-      '18',
-      '19',
-      '20',
-      '21',
-      '22',
-    ],
-    days: ['월', '화', '수', '목', '금', '토', '일'],
-    dates: [
-      '2024-07-01',
-      '2024-07-02',
-      '2024-07-03',
-      '2024-07-04',
-      '2024-07-05',
-      '2024-07-06',
-      '2024-07-07',
-    ],
-    months: ['7/1', '7/2', '7/3', '7/4', '7/5', '7/6', '7/7'],
-    isEndHalfMinute: false,
-    isStartHalfMinute: false,
-  };
 
   const [isSelected, setIsSelected] = useState(false);
   const { isOpen, closeModal, openModal } = useModal();
@@ -90,7 +58,7 @@ function DecisionPage() {
         )}
       />
       <ResultTimeTable
-        data={timeTableData}
+        timetableInfo={timeTableData}
         roomInfo={data}
         dragDisabled={isSelected}
       />

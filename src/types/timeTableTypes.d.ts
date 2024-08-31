@@ -56,3 +56,11 @@ export interface CellProps {
   isStartCellHalf: boolean;
   isEndCellHalf: boolean;
 }
+
+export interface RenderCellProps {
+  hour: string;
+  date: string;
+  minute: string;
+  isStartCellHalf: boolean;
+  isEndCellHalf: boolean;
+}

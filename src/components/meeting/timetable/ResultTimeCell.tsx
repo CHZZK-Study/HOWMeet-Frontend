@@ -2,12 +2,15 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { CellProps, ResultHeatmapCellInfo } from '@/types/timeTableTypes';
 import getAdjustedColor from '@/utils/meeting/timetable/getAdjustedColor';
+import theme from '@/styles/theme';
 
 interface ResultTimeCellProps {
   timeSlot: ResultHeatmapCellInfo;
   isSelected: boolean;
   dragDisabled: boolean;
   intensity: number;
+  isStartCellHalf: boolean;
+  isEndCellHalf: boolean;
   onDragStart: (
     timeSlot: ResultHeatmapCellInfo,
     event: React.MouseEvent | React.TouchEvent
@@ -32,6 +35,8 @@ function ResultTimeCell({
   onDragMove,
   onDragEnd,
   onCellInteraction,
+  isEndCellHalf,
+  isStartCellHalf,
 }: ResultTimeCellProps) {
   const cellRef = useRef<HTMLDivElement>(null);
 
@@ -94,6 +99,8 @@ function ResultTimeCell({
       onClick={(e) => onCellInteraction(e, timeSlot)}
       data-timeslot={JSON.stringify(timeSlot)}
       data-hour={timeSlot.hour}
+      isEndCellHalf={isEndCellHalf}
+      isStartCellHalf={isStartCellHalf}
     />
   );
 }
@@ -106,18 +113,43 @@ const ResultHalfCell = styled.div<CellProps & { intensity: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: ${({ selected }) =>
-    selected ? '2px solid white' : '0.5px solid rgba(83, 85, 91, 1)'};
+
+  border-right: ${({ selected }) =>
+    selected
+      ? '2px solid white'
+      : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
+  border-left: ${({ selected }) =>
+    selected
+      ? '2px solid white'
+      : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
+  border-bottom: ${({ selected }) =>
+    selected
+      ? '2px solid white'
+      : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
+  border-top: ${({ selected }) => (selected ? '2px solid white' : 'none')};
+
   background-color: ${({ intensity }) =>
     getAdjustedColor({ ratio: intensity })};
+
   &:first-child {
-    border-bottom: ${({ selected }) =>
-      selected ? '2px solid white' : '1px dashed #ccc;'};
-  }
-  &:last-child {
     border-top: ${({ selected }) =>
-      selected ? '2px solid white' : '1px dashed #ccc;'};
+      selected
+        ? '2px solid white'
+        : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
+    border-bottom: ${({ selected, isStartCellHalf, isEndCellHalf }) => {
+      if (selected) {
+        return '2px solid white';
+      }
+      if (isStartCellHalf) {
+        return 'none';
+      }
+      if (isEndCellHalf) {
+        return `0.1px solid ${theme.color.secondary.solid.gray[800]}`;
+      }
+      return `2px dashed #ccc`;
+    }};
   }
+
   touch-action: none;
   user-select: none;
 `;
