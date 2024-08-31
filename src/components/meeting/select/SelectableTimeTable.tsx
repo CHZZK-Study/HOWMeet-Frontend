@@ -19,7 +19,8 @@ function SelectableTimeTable({
     hour: string,
     date: string,
     minute: string,
-    isHalf: boolean
+    isStartCellHalf: boolean,
+    isEndCellHalf: boolean
   ) => {
     const timeSlot = {
       hour,
@@ -38,7 +39,8 @@ function SelectableTimeTable({
         onDragStart={handleDragStart as (timeSlot: TimeSlot) => void}
         onDragMove={handleDragMove as (timeSlot: TimeSlot) => void}
         onDragEnd={handleDragEnd}
-        isEndCell={isHalf}
+        isEndCellHalf={isEndCellHalf}
+        isStartCellHalf={isStartCellHalf}
       />
     );
   };

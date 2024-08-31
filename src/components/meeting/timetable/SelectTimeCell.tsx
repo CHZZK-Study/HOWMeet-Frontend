@@ -10,7 +10,8 @@ interface SelectTimeCellProps {
   onDragStart: (timeSlot: TimeSlot) => void;
   onDragMove: (timeSlot: TimeSlot) => void;
   onDragEnd: () => void;
-  isEndCell: boolean;
+  isStartCellHalf: boolean;
+  isEndCellHalf: boolean;
 }
 
 function SelectTimeCell({
@@ -20,7 +21,8 @@ function SelectTimeCell({
   onDragStart,
   onDragMove,
   onDragEnd,
-  isEndCell,
+  isStartCellHalf,
+  isEndCellHalf,
 }: SelectTimeCellProps) {
   const cellRef = useRef<HTMLDivElement>(null);
 
@@ -78,7 +80,8 @@ function SelectTimeCell({
       }
       onMouseUp={onDragEnd}
       data-timeslot={JSON.stringify(timeSlot)}
-      isEndCell={timeSlot.minute === '30' || isEndCell}
+      isEndCellHalf={timeSlot.minute === '30' || isEndCellHalf}
+      isStartCellHalf={isStartCellHalf}
     />
   );
 }
@@ -95,10 +98,15 @@ const SelectHalfCell = styled.div<CellProps>`
   border-left: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   background-color: ${(props) => (props.selected ? '#E2F5E3' : 'white')};
   &:first-child {
-    ${({ isEndCell }) =>
-      isEndCell
-        ? `border-bottom: 0.1px solid ${theme.color.secondary.solid.gray[800]};`
-        : `border-bottom: 2px dashed #ccc;`}
+    ${({ isStartCellHalf, isEndCellHalf }) => {
+      if (isStartCellHalf) {
+        return null;
+      }
+      if (isEndCellHalf) {
+        return `border-bottom: 0.1px solid ${theme.color.secondary.solid.gray[800]};`;
+      }
+      return `border-bottom: 2px dashed #ccc;`;
+    }}
     border-top: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   }
   touch-action: none;

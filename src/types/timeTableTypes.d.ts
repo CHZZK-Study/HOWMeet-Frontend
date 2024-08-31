@@ -53,5 +53,6 @@ export interface TimeTableProps {
 
 export interface CellProps {
   selected: boolean;
-  isEndCell?: boolean;
+  isStartCellHalf: boolean;
+  isEndCellHalf: boolean;
 }

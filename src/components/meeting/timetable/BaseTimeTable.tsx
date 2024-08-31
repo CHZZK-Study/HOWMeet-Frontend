@@ -8,7 +8,8 @@ interface BaseTimeTableProps {
     hour: string,
     date: string,
     minute: string,
-    isHalf: boolean
+    isEndCellHalf: boolean,
+    isStartCellHalf: boolean
   ) => React.ReactNode;
 }
 
@@ -40,18 +41,16 @@ function BaseTimeTable({ data, renderCell }: BaseTimeTableProps) {
                   (hourIndex === data.hours.length - 1 && data.isEndHalfMinute)
                 }
               >
-                {
-                  hourIndex === 0 && data.isStartHalfMinute
-                    ? null // 첫 번째 시간대가 '30'으로 시작
-                    : renderCell(
-                        hour,
-                        date,
-                        '00',
-                        (hourIndex === 0 && data.isStartHalfMinute) ||
-                          (hourIndex === data.hours.length - 1 &&
-                            data.isEndHalfMinute)
-                      ) /* 나머지는 '00' */
-                }
+                {hourIndex === 0 && data.isStartHalfMinute
+                  ? null
+                  : renderCell(
+                      hour,
+                      date,
+                      '00',
+                      hourIndex === 0 && data.isStartHalfMinute,
+                      hourIndex === data.hours.length - 1 &&
+                        data.isEndHalfMinute
+                    )}
 
                 {hourIndex === data.hours.length - 1 && data.isEndHalfMinute
                   ? null
@@ -59,9 +58,9 @@ function BaseTimeTable({ data, renderCell }: BaseTimeTableProps) {
                       hour,
                       date,
                       '30',
-                      (hourIndex === 0 && data.isStartHalfMinute) ||
-                        (hourIndex === data.hours.length - 1 &&
-                          data.isEndHalfMinute)
+                      hourIndex === 0 && data.isStartHalfMinute,
+                      hourIndex === data.hours.length - 1 &&
+                        data.isEndHalfMinute
                     )}
               </CellGroup>
             ))}
