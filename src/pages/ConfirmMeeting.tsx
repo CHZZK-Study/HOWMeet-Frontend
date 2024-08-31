@@ -32,9 +32,10 @@ function ConfirmMeeting() {
 
 const HeaderWrapper = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
 
-  img {
+  svg {
     margin-top: 20px;
     cursor: pointer;
   }

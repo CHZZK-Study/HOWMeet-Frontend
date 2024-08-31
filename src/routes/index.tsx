@@ -10,6 +10,7 @@ import MakingRoomPage from '@/pages/MakingRoomPage';
 import ConfirmMeeting from '@/pages/ConfirmMeeting';
 import ResultGraphPage from '@/pages/ResultGraphPage';
 import HomePage from '@/pages/HomePage';
+import RoomPage from '@/pages/RoomPage';
 
 
 const router = createBrowserRouter([
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
     path: 'meeting/:id/result/graph',
     element: <ResultGraphPage />,
   },
+  {
+    path: 'room/:id',
+    element: <RoomPage />,
+  }
 ]);
 
 function Router() {
