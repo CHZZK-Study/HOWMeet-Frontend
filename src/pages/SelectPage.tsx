@@ -15,6 +15,7 @@ import {
   formatTimeTableData,
 } from '@/utils/meeting/timetable/formatDateTime';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 function SelectPage() {
   const timeTableData: TimeTableData = formatTimeTableData([
@@ -34,6 +35,7 @@ function SelectPage() {
   const handleModalOpen = () => {
     openModal();
     setIsSelected(true);
+    toast.success('🎉 정보가 성공적으로 저장되었습니다!');
     console.log('selectedTimes: ', formatPostDateTime(selectedTimes));
   };
 
