@@ -82,6 +82,11 @@ const typo = {
         font-weight: 500;
         line-height: 24px;
       `,
+      18: `
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 24px;
+      `,
       16: `
         font-size: 16px;
         font-weight: 500;
