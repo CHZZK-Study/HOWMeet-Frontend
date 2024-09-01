@@ -31,8 +31,15 @@ function BaseTimeTable({ data, renderCell }: BaseTimeTableProps) {
       {data.hours.map((hour, hourIndex) => (
         <React.Fragment key={`hour-${hour}`}>
           <Row>
-            <HourCell>{hour}</HourCell>
-            {/* 셀 만드는 로직 */}
+            <HourContainer>
+              {hourIndex === 0 && data.isStartHalfMinute ? null : (
+                <HourCell>{hour}:00</HourCell>
+              )}
+              {hourIndex === data.hours.length - 1 &&
+              data.isEndHalfMinute ? null : (
+                <HourCell>{hour}:30</HourCell>
+              )}
+            </HourContainer>
             {data.dates.map((date) => (
               <CellGroup
                 key={`${hour}-${date}`}
@@ -86,6 +93,14 @@ const TableContainer = styled.div`
 
 const Header = styled.div`
   display: flex;
+`;
+
+const HourContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 `;
 
 const HourCell = styled.div`
