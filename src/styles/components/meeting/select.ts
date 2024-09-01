@@ -18,6 +18,7 @@ export const SelectableItem = styled.li`
   display: flex;
   flex: 1;
   justify-content: space-between;
+  align-items: center;
 
   background: ${({ theme }) => theme.color.primary.white};
   border-radius: 12px;
