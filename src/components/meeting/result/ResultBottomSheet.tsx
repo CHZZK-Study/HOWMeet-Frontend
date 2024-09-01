@@ -99,8 +99,8 @@ const ParticipantList = styled.div<{ $participant: boolean }>`
   ${theme.typo.body.regular}
   font-weight: bold;
 
-  color: ${(props) =>
-    props.$participant ? colors.participantText : colors.nonParticipantText};
+  color: ${({ $participant }) =>
+    $participant ? colors.participantText : colors.nonParticipantText};
 `;
 
 const ParticipantIcon = styled.div<{ $participant: boolean }>`
