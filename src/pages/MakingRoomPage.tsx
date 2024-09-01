@@ -12,8 +12,13 @@ import { TITLE } from '@/constants/title';
 import { PageTitle } from '@/styles/components/text';
 
 import { FormProvider, useForm } from 'react-hook-form';
+import useMakeRoomStore from '@/store/makeroom/useMakeRoomStore';
+import { useNavigate } from 'react-router-dom';
 
 function MakingRoomPage() {
+  const setRoomName = useMakeRoomStore((state) => state.setRoomName);
+  const navigate = useNavigate();
+
   const methods = useForm({
     mode: 'onChange',
     defaultValues: { roomName: '' },
@@ -21,7 +26,14 @@ function MakingRoomPage() {
   const {
     register,
     formState: { isValid },
+    watch,
   } = methods;
+
+  const handleClickButton = () => {
+    const roomName = watch('roomName');
+    setRoomName(roomName);
+    navigate('/new-meeting');
+  };
 
   return (
     <FlexColContainer>
@@ -34,13 +46,17 @@ function MakingRoomPage() {
             label={INPUT.makeRoom.label}
             {...register('roomName', {
               required: true,
-              minLength: 1,
             })}
           />
         </FormProvider>
       </ContentContainer>
       <ButtonContainer>
-        <Button $style="solid" disabled={!isValid}>
+        <Button
+          $style="solid"
+          $theme="primary"
+          disabled={!isValid}
+          onClick={handleClickButton}
+        >
           다음
         </Button>
       </ButtonContainer>
