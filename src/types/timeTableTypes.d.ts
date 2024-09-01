@@ -64,3 +64,34 @@ export interface RenderCellProps {
   isStartCellHalf: boolean;
   isEndCellHalf: boolean;
 }
+
+interface BaseTimeCellProps {
+  isSelected: boolean;
+  dragDisabled: boolean;
+  isStartCellHalf: boolean;
+  isEndCellHalf: boolean;
+  onDragEnd: () => void;
+}
+
+export interface SelectTimeCellProps extends BaseTimeCellProps {
+  timeSlot: TimeSlot;
+  onDragStart: (timeSlot: TimeSlot) => void;
+  onDragMove: (timeSlot: TimeSlot) => void;
+}
+
+export interface ResultTimeCellProps extends BaseTimeCellProps {
+  timeSlot: ResultHeatmapCellInfo;
+  intensity: number;
+  onDragStart: (
+    timeSlot: ResultHeatmapCellInfo,
+    event: React.MouseEvent | React.TouchEvent
+  ) => void;
+  onDragMove: (
+    timeSlot: ResultHeatmapCellInfo,
+    event: React.MouseEvent | React.TouchEvent
+  ) => void;
+  onCellInteraction: (
+    event: React.MouseEvent | React.TouchEvent,
+    slot: ResultHeatmapCellInfo | null
+  ) => void;
+}

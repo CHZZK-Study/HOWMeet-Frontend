@@ -1,18 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { CellProps, TimeSlot } from '@/types/timeTableTypes';
+import { CellProps, SelectTimeCellProps } from '@/types/timeTableTypes';
 import theme from '@/styles/theme';
-
-interface SelectTimeCellProps {
-  timeSlot: TimeSlot;
-  isSelected: boolean;
-  dragDisabled: boolean;
-  onDragStart: (timeSlot: TimeSlot) => void;
-  onDragMove: (timeSlot: TimeSlot) => void;
-  onDragEnd: () => void;
-  isStartCellHalf: boolean;
-  isEndCellHalf: boolean;
-}
 
 function SelectTimeCell({
   timeSlot,

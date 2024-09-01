@@ -1,31 +1,9 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { CellProps, ResultHeatmapCellInfo } from '@/types/timeTableTypes';
+import { CellProps, ResultTimeCellProps } from '@/types/timeTableTypes';
 import getAdjustedColor from '@/utils/meeting/timetable/getAdjustedColor';
 import theme from '@/styles/theme';
 import { SelectHalfCell } from './SelectTimeCell';
-
-interface ResultTimeCellProps {
-  timeSlot: ResultHeatmapCellInfo;
-  isSelected: boolean;
-  dragDisabled: boolean;
-  intensity: number;
-  isStartCellHalf: boolean;
-  isEndCellHalf: boolean;
-  onDragStart: (
-    timeSlot: ResultHeatmapCellInfo,
-    event: React.MouseEvent | React.TouchEvent
-  ) => void;
-  onDragMove: (
-    timeSlot: ResultHeatmapCellInfo,
-    event: React.MouseEvent | React.TouchEvent
-  ) => void;
-  onDragEnd: () => void;
-  onCellInteraction: (
-    event: React.MouseEvent | React.TouchEvent,
-    slot: ResultHeatmapCellInfo | null
-  ) => void;
-}
 
 function ResultTimeCell({
   timeSlot,
