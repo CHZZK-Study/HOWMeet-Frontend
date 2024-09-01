@@ -19,7 +19,6 @@ function App() {
           style: toasterStyle,
         }}
       />
-
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Router />
