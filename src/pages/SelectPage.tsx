@@ -41,7 +41,7 @@ function SelectPage() {
 
   return (
     <NormalContainer>
-      <Header title="일정 조율" />
+      <Header title="일정 조율" isShare />
       <TimeSelectTitle
         Title={
           isSelected
