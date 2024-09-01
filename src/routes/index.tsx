@@ -12,7 +12,6 @@ import ResultGraphPage from '@/pages/ResultGraphPage';
 import HomePage from '@/pages/HomePage';
 import RoomPage from '@/pages/RoomPage';
 
-
 const router = createBrowserRouter([
   {
     path: '/',
@@ -61,7 +60,7 @@ const router = createBrowserRouter([
   {
     path: 'room/:id',
     element: <RoomPage />,
-  }
+  },
 ]);
 
 function Router() {
