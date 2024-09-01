@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { CellProps, ResultHeatmapCellInfo } from '@/types/timeTableTypes';
 import getAdjustedColor from '@/utils/meeting/timetable/getAdjustedColor';
 import theme from '@/styles/theme';
+import { SelectHalfCell } from './SelectTimeCell';
 
 interface ResultTimeCellProps {
   timeSlot: ResultHeatmapCellInfo;
@@ -108,12 +109,9 @@ function ResultTimeCell({
 const MemoizedResultTimeCell = React.memo(ResultTimeCell);
 export default MemoizedResultTimeCell;
 
-const ResultHalfCell = styled.div<CellProps & { intensity: number }>`
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+const ResultHalfCell = styled(SelectHalfCell)<
+  CellProps & { intensity: number }
+>`
   border-right: ${({ selected }) =>
     selected
       ? '2px solid white'
@@ -149,7 +147,4 @@ const ResultHalfCell = styled.div<CellProps & { intensity: number }>`
       return `2px dashed #ccc`;
     }};
   }
-
-  touch-action: none;
-  user-select: none;
 `;

@@ -89,7 +89,7 @@ function SelectTimeCell({
 const MemoizedSelectTimeCell = React.memo(SelectTimeCell);
 export default MemoizedSelectTimeCell;
 
-const SelectHalfCell = styled.div<CellProps>`
+export const SelectHalfCell = styled.div<CellProps>`
   flex: 1;
   display: flex;
   align-items: center;
