@@ -19,10 +19,11 @@ import { toast } from 'sonner';
 
 function SelectPage() {
   const timeTableData: TimeTableData = formatTimeTableData([
-    '2024-07-01T11:30',
-    '2024-07-03T21:30',
+    '2024-07-01T11:00',
+    '2024-07-07T22:00',
   ]);
 
+  console.log('timeTableData: ', timeTableData);
   const { selectedTimes } = useTimeStore();
 
   const { closeModal, isOpen, openModal } = useModal();

@@ -69,7 +69,7 @@ function SelectTimeCell({
       }
       onMouseUp={onDragEnd}
       data-timeslot={JSON.stringify(timeSlot)}
-      isEndCellHalf={timeSlot.minute === '30' || isEndCellHalf}
+      isEndCellHalf={isEndCellHalf}
       isStartCellHalf={isStartCellHalf}
     />
   );
@@ -97,6 +97,9 @@ export const SelectHalfCell = styled.div<CellProps>`
       return `border-bottom: 2px dashed #ccc;`;
     }}
     border-top: 0.1px solid ${theme.color.secondary.solid.gray[800]};
+  }
+  &:last-child {
+    border-bottom: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   }
   touch-action: none;
 `;

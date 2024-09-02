@@ -56,15 +56,24 @@ const generateDateRange = (start: string, end: string): string[] => {
   return dateArray;
 };
 
-const generateHoursRange = (start: string, end: string): string[] => {
+const generateHoursRange = (
+  start: string,
+  end: string,
+  isEndHalfMinute: boolean
+): string[] => {
   const startHour = parseInt(start.split('T')[1].split(':')[0], 10);
   const endHour = parseInt(end.split('T')[1].split(':')[0], 10);
   const hours = [];
 
-  for (let hour = startHour; hour <= endHour; hour += 1) {
-    hours.push(String(hour).padStart(2, '0'));
+  if (isEndHalfMinute) {
+    for (let hour = startHour; hour <= endHour; hour += 1) {
+      hours.push(String(hour).padStart(2, '0'));
+    }
+  } else {
+    for (let hour = startHour; hour < endHour; hour += 1) {
+      hours.push(String(hour).padStart(2, '0'));
+    }
   }
-
   return hours;
 };
 
@@ -76,7 +85,7 @@ export const formatTimeTableData = (data: string[]): TimeTableData => {
   const isStartHalfMinute = start.split('T')[1].split(':')[1] === '30';
   const isEndHalfMinute = end.split('T')[1].split(':')[1] === '30';
   const dateRange = generateDateRange(start, end);
-  const hoursRange = generateHoursRange(start, end);
+  const hoursRange = generateHoursRange(start, end, isEndHalfMinute);
 
   const days: string[] = [];
   const dates: string[] = [];
