@@ -50,11 +50,11 @@ function DecisionPage() {
     <NormalContainer>
       <Header title="일정 조율" />
       <AttendStatusHeader
-        TotalParticipants={data.totalParticipants.names.length}
-        currentParticipants={data.participatedUsers.names.length}
-        participatedUsers={data.participatedUsers.names}
-        unParticipatedUsers={data.totalParticipants.names.filter(
-          (name) => !data.participatedUsers.names.includes(name)
+        TotalPersonnel={data.TotalPersonnel.length}
+        currentParticipants={data.participatedPersonnel.length}
+        participatedPersonnel={data.participatedPersonnel}
+        unParticipatedPersonnel={data.TotalPersonnel.filter(
+          (name) => !data.participatedPersonnel.includes(name)
         )}
       />
       <ResultTimeTable

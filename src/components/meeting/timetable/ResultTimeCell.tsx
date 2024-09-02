@@ -125,4 +125,10 @@ const ResultHalfCell = styled(SelectHalfCell)<
       return `2px dashed #ccc`;
     }};
   }
+  
+  &:last-child {
+    border-bottom: ${({ selected }) =>
+      selected
+        ? '2px solid white'
+        : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
 `;

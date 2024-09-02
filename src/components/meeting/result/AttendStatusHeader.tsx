@@ -4,15 +4,15 @@ import theme from '@/styles/theme';
 import ResultBottomSheet from './ResultBottomSheet';
 
 function AttendStatusHeader({
-  TotalParticipants,
+  TotalPersonnel,
   currentParticipants,
-  participatedUsers,
-  unParticipatedUsers,
+  participatedPersonnel,
+  unParticipatedPersonnel,
 }: {
-  TotalParticipants: number;
+  TotalPersonnel: number;
   currentParticipants: number;
-  participatedUsers: string[];
-  unParticipatedUsers: string[];
+  participatedPersonnel: string[];
+  unParticipatedPersonnel: string[];
 }) {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
@@ -21,7 +21,7 @@ function AttendStatusHeader({
 
   return (
     <>
-      {TotalParticipants === currentParticipants ? (
+      {TotalPersonnel === currentParticipants ? (
         <AttendStatusHeaderContainer>
           <Title>모든 팀원 일정 조율 완료!</Title>
         </AttendStatusHeaderContainer>
@@ -32,7 +32,7 @@ function AttendStatusHeader({
           <AttendStatus>
             현재 참여인원
             <AttendParticipantContainer onClick={openBottomSheet}>
-              {TotalParticipants}명 중
+              {TotalPersonnel}명 중
               <AttendParticipantCount>
                 {currentParticipants}명
               </AttendParticipantCount>
@@ -42,10 +42,10 @@ function AttendStatusHeader({
       )}
       {isBottomSheetOpen && (
         <ResultBottomSheet
-          TotalParticipants={TotalParticipants}
+          TotalPersonnel={TotalPersonnel}
           currentParticipants={currentParticipants}
-          participatedUsers={participatedUsers}
-          unParticipatedUsers={unParticipatedUsers}
+          participatedPersonnel={participatedPersonnel}
+          unParticipatedPersonnel={unParticipatedPersonnel}
           onClose={closeBottomSheet}
         />
       )}

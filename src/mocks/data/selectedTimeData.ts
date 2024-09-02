@@ -1,41 +1,27 @@
-import { TimeTableData } from '@/types/timeTableTypes';
-
-export const timeTableData: TimeTableData = {
-  hours: [
-    '10',
-    '11',
-    '12',
-    '13',
-    '14',
-    '15',
-    '16',
-    '17',
-    '18',
-    '19',
-    '20',
-    '21',
-    '22',
-  ],
-  days: ['월', '화', '수'],
-  dates: ['2024-07-01', '2024-07-02', '2024-07-03'],
-  months: ['7/1', '7/2', '7/3'],
-};
 export const selectedTimeData = {
   RoomId: 11,
-  totalParticipants: {
-    count: 9,
-    names: [
-      '오영',
-      '채림',
-      '구예진',
-      '고세종',
-      '류지민',
-      '김유희',
-      '경효선',
-      '김수현',
-      '김민우',
-    ],
-  },
+  TotalPersonnel: [
+    '오영',
+    '채림',
+    '구예진',
+    '고세종',
+    '류지민',
+    '김유희',
+    '경효선',
+    '김수현',
+    '김민우',
+  ],
+
+  participatedPersonnel: [
+    '오영',
+    '구예진',
+    '고세종',
+    '류지민',
+    '김유희',
+    '김수현',
+    '경효선',
+    '김민우',
+  ],
   selectTime: [
     // 연속된 시간 동안 같은 사용자가 유지되는 경우
     {
@@ -543,17 +529,4 @@ export const selectedTimeData = {
       userCount: 3,
     },
   ],
-  participatedUsers: {
-    names: [
-      '오영',
-      '구예진',
-      '고세종',
-      '류지민',
-      '김유희',
-      '김수현',
-      '경효선',
-      '김민우',
-    ],
-    count: 8,
-  },
 };

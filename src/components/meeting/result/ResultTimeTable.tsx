@@ -40,7 +40,7 @@ function ResultTimeTable({
       (s) => s.time === `${date}T${hour}:${minute}`
     );
     const intensity = slot
-      ? slot.userCount / roomInfo.totalParticipants.count
+      ? slot.userCount / roomInfo.TotalPersonnel.length
       : 0;
 
     const timeSlot: ResultHeatmapCellInfo = {
