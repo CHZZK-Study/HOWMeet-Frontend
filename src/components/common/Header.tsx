@@ -1,21 +1,34 @@
 import { LeftArrowIcon, ShareIcon } from 'public/assets/icons';
 import styled from 'styled-components';
+import ToolTip from '../meeting/select/HeaderToolTip';
 
 interface Props {
   title: string;
   isShare?: boolean;
+  toggle?: () => void;
+  isVisible?: boolean;
 }
 
 interface HeaderProps {
   isShare?: boolean;
 }
 
-function Header({ title, isShare }: Props) {
+function Header({ title, isShare, isVisible, toggle }: Props) {
   return (
-    <HeaderContainer>
+    <HeaderContainer isShare={isShare}>
       <LeftArrowIcon className="back-button" />
       <HeadTitle>{title}</HeadTitle>
-      {isShare && <ShareIcon className="share-button" />}
+      {isShare && (
+        <>
+          <ShareIcon className="share-button" />
+          {isVisible && (
+            <ToolTip
+              content="팀원에게 공유해서 함께 일정을 조율해보세요!"
+              toggle={toggle as () => void}
+            />
+          )}
+        </>
+      )}
     </HeaderContainer>
   );
 }
@@ -25,8 +38,8 @@ const HeaderContainer = styled.div<HeaderProps>`
   height: 52px;
   display: flex;
   align-items: center;
-  justify-content: ${({ isShare }) => (isShare ? '' : 'center')};
-  padding: 0 16px; /* 좌우 패딩 설정 */
+  justify-content: center;
+  padding: 0 16px;
   background: ${({ theme }) => theme.color.primary.white};
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.04);
   border-bottom: 1px solid ${({ theme }) => theme.color.primary.white};

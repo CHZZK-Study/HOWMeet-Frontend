@@ -1,19 +1,20 @@
+import { TooltipContent } from '@/components/common/ToolTip';
+import theme from '@/styles/theme';
 import styled from 'styled-components';
 
 interface ToolTipProps {
   content: string;
-  x: number;
-  y: number;
-  isAbove: boolean;
+  toggle: () => void;
 }
 
-function ToolTip({ content, x, y, isAbove }: ToolTipProps) {
+function ToolTip({ content, toggle }: ToolTipProps) {
   return (
-    <ToolTipWrapper style={{ top: `${y + 10}px` }}>
-      <TooltipArrow style={{ left: `${x}px` }} isAbove={isAbove} />
+    <ToolTipWrapper>
+      <TooltipArrow />
       <CustomTooltip>
         <TooltipContent>
           <UserName>{content}</UserName>
+          <CloseButton onClick={toggle}>X</CloseButton>
         </TooltipContent>
       </CustomTooltip>
     </ToolTipWrapper>
@@ -24,20 +25,20 @@ export default ToolTip;
 
 const ToolTipWrapper = styled.div`
   position: absolute;
-  left: 0;
-  right: 0;
+  left: 30%;
+  right: 2%;
+  top: 70px;
   display: flex;
   justify-content: center;
-  pointer-events: none;
 `;
 
 const CustomTooltip = styled.div`
   position: relative;
   background-color: white;
-  border-radius: 8px;
+  border-radius: 96px;
   z-index: 999;
   padding: 10px;
-  width: 90%;
+  width: 100%;
   border: 1px solid rgba(100, 45, 255, 1);
 `;
 
@@ -51,18 +52,25 @@ export const TooltipArrow = styled.div<{ isAbove?: boolean }>`
     isAbove ? 'border-bottom' : 'border-top'}: 1px solid rgba(100, 45, 255, 1);
   ${({ isAbove }) =>
     isAbove ? 'border-right' : 'border-left'}: 1px solid rgba(100, 45, 255, 1);
-  transform: translateX(-50%) rotate(45deg);
+  transform: rotate(45deg);
   z-index: 1000;
+  right: 7%;
 `;
 
-export const TooltipContent = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+const commonStyles = `
+  font-size: 14px;
+  color: ${theme.color.point.purple};
 `;
 
 export const UserName = styled.span`
+  ${commonStyles}
   margin: 5px;
-  font-size: 14px;
-  font-weight: bold;
+`;
+
+const CloseButton = styled.button`
+  ${commonStyles}
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
 `;

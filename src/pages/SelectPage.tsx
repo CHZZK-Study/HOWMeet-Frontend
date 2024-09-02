@@ -4,6 +4,7 @@ import SelectableTimeTable from '@/components/meeting/select/SelectableTimeTable
 import TimeSelectModalComp from '@/components/meeting/select/TimeSelectCompModal';
 import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
 import useModal from '@/hooks/useModal';
+import useToolTip from '@/hooks/useToolTip';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
 import {
   ButtonContainer,
@@ -22,11 +23,9 @@ function SelectPage() {
     '2024-07-01T11:00',
     '2024-07-07T22:00',
   ]);
-
-  console.log('timeTableData: ', timeTableData);
   const { selectedTimes } = useTimeStore();
-
   const { closeModal, isOpen, openModal } = useModal();
+  const { isToolTipOpen, closeToolTip } = useToolTip();
   const [isSelected, setIsSelected] = useState(false);
 
   const handleReWrite = () => {
@@ -42,7 +41,12 @@ function SelectPage() {
 
   return (
     <NormalContainer>
-      <Header title="일정 조율" isShare />
+      <Header
+        title="일정 조율"
+        isShare
+        toggle={closeToolTip}
+        isVisible={isToolTipOpen}
+      />
       <TimeSelectTitle
         Title={
           isSelected
