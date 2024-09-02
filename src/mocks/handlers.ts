@@ -1,6 +1,7 @@
 import { LoginReq } from '@/models/user.model';
 import { http, HttpResponse, PathParams } from 'msw';
 import { selectedTimeData } from './data/selectedTimeData';
+import { TimeTableServerInfo } from './data/timeTableData';
 
 const handlers = [
   http.get('https://example.com/user', () => {
@@ -30,6 +31,9 @@ const handlers = [
   // 선택한 시간 결과 가져오기 (방장용)
   http.get('/selectedResult', () => {
     return HttpResponse.json(selectedTimeData);
+  }),
+  http.get('/timeTableData', () => {
+    return HttpResponse.json(TimeTableServerInfo);
   }),
 ];
 

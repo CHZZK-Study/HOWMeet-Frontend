@@ -78,8 +78,8 @@ function ResultTimeCell({
       onClick={(e) => onCellInteraction(e, timeSlot)}
       data-timeslot={JSON.stringify(timeSlot)}
       data-hour={timeSlot.hour}
-      isEndCellHalf={isEndCellHalf}
-      isStartCellHalf={isStartCellHalf}
+      $isEndCellHalf={isEndCellHalf}
+      $isStartCellHalf={isStartCellHalf}
     />
   );
 }
@@ -112,14 +112,14 @@ const ResultHalfCell = styled(SelectHalfCell)<
       selected
         ? '2px solid white'
         : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
-    border-bottom: ${({ selected, isStartCellHalf, isEndCellHalf }) => {
+    border-bottom: ${({ selected, $isStartCellHalf, $isEndCellHalf }) => {
       if (selected) {
         return '2px solid white';
       }
-      if (isStartCellHalf) {
+      if ($isStartCellHalf) {
         return 'none';
       }
-      if (isEndCellHalf) {
+      if ($isEndCellHalf) {
         return `0.1px solid ${theme.color.secondary.solid.gray[800]}`;
       }
       return `2px dashed #ccc`;

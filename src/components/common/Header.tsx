@@ -15,7 +15,7 @@ interface HeaderProps {
 
 function Header({ title, isShare, isVisible, toggle }: Props) {
   return (
-    <HeaderContainer isShare={isShare}>
+    <HeaderContainer>
       <LeftArrowIcon className="back-button" />
       <HeadTitle>{title}</HeadTitle>
       {isShare && (

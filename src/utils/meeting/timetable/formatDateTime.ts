@@ -1,21 +1,21 @@
 import { TimeSlot, TimeTableData } from '@/types/timeTableTypes';
 
-const formatDateTime = (time: {
-  hour: string;
-  minute: string;
-  day: string;
-  date: string;
-  month: string;
-}): string => {
-  const year = new Date().getFullYear();
-  const [month, date] = time.month.split('/');
-  const formattedMonth = month.padStart(2, '0');
-  const formattedDate = date.padStart(2, '0');
-  const formattedHour = time.hour.padStart(2, '0');
-  const formattedMinute = time.minute;
+// export const formatDateTime = (time: {
+//   hour: string;
+//   minute: string;
+//   day: string;
+//   date: string;
+//   month: string;
+// }): string => {
+//   const year = new Date().getFullYear();
+//   const [month, date] = time.month.split('/');
+//   const formattedMonth = month.padStart(2, '0');
+//   const formattedDate = date.padStart(2, '0');
+//   const formattedHour = time.hour.padStart(2, '0');
+//   const formattedMinute = time.minute;
 
-  return `${year}-${formattedMonth}-${formattedDate}T${formattedHour}:${formattedMinute}`;
-};
+//   return `${year}-${formattedMonth}-${formattedDate}T${formattedHour}:${formattedMinute}`;
+// };
 
 export const formatPostDateTime = (data: TimeSlot[]) => {
   const formatDateTimeSlots = data.map((time) => {
@@ -27,8 +27,6 @@ export const formatPostDateTime = (data: TimeSlot[]) => {
 
   return sortedTimeSlots;
 };
-
-export default formatDateTime;
 
 const getDay = (date: string): string => {
   const days = ['일', '월', '화', '수', '목', '금', '토'];
@@ -75,6 +73,94 @@ const generateHoursRange = (
     }
   }
   return hours;
+};
+
+interface TimeTableServerData {
+  gsId: number;
+  dates: string[];
+  time: {
+    startTime: string;
+    endTime: string;
+  };
+  name: {
+    value: string;
+  };
+}
+
+export const formatServerToTimeTableData = (
+  data: TimeTableServerData
+): TimeTableData => {
+  const start = data.dates[0];
+  const end = data.dates[1];
+  const { startTime } = data.time;
+  const { endTime } = data.time;
+  const isStartHalfMinute = startTime.split(':')[1] === '30';
+  const isEndHalfMinute = endTime.split(':')[1] === '30';
+  const dateRange = generateServerDateRange(start, end);
+  const hoursRange = generateServerHoursRange(
+    startTime,
+    endTime,
+    isEndHalfMinute
+  );
+  console.log('hoursRange: ', hoursRange);
+
+  const days: string[] = [];
+  const dates: string[] = [];
+  const months: string[] = [];
+
+  dateRange.forEach((date: string) => {
+    days.push(getDay(date));
+    dates.push(date);
+
+    const [, month, dayPart] = date.split('-');
+    months.push(`${parseInt(month, 10)}/${parseInt(dayPart, 10)}`);
+  });
+
+  return {
+    hours: hoursRange,
+    days,
+    dates,
+    months,
+    isEndHalfMinute,
+    isStartHalfMinute,
+  };
+};
+
+const generateServerHoursRange = (
+  start: string,
+  end: string,
+  isEndHalfMinute: boolean
+): string[] => {
+  const startHour = parseInt(start.split(':')[0], 10);
+  const endHour = parseInt(end.split(':')[0], 10);
+  const hours = [];
+
+  if (isEndHalfMinute) {
+    for (let hour = startHour; hour <= endHour; hour += 1) {
+      hours.push(String(hour).padStart(2, '0'));
+    }
+  } else {
+    for (let hour = startHour; hour < endHour; hour += 1) {
+      hours.push(String(hour).padStart(2, '0'));
+    }
+  }
+  return hours;
+};
+
+const generateServerDateRange = (start: string, end: string): string[] => {
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  const dateArray = [];
+
+  while (startDate <= endDate) {
+    const year = startDate.getFullYear();
+    const month = String(startDate.getMonth() + 1).padStart(2, '0');
+    const day = String(startDate.getDate()).padStart(2, '0');
+    dateArray.push(`${year}-${month}-${day}`);
+    startDate.setDate(startDate.getDate() + 1);
+  }
+
+  return dateArray;
 };
 
 export const formatTimeTableData = (data: string[]): TimeTableData => {

@@ -5,6 +5,7 @@ import TimeSelectModalComp from '@/components/meeting/select/TimeSelectCompModal
 import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
 import useModal from '@/hooks/useModal';
 import useToolTip from '@/hooks/useToolTip';
+import { TimeTableServerInfoProps } from '@/mocks/data/timeTableData';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
 import {
   ButtonContainer,
@@ -13,16 +14,13 @@ import {
 import { TimeTableData } from '@/types/timeTableTypes';
 import {
   formatPostDateTime,
-  formatTimeTableData,
+  formatServerToTimeTableData,
 } from '@/utils/meeting/timetable/formatDateTime';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 function SelectPage() {
-  const timeTableData: TimeTableData = formatTimeTableData([
-    '2024-07-01T11:00',
-    '2024-07-07T22:00',
-  ]);
   const { selectedTimes } = useTimeStore();
   const { closeModal, isOpen, openModal } = useModal();
   const { isToolTipOpen, closeToolTip } = useToolTip();
@@ -31,6 +29,24 @@ function SelectPage() {
   const handleReWrite = () => {
     setIsSelected(false);
   };
+  const { isLoading, isError, data } = useQuery<TimeTableServerInfoProps>({
+    queryKey: ['TimeTableServerInfo'],
+    queryFn: () => fetch('/timeTableData').then((res) => res.json()),
+  });
+
+  // 로딩 상태 처리
+  if (isLoading) {
+    console.log('isLoading: ', isLoading);
+    return <div>로딩중...</div>;
+  }
+
+  // 오류 상태 처리
+  if (isError) return <div>오류가 발생했습니다. 다시 시도해주세요.</div>;
+
+  // data가 undefined가 아닌지 확인
+  if (!data) return <div>데이터를 불러오지 못했습니다.</div>;
+
+  const timeTableData: TimeTableData = formatServerToTimeTableData(data);
 
   const handleModalOpen = () => {
     openModal();

@@ -49,8 +49,8 @@ export interface TimeTableProps {
 
 export interface CellProps {
   selected: boolean;
-  isStartCellHalf: boolean;
-  isEndCellHalf: boolean;
+  $isStartCellHalf: boolean;
+  $isEndCellHalf: boolean;
 }
 
 export interface RenderCellProps {

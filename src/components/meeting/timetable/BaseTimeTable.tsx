@@ -43,7 +43,7 @@ function BaseTimeTable({ data, renderCell }: BaseTimeTableProps) {
             {data.dates.map((date) => (
               <CellGroup
                 key={`${hour}-${date}`}
-                isHalf={
+                $isHalf={
                   (hourIndex === 0 && data.isStartHalfMinute) ||
                   (hourIndex === data.hours.length - 1 && data.isEndHalfMinute)
                 }
@@ -134,9 +134,9 @@ const Row = styled.div`
   display: flex;
 `;
 
-const CellGroup = styled.div<{ isHalf: boolean }>`
+const CellGroup = styled.div<{ $isHalf: boolean }>`
   flex: 1;
-  height: ${({ isHalf }) => (isHalf ? '20px;' : '40px;')}
+  height: ${({ $isHalf }) => ($isHalf ? '20px;' : '40px;')}
   display: flex;
   flex-direction: column;
 `;
