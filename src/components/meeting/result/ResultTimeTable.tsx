@@ -36,11 +36,12 @@ function ResultTimeTable({
     isStartCellHalf: boolean,
     isEndCellHalf: boolean
   ) => {
-    const slot = roomInfo.selectTime.find(
-      (s) => s.time === `${date}T${hour}:${minute}`
+    const slot = roomInfo.time.find(
+      (s) => s.selectTime === `${date}T${hour}:${minute}`
     );
     const intensity = slot
-      ? slot.userCount / roomInfo.TotalPersonnel.length
+      ? slot.participantDetails.nicknames.length /
+        roomInfo.TotalPersonnel.length
       : 0;
 
     const timeSlot: ResultHeatmapCellInfo = {
@@ -49,8 +50,8 @@ function ResultTimeTable({
       day: timetableInfo.days[timetableInfo.dates.indexOf(date)],
       date,
       month: timetableInfo.months[timetableInfo.dates.indexOf(date)],
-      users: slot ? slot.users : [],
-      userCount: slot ? slot.userCount : 0,
+      users: slot ? slot.participantDetails.nicknames : [],
+      userCount: slot ? slot.participantDetails.nicknames.length : 0,
     };
 
     return (

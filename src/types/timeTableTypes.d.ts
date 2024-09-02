@@ -1,10 +1,12 @@
 export interface ResultHeatmapProps {
   RoomId: number;
   TotalPersonnel: string[];
-  selectTime: {
-    time: string;
-    users: string[];
-    userCount: number;
+  time: {
+    selectTime: string;
+    participantDetails: {
+      count: number;
+      nicknames: string[];
+    };
   }[];
   participatedPersonnel: string[];
 }
