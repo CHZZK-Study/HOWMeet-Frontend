@@ -21,3 +21,10 @@ export interface SocialLoginRes {
   memberId: string;
   nickname: string;
 }
+
+export interface GetSocialLoginUrlRes {
+  clientId: string;
+  scopes: string[];
+  method: string;
+  url: string;
+}

@@ -1,9 +1,11 @@
 import {
+  GetSocialLoginUrlRes,
   LoginReq,
   LoginRes,
   SocialLoginReq,
   SocialLoginRes,
 } from '@/models/user.model';
+import { ProviderName } from '@/types/socialLogin';
 import { AxiosError, AxiosResponse } from 'axios';
 import { axiosInstance } from './instance';
 
@@ -21,6 +23,18 @@ export const login = async (req: LoginReq) => {
     }
     window.alert('다시 시도해주세요.');
   }
+};
+
+export const getSocialLoginUrl = async (providerName: ProviderName) => {
+  const result: AxiosResponse<GetSocialLoginUrlRes> = await axiosInstance.get(
+    '/oauth/authorize',
+    {
+      params: {
+        providerName,
+      },
+    }
+  );
+  return result;
 };
 
 export const socialLogin = async (req: SocialLoginReq) => {

@@ -2,16 +2,19 @@ import styled from 'styled-components';
 import { GuestTitle, Title } from '@/styles/components/text';
 import { GoogleIcon, KakaoIcon, NaverIcon } from 'public/assets/icons';
 import { ProviderName } from '@/types/socialLogin';
-import { LOGIN_URL } from '@/constants/login';
+import { STORAGE_KEY } from '@/constants/storage';
+import { getSocialLoginUrl } from '@/apis/user.api';
 
 interface Props {
   type?: 'guest' | 'default';
 }
 
 function MemberLogin({ type = 'default' }: Props) {
-  const handleSocialLogin = (service: ProviderName) => {
-    const url = LOGIN_URL[service];
-    window.location.href = url;
+  const handleSocialLogin = async (service: ProviderName) => {
+    localStorage.setItem(STORAGE_KEY.socialLoginType, service);
+    const result = await getSocialLoginUrl(service);
+    const { clientId, scopes, url } = result.data;
+    window.location.href = `${url}?client_id=${clientId}?scope=${scopes.join(' ')}`;
   };
 
   return (
