@@ -36,12 +36,12 @@ function SelectPage() {
   const { isLoading, isError, data } = useQuery<TimeTableServerInfoProps>({
     queryKey: ['TimeTableServerInfo'],
     // http://localhost:5173/guest-schedule/1
-    // queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
-    queryFn: async () => {
-      const response = await axiosInstance.get('/guest-schedule/1');
-      console.log(response);
-      return response.data; // 데이터 반환
-    },
+    queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
+    // queryFn: async () => {
+    //   const response = await axiosInstance.get('/guest-schedule/1');
+    //   console.log(response);
+    //   return response.data; // 데이터 반환
+    // },
   });
 
   useEffect(() => {
@@ -90,7 +90,7 @@ function SelectPage() {
       });
       openModal();
       setIsSelected(true);
-      toast.success('🎉 정보가 성공적으로 저장되었습니다!');
+      toast.message('정보가 성공적으로 저장되었습니다!');
     } catch (error) {
       console.error('Error posting selected times:', error);
       toast.error('정보 저장 중 오류가 발생했습니다. 다시 시도해주세요.');

@@ -41,6 +41,13 @@ const handlers = [
   http.get('/member-schedule/:id', () => {
     return HttpResponse.json(TimeTableServerInfo);
   }),
+
+  http.post('/gs-record', () => {
+    return HttpResponse.json(selectedTimeData);
+  }),
+  http.post('/ms-record', () => {
+    return HttpResponse.json(selectedTimeData);
+  }),
 ];
 
 export default handlers;

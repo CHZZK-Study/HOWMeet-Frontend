@@ -15,13 +15,13 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Toaster
-        position="bottom-center"
-        toastOptions={{
-          style: toasterStyle,
-        }}
-      />
       <ThemeProvider theme={theme}>
+        <Toaster
+          position="bottom-center"
+          toastOptions={{
+            style: toasterStyle,
+          }}
+        />
         <GlobalStyle />
         <Router />
       </ThemeProvider>
