@@ -67,7 +67,7 @@ function ResultTimeCell({
     <ResultHalfCell
       ref={cellRef}
       selected={isSelected}
-      intensity={intensity}
+      $intensity={intensity}
       onMouseDown={(e) => !dragDisabled && onDragStart(timeSlot, e)}
       onMouseEnter={(e) =>
         !dragDisabled && e.buttons === 1 && onDragMove(timeSlot, e)
@@ -88,7 +88,7 @@ const MemoizedResultTimeCell = React.memo(ResultTimeCell);
 export default MemoizedResultTimeCell;
 
 const ResultHalfCell = styled(SelectHalfCell)<
-  CellProps & { intensity: number }
+  CellProps & { $intensity: number }
 >`
   border-right: ${({ selected }) =>
     selected
@@ -104,8 +104,8 @@ const ResultHalfCell = styled(SelectHalfCell)<
       : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
   border-top: ${({ selected }) => (selected ? '2px solid white' : 'none')};
 
-  background-color: ${({ intensity }) =>
-    getAdjustedColor({ ratio: intensity })};
+  background-color: ${({ $intensity }) =>
+    getAdjustedColor({ ratio: $intensity })};
 
   &:first-child {
     border-top: ${({ selected }) =>
