@@ -1,6 +1,6 @@
 export const selectedTimeData = {
   RoomId: 11,
-  TotalPersonnel: [
+  totalPersonnel: [
     '오영',
     '채림',
     '구예진',
@@ -11,7 +11,6 @@ export const selectedTimeData = {
     '김수현',
     '김민우',
   ],
-
   participatedPersonnel: [
     '오영',
     '구예진',

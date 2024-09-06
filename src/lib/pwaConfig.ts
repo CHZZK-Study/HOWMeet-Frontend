@@ -8,6 +8,7 @@ export const pwaConfig: Partial<VitePWAOptions> = {
   },
   workbox: {
     sourcemap: true,
+    globPatterns: ['**/*.{js,css,html,png,svg,woff2}'], // 캐싱할 파일 유형을 지정
   },
   manifest: {
     name: 'HowMeet',

@@ -33,7 +33,12 @@ function DecisionPage() {
 
   const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['selectedTimeData'],
-    queryFn: () => fetch('/selectedResult').then((res) => res.json()),
+    queryFn: () => fetch('/gs-record/1').then((res) => res.json()),
+    // queryFn: async () => {
+    //   const response = await axiosInstance.get('/gs-record/1');
+    //   console.log(response);
+    //   return response.data; // 데이터 반환
+    // },
   });
 
   if (isLoading)

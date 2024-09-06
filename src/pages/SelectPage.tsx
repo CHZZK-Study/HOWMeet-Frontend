@@ -6,7 +6,10 @@ import TimeSelectModalComp from '@/components/meeting/select/TimeSelectCompModal
 import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
 import useModal from '@/hooks/useModal';
 import useToolTip from '@/hooks/useToolTip';
-import { TimeTableServerInfoProps } from '@/mocks/data/timeTableData';
+import {
+  IsTimeTableServerInfoProps,
+  TimeTableServerInfoProps,
+} from '@/mocks/data/timeTableData';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
 import {
   ButtonContainer,
@@ -18,7 +21,7 @@ import {
   formatServerToTimeTableData,
 } from '@/utils/meeting/timetable/formatDateTime';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 function SelectPage() {
@@ -32,12 +35,21 @@ function SelectPage() {
   };
   const { isLoading, isError, data } = useQuery<TimeTableServerInfoProps>({
     queryKey: ['TimeTableServerInfo'],
-    // queryFn: () => fetch('/timeTableData').then((res) => res.json()),
-    queryFn: () => axiosInstance.get('/guest-schedule/1'),
+    // http://localhost:5173/guest-schedule/1
+    // queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
+    queryFn: async () => {
+      const response = await axiosInstance.get('/guest-schedule/1');
+      console.log(response);
+      return response.data; // 데이터 반환
+    },
   });
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   // 로딩 상태 처리
-  if (isLoading) {
+  if (isLoading || !data || !IsTimeTableServerInfoProps(data)) {
     return (
       <NormalContainer>
         <Header
@@ -67,6 +79,7 @@ function SelectPage() {
 
   const timeTableData: TimeTableData = formatServerToTimeTableData(data);
 
+  console.log(data);
   const handleModalOpen = async () => {
     try {
       const formattedTimes = formatPostDateTime(selectedTimes);

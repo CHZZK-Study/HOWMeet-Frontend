@@ -29,7 +29,10 @@ const handlers = [
   }),
 
   // 선택한 시간 결과 가져오기 (방장용)
-  http.get('/selectedResult', () => {
+  http.get('/gs-record/:id', () => {
+    return HttpResponse.json(selectedTimeData);
+  }),
+  http.get('/ms-record/:id', () => {
     return HttpResponse.json(selectedTimeData);
   }),
   http.get('/guest-schedule/:id', () => {
