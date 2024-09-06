@@ -1,6 +1,6 @@
 export interface ResultHeatmapProps {
   RoomId: number;
-  TotalPersonnel: string[];
+  totalPersonnel: string[];
   time: {
     selectTime: string;
     participantDetails: {

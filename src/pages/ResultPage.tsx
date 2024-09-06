@@ -27,12 +27,26 @@ function ResultPage() {
     '2024-07-07T22:30',
   ]);
 
-  const { isPending, error, data } = useQuery<ResultHeatmapProps>({
+  const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['selectedTimeData'],
     queryFn: () => fetch('/selectedResult').then((res) => res.json()),
   });
 
-  if (isPending) return <div>로딩중...</div>;
+  console.log(data);
+
+  if (isLoading)
+    return (
+      <NormalContainer>
+        <Header title="일정 조율" />
+        <ResultNavbar />
+
+        <BackLayout>
+          <Container />
+        </BackLayout>
+
+        {isOpen && <UrlShareModal handleModalClose={closeModal} />}
+      </NormalContainer>
+    );
   if (error) return <div>에러가 발생했습니다</div>;
   if (!data) return <div>데이터가 없습니다</div>;
 

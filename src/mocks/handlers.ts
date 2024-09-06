@@ -32,7 +32,10 @@ const handlers = [
   http.get('/selectedResult', () => {
     return HttpResponse.json(selectedTimeData);
   }),
-  http.get('/timeTableData', () => {
+  http.get('/guest-schedule/:id', () => {
+    return HttpResponse.json(TimeTableServerInfo);
+  }),
+  http.get('/member-schedule/:id', () => {
     return HttpResponse.json(TimeTableServerInfo);
   }),
 ];

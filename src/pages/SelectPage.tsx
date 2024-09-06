@@ -1,3 +1,4 @@
+import { axiosInstance } from '@/apis/instance';
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
 import SelectableTimeTable from '@/components/meeting/select/SelectableTimeTable';
@@ -25,19 +26,37 @@ function SelectPage() {
   const { closeModal, isOpen, openModal } = useModal();
   const { isToolTipOpen, closeToolTip } = useToolTip();
   const [isSelected, setIsSelected] = useState(false);
-
+  const isGuest = true;
   const handleReWrite = () => {
     setIsSelected(false);
   };
   const { isLoading, isError, data } = useQuery<TimeTableServerInfoProps>({
     queryKey: ['TimeTableServerInfo'],
-    queryFn: () => fetch('/timeTableData').then((res) => res.json()),
+    // queryFn: () => fetch('/timeTableData').then((res) => res.json()),
+    queryFn: () => axiosInstance.get('/guest-schedule/1'),
   });
 
   // 로딩 상태 처리
   if (isLoading) {
-    console.log('isLoading: ', isLoading);
-    return <div>로딩중...</div>;
+    return (
+      <NormalContainer>
+        <Header
+          title="일정 조율"
+          isShare
+          toggle={closeToolTip}
+          isVisible={isToolTipOpen}
+        />
+        <TimeSelectTitle
+          Title={
+            isSelected
+              ? `00님이 제출한 시간을 확인해보세요`
+              : `가능한 시간을 드래그 해주세요!`
+          }
+        />
+
+        {isOpen && <TimeSelectModalComp handleModalClose={closeModal} />}
+      </NormalContainer>
+    );
   }
 
   // 오류 상태 처리
@@ -48,11 +67,21 @@ function SelectPage() {
 
   const timeTableData: TimeTableData = formatServerToTimeTableData(data);
 
-  const handleModalOpen = () => {
-    openModal();
-    setIsSelected(true);
-    toast.success('🎉 정보가 성공적으로 저장되었습니다!');
-    console.log('selectedTimes: ', formatPostDateTime(selectedTimes));
+  const handleModalOpen = async () => {
+    try {
+      const formattedTimes = formatPostDateTime(selectedTimes);
+      console.log('formattedTimes: ', formattedTimes);
+      await axiosInstance.post(`${isGuest ? `gs-record` : `ms-record`}`, {
+        // [isGuest ? 'gsId' : 'msId']: , // someIdValue는 적절한 ID 값으로 대체해야 합니다
+        selectedTimes: formattedTimes,
+      });
+      openModal();
+      setIsSelected(true);
+      toast.success('🎉 정보가 성공적으로 저장되었습니다!');
+    } catch (error) {
+      console.error('Error posting selected times:', error);
+      toast.error('정보 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
   };
 
   return (

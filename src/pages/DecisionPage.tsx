@@ -31,12 +31,17 @@ function DecisionPage() {
   const { isOpen, closeModal, openModal } = useModal();
   const { selectedResult } = useTimeStore();
 
-  const { isPending, error, data } = useQuery<ResultHeatmapProps>({
+  const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['selectedTimeData'],
     queryFn: () => fetch('/selectedResult').then((res) => res.json()),
   });
 
-  if (isPending) return <div>로딩중...</div>;
+  if (isLoading)
+    return (
+      <NormalContainer>
+        <Header title="일정 조율" />
+      </NormalContainer>
+    );
   if (error) return <div>에러가 발생했습니다</div>;
   if (!data) return <div>데이터가 없습니다</div>;
 
@@ -50,10 +55,10 @@ function DecisionPage() {
     <NormalContainer>
       <Header title="일정 조율" />
       <AttendStatusHeader
-        TotalPersonnel={data.TotalPersonnel.length}
+        TotalPersonnel={data.totalPersonnel.length}
         currentParticipants={data.participatedPersonnel.length}
         participatedPersonnel={data.participatedPersonnel}
-        unParticipatedPersonnel={data.TotalPersonnel.filter(
+        unParticipatedPersonnel={data.totalPersonnel.filter(
           (name) => !data.participatedPersonnel.includes(name)
         )}
       />

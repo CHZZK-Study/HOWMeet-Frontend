@@ -20,4 +20,5 @@ export const TimeTableServerInfo = <TimeTableServerInfoProps>{
   name: {
     value: 'Meeting A',
   },
+  status: 'AVAILABLE',
 };

@@ -41,7 +41,7 @@ function ResultTimeTable({
     );
     const intensity = slot
       ? slot.participantDetails.nicknames.length /
-        roomInfo.TotalPersonnel.length
+        roomInfo.totalPersonnel.length
       : 0;
 
     const timeSlot: ResultHeatmapCellInfo = {
