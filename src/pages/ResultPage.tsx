@@ -67,18 +67,6 @@ function ResultPage() {
     '2024-07-01T18:00',
   ];
 
-  const participant = [
-    '구예진',
-    '경효선',
-    '김유희',
-    '류지민',
-    '권오영',
-    '고세종',
-    '김민우',
-    '이수현',
-    '이채림',
-  ];
-
   return (
     <NormalContainer>
       <Header title="일정 조율" />
@@ -86,7 +74,7 @@ function ResultPage() {
       <ResultInfoComp
         decidedTime={formatResultTime(dateTimes)}
         title="류세영의 방"
-        participants={participant}
+        participants={data.participatedPersonnel}
       />
       <BackLayout>
         <Container>

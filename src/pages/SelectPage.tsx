@@ -7,7 +7,7 @@ import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
 import useModal from '@/hooks/useModal';
 import useToolTip from '@/hooks/useToolTip';
 import {
-  IsTimeTableServerInfoProps,
+  // IsTimeTableServerInfoProps,
   TimeTableServerInfoProps,
 } from '@/mocks/data/timeTableData';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
@@ -36,12 +36,12 @@ function SelectPage() {
   const { isLoading, isError, data } = useQuery<TimeTableServerInfoProps>({
     queryKey: ['TimeTableServerInfo'],
     // http://localhost:5173/guest-schedule/1
-    queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
-    // queryFn: async () => {
-    //   const response = await axiosInstance.get('/guest-schedule/1');
-    //   console.log(response);
-    //   return response.data; // 데이터 반환
-    // },
+    // queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
+    queryFn: async () => {
+      const response = await axiosInstance.get('/guest-schedule/2');
+      console.log(response);
+      return response.data; // 데이터 반환
+    },
   });
 
   useEffect(() => {
@@ -49,7 +49,7 @@ function SelectPage() {
   }, [data]);
 
   // 로딩 상태 처리
-  if (isLoading || !data || !IsTimeTableServerInfoProps(data)) {
+  if (isLoading || !data) {
     return (
       <NormalContainer>
         <Header
@@ -79,7 +79,6 @@ function SelectPage() {
 
   const timeTableData: TimeTableData = formatServerToTimeTableData(data);
 
-  console.log(data);
   const handleModalOpen = async () => {
     try {
       const formattedTimes = formatPostDateTime(selectedTimes);

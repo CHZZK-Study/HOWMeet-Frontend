@@ -2,13 +2,14 @@ import { type VitePWAOptions } from 'vite-plugin-pwa';
 
 export const pwaConfig: Partial<VitePWAOptions> = {
   registerType: 'autoUpdate',
-  includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
+  includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'fonts/*.woff2'],
   devOptions: {
     enabled: true,
   },
   workbox: {
     sourcemap: true,
     globPatterns: ['**/*.{js,css,html,png,svg,woff2}'], // 캐싱할 파일 유형을 지정
+    globDirectory: 'dist',
   },
   manifest: {
     name: 'HowMeet',

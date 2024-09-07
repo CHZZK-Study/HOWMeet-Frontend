@@ -11,21 +11,38 @@ import {
 import { useTimeStore } from '@/store/meeting/useTimeStore';
 import {
   formatPostDateTime,
-  formatTimeTableData,
+  formatServerToTimeTableData,
+  // formatTimeTableData,
+  // formatServerToTimeTableData,
 } from '@/utils/meeting/timetable/formatDateTime';
 import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
 import useModal from '@/hooks/useModal';
 import ResultTimeSelectModal from '@/components/meeting/result/ResultTimeSelectModal';
 import { useNavigate, useParams } from 'react-router-dom';
+import { axiosInstance } from '@/apis/instance';
+import { TimeTableServerInfoProps } from '@/mocks/data/timeTableData';
+// import { TimeTableServerInfoProps } from '@/mocks/data/timeTableData';
 
 function DecisionPage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const timeTableData = formatTimeTableData([
-    '2024-07-01T10:30',
-    '2024-07-07T22:30',
-  ]);
+  const { isLoading: isTimeTableLoading, data: timeTableServerData } =
+    useQuery<TimeTableServerInfoProps>({
+      queryKey: ['TimeTableServerInfo'],
+      // http://localhost:5173/guest-schedule/1
+      // queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
+      queryFn: async () => {
+        const response = await axiosInstance.get('/guest-schedule/2');
+        console.log(response);
+        return response.data; // 데이터 반환
+      },
+    });
+
+  // const timeTableData = formatTimeTableData([
+  //   '2024-07-01T10:30',
+  //   '2024-07-07T22:30',
+  // ]);
 
   const [isSelected, setIsSelected] = useState(false);
   const { isOpen, closeModal, openModal } = useModal();
@@ -33,28 +50,34 @@ function DecisionPage() {
 
   const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['selectedTimeData'],
-    queryFn: () => fetch('/gs-record/1').then((res) => res.json()),
-    // queryFn: async () => {
-    //   const response = await axiosInstance.get('/gs-record/1');
-    //   console.log(response);
-    //   return response.data; // 데이터 반환
-    // },
+    // queryFn: () => fetch('/gs-record/1').then((res) => res.json()),
+    queryFn: async () => {
+      const response = await axiosInstance.get('/gs-record/1', {
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJpZFwiOjEsXCJuaWNrbmFtZVwiOlwi6rmA66-87JqwXCIsXCJyb2xlXCI6XCJURU1QT1JBUllcIixcImd1ZXN0XCI6dHJ1ZSxcIm1lbWJlclwiOmZhbHNlfSIsImlhdCI6MTcyMjQ4NjkwNywiZXhwIjoxNzIyNDkwNTA3fQ.qp9uZqvGbRRGi41af05poj98WjB7DeEGSwJrXNORm7HId9v_gojtZvVaRkCSNM2kSFCn54xm2QyKhXQsTlKV6g`,
+        },
+      });
+      console.log(response);
+      return response.data; // 데이터 반환
+    },
   });
 
-  if (isLoading)
+  if (isLoading || !timeTableServerData || !data || isTimeTableLoading) {
     return (
       <NormalContainer>
         <Header title="일정 조율" />
       </NormalContainer>
     );
+  }
   if (error) return <div>에러가 발생했습니다</div>;
-  if (!data) return <div>데이터가 없습니다</div>;
 
   const handleDecide = () => {
     setIsSelected(true);
     navigate(`/meeting/${id}/result`);
     console.log('selectedResult: ', formatPostDateTime(selectedResult));
   };
+
+  const timeTableData = formatServerToTimeTableData(timeTableServerData);
 
   return (
     <NormalContainer>

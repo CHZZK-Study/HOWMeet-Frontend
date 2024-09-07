@@ -15,6 +15,7 @@ function SelectableTimeTable({
   const { handleDragStart, handleDragMove, handleDragEnd, isSelected } =
     useTimeSelectionLogic({ isSelectOption: true });
 
+  console.log(data);
   const renderCell = (
     hour: string,
     date: string,
