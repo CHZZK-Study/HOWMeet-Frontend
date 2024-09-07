@@ -6,29 +6,59 @@ import {
 } from '@/styles/components/meeting/content';
 import styled from 'styled-components';
 
-function ConfirmContent() {
+interface Props {
+  contents: {
+    req?: {
+      leaderMemberId: number;
+      msRequest: {
+        dates: string[];
+        name: { value: string };
+        time: { startTime: string; endTime: string };
+      };
+      name: string;
+    };
+    roomName?: string;
+  };
+}
+
+function ConfirmContent({ contents }: Props) {
   // TODO 로그인 유무에 따른 "방이름" 컨텐츠 제거
   return (
     <>
       <ContentWrapper>
         <ContentTitle>{LABEL.roomName}</ContentTitle>
-        <ContentDescription>하우밋</ContentDescription>
+        <ContentDescription>
+          {contents.req ? contents.req.name : contents.roomName}
+        </ContentDescription>
       </ContentWrapper>
-      <ContentWrapper>
-        <ContentTitle>{LABEL.meeting}</ContentTitle>
-        <ContentDescription>킥오프 일정</ContentDescription>
-      </ContentWrapper>
-      <ContentWrapper>
-        <ContentTitle>{LABEL.setDate}</ContentTitle>
-        <SettingTimeWrapper>
-          <ContentDescription>시작일 : 2024. 07. 11</ContentDescription>
-          <ContentDescription>종료일 : 2024. 07. 11</ContentDescription>
-        </SettingTimeWrapper>
-      </ContentWrapper>
-      <ContentWrapper>
-        <ContentTitle>{LABEL.setTime}</ContentTitle>
-        <ContentDescription>10:00 이후 ~ 23:00 이전</ContentDescription>
-      </ContentWrapper>
+      {contents.req && (
+        <>
+          <ContentWrapper>
+            <ContentTitle>{LABEL.meeting}</ContentTitle>
+            <ContentDescription>킥오프 일정</ContentDescription>
+          </ContentWrapper>
+          <ContentWrapper>
+            <ContentTitle>{LABEL.setDate}</ContentTitle>
+            <SettingTimeWrapper>
+              <ContentDescription>
+                시작일 : {contents.req.msRequest.dates[0]}
+              </ContentDescription>
+              <ContentDescription>
+                종료일 : {contents.req.msRequest.dates[1]}
+              </ContentDescription>
+            </SettingTimeWrapper>
+          </ContentWrapper>
+        </>
+      )}
+      {contents.req && (
+        <ContentWrapper>
+          <ContentTitle>{LABEL.setTime}</ContentTitle>
+          <ContentDescription>
+            {contents.req.msRequest.time.startTime} 이후 ~{' '}
+            {contents.req.msRequest.time.endTime} 이전
+          </ContentDescription>
+        </ContentWrapper>
+      )}
     </>
   );
 }
