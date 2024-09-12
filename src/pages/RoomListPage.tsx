@@ -52,7 +52,7 @@ const mock = [
   },
 ];
 
-function MeetingListPage() {
+function RoomListPage() {
   return (
     <Container>
       <Header title="방 목록" />
@@ -79,4 +79,4 @@ const Container = styled(FlexColContainer)`
   height: 100dvh;
 `;
 
-export default MeetingListPage;
+export default RoomListPage;
