@@ -2,19 +2,25 @@ import { Badge } from '@/styles/components/badge';
 import styled from 'styled-components';
 
 interface Props {
-  title: string;
+  name: string;
   date: string;
+  time: {
+    startTime: string;
+    endTime: string;
+  };
   member: string;
 }
 
-function RoomItem({ title, date, member }: Props) {
+function RoomItem({ name, date, time, member }: Props) {
   return (
     <RoomItemContainer>
       <NoticeDot />
-      <RoomTitle>{title}</RoomTitle>
+      <RoomTitle>{name}</RoomTitle>
       <RoomDesc>
         <Badge>예정된 일정</Badge>
-        <p>{date}</p>
+        <p>
+          {date} {time.startTime}~{time.endTime}
+        </p>
       </RoomDesc>
       <RoomDesc>
         <Badge>참여 중인 팀원</Badge>

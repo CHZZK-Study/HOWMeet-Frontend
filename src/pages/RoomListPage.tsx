@@ -2,6 +2,7 @@ import Header from '@/components/common/Header';
 import CreateRoomButton from '@/components/roomlist/CreateRoomButton';
 import RoomList from '@/components/roomlist/RoomList';
 import { TITLE } from '@/constants/title';
+import useRoomList from '@/hooks/useRoomList';
 import {
   ContentContainer,
   FlexColContainer,
@@ -9,58 +10,22 @@ import {
 import { PageTitle } from '@/styles/components/text';
 import styled from 'styled-components';
 
-const mock = [
-  {
-    title: '마이팀 방',
-    date: '2024. 07. 08 14:00~15:00',
-    member: '김민석님 외 12명',
-  },
-  {
-    title: '아자아자 방',
-    date: '2024. 07. 09 12:00~16:00',
-    member: '김민석님 외 12명',
-  },
-  {
-    title: '마이팀 방',
-    date: '2024. 07. 08 14:00~15:00',
-    member: '김민석님 외 12명',
-  },
-  {
-    title: '아자아자 방',
-    date: '2024. 07. 09 12:00~16:00',
-    member: '김민석님 외 12명',
-  },
-  {
-    title: '마이팀 방',
-    date: '2024. 07. 08 14:00~15:00',
-    member: '김민석님 외 12명',
-  },
-  {
-    title: '아자아자 방',
-    date: '2024. 07. 09 12:00~16:00',
-    member: '김민석님 외 12명',
-  },
-  {
-    title: '마이팀 방',
-    date: '2024. 07. 08 14:00~15:00',
-    member: '김민석님 외 12명',
-  },
-  {
-    title: '아자아자 방',
-    date: '2024. 07. 09 12:00~16:00',
-    member: '김민석님 외 12명',
-  },
-];
-
 function RoomListPage() {
+  const { roomList, isError } = useRoomList(1);
+
+  if (isError) window.alert('잠시후 다시 시도해 주세요.');
+
+  if (!roomList) return null;
+
   return (
     <Container>
       <Header title="방 목록" />
       <ContentContainer>
         <Title>
-          {TITLE.attendRoom} <span className="currentNumber">6</span>
+          {TITLE.attendRoom}{' '}
+          <span className="currentNumber">{roomList.length}</span>
         </Title>
-        <RoomList mock={mock} />
+        <RoomList roomList={roomList} />
         <CreateRoomButton />
       </ContentContainer>
     </Container>

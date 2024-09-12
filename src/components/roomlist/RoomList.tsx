@@ -1,19 +1,22 @@
 import styled from 'styled-components';
+import { RoomListRes } from '@/models/room.model';
 import RoomItem from './RoomItem';
 
 interface Props {
-  mock: {
-    title: string;
-    date: string;
-    member: string;
-  }[];
+  roomList: RoomListRes[];
 }
 
-function RoomList({ mock }: Props) {
+function RoomList({ roomList }: Props) {
   return (
     <RoomListContainer>
-      {mock.map((item) => (
-        <RoomItem {...item} />
+      {roomList.map((item) => (
+        <RoomItem
+          key={item.roomId}
+          name={item.name}
+          date={item.schedules[0].dates[1]}
+          time={item.schedules[0].time}
+          member={item.memberSummary}
+        />
       ))}
     </RoomListContainer>
   );
