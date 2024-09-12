@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useLogOutModal } from '@/store/useModalStore';
-import { BottomSheetContainer } from '../meeting/result/AttendStatusHeader';
+import { BottomSheetContainer } from '../meeting/result/ResultBottomSheet';
 import BottomSheetHeader from './BottomSheetHeader';
 import Button from '../common/Button';
 
