@@ -13,8 +13,8 @@ function MemberLogin({ type = 'default' }: Props) {
   const handleSocialLogin = async (service: ProviderName) => {
     localStorage.setItem(STORAGE_KEY.socialLoginType, service);
     const result = await getSocialLoginUrl(service);
-    const { clientId, scopes, url } = result.data;
-    window.location.href = `${url}?client_id=${clientId}?scope=${scopes.join(' ')}`;
+    const { url } = result.data;
+    window.location.href = url;
   };
 
   return (

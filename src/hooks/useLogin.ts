@@ -1,4 +1,5 @@
 import { login } from '@/apis/user.api';
+import { PATH } from '@/constants/path';
 import { STORAGE_KEY } from '@/constants/storage';
 import { handleAllowNotification } from '@/lib/notification';
 import { LoginReq } from '@/models/user.model';
@@ -14,10 +15,10 @@ export const useLogin = () => {
       if (res) {
         const { nickname, guestId, accessToken } = res.data;
 
-        setUser({ username: nickname, guestId });
+        setUser({ username: nickname, id: guestId });
         sessionStorage.setItem(STORAGE_KEY.accessToken, accessToken);
         handleAllowNotification();
-        navigate('/new-meeting');
+        navigate(PATH.new_meeting);
       }
     });
   };
