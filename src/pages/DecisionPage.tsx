@@ -11,6 +11,7 @@ import {
 import { useTimeStore } from '@/store/meeting/useTimeStore';
 import {
   formatPostDateTime,
+  formatPostParticipantPerson,
   formatServerToTimeTableData,
   // formatTimeTableData,
   // formatServerToTimeTableData,
@@ -30,37 +31,31 @@ function DecisionPage() {
   const { isLoading: isTimeTableLoading, data: timeTableServerData } =
     useQuery<TimeTableServerInfoProps>({
       queryKey: ['TimeTableServerInfo'],
-      // http://localhost:5173/guest-schedule/1
-      // queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
-      queryFn: async () => {
-        const response = await axiosInstance.get('/guest-schedule/2');
-        console.log(response);
-        return response.data; // 데이터 반환
-      },
+      queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
+      // queryFn: async () => {
+      //   const response = await axiosInstance.get('/guest-schedule/2');
+      //   console.log(response);
+      //   return response.data; // 데이터 반환
+      // },
     });
 
-  // const timeTableData = formatTimeTableData([
-  //   '2024-07-01T10:30',
-  //   '2024-07-07T22:30',
-  // ]);
+  const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
+    queryKey: ['selectedTimeData'],
+    queryFn: () => fetch('/gs-record/1').then((res) => res.json()),
+    // queryFn: async () => {
+    //   const response = await axiosInstance.get('/gs-record/1', {
+    //     headers: {
+    //       Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJpZFwiOjEsXCJuaWNrbmFtZVwiOlwi6rmA66-87JqwXCIsXCJyb2xlXCI6XCJURU1QT1JBUllcIixcImd1ZXN0XCI6dHJ1ZSxcIm1lbWJlclwiOmZhbHNlfSIsImlhdCI6MTcyMjQ4NjkwNywiZXhwIjoxNzIyNDkwNTA3fQ.qp9uZqvGbRRGi41af05poj98WjB7DeEGSwJrXNORm7HId9v_gojtZvVaRkCSNM2kSFCn54xm2QyKhXQsTlKV6g`,
+    //     },
+    //   });
+    //   console.log(response);
+    //   return response.data; // 데이터 반환
+    // },
+  });
 
   const [isSelected, setIsSelected] = useState(false);
   const { isOpen, closeModal, openModal } = useModal();
   const { selectedResult } = useTimeStore();
-
-  const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
-    queryKey: ['selectedTimeData'],
-    // queryFn: () => fetch('/gs-record/1').then((res) => res.json()),
-    queryFn: async () => {
-      const response = await axiosInstance.get('/gs-record/1', {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJpZFwiOjEsXCJuaWNrbmFtZVwiOlwi6rmA66-87JqwXCIsXCJyb2xlXCI6XCJURU1QT1JBUllcIixcImd1ZXN0XCI6dHJ1ZSxcIm1lbWJlclwiOmZhbHNlfSIsImlhdCI6MTcyMjQ4NjkwNywiZXhwIjoxNzIyNDkwNTA3fQ.qp9uZqvGbRRGi41af05poj98WjB7DeEGSwJrXNORm7HId9v_gojtZvVaRkCSNM2kSFCn54xm2QyKhXQsTlKV6g`,
-        },
-      });
-      console.log(response);
-      return response.data; // 데이터 반환
-    },
-  });
 
   if (isLoading || !timeTableServerData || !data || isTimeTableLoading) {
     return (
@@ -71,10 +66,26 @@ function DecisionPage() {
   }
   if (error) return <div>에러가 발생했습니다</div>;
 
+  //   {
+  //     "msId":"12",
+  //     "time":[
+  //         "2023-01-01T14:30",
+  //         "2023-01-01T15:00"
+  //     ],
+  //     "participantPerson" :["오영","예진","채림","세종"]
+  // } 이형식으로 보내기
   const handleDecide = () => {
     setIsSelected(true);
     navigate(`/meeting/${id}/result`);
-    console.log('selectedResult: ', formatPostDateTime(selectedResult));
+    const postParticipantPerson = formatPostParticipantPerson(selectedResult);
+    const postDateTime = formatPostDateTime(selectedResult);
+    const postData = {
+      msId: id,
+      time: [postDateTime[0], postDateTime[postDateTime.length - 1]],
+      participantPerson: postParticipantPerson,
+    };
+
+    console.log(postData);
   };
 
   const timeTableData = formatServerToTimeTableData(timeTableServerData);

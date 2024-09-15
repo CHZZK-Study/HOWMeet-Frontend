@@ -26,7 +26,7 @@ export function IsTimeTableServerInfoProps(
 
 export const TimeTableServerInfo = <TimeTableServerInfoProps>{
   gsId: 1,
-  dates: ['2023-01-01', '2023-01-07'],
+  dates: ['2024-07-01', '2024-07-07'],
   time: {
     startTime: '09:00:00',
     endTime: '17:00:00',

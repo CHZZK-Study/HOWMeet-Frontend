@@ -1,4 +1,8 @@
-import { TimeSlot, TimeTableData } from '@/types/timeTableTypes';
+import {
+  ResultHeatmapCellInfo,
+  TimeSlot,
+  TimeTableData,
+} from '@/types/timeTableTypes';
 
 // export const formatDateTime = (time: {
 //   hour: string;
@@ -16,6 +20,14 @@ import { TimeSlot, TimeTableData } from '@/types/timeTableTypes';
 
 //   return `${year}-${formattedMonth}-${formattedDate}T${formattedHour}:${formattedMinute}`;
 // };
+
+export const formatPostParticipantPerson = (data: ResultHeatmapCellInfo[]) => {
+  const participantPerson = data.map((time) => {
+    return time.users;
+  });
+  // 중복 제거
+  return [...new Set(participantPerson.flat())];
+};
 
 export const formatPostDateTime = (data: TimeSlot[]) => {
   const formatDateTimeSlots = data.map((time) => {

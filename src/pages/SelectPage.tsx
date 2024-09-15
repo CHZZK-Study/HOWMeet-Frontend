@@ -22,9 +22,12 @@ import {
 } from '@/utils/meeting/timetable/formatDateTime';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
 function SelectPage() {
+  const { id } = useParams();
+
   const { selectedTimes } = useTimeStore();
   const { closeModal, isOpen, openModal } = useModal();
   const { isToolTipOpen, closeToolTip } = useToolTip();
@@ -33,15 +36,16 @@ function SelectPage() {
   const handleReWrite = () => {
     setIsSelected(false);
   };
+
   const { isLoading, isError, data } = useQuery<TimeTableServerInfoProps>({
     queryKey: ['TimeTableServerInfo'],
-    // http://localhost:5173/guest-schedule/1
-    // queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
-    queryFn: async () => {
-      const response = await axiosInstance.get('/guest-schedule/2');
-      console.log(response);
-      return response.data; // 데이터 반환
-    },
+    queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
+    // queryFn: async () => {
+    //   const response = await axiosInstance.get(
+    //     `/${isGuest ? `guest` : `member`}-schedule/${id}`
+    //   );
+    //   return response.data; // 데이터 반환
+    // },
   });
 
   useEffect(() => {
@@ -84,7 +88,7 @@ function SelectPage() {
       const formattedTimes = formatPostDateTime(selectedTimes);
       console.log('formattedTimes: ', formattedTimes);
       await axiosInstance.post(`${isGuest ? `gs-record` : `ms-record`}`, {
-        // [isGuest ? 'gsId' : 'msId']: , // someIdValue는 적절한 ID 값으로 대체해야 합니다
+        [isGuest ? 'gsId' : 'msId']: id, // someIdValue는 적절한 ID 값으로 대체해야 합니다
         selectedTimes: formattedTimes,
       });
       openModal();

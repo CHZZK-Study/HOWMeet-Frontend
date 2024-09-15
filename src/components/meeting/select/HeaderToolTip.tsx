@@ -27,7 +27,7 @@ const ToolTipWrapper = styled.div`
   position: absolute;
   left: 30%;
   right: 2%;
-  top: 70px;
+  top: 50px;
   display: flex;
   justify-content: center;
 `;
@@ -37,7 +37,7 @@ const CustomTooltip = styled.div`
   background-color: white;
   border-radius: 96px;
   z-index: 999;
-  padding: 10px;
+  padding: 1px;
   width: 100%;
   border: 1px solid rgba(100, 45, 255, 1);
 `;
