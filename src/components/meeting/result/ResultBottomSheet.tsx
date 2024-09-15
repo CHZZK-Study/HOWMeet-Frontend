@@ -34,12 +34,12 @@ function ResultBottomSheet({
         </UserState>
       </UserCountContainer>
       <UserListContainer>
-        <ParticipantIcon participant>참여 완료</ParticipantIcon>
-        <ParticipantList participant>{participatedUsersList}</ParticipantList>
+        <ParticipantIcon $participant>참여 완료</ParticipantIcon>
+        <ParticipantList $participant>{participatedUsersList}</ParticipantList>
       </UserListContainer>
       <UserListContainer>
-        <ParticipantIcon participant={false}>미참여</ParticipantIcon>
-        <ParticipantList participant={false}>
+        <ParticipantIcon $participant={false}>미참여</ParticipantIcon>
+        <ParticipantList $participant={false}>
           {unParticipatedUsersList}
         </ParticipantList>
       </UserListContainer>
@@ -95,17 +95,17 @@ const UserListContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-const ParticipantList = styled.div<{ participant: boolean }>`
+const ParticipantList = styled.div<{ $participant: boolean }>`
   ${theme.typo.body.regular}
   font-weight: bold;
 
-  color: ${(props) =>
-    props.participant ? colors.participantText : colors.nonParticipantText};
+  color: ${({ $participant }) =>
+    $participant ? colors.participantText : colors.nonParticipantText};
 `;
 
-const ParticipantIcon = styled.div<{ participant: boolean }>`
+const ParticipantIcon = styled.div<{ $participant: boolean }>`
   background-color: ${(props) =>
-    props.participant
+    props.$participant
       ? colors.participantBackground
       : colors.nonParticipantBackground};
   border-radius: 40px;

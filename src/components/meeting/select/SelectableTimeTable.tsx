@@ -15,7 +15,13 @@ function SelectableTimeTable({
   const { handleDragStart, handleDragMove, handleDragEnd, isSelected } =
     useTimeSelectionLogic({ isSelectOption: true });
 
-  const renderCell = (hour: string, date: string, minute: string) => {
+  const renderCell = (
+    hour: string,
+    date: string,
+    minute: string,
+    isStartCellHalf: boolean,
+    isEndCellHalf: boolean
+  ) => {
     const timeSlot = {
       hour,
       minute,
@@ -33,6 +39,8 @@ function SelectableTimeTable({
         onDragStart={handleDragStart as (timeSlot: TimeSlot) => void}
         onDragMove={handleDragMove as (timeSlot: TimeSlot) => void}
         onDragEnd={handleDragEnd}
+        isEndCellHalf={isEndCellHalf}
+        isStartCellHalf={isStartCellHalf}
       />
     );
   };

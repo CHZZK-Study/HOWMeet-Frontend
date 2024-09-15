@@ -22,3 +22,8 @@ const guideData = [
 ] as const;
 
 export default guideData;
+
+// roomId: 1,
+// scheduleID: ??,
+// 회원이면 roomId, msId(회원일정아이디)
+// 비회원이면 gsId(비회원일정아이디)

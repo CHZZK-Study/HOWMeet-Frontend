@@ -1,15 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { CellProps, TimeSlot } from '@/types/timeTableTypes';
-
-interface SelectTimeCellProps {
-  timeSlot: TimeSlot;
-  isSelected: boolean;
-  dragDisabled: boolean;
-  onDragStart: (timeSlot: TimeSlot) => void;
-  onDragMove: (timeSlot: TimeSlot) => void;
-  onDragEnd: () => void;
-}
+import { CellProps, SelectTimeCellProps } from '@/types/timeTableTypes';
+import theme from '@/styles/theme';
 
 function SelectTimeCell({
   timeSlot,
@@ -18,6 +10,8 @@ function SelectTimeCell({
   onDragStart,
   onDragMove,
   onDragEnd,
+  isStartCellHalf,
+  isEndCellHalf,
 }: SelectTimeCellProps) {
   const cellRef = useRef<HTMLDivElement>(null);
 
@@ -75,6 +69,8 @@ function SelectTimeCell({
       }
       onMouseUp={onDragEnd}
       data-timeslot={JSON.stringify(timeSlot)}
+      isEndCellHalf={isEndCellHalf}
+      isStartCellHalf={isStartCellHalf}
     />
   );
 }
@@ -82,15 +78,28 @@ function SelectTimeCell({
 const MemoizedSelectTimeCell = React.memo(SelectTimeCell);
 export default MemoizedSelectTimeCell;
 
-const SelectHalfCell = styled.div<CellProps>`
+export const SelectHalfCell = styled.div<CellProps>`
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 0.1px solid rgba(83, 85, 91, 1);
+  border-right: 0.1px solid ${theme.color.secondary.solid.gray[800]};
+  border-left: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   background-color: ${(props) => (props.selected ? '#E2F5E3' : 'white')};
   &:first-child {
-    border-bottom: 2px dashed #ccc;
+    ${({ isStartCellHalf, isEndCellHalf }) => {
+      if (isStartCellHalf) {
+        return null;
+      }
+      if (isEndCellHalf) {
+        return `border-bottom: 0.1px solid ${theme.color.secondary.solid.gray[800]};`;
+      }
+      return `border-bottom: 2px dashed #ccc;`;
+    }}
+    border-top: 0.1px solid ${theme.color.secondary.solid.gray[800]};
+  }
+  &:last-child {
+    border-bottom: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   }
   touch-action: none;
 `;

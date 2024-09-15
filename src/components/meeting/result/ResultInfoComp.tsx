@@ -1,20 +1,28 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 
-function ResultInfoComp() {
+interface ResultInfoCompProps {
+  title: string;
+  decidedTime: string;
+  participants: string[];
+}
+
+function ResultInfoComp({
+  title,
+  decidedTime,
+  participants,
+}: ResultInfoCompProps) {
   return (
     <BackLayout>
       <Container>
         <Title>개발자 전체회의 일정</Title>
         <RoomInfo>
-          하우밋 방 <GrayColLine />
-          07/14 (목) 20:00~22:00
+          {title} <GrayColLine />
+          {decidedTime}
         </RoomInfo>
         <GrayRowLine />
         <GreenBadge>참여 가능 인원</GreenBadge>
-        <Content>
-          강민아, 김민재, 김유나, 오아람, 이수빈, 김예림, 임선우
-        </Content>
+        <Content>{participants.join(', ')}</Content>
       </Container>
     </BackLayout>
   );
@@ -49,7 +57,7 @@ const Title = styled.div`
 
 const RoomInfo = styled.div`
   display: flex;
-  font-size: 16px;
+  font-size: 24px;
   font-weight: 600;
 `;
 
