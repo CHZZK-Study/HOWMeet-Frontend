@@ -1,12 +1,14 @@
 import MemberLogin from '@/components/login/MemberLogin';
 import NonMemberLogin from '@/components/login/NonMemberLogin';
 import TapHeader from '@/components/login/TapHeader';
+import { useSocialLogin } from '@/hooks/useSocialLogin';
 import { FlexColContainer } from '@/styles/components/container';
 import { LogoTitleIcon } from 'public/assets/icons';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 function LoginPage() {
+  useSocialLogin();
   const [searchParams] = useSearchParams();
   const roomId = searchParams.get('roomId');
   const loginType = searchParams.get('type');

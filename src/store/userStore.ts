@@ -3,7 +3,7 @@ import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 interface User {
   username: string;
-  guestId: string;
+  id: string;
 }
 
 interface Store {
