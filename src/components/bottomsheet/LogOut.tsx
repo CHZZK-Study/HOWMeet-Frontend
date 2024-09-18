@@ -10,10 +10,10 @@ function LogOut() {
     <Container>
       <BottomSheetHeader title="로그아웃 하시겠습니까?" onClick={closeLogOut} />
       <ButtonContainer>
-        <Button $style="solid" $theme="primary">
+        <Button $style="solid" $theme="primary-purple">
           로그아웃
         </Button>
-        <Button $style="solid" $theme="neutral" onClick={closeLogOut}>
+        <Button $style="solid" $theme="primary-purple" onClick={closeLogOut}>
           취소
         </Button>
       </ButtonContainer>

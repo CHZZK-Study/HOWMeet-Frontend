@@ -26,7 +26,11 @@ function TimeSelectModalComp({
           </ModalContent>
         </ModalContentContainer>
         <ButtonContainer>
-          <Button $style="solid" $theme="primary" onClick={handleModalClose}>
+          <Button
+            $style="solid"
+            $theme="primary-purple"
+            onClick={handleModalClose}
+          >
             확인
           </Button>
         </ButtonContainer>
