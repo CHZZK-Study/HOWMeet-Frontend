@@ -7,7 +7,7 @@ import LoginForm from './LoginForm';
 
 function TeammateLogin() {
   const [searchParams] = useSearchParams();
-  const loginType = searchParams.get('type');
+  const loginType = searchParams.get('loginType');
 
   return (
     <Container>

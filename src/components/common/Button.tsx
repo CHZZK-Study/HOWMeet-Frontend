@@ -46,7 +46,9 @@ const StyledButton = styled.button<Props>`
             : theme.color.point.green};
 
         &:hover {
-          background-color: ${theme.color.point.purple};
+          background-color: ${$theme === 'primary-purple'
+            ? theme.color.point.purple
+            : theme.color.point.green};
           color: ${theme.color.primary.white};
         }
       `;
