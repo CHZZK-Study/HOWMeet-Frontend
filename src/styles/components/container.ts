@@ -21,7 +21,7 @@ export const ButtonContainer = styled.div`
 
   display: flex;
   align-items: end;
-  padding: 24px;
+  padding: 24px 0;
   padding-top: 0px;
 
   background: linear-gradient(
