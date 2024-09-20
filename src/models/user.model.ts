@@ -1,6 +1,7 @@
 import { ProviderName } from '@/types/socialLogin';
 
 export interface LoginReq {
+  guestScheduleId: string;
   nickname: string;
   password: string;
 }
