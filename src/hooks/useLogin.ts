@@ -15,7 +15,7 @@ export const useLogin = () => {
       if (res) {
         const { nickname, guestId, accessToken } = res.data;
 
-        setUser({ username: nickname, id: guestId });
+        setUser({ username: nickname, id: guestId, isMember: false });
         sessionStorage.setItem(STORAGE_KEY.accessToken, accessToken);
         handleAllowNotification();
         navigate(PATH.new_meeting);

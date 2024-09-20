@@ -4,6 +4,7 @@ import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 interface User {
   username: string;
   id: string;
+  isMember: boolean;
 }
 
 interface Store {

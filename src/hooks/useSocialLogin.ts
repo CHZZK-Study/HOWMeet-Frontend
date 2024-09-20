@@ -28,7 +28,7 @@ export const useSocialLogin = () => {
       if (data) {
         const { nickname, memberId, accessToken } = data;
 
-        setUser({ username: nickname, id: memberId });
+        setUser({ username: nickname, id: memberId, isMember: true });
         localStorage.setItem(STORAGE_KEY.accessToken, accessToken);
         handleAllowNotification();
         navigate(PATH.home);
