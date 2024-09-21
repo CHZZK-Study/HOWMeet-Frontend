@@ -52,7 +52,7 @@ function ResultTimeSelectModal({
           <Button $style="solid" $theme="neutral" onClick={handleModalClose}>
             다시 선택
           </Button>
-          <Button $style="solid" $theme="primary" onClick={handleDecide}>
+          <Button $style="solid" $theme="primary-purple" onClick={handleDecide}>
             완료
           </Button>
         </ButtonContainer>

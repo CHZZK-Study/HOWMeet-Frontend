@@ -100,7 +100,7 @@ function DecisionPage() {
         <Button
           $style="solid"
           onClick={openModal}
-          $theme="primary"
+          $theme="primary-purple"
           disabled={selectedResult.length === 0}
         >
           {selectedResult.length === 0

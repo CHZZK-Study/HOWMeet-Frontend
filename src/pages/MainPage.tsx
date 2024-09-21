@@ -14,17 +14,16 @@ function MainPage() {
 
   return (
     <Container>
-      <div className="wrapper">
-        <TitleWrapper>
-          <LogoTitleIcon width={212} height={28} />
-          <h2>우리 어떻게 만나?</h2>
-        </TitleWrapper>
-        <GuideList />
-      </div>
+      <TitleWrapper>
+        <LogoTitleIcon width={212} height={28} />
+        <h2>우리 어떻게 만나?</h2>
+      </TitleWrapper>
+      <GuideList />
       <ButtonContainer>
         <Button
           type="button"
           $style="solid"
+          $theme="primary-purple"
           onClick={() => navigate(PATH.login)}
         >
           시작하기
@@ -37,16 +36,13 @@ function MainPage() {
 export default MainPage;
 
 const Container = styled(FlexColContainer)`
-  padding-top: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
-
-  .wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 0 24px;
-    gap: 48px;
-  }
+  padding: 0 24px;
+  padding-top: 50px;
+  gap: 48px;
 `;
 
 const TitleWrapper = styled.div`

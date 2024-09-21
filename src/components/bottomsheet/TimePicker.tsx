@@ -80,7 +80,7 @@ function TimePicker({ type }: Props) {
       <ButtonContainer>
         <Button
           $style="solid"
-          $theme="primary"
+          $theme="primary-purple"
           disabled={!selectedHour || !selectedMin}
           onClick={handleClickButton}
         >
