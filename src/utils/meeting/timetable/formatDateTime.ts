@@ -147,7 +147,14 @@ const generateServerHoursRange = (
   const endHour = parseInt(end.split(':')[0], 10);
   const hours = [];
 
-  if (isEndHalfMinute) {
+  if (startHour > endHour) {
+    for (let hour = startHour; hour < 24; hour += 1) {
+      hours.push(String(hour).padStart(2, '0'));
+    }
+    for (let hour = 0; hour <= endHour; hour += 1) {
+      hours.push(String(hour).padStart(2, '0'));
+    }
+  } else if (isEndHalfMinute) {
     for (let hour = startHour; hour <= endHour; hour += 1) {
       hours.push(String(hour).padStart(2, '0'));
     }
@@ -158,6 +165,27 @@ const generateServerHoursRange = (
   }
   return hours;
 };
+
+// const generateServerHoursRange = (
+//   start: string,
+//   end: string,
+//   isEndHalfMinute: boolean
+// ): string[] => {
+//   const startHour = parseInt(start.split(':')[0], 10);
+//   const endHour = parseInt(end.split(':')[0], 10);
+//   const hours = [];
+
+//   if (isEndHalfMinute) {
+//     for (let hour = startHour; hour <= endHour; hour += 1) {
+//       hours.push(String(hour).padStart(2, '0'));
+//     }
+//   } else {
+//     for (let hour = startHour; hour < endHour; hour += 1) {
+//       hours.push(String(hour).padStart(2, '0'));
+//     }
+//   }
+//   return hours;
+// };
 
 const generateServerDateRange = (start: string, end: string): string[] => {
   const startDate = new Date(start);

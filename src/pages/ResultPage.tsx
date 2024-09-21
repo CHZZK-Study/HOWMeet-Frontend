@@ -1,3 +1,4 @@
+import { axiosInstance } from '@/apis/instance';
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
 import ResultInfoComp, {
@@ -29,12 +30,12 @@ function ResultPage() {
 
   const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['selectedTimeData'],
-    queryFn: () => fetch('/gs-record/1').then((res) => res.json()),
-    // queryFn: async () => {
-    //   const response = await axiosInstance.get('/gs-record/1');
-    //   console.log(response);
-    //   return response.data; // 데이터 반환
-    // },
+    // queryFn: () => fetch('/gs-record/1').then((res) => res.json()),
+    queryFn: async () => {
+      const response = await axiosInstance.get('/gs-record/1');
+      console.log(response);
+      return response.data; // 데이터 반환
+    },
   });
 
   console.log(data);

@@ -13,8 +13,6 @@ import {
   formatPostDateTime,
   formatPostParticipantPerson,
   formatServerToTimeTableData,
-  // formatTimeTableData,
-  // formatServerToTimeTableData,
 } from '@/utils/meeting/timetable/formatDateTime';
 import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
 import useModal from '@/hooks/useModal';
@@ -22,32 +20,32 @@ import ResultTimeSelectModal from '@/components/meeting/result/ResultTimeSelectM
 import { useNavigate, useParams } from 'react-router-dom';
 import { axiosInstance } from '@/apis/instance';
 import { TimeTableServerInfoProps } from '@/mocks/data/timeTableData';
-// import { TimeTableServerInfoProps } from '@/mocks/data/timeTableData';
 
 function DecisionPage() {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { roomId, meetingId } = useParams();
+  const isGuest = true;
 
   const { isLoading: isTimeTableLoading, data: timeTableServerData } =
     useQuery<TimeTableServerInfoProps>({
       queryKey: ['TimeTableServerInfo'],
-      queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
-      // queryFn: async () => {
-      //   const response = await axiosInstance.get('/guest-schedule/2');
-      //   console.log(response);
-      //   return response.data; // 데이터 반환
-      // },
+      // queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
+      queryFn: async () => {
+        const response = await axiosInstance.get(
+          `/${isGuest ? `guest` : `member`}-schedule/${roomId}`
+        );
+        console.log(response);
+        return response.data; // 데이터 반환
+      },
     });
 
   const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['selectedTimeData'],
     // queryFn: () => fetch('/gs-record/1').then((res) => res.json()),
     queryFn: async () => {
-      const response = await axiosInstance.get('/gs-record/1', {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJpZFwiOjEsXCJuaWNrbmFtZVwiOlwi6rmA66-87JqwXCIsXCJyb2xlXCI6XCJURU1QT1JBUllcIixcImd1ZXN0XCI6dHJ1ZSxcIm1lbWJlclwiOmZhbHNlfSIsImlhdCI6MTcyMjQ4NjkwNywiZXhwIjoxNzIyNDkwNTA3fQ.qp9uZqvGbRRGi41af05poj98WjB7DeEGSwJrXNORm7HId9v_gojtZvVaRkCSNM2kSFCn54xm2QyKhXQsTlKV6g`,
-        },
-      });
+      const response = await axiosInstance.get(
+        `/${isGuest ? `gs` : `ms`}-record/${roomId}`
+      );
       console.log(response);
       return response.data; // 데이터 반환
     },
@@ -66,21 +64,13 @@ function DecisionPage() {
   }
   if (error) return <div>에러가 발생했습니다</div>;
 
-  //   {
-  //     "msId":"12",
-  //     "time":[
-  //         "2023-01-01T14:30",
-  //         "2023-01-01T15:00"
-  //     ],
-  //     "participantPerson" :["오영","예진","채림","세종"]
-  // } 이형식으로 보내기
   const handleDecide = () => {
     setIsSelected(true);
-    navigate(`/meeting/${id}/result`);
+    navigate(`/meeting/${roomId}/result/${meetingId}`);
     const postParticipantPerson = formatPostParticipantPerson(selectedResult);
     const postDateTime = formatPostDateTime(selectedResult);
     const postData = {
-      msId: id,
+      msId: roomId,
       time: [postDateTime[0], postDateTime[postDateTime.length - 1]],
       participantPerson: postParticipantPerson,
     };

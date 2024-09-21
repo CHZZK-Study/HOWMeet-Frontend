@@ -26,7 +26,7 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
 function SelectPage() {
-  const { id } = useParams();
+  const { roomId, meetingId } = useParams();
 
   const { selectedTimes } = useTimeStore();
   const { closeModal, isOpen, openModal } = useModal();
@@ -39,13 +39,13 @@ function SelectPage() {
 
   const { isLoading, isError, data } = useQuery<TimeTableServerInfoProps>({
     queryKey: ['TimeTableServerInfo'],
-    queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
-    // queryFn: async () => {
-    //   const response = await axiosInstance.get(
-    //     `/${isGuest ? `guest` : `member`}-schedule/${id}`
-    //   );
-    //   return response.data; // 데이터 반환
-    // },
+    // queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
+    queryFn: async () => {
+      const response = await axiosInstance.get(
+        `/${isGuest ? `guest` : `member`}-schedule/${roomId}`
+      );
+      return response.data; // 데이터 반환
+    },
   });
 
   useEffect(() => {
@@ -86,9 +86,8 @@ function SelectPage() {
   const handleModalOpen = async () => {
     try {
       const formattedTimes = formatPostDateTime(selectedTimes);
-      console.log('formattedTimes: ', formattedTimes);
       await axiosInstance.post(`${isGuest ? `gs-record` : `ms-record`}`, {
-        [isGuest ? 'gsId' : 'msId']: id, // someIdValue는 적절한 ID 값으로 대체해야 합니다
+        [isGuest ? 'gsId' : 'msId']: roomId, // someIdValue는 적절한 ID 값으로 대체해야 합니다
         selectedTimes: formattedTimes,
       });
       openModal();
