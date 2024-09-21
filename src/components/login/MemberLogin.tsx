@@ -1,12 +1,22 @@
 import styled from 'styled-components';
 import { GuestTitle, Title } from '@/styles/components/text';
 import { GoogleIcon, KakaoIcon, NaverIcon } from 'public/assets/icons';
+import { ProviderName } from '@/types/socialLogin';
+import { STORAGE_KEY } from '@/constants/storage';
+import { getSocialLoginUrl } from '@/apis/user.api';
 
 interface Props {
   type?: 'guest' | 'default';
 }
 
 function MemberLogin({ type = 'default' }: Props) {
+  const handleSocialLogin = async (service: ProviderName) => {
+    localStorage.setItem(STORAGE_KEY.socialLoginType, service);
+    const result = await getSocialLoginUrl(service);
+    const { url } = result.data;
+    window.location.href = url;
+  };
+
   return (
     <Container>
       {type === 'guest' ? (
@@ -22,15 +32,15 @@ function MemberLogin({ type = 'default' }: Props) {
         </LoginTitle>
       )}
       <ButtonWrapper>
-        <SocialLoginButton>
+        <SocialLoginButton onClick={() => handleSocialLogin('kakao')}>
           <KakaoIcon width={34} height={34} />
           <span className="button-text">카카오 계정 로그인</span>
         </SocialLoginButton>
-        <SocialLoginButton>
+        <SocialLoginButton onClick={() => handleSocialLogin('naver')}>
           <NaverIcon width={34} height={30} />
           <span className="button-text">네이버 계정 로그인</span>
         </SocialLoginButton>
-        <SocialLoginButton>
+        <SocialLoginButton onClick={() => handleSocialLogin('google')}>
           <GoogleIcon width={34} height={30} />
           <span className="button-text">구글 계정 로그인</span>
         </SocialLoginButton>

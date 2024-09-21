@@ -1,11 +1,9 @@
-import { BASE_URL, DEFAULT_TIMEOUT } from '@/constants/api';
+import { BASE_URL, DEFAULT_TIMOUT } from '@/constants/api';
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,
-  timeout: DEFAULT_TIMEOUT,
-  responseType: 'json',
-  withCredentials: true,
+  timeout: DEFAULT_TIMOUT,
 });
 
 axiosInstance.interceptors.request.use(
