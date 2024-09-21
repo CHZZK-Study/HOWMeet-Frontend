@@ -73,11 +73,11 @@ function NewMeetingPage() {
       </ContentContainer>
       <ButtonContainer>
         {isValid ? (
-          <Button $style="solid" $theme="primary">
+          <Button $style="solid" $theme="primary-purple">
             완료
           </Button>
         ) : (
-          <Button $style="outlined" $theme="primary">
+          <Button $style="outlined" $theme="primary-purple">
             건너 뛰기
           </Button>
         )}
