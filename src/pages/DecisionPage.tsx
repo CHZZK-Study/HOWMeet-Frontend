@@ -41,16 +41,16 @@ function DecisionPage() {
 
   const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['selectedTimeData'],
-    queryFn: () => fetch('/gs-record/1').then((res) => res.json()),
-    // queryFn: async () => {
-    //   const response = await axiosInstance.get('/gs-record/1', {
-    //     headers: {
-    //       Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJpZFwiOjEsXCJuaWNrbmFtZVwiOlwi6rmA66-87JqwXCIsXCJyb2xlXCI6XCJURU1QT1JBUllcIixcImd1ZXN0XCI6dHJ1ZSxcIm1lbWJlclwiOmZhbHNlfSIsImlhdCI6MTcyMjQ4NjkwNywiZXhwIjoxNzIyNDkwNTA3fQ.qp9uZqvGbRRGi41af05poj98WjB7DeEGSwJrXNORm7HId9v_gojtZvVaRkCSNM2kSFCn54xm2QyKhXQsTlKV6g`,
-    //     },
-    //   });
-    //   console.log(response);
-    //   return response.data; // 데이터 반환
-    // },
+    // queryFn: () => fetch('/gs-record/1').then((res) => res.json()),
+    queryFn: async () => {
+      const response = await axiosInstance.get('/gs-record/1', {
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJpZFwiOjEsXCJuaWNrbmFtZVwiOlwi6rmA66-87JqwXCIsXCJyb2xlXCI6XCJURU1QT1JBUllcIixcImd1ZXN0XCI6dHJ1ZSxcIm1lbWJlclwiOmZhbHNlfSIsImlhdCI6MTcyMjQ4NjkwNywiZXhwIjoxNzIyNDkwNTA3fQ.qp9uZqvGbRRGi41af05poj98WjB7DeEGSwJrXNORm7HId9v_gojtZvVaRkCSNM2kSFCn54xm2QyKhXQsTlKV6g`,
+        },
+      });
+      console.log(response);
+      return response.data; // 데이터 반환
+    },
   });
 
   const [isSelected, setIsSelected] = useState(false);
