@@ -1,10 +1,9 @@
 import { BottomSheetContainer } from '@/styles/components/bottomsheet/bottomsheet';
 import styled from 'styled-components';
 import { useTimeModal } from '@/store/useModalStore';
-import { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useEndTimeStore, useStartTimeStore } from '@/store/useTimeStore';
 import { SetTime } from '@/types/SetTime';
-import throttle from 'lodash/throttle';
 import BottomSheetHeader from './BottomSheetHeader';
 import Button from '../common/Button';
 
@@ -13,69 +12,79 @@ interface Props {
 }
 
 function TimePicker({ type }: Props) {
+  const [selectedAmPm, setSelectedAmPm] = useState<string>();
   const [selectedHour, setSelectedHour] = useState<string>();
   const [selectedMin, setSelectedMin] = useState<string>();
-  const [hours, setHours] = useState<string[]>(
-    Array.from({ length: 24 }, (_, index) => String(index))
-  );
 
-  const hourListRef = useRef<HTMLUListElement>(null);
   const updateStartTime = useStartTimeStore((state) => state.updateTime);
   const updateEndTime = useEndTimeStore((state) => state.updateTime);
   const closeTime = useTimeModal((state) => state.close);
 
   const handleClickButton = () => {
-    const updatedTime = `${selectedHour}:${selectedMin}`;
+    const updatedTime = `${selectedAmPm} ${selectedHour}:${selectedMin}`;
     if (type === 'start') updateStartTime(updatedTime);
     if (type === 'end') updateEndTime(updatedTime);
     closeTime();
   };
 
-  useEffect(() => {
-    const hourList = hourListRef.current;
+  const handleClickAmPm = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setSelectedAmPm(event.currentTarget.innerText);
+  };
 
-    if (hourList) {
-      const handleScroll = throttle((event: Event) => {
-        const target = event.target as HTMLUListElement;
-        const maxScrollHeight = target.scrollHeight - target.clientHeight;
+  const handleClickHour = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setSelectedHour(event.currentTarget.innerText);
+  };
 
-        if (
-          Math.floor(target.scrollTop) === maxScrollHeight ||
-          Math.floor(target.scrollTop) === maxScrollHeight - 1
-        ) {
-          setHours((prev) => [...prev, ...hours]);
-        }
-      }, 1000);
-
-      hourList.addEventListener('scroll', handleScroll);
-
-      return () => hourList.removeEventListener('scroll', handleScroll);
-    }
-    return undefined;
-  }, [hours]);
+  const handleClickMin = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setSelectedMin(event.currentTarget.innerText);
+  };
 
   return (
     <Container>
       <BottomSheetHeader title="시간 선택" onClick={closeTime} />
       <TimePickerContainer>
-        <SelectHour ref={hourListRef}>
-          {hours.map((item, index) => (
-            <SelectItem key={item + index} $isSelected={item === selectedHour}>
-              <button type="button" onClick={() => setSelectedHour(item)}>
+        <AmPmWrapper>
+          <TimePickerButton
+            onClick={handleClickAmPm}
+            $active={selectedAmPm === '오전'}
+          >
+            오전
+          </TimePickerButton>
+          <TimePickerButton
+            onClick={handleClickAmPm}
+            $active={selectedAmPm === '오후'}
+          >
+            오후
+          </TimePickerButton>
+        </AmPmWrapper>
+        <ContentWrapper>
+          <Label>시간대</Label>
+          <HourWrapper>
+            {Array.from({ length: 12 }, (_, index) => (
+              <TimePickerButton
+                onClick={handleClickHour}
+                key={index}
+                $active={selectedHour === String(index + 1)}
+              >
+                {index + 1}
+              </TimePickerButton>
+            ))}
+          </HourWrapper>
+        </ContentWrapper>
+        <ContentWrapper>
+          <Label>분 단위</Label>
+          <MinuteWrapper>
+            {['00', '30'].map((item) => (
+              <TimePickerButton
+                key={item}
+                onClick={handleClickMin}
+                $active={selectedMin === item}
+              >
                 {item}
-              </button>
-            </SelectItem>
-          ))}
-        </SelectHour>
-        <SelectMinute>
-          {['00', '30'].map((item) => (
-            <SelectItem $isSelected={item === selectedMin}>
-              <button type="button" onClick={() => setSelectedMin(item)}>
-                {item}
-              </button>
-            </SelectItem>
-          ))}
-        </SelectMinute>
+              </TimePickerButton>
+            ))}
+          </MinuteWrapper>
+        </ContentWrapper>
       </TimePickerContainer>
       <ButtonContainer>
         <Button
@@ -92,7 +101,7 @@ function TimePicker({ type }: Props) {
 }
 
 const Container = styled(BottomSheetContainer)`
-  height: 50%;
+  height: 80%;
 `;
 
 const ButtonContainer = styled.div`
@@ -103,49 +112,57 @@ const ButtonContainer = styled.div`
 `;
 
 const TimePickerContainer = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: center;
-  gap: 30px;
-  width: 160px;
-  height: 180px;
+  flex-direction: column;
+  gap: 24px;
 `;
 
-const SelectHour = styled.ul`
-  height: 100%;
-  overflow: scroll;
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 `;
 
-const SelectItem = styled.li<{ $isSelected: boolean }>`
-  padding: 8px;
-
+const AmPmWrapper = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  gap: 4px;
+`;
+const Label = styled.h2`
+  color: ${({ theme }) => theme.color.secondary.solid.bk[900]};
+  ${({ theme }) => theme.typo.body.medium[18]};
+`;
 
-  border-radius: 6px;
+const HourWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 4px;
+`;
 
-  cursor: pointer;
+const MinuteWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+`;
+
+const TimePickerButton = styled.button<{ $active: boolean }>`
+  width: 100%;
+  text-align: center;
+  padding: 16px 0;
+  border-radius: 8px;
+  border: 1px solid
+    ${({ theme, $active }) =>
+      $active ? theme.color.point.green : theme.color.secondary.solid.bk[300]};
+  color: ${({ theme, $active }) =>
+    $active ? theme.color.point.green : theme.color.secondary.solid.bk[600]};
+  ${({ theme }) => theme.typo.body.medium[16]}
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.secondary.solid.bk[50]};
+    color: ${({ theme }) => theme.color.point.green};
+    border: 1px solid ${({ theme }) => theme.color.point.green};
   }
-
-  button {
-    width: 100%;
-    height: 100%;
-
-    ${({ theme }) => theme.typo.body.regular[22]}
-
-    color: ${({ theme, $isSelected }) =>
-      $isSelected
-        ? theme.color.point.purple
-        : theme.color.secondary.solid.bk[400]}
-  }
-`;
-
-const SelectMinute = styled.ul`
-  color: ${({ theme }) => theme.color.secondary.solid.bk[400]};
-  ${({ theme }) => theme.typo.body.regular[22]}
 `;
 
 export default TimePicker;
