@@ -9,6 +9,7 @@ import Header from '@/components/common/Header';
 import styled, { useTheme } from 'styled-components';
 import { NextIcon } from 'public/assets/icons';
 import { Content, MeetingData } from '@/types/meeting';
+import { useQuitMakeMeetingModal } from '@/store/useModalStore';
 import ProgressBar from './ProgressBar';
 import Button from '../common/Button';
 
@@ -19,6 +20,7 @@ interface Props {
 
 function ConfirmMeeting({ meetingData, setContent }: Props) {
   const theme = useTheme();
+  const openQuit = useQuitMakeMeetingModal((state) => state.open);
 
   const {
     name: { value },
@@ -32,7 +34,7 @@ function ConfirmMeeting({ meetingData, setContent }: Props) {
 
   return (
     <FlexColContainer>
-      <Header title={HEAD_TITLE.newMeeting} />
+      <Header title={HEAD_TITLE.newMeeting} isClose onIconClick={openQuit} />
       <ContentContainer>
         <PageTitle>{TITLE.confirmMeeting}</PageTitle>
         <ProgressBar currentStep="confirm" />
