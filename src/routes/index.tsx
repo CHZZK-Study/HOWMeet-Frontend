@@ -11,6 +11,7 @@ import HomePage from '@/pages/HomePage';
 import RoomPage from '@/pages/RoomPage';
 import DecisionPage from '@/pages/DecisionPage';
 import ResultPage from '@/pages/ResultPage';
+import NewMeetingNonMemberPage from '@/pages/NewMeetingNonMemberPage';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: 'new-meeting',
     element: <NewMeetingPage />,
+  },
+  {
+    path: 'new-meeting/non-member',
+    element: <NewMeetingNonMemberPage />,
   },
   {
     path: 'confirm-meeting',
