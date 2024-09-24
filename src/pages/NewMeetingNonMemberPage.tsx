@@ -9,7 +9,7 @@ import { Content, MeetingData } from '@/types/meeting';
 import { useState } from 'react';
 
 function NewMeetingNonMemberPage() {
-  const [currentContent, setCurrentContent] = useState<Content>('login');
+  const [currentContent, setCurrentContent] = useState<Content>('make');
   const [meetingData, setMeetingData] = useState<MeetingData>({
     name: { value: '' },
     dates: [],
