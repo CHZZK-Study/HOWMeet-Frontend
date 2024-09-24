@@ -7,7 +7,6 @@ import {
 import styled from 'styled-components';
 
 function ConfirmContent() {
-  // TODO 로그인 유무에 따른 "방이름" 컨텐츠 제거
   return (
     <>
       <ContentWrapper>
