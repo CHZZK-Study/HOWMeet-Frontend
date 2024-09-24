@@ -100,7 +100,9 @@ const HourContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 16px;
+  padding-top: 0px;
+  padding-bottom: 14px;
 `;
 
 const HourCell = styled.div`
@@ -136,7 +138,7 @@ const Row = styled.div`
 
 const CellGroup = styled.div<{ $isHalf: boolean }>`
   flex: 1;
-  height: ${({ $isHalf }) => ($isHalf ? '20px;' : '40px;')}
+  height: ${({ $isHalf }) => ($isHalf ? '35px;' : '55px;')}
   display: flex;
   flex-direction: column;
 `;

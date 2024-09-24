@@ -31,6 +31,11 @@ function SelectableTimeTable({
       month: data.months[data.dates.indexOf(date)],
     };
 
+    const isDisabled =
+      data.isContainMidnight &&
+      ((date === data.dates[0] && hour < data.startHour) || // Before start hour on the first date
+        (date === data.dates[data.dates.length - 1] && hour > '00')); // After midnight on the last date
+
     return (
       <SelectTimeCell
         key={`${hour}-${date}-${minute}`}
@@ -42,6 +47,7 @@ function SelectableTimeTable({
         onDragEnd={handleDragEnd}
         isEndCellHalf={isEndCellHalf}
         isStartCellHalf={isStartCellHalf}
+        disabled={isDisabled || false}
       />
     );
   };

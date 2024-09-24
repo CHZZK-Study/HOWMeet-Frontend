@@ -1,14 +1,4 @@
-export interface TimeTableServerInfoProps {
-  id: number;
-  dates: string[];
-  time: {
-    startTime: string;
-    endTime: string;
-  };
-  name: {
-    value: string;
-  };
-}
+import { TimeTableServerInfoProps } from '@/types/timeTableTypes';
 
 export const TimeTableServerInfo = <TimeTableServerInfoProps>{
   id: 1,
@@ -16,6 +6,7 @@ export const TimeTableServerInfo = <TimeTableServerInfoProps>{
   time: {
     startTime: '09:00:00',
     endTime: '17:00:00',
+    containsMidnight: false,
   },
   name: {
     value: 'Meeting A',

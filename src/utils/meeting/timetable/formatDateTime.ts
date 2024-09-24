@@ -25,7 +25,6 @@ export const formatPostParticipantPerson = (data: ResultHeatmapCellInfo[]) => {
   const participantPerson = data.map((time) => {
     return time.users;
   });
-  // 중복 제거
   return [...new Set(participantPerson.flat())];
 };
 
@@ -93,6 +92,7 @@ interface TimeTableServerData {
   time: {
     startTime: string;
     endTime: string;
+    containsMidnight: boolean;
   };
   name: {
     value: string;
@@ -106,15 +106,20 @@ export const formatServerToTimeTableData = (
   const end = data.dates[1];
   const { startTime } = data.time;
   const { endTime } = data.time;
+  const { containsMidnight } = data.time;
   const isStartHalfMinute = startTime.split(':')[1] === '30';
   const isEndHalfMinute = endTime.split(':')[1] === '30';
   const dateRange = generateServerDateRange(start, end);
-  const hoursRange = generateServerHoursRange(
-    startTime,
-    endTime,
-    isEndHalfMinute
-  );
-  console.log('hoursRange: ', hoursRange);
+
+  let hoursRange: string[];
+  if (containsMidnight) {
+    hoursRange = [
+      ...generateServerHoursRange('00:00', endTime, isEndHalfMinute),
+      ...generateServerHoursRange(startTime, '24:00', isStartHalfMinute),
+    ];
+  } else {
+    hoursRange = generateServerHoursRange(startTime, endTime, isEndHalfMinute);
+  }
 
   const days: string[] = [];
   const dates: string[] = [];
@@ -135,6 +140,9 @@ export const formatServerToTimeTableData = (
     months,
     isEndHalfMinute,
     isStartHalfMinute,
+    startHour: startTime.split(':')[0],
+    endHour: endTime.split(':')[0],
+    isContainMidnight: containsMidnight,
   };
 };
 
@@ -232,6 +240,10 @@ export const formatTimeTableData = (data: string[]): TimeTableData => {
     months,
     isEndHalfMinute,
     isStartHalfMinute,
+    startHour: start.split('T')[1].split(':')[0].split(':')[0],
+    endHour: end.split('T')[1].split(':')[0].split(':')[0],
+    isContainMidnight:
+      start.split('T')[1].split(':')[0] > end.split('T')[1].split(':')[0],
   };
 };
 

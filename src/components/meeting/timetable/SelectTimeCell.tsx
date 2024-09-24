@@ -12,6 +12,7 @@ function SelectTimeCell({
   onDragEnd,
   isStartCellHalf,
   isEndCellHalf,
+  disabled,
 }: SelectTimeCellProps) {
   const cellRef = useRef<HTMLDivElement>(null);
 
@@ -59,6 +60,10 @@ function SelectTimeCell({
     };
   }, [handleTouchStart, handleTouchMove, onDragEnd]);
 
+  if (disabled) {
+    return <SingleCell ref={cellRef} className="disabled-cell" />;
+  }
+
   return (
     <SelectHalfCell
       ref={cellRef}
@@ -67,14 +72,13 @@ function SelectTimeCell({
       onMouseEnter={(e) =>
         !dragDisabled && e.buttons === 1 && onDragMove(timeSlot)
       }
-      onMouseUp={onDragEnd}
       data-timeslot={JSON.stringify(timeSlot)}
+      onMouseUp={onDragEnd}
       $isEndCellHalf={isEndCellHalf}
       $isStartCellHalf={isStartCellHalf}
     />
   );
 }
-
 const MemoizedSelectTimeCell = React.memo(SelectTimeCell);
 export default MemoizedSelectTimeCell;
 
@@ -101,5 +105,25 @@ export const SelectHalfCell = styled.div<CellProps>`
   &:last-child {
     border-bottom: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   }
+  touch-action: none;
+`;
+
+export const SingleCell = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.1px solid ${theme.color.secondary.solid.gray[800]};
+  background: linear-gradient(
+    135deg,
+    rgba(255, 182, 193, 0.5) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 182, 193, 0.5) 50%,
+    rgba(255, 182, 193, 0.5) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 20px 20px; // 조정 가능
   touch-action: none;
 `;

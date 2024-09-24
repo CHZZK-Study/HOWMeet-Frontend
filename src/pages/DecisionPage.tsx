@@ -3,7 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
 import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
-import { ResultHeatmapProps } from '@/types/timeTableTypes';
+import {
+  ResultHeatmapProps,
+  TimeTableServerInfoProps,
+} from '@/types/timeTableTypes';
 import {
   FlexColContainer,
   NormalContainer,
@@ -19,7 +22,6 @@ import useModal from '@/hooks/useModal';
 import ResultTimeSelectModal from '@/components/meeting/result/ResultTimeSelectModal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { axiosInstance } from '@/apis/instance';
-import { TimeTableServerInfoProps } from '@/mocks/data/timeTableData';
 import useUserStore from '@/store/userStore';
 
 function DecisionPage() {
@@ -27,35 +29,30 @@ function DecisionPage() {
   const { roomId, meetingId } = useParams();
   const { user } = useUserStore();
   const isGuest = user?.isMember;
+  const token = isGuest
+    ? sessionStorage.getItem('@HOWMEET_ACCESS_TOKEN')
+    : localStorage.getItem('@HOWMEET_ACCESS_TOKEN');
 
   const { isLoading: isTimeTableLoading, data: timeTableServerData } =
     useQuery<TimeTableServerInfoProps>({
       queryKey: ['TimeTableServerInfo'],
-      // queryFn: () =>
-      //   fetch(`/${isGuest ? `guest` : `member`}-schedule/${roomId}`).then(
-      //     (res) => res.json()
-      //   ),
       queryFn: async () => {
+        const headers = isGuest ? {} : { Authorization: `Bearer ${token}` };
         const response = await axiosInstance.get(
-          `/${isGuest ? `guest-schedule/${meetingId}` : `room/${roomId}/${meetingId}`}`
+          `/${isGuest ? `guest-schedule/${meetingId}` : `room/${roomId}/${meetingId}`}`,
+          { headers }
         );
         return response.data; // 데이터 반환
       },
     });
-
   const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['selectedTimeData'],
-    queryFn: () =>
-      fetch(`/${isGuest ? `gs-record` : `ms-record`}/${meetingId}`).then(
-        (res) => res.json()
-      ),
-    // queryFn: async () => {
-    //   const response = await axiosInstance.get(
-    //     `/${isGuest ? `gs-record` : `ms-record`}/${meetingId}`
-    //   );
-    //   console.log(response);
-    //   return response.data; // 데이터 반환
-    // },
+    queryFn: async () => {
+      const response = await axiosInstance.get(
+        `/${isGuest ? 'gs-record' : `ms-record/${roomId}`}/${meetingId}`
+      );
+      return response.data; // 데이터 반환
+    },
   });
 
   const [isSelected, setIsSelected] = useState(false);

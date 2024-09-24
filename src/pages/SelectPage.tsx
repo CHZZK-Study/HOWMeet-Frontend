@@ -6,67 +6,67 @@ import TimeSelectModalComp from '@/components/meeting/select/TimeSelectCompModal
 import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
 import useModal from '@/hooks/useModal';
 import useToolTip from '@/hooks/useToolTip';
-import {
-  // IsTimeTableServerInfoProps,
-  TimeTableServerInfoProps,
-} from '@/mocks/data/timeTableData';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
-import useUserStore from '@/store/userStore';
+// import useUserStore from '@/store/userStore';
 import {
   ButtonContainer,
   FlexColContainer,
   NormalContainer,
 } from '@/styles/components/container';
-import { TimeTableData } from '@/types/timeTableTypes';
+import {
+  TimeTableData,
+  // TimeTableServerInfoProps,
+} from '@/types/timeTableTypes';
 import {
   formatPostDateTime,
   formatServerToTimeTableData,
 } from '@/utils/meeting/timetable/formatDateTime';
-import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+// import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+// import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import Skeleton from 'react-loading-skeleton'; // 추가
 import 'react-loading-skeleton/dist/skeleton.css';
+import useTimeTableData from '@/hooks/useTimeTableData';
 
 function SelectPage() {
-  const { meetingId, roomId } = useParams();
-
+  // const { meetingId, roomId } = useParams();
   const { selectedTimes } = useTimeStore();
-  const { user } = useUserStore();
+  // const { user } = useUserStore();
   const { closeModal, isOpen, openModal } = useModal();
   const { isToolTipOpen, closeToolTip } = useToolTip();
   const [isSelected, setIsSelected] = useState(false);
   const handleReWrite = () => {
     setIsSelected(false);
   };
-  const isGuest = user?.isMember;
-  const token = isGuest
-    ? sessionStorage.getItem('@HOWMEET_ACCESS_TOKEN')
-    : localStorage.getItem('@HOWMEET_ACCESS_TOKEN');
+  // const isGuest = user?.isMember;
+  // const token = isGuest
+  //   ? sessionStorage.getItem('@HOWMEET_ACCESS_TOKEN')
+  //   : localStorage.getItem('@HOWMEET_ACCESS_TOKEN');
 
-  console.log('user', user);
+  // const { isLoading, isError, data } = useQuery<TimeTableServerInfoProps>({
+  //   queryKey: ['TimeTableServerInfo'],
+  //   queryFn: async () => {
+  //     const headers = isGuest ? {} : { Authorization: `Bearer ${token}` };
+  //     const response = await axiosInstance.get(
+  //       `/${isGuest ? `guest-schedule/${meetingId}` : `room/${roomId}/${meetingId}`}`,
+  //       { headers }
+  //     );
+  //     return response.data; // 데이터 반환
+  //   },
+  // });
 
-  const { isLoading, isError, data } = useQuery<TimeTableServerInfoProps>({
-    queryKey: ['TimeTableServerInfo'],
-    // queryFn: () =>
-    //   fetch(
-    //     `/${isGuest ? `guest-schedule/${meetingId}` : `room/${roomId}/${meetingId}`}`
-    //   ).then((res) => res.json()),
-    queryFn: async () => {
-      const response = await axiosInstance.get(
-        `/${isGuest ? `guest-schedule/${meetingId}` : `room/${roomId}/${meetingId}`}`
-      );
-      return response.data; // 데이터 반환
-    },
-  });
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const {
+    isGuest,
+    isTimeTableLoading,
+    meetingId,
+    timeTableServerData,
+    token,
+    isError,
+  } = useTimeTableData();
 
   // 로딩 상태 처리
-  if (isLoading || !data) {
+  if (isTimeTableLoading || !timeTableServerData) {
     return (
       <NormalContainer>
         <Header
@@ -91,50 +91,44 @@ function SelectPage() {
     );
   }
 
-  console.log(
-    "localStorage.getItem('@HOWMEET_ACCESS_TOKEN')",
-    localStorage.getItem('@HOWMEET_ACCESS_TOKEN')
-  );
-  // 오류 상태 처리
   if (isError) return <div>오류가 발생했습니다. 다시 시도해주세요.</div>;
 
-  // data가 undefined가 아닌지 확인
-  if (!data) return <div>데이터를 불러오지 못했습니다.</div>;
+  if (!timeTableServerData) return <div>데이터를 불러오지 못했습니다.</div>;
 
-  const timeTableData: TimeTableData = formatServerToTimeTableData(data);
+  const timeTableData: TimeTableData =
+    formatServerToTimeTableData(timeTableServerData);
 
   const handleModalOpen = async () => {
     try {
       const formattedTimes = formatPostDateTime(selectedTimes);
-      if (!token) {
-        console.error('토큰이 없습니다.');
-      } else {
-        axiosInstance
-          .post(
-            `${isGuest ? 'gs-record' : 'ms-record'}`,
-            {
-              [isGuest ? 'gsId' : 'msId']: meetingId,
-              selectTime: formattedTimes,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
-          .then((response) => {
-            console.log('전송 성공', response);
-          })
-          .catch((error) => {
-            console.error('전송 실패', error);
-          });
+      console.log('formattedTimes', formattedTimes);
+      const headers = isGuest
+        ? {
+            Authorization:
+              'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJpZFwiOjMsXCJuaWNrbmFtZVwiOlwi7LWc7LGE66a8XCIsXCJyb2xlXCI6XCJURU1QT1JBUllcIixcIm1lbWJlclwiOmZhbHNlLFwiZ3Vlc3RcIjp0cnVlfSIsImlhdCI6MTcyNzE5NTcyMCwiZXhwIjoxNzI3MTk5MzIwfQ.DxG95w96ceWVNRUIExB8axSbiKE-793STYBS-TnENFUFRk4TkVo7NyVZBoy8vdfZiYp7UThjGC1PsaBcN8jigA',
+          }
+        : // ? sessionStorage.getItem('@HOWMEET_ACCESS_TOKEN')
+          { Authorization: `Bearer ${token}` };
+
+      try {
+        const response = await axiosInstance.post(
+          `${isGuest ? 'gs-record' : 'ms-record'}`,
+          {
+            [isGuest ? 'gsId' : 'msId']: meetingId,
+            selectTime: formattedTimes,
+          },
+          { headers }
+        );
+        console.log(response);
+        toast.message('정보가 성공적으로 저장되었습니다!');
+      } catch (error) {
+        toast.error('정보 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
       }
 
       openModal();
       setIsSelected(true);
       toast.message('정보가 성공적으로 저장되었습니다!');
     } catch (error) {
-      console.error('Error posting selected times:', error);
       toast.error('정보 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };

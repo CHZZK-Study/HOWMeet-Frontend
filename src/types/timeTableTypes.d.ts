@@ -10,7 +10,18 @@ export interface ResultHeatmapProps {
   }[];
   participatedPersonnel: string[];
 }
-
+export interface TimeTableServerInfoProps {
+  id: number;
+  dates: string[];
+  time: {
+    startTime: string;
+    endTime: string;
+    containsMidnight: boolean;
+  };
+  name: {
+    value: string;
+  };
+}
 export interface ResultHeatmapCellInfo {
   users: string[];
   userCount: number;
@@ -40,6 +51,9 @@ export interface TimeTableData {
   months: string[];
   isStartHalfMinute: boolean;
   isEndHalfMinute: boolean;
+  startHour: string;
+  endHour: string;
+  isContainMidnight?: boolean;
 }
 
 export interface TimeTableProps {
@@ -73,6 +87,7 @@ export interface SelectTimeCellProps extends BaseTimeCellProps {
   timeSlot: TimeSlot;
   onDragStart: (timeSlot: TimeSlot) => void;
   onDragMove: (timeSlot: TimeSlot) => void;
+  disabled: boolean;
 }
 
 export interface ResultTimeCellProps extends BaseTimeCellProps {
