@@ -11,7 +11,7 @@ export const FlexColContainer = styled.main`
   align-items: center;
 `;
 
-export const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div<{ center?: boolean }>`
   width: 100%;
   height: 130px;
   position: sticky;
@@ -20,7 +20,8 @@ export const ButtonContainer = styled.div`
   z-index: 999;
 
   display: flex;
-  align-items: end;
+  align-items: ${({ center }) => (center ? 'center' : 'end')};
+  justify-content: ${({ center }) => (center ? 'center' : 'unset')};
   padding: 24px 0;
   padding-top: 0px;
 

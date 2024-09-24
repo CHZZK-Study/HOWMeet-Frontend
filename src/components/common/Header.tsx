@@ -14,13 +14,16 @@ interface HeaderProps {
 }
 
 function Header({ title, isShare, isVisible, toggle }: Props) {
+  const handleUrlCopy = () => {
+    navigator.clipboard.writeText(window.location.href);
+  };
   return (
     <HeaderContainer>
       <LeftArrowIcon className="back-button" />
       <HeadTitle>{title}</HeadTitle>
       {isShare && (
         <>
-          <ShareIcon className="share-button" />
+          <ShareIcon className="share-button" onClick={handleUrlCopy} />
           {isVisible && (
             <ToolTip
               content="팀원에게 공유해서 함께 일정을 조율해보세요!"

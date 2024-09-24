@@ -38,7 +38,7 @@ const handlers = [
   http.get('/guest-schedule/:id', () => {
     return HttpResponse.json(TimeTableServerInfo);
   }),
-  http.get('/member-schedule/:id', () => {
+  http.get('/room/:roomId/:memberScheduleId', () => {
     return HttpResponse.json(TimeTableServerInfo);
   }),
 

@@ -11,8 +11,10 @@ import {
   TimeTableServerInfoProps,
 } from '@/mocks/data/timeTableData';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
+import useUserStore from '@/store/userStore';
 import {
   ButtonContainer,
+  FlexColContainer,
   NormalContainer,
 } from '@/styles/components/container';
 import { TimeTableData } from '@/types/timeTableTypes';
@@ -24,25 +26,36 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
+import Skeleton from 'react-loading-skeleton'; // 추가
+import 'react-loading-skeleton/dist/skeleton.css';
 
 function SelectPage() {
-  const { roomId, meetingId } = useParams();
+  const { meetingId, roomId } = useParams();
 
   const { selectedTimes } = useTimeStore();
+  const { user } = useUserStore();
   const { closeModal, isOpen, openModal } = useModal();
   const { isToolTipOpen, closeToolTip } = useToolTip();
   const [isSelected, setIsSelected] = useState(false);
-  const isGuest = true;
   const handleReWrite = () => {
     setIsSelected(false);
   };
+  const isGuest = user?.isMember;
+  const token = isGuest
+    ? sessionStorage.getItem('@HOWMEET_ACCESS_TOKEN')
+    : localStorage.getItem('@HOWMEET_ACCESS_TOKEN');
+
+  console.log('user', user);
 
   const { isLoading, isError, data } = useQuery<TimeTableServerInfoProps>({
     queryKey: ['TimeTableServerInfo'],
-    // queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
+    // queryFn: () =>
+    //   fetch(
+    //     `/${isGuest ? `guest-schedule/${meetingId}` : `room/${roomId}/${meetingId}`}`
+    //   ).then((res) => res.json()),
     queryFn: async () => {
       const response = await axiosInstance.get(
-        `/${isGuest ? `guest` : `member`}-schedule/${roomId}`
+        `/${isGuest ? `guest-schedule/${meetingId}` : `room/${roomId}/${meetingId}`}`
       );
       return response.data; // 데이터 반환
     },
@@ -69,12 +82,19 @@ function SelectPage() {
               : `가능한 시간을 드래그 해주세요!`
           }
         />
+        <FlexColContainer>
+          <Skeleton height={600} width={400} count={1} />
+        </FlexColContainer>
 
         {isOpen && <TimeSelectModalComp handleModalClose={closeModal} />}
       </NormalContainer>
     );
   }
 
+  console.log(
+    "localStorage.getItem('@HOWMEET_ACCESS_TOKEN')",
+    localStorage.getItem('@HOWMEET_ACCESS_TOKEN')
+  );
   // 오류 상태 처리
   if (isError) return <div>오류가 발생했습니다. 다시 시도해주세요.</div>;
 
@@ -86,10 +106,30 @@ function SelectPage() {
   const handleModalOpen = async () => {
     try {
       const formattedTimes = formatPostDateTime(selectedTimes);
-      await axiosInstance.post(`${isGuest ? `gs-record` : `ms-record`}`, {
-        [isGuest ? 'gsId' : 'msId']: roomId, // someIdValue는 적절한 ID 값으로 대체해야 합니다
-        selectedTimes: formattedTimes,
-      });
+      if (!token) {
+        console.error('토큰이 없습니다.');
+      } else {
+        axiosInstance
+          .post(
+            `${isGuest ? 'gs-record' : 'ms-record'}`,
+            {
+              [isGuest ? 'gsId' : 'msId']: meetingId,
+              selectTime: formattedTimes,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          )
+          .then((response) => {
+            console.log('전송 성공', response);
+          })
+          .catch((error) => {
+            console.error('전송 실패', error);
+          });
+      }
+
       openModal();
       setIsSelected(true);
       toast.message('정보가 성공적으로 저장되었습니다!');
@@ -114,13 +154,15 @@ function SelectPage() {
             : `가능한 시간을 드래그 해주세요!`
         }
       />
+
       <SelectableTimeTable data={timeTableData} dragDisabled={isSelected} />
-      <ButtonContainer>
+      <ButtonContainer center>
         <Button
           onClick={isSelected ? handleReWrite : handleModalOpen}
           $style="solid"
           $theme="primary-purple"
           disabled={selectedTimes.length === 0}
+          style={{ width: '95%' }}
         >
           {isSelected ? '수정하기' : '시간 선택 완료'}
         </Button>

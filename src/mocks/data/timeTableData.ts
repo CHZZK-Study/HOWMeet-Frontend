@@ -1,5 +1,5 @@
 export interface TimeTableServerInfoProps {
-  gsId: number;
+  id: number;
   dates: string[];
   time: {
     startTime: string;
@@ -9,23 +9,9 @@ export interface TimeTableServerInfoProps {
     value: string;
   };
 }
-export function IsTimeTableServerInfoProps(
-  data: TimeTableServerInfoProps
-): data is TimeTableServerInfoProps {
-  return (
-    typeof data === 'object' &&
-    typeof data.gsId === 'number' &&
-    Array.isArray(data.dates) &&
-    typeof data.time === 'object' &&
-    typeof data.time.startTime === 'string' &&
-    typeof data.time.endTime === 'string' &&
-    typeof data.name === 'object' &&
-    typeof data.name.value === 'string'
-  );
-}
 
 export const TimeTableServerInfo = <TimeTableServerInfoProps>{
-  gsId: 1,
+  id: 1,
   dates: ['2024-07-01', '2024-07-07'],
   time: {
     startTime: '09:00:00',

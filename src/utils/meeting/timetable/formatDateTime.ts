@@ -88,7 +88,7 @@ const generateHoursRange = (
 };
 
 interface TimeTableServerData {
-  gsId: number;
+  id: number;
   dates: string[];
   time: {
     startTime: string;

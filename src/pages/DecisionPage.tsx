@@ -5,7 +5,7 @@ import Header from '@/components/common/Header';
 import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
 import { ResultHeatmapProps } from '@/types/timeTableTypes';
 import {
-  ButtonContainer,
+  FlexColContainer,
   NormalContainer,
 } from '@/styles/components/container';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
@@ -20,35 +20,42 @@ import ResultTimeSelectModal from '@/components/meeting/result/ResultTimeSelectM
 import { useNavigate, useParams } from 'react-router-dom';
 import { axiosInstance } from '@/apis/instance';
 import { TimeTableServerInfoProps } from '@/mocks/data/timeTableData';
+import useUserStore from '@/store/userStore';
 
 function DecisionPage() {
   const navigate = useNavigate();
   const { roomId, meetingId } = useParams();
-  const isGuest = true;
+  const { user } = useUserStore();
+  const isGuest = user?.isMember;
 
   const { isLoading: isTimeTableLoading, data: timeTableServerData } =
     useQuery<TimeTableServerInfoProps>({
       queryKey: ['TimeTableServerInfo'],
-      // queryFn: () => fetch('/guest-schedule/1').then((res) => res.json()),
+      // queryFn: () =>
+      //   fetch(`/${isGuest ? `guest` : `member`}-schedule/${roomId}`).then(
+      //     (res) => res.json()
+      //   ),
       queryFn: async () => {
         const response = await axiosInstance.get(
-          `/${isGuest ? `guest` : `member`}-schedule/${roomId}`
+          `/${isGuest ? `guest-schedule/${meetingId}` : `room/${roomId}/${meetingId}`}`
         );
-        console.log(response);
         return response.data; // 데이터 반환
       },
     });
 
   const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['selectedTimeData'],
-    // queryFn: () => fetch('/gs-record/1').then((res) => res.json()),
-    queryFn: async () => {
-      const response = await axiosInstance.get(
-        `/${isGuest ? `gs` : `ms`}-record/${roomId}`
-      );
-      console.log(response);
-      return response.data; // 데이터 반환
-    },
+    queryFn: () =>
+      fetch(`/${isGuest ? `gs-record` : `ms-record`}/${meetingId}`).then(
+        (res) => res.json()
+      ),
+    // queryFn: async () => {
+    //   const response = await axiosInstance.get(
+    //     `/${isGuest ? `gs-record` : `ms-record`}/${meetingId}`
+    //   );
+    //   console.log(response);
+    //   return response.data; // 데이터 반환
+    // },
   });
 
   const [isSelected, setIsSelected] = useState(false);
@@ -96,18 +103,19 @@ function DecisionPage() {
         roomInfo={data}
         dragDisabled={isSelected}
       />
-      <ButtonContainer>
+      <FlexColContainer>
         <Button
           $style="solid"
           onClick={openModal}
           $theme="primary-purple"
           disabled={selectedResult.length === 0}
+          style={{ width: '95%' }}
         >
           {selectedResult.length === 0
             ? '드래그로 시간 확정하기'
             : '일정 확정하기'}
         </Button>
-      </ButtonContainer>
+      </FlexColContainer>
       {isOpen ? (
         <ResultTimeSelectModal
           handleModalClose={closeModal}
