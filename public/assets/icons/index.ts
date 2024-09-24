@@ -6,6 +6,7 @@ export { default as RightArrowIcon } from './common/right-arrow.svg?react';
 export { default as ShareIcon } from './common/share.svg?react';
 export { default as CancelIcon } from './common/x-icon.svg?react';
 export { default as LogOutIcon } from './common/logout.svg?react';
+export { default as AlertIcon } from './common/alert.svg?react';
 
 //calendar
 export { default as NextIcon } from './calendar/next.svg?react';
