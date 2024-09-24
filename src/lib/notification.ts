@@ -1,4 +1,5 @@
 import { getToken } from 'firebase/messaging';
+import { getVapidKey, setFcmToken } from '@/apis/notification.api';
 import { messaging } from './fcmConfig';
 import { registerServiceWorker } from './registerServiceWorker';
 
@@ -11,12 +12,14 @@ export const handleAllowNotification = async () => {
       const permission = await Notification.requestPermission();
 
       if (permission === 'granted') {
+        const vapidKey = await getVapidKey();
+
         const token = await getToken(messaging, {
-          vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
+          vapidKey,
         });
 
         if (token) {
-          // 서버에 post
+          await setFcmToken(token);
         }
       } else if (permission === 'denied') {
         // 알림 권한 차단된 경우
