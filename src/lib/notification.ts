@@ -6,26 +6,19 @@ import { registerServiceWorker } from './registerServiceWorker';
 export const handleAllowNotification = async () => {
   registerServiceWorker();
 
-  // 알림 권한 요청, deviceToken 발급, 서버에 post
   if ('Notification' in window) {
-    try {
-      const permission = await Notification.requestPermission();
+    const permission = await Notification.requestPermission();
 
-      if (permission === 'granted') {
-        const vapidKey = await getVapidKey();
+    if (permission === 'granted') {
+      const vapidKey = await getVapidKey();
 
-        const token = await getToken(messaging, {
-          vapidKey,
-        });
+      const token = await getToken(messaging, {
+        vapidKey,
+      });
 
-        if (token) {
-          await setFcmToken(token);
-        }
-      } else if (permission === 'denied') {
-        // 알림 권한 차단된 경우
+      if (token) {
+        await setFcmToken(token);
       }
-    } catch (error) {
-      console.log('FCM deviceToken 토큰 발급 오류');
     }
   }
 };
