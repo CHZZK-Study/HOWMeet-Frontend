@@ -1,17 +1,22 @@
+import Modal from '@/components/common/Modal';
 import ConfirmMeeting from '@/components/newmeeting/ConfirmMeeting';
 import LoginNonMember from '@/components/newmeeting/LoginNonMember';
 import MakeNewMeeting from '@/components/newmeeting/MakeNewMeeting';
+import QuitMakeMeetingModal from '@/components/newmeeting/QuitMakeMeetingModal';
+import { useQuitMakeMeetingModal } from '@/store/useModalStore';
 import { FlexColContainer } from '@/styles/components/container';
 import { Content, MeetingData } from '@/types/meeting';
 import { useState } from 'react';
 
 function NewMeetingNonMemberPage() {
-  const [currentContent, setCurrentContent] = useState<Content>('make');
+  const [currentContent, setCurrentContent] = useState<Content>('login');
   const [meetingData, setMeetingData] = useState<MeetingData>({
     name: { value: '' },
     dates: [],
     times: { startTime: '', endTime: '' },
   });
+  const { close: closeQuit, isOpen: isQuitModalOpen } =
+    useQuitMakeMeetingModal();
 
   return (
     <FlexColContainer>
@@ -28,6 +33,11 @@ function NewMeetingNonMemberPage() {
         />
       )}
       {currentContent === 'login' && <LoginNonMember />}
+      {isQuitModalOpen && (
+        <Modal onClose={closeQuit}>
+          <QuitMakeMeetingModal />
+        </Modal>
+      )}
     </FlexColContainer>
   );
 }
