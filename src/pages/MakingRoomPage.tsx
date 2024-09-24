@@ -40,7 +40,7 @@ function MakingRoomPage() {
         </FormProvider>
       </ContentContainer>
       <ButtonContainer>
-        <Button $style="solid" disabled={!isValid}>
+        <Button $style="solid" $theme="primary-purple" disabled={!isValid}>
           다음
         </Button>
       </ButtonContainer>
