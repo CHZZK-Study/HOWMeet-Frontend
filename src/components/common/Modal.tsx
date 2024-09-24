@@ -28,12 +28,19 @@ const fadeIn = keyframes`
 const ModalOverlay = styled.div`
   width: 100%;
   height: 100%;
+  padding: 0 24px;
 
   position: absolute;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   background: rgba(0, 0, 0, 0.32);
 
   animation: ${fadeIn} 0.3s ease-in-out;
+
+  z-index: 999;
 `;
 
 export default Modal;
