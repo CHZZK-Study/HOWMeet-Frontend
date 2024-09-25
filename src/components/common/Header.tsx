@@ -1,29 +1,36 @@
-import { LeftArrowIcon, ShareIcon } from 'public/assets/icons';
-import styled from 'styled-components';
+import { CancelIcon, LeftArrowIcon, ShareIcon } from 'public/assets/icons';
+import styled, { useTheme } from 'styled-components';
 import ToolTip from '../meeting/select/HeaderToolTip';
 
 interface Props {
   title: string;
   isShare?: boolean;
+  isClose?: boolean;
+  onIconClick?: () => void;
   toggle?: () => void;
   isVisible?: boolean;
 }
 
-interface HeaderProps {
-  isShare?: boolean;
-}
+function Header({
+  title,
+  isShare = false,
+  isClose,
+  onIconClick,
+  isVisible,
+  toggle,
+}: Props) {
+  const theme = useTheme();
 
-function Header({ title, isShare, isVisible, toggle }: Props) {
   const handleUrlCopy = () => {
     navigator.clipboard.writeText(window.location.href);
   };
   return (
-    <HeaderContainer>
+    <HeaderContainer $isShare={isShare}>
       <LeftArrowIcon className="back-button" />
       <HeadTitle>{title}</HeadTitle>
       {isShare && (
         <>
-          <ShareIcon className="share-button" onClick={handleUrlCopy} />
+          <ShareIcon className="icon-button" onClick={handleUrlCopy} />
           {isVisible && (
             <ToolTip
               content="팀원에게 공유해서 함께 일정을 조율해보세요!"
@@ -32,17 +39,24 @@ function Header({ title, isShare, isVisible, toggle }: Props) {
           )}
         </>
       )}
+      {isClose && (
+        <CancelIcon
+          className="icon-button"
+          fill={theme.color.secondary.solid.bk[700]}
+          onClick={onIconClick}
+        />
+      )}
     </HeaderContainer>
   );
 }
 
-const HeaderContainer = styled.div<HeaderProps>`
+const HeaderContainer = styled.div<{ $isShare: boolean }>`
   width: 100%;
   height: 52px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0 16px;
+  justify-content: ${({ $isShare }) => ($isShare ? '' : 'center')};
+  padding: 0 16px; /* 좌우 패딩 설정 */
   background: ${({ theme }) => theme.color.primary.white};
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.04);
   border-bottom: 1px solid ${({ theme }) => theme.color.primary.white};
@@ -53,10 +67,10 @@ const HeaderContainer = styled.div<HeaderProps>`
     top: 17.63px;
     cursor: pointer;
   }
-  .share-button {
+  .icon-button {
     position: absolute;
     right: 25px;
-    top: 17.63px;
+    margin: auto 0;
     cursor: pointer;
   }
 `;

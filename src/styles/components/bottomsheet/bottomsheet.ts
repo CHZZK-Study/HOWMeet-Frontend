@@ -24,6 +24,8 @@ export const BottomSheetContainer = styled.div`
   background: ${({ theme }) => theme.color.primary.white};
 
   animation: ${slideIn} 240ms cubic-bezier(0.5, 0.1, 0.34, 1);
+
+  z-index: 999;
 `;
 
 export const BottomSheetInfoWrapper = styled.div`

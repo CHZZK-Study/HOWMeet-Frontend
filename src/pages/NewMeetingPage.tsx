@@ -27,7 +27,6 @@ import styled from 'styled-components';
 
 function NewMeetingPage() {
   const [timeType, setTimeType] = useState<SetTime>('start');
-  // TODO 소셜 로그인 유무에 따른 PageTitle 변경 및 버튼 변경
   const { isOpen: isStartDateOpen, close: closeStartDate } =
     useStartDateModal();
   const { isOpen: isEndDateOpen, close: closeEndDate } = useEndDateModal();

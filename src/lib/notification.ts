@@ -1,28 +1,24 @@
 import { getToken } from 'firebase/messaging';
+import { getVapidKey, setFcmToken } from '@/apis/notification.api';
 import { messaging } from './fcmConfig';
 import { registerServiceWorker } from './registerServiceWorker';
 
 export const handleAllowNotification = async () => {
   registerServiceWorker();
 
-  // 알림 권한 요청, deviceToken 발급, 서버에 post
   if ('Notification' in window) {
-    try {
-      const permission = await Notification.requestPermission();
+    const permission = await Notification.requestPermission();
 
-      if (permission === 'granted') {
-        const token = await getToken(messaging, {
-          vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
-        });
+    if (permission === 'granted') {
+      const vapidKey = await getVapidKey();
 
-        if (token) {
-          // 서버에 post
-        }
-      } else if (permission === 'denied') {
-        // 알림 권한 차단된 경우
+      const token = await getToken(messaging, {
+        vapidKey,
+      });
+
+      if (token) {
+        await setFcmToken(token);
       }
-    } catch (error) {
-      console.log('FCM deviceToken 토큰 발급 오류');
     }
   }
 };

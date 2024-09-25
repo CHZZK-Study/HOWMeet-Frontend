@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import CloseIcon from 'public/assets/icons/common/close.svg';
+import { CloseIcon } from 'public/assets/icons';
+import styled, { useTheme } from 'styled-components';
 
 interface Props {
   title: string;
@@ -7,11 +7,13 @@ interface Props {
 }
 
 function BottomSheetHeader({ title, onClick }: Props) {
+  const theme = useTheme();
+
   return (
     <Header>
       <Title>{title}</Title>
       <button type="button" onClick={onClick}>
-        <img src={CloseIcon} alt="close" />
+        <CloseIcon fill={theme.color.secondary.solid.bk[800]} />
       </button>
     </Header>
   );
