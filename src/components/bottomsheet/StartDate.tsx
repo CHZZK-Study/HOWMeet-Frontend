@@ -35,7 +35,11 @@ function StartDate() {
       </BottomSheetInfoWrapper>
       <Calendar onChange={setStartDate} />
       <ButtonContainer>
-        <Button $style="solid" onClick={handleClickButton}>
+        <Button
+          $style="solid"
+          $theme="primary-purple"
+          onClick={handleClickButton}
+        >
           완료
         </Button>
       </ButtonContainer>
