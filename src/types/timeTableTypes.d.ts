@@ -1,4 +1,18 @@
 export interface ResultHeatmapProps {
+  roomName: string;
+  msName: string;
+  totalPersonnel: string[];
+  participantPerson: string[];
+  confirmTime: string[];
+  time: {
+    selectTime: string;
+    participantDetails: {
+      count: number;
+      nicknames: string[];
+    };
+  }[];
+}
+export interface DecisionHeatmapProps {
   msId: number;
   roomName: string;
   totalPersonnel: string[];
@@ -11,7 +25,6 @@ export interface ResultHeatmapProps {
   }[];
   participatedPersonnel: string[];
 }
-
 export interface TimeTableServerInfoProps {
   id: number;
   dates: string[];

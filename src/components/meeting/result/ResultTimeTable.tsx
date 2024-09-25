@@ -3,6 +3,7 @@ import {
   TimeTableData,
   ResultHeatmapProps,
   ResultHeatmapCellInfo,
+  DecisionHeatmapProps,
 } from '@/types/timeTableTypes';
 import ToolTip from '@/components/common/ToolTip';
 import BaseTimeTable from '../timetable/BaseTimeTable';
@@ -10,7 +11,7 @@ import ResultTimeCell from '../timetable/ResultTimeCell';
 
 interface ResultTimeTableProps {
   timetableInfo: TimeTableData;
-  roomInfo: ResultHeatmapProps;
+  roomInfo: ResultHeatmapProps | DecisionHeatmapProps;
   dragDisabled: boolean;
 }
 

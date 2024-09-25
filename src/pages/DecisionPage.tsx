@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
 import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
-import { ResultHeatmapProps } from '@/types/timeTableTypes';
+import { DecisionHeatmapProps } from '@/types/timeTableTypes';
 import {
   ButtonContainer,
   NormalContainer,
@@ -21,6 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '@/apis/instance';
 import useTimeTableData from '@/hooks/useTimeTableData';
 import { toast } from 'sonner';
+import styled from 'styled-components';
 
 function DecisionPage() {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ function DecisionPage() {
     roomId,
   } = useTimeTableData();
 
-  const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
+  const { isLoading, error, data } = useQuery<DecisionHeatmapProps>({
     queryKey: ['selectedTimeData'],
     queryFn: async () => {
       // 여기도 토큰 넣으셈
@@ -110,6 +111,11 @@ function DecisionPage() {
       />
       {isGuest ? null : (
         <ButtonContainer center>
+          <RewriteButton
+            onClick={() => navigate(`/meeting/${roomId}/select/${meetingId}`)}
+          >
+            다시 선택하기
+          </RewriteButton>
           <Button
             $style="solid"
             onClick={() => {
@@ -138,3 +144,15 @@ function DecisionPage() {
 }
 
 export default DecisionPage;
+
+const RewriteButton = styled.div`
+  width: fit-content;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.color.secondary.solid.bk[400]};
+  padding: 5px 15px;
+  cursor: pointer;
+  margin: 10px 0;
+  border-bottom: 2px solid ${({ theme }) => theme.color.secondary.solid.bk[400]};
+`;

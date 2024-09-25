@@ -13,8 +13,9 @@ const Navbar = styled.div`
   height: 50px;
   padding: 0 20px;
   box-sizing: border-box;
-  background-color: #f8f8f8;
+  background-color: transparent;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   padding: 0 30px;
+  margin-top: 20px;
 `;

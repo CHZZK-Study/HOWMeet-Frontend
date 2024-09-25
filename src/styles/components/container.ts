@@ -12,6 +12,9 @@ export const FlexColContainer = styled.main`
 `;
 
 export const ButtonContainer = styled.div<{ center?: boolean }>`
+  align-items: ${({ center }) => (center ? 'center' : 'end')};
+  justify-content: ${({ center }) => (center ? 'center' : 'unset')};
+  flex-direction: ${({ center }) => (center ? 'column' : 'row')};
   width: 100%;
   height: 130px;
   position: sticky;
@@ -20,8 +23,6 @@ export const ButtonContainer = styled.div<{ center?: boolean }>`
   z-index: 999;
 
   display: flex;
-  align-items: ${({ center }) => (center ? 'center' : 'end')};
-  justify-content: ${({ center }) => (center ? 'center' : 'unset')};
   padding: 24px 0;
   padding-top: 0px;
 

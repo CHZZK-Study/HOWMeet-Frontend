@@ -41,6 +41,7 @@ function SelectPage() {
     timeTableServerData,
     token,
     isError,
+    user,
   } = useTimeTableData();
 
   // 로딩 상태 처리
@@ -122,7 +123,7 @@ function SelectPage() {
       <TimeSelectTitle
         Title={
           isSelected
-            ? `00님이 제출한 시간을 확인해보세요`
+            ? `${user?.username}님이 제출한 시간을 확인해보세요`
             : `가능한 시간을 드래그 해주세요!`
         }
       />

@@ -6,7 +6,6 @@ import ResultInfoComp, {
   Container,
 } from '@/components/meeting/result/ResultInfoComp';
 import ResultNavbar from '@/components/meeting/result/ResultNavbar';
-import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
 import UrlShareModal from '@/components/meeting/result/UrlShareModal';
 import useModal from '@/hooks/useModal';
 import useTimeTableData from '@/hooks/useTimeTableData';
@@ -20,12 +19,12 @@ import {
   formatServerToTimeTableData,
 } from '@/utils/meeting/timetable/formatDateTime';
 import { useQuery } from '@tanstack/react-query';
+import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
 
 function ResultPage() {
   const { isOpen, closeModal, openModal } = useModal();
 
   const {
-    isGuest,
     isTimeTableLoading,
     roomId,
     meetingId,
@@ -67,30 +66,31 @@ function ResultPage() {
     openModal();
   };
 
-  const dateTimes = [
-    '2024-07-01T16:00',
-    '2024-07-01T16:30',
-    '2024-07-01T17:00',
-    '2024-07-01T17:30',
-    '2024-07-01T18:00',
-  ];
-
   return (
     <NormalContainer>
       <Header title="일정 조율" />
       <ResultNavbar />
       <ResultInfoComp
-        decidedTime={formatResultTime(dateTimes)}
-        title="류세영의 방"
-        participants={data.participatedPersonnel}
+        decidedTime={formatResultTime(data.confirmTime)}
+        title={data.roomName}
+        participants={data.participantPerson}
       />
       <BackLayout>
         <Container>
-          {/* <ResultTimeTable roomInfo={data} timetableInfo={} dragDisabled /> */}
+          <ResultTimeTable
+            roomInfo={data}
+            timetableInfo={timeTableData}
+            dragDisabled
+          />
         </Container>
       </BackLayout>
-      <ButtonContainer>
-        <Button $style="solid" onClick={handleClick}>
+      <ButtonContainer center>
+        <Button
+          $style="solid"
+          $theme="primary-purple"
+          onClick={handleClick}
+          style={{ width: '95%' }}
+        >
           공유하기
         </Button>
       </ButtonContainer>
