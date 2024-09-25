@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
 import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
-import { ResultHeatmapProps } from '@/types/timeTableTypes';
+import { DecisionHeatmapProps } from '@/types/timeTableTypes';
 import {
   ButtonContainer,
   NormalContainer,
@@ -11,50 +11,89 @@ import {
 import { useTimeStore } from '@/store/meeting/useTimeStore';
 import {
   formatPostDateTime,
-  formatTimeTableData,
+  formatPostParticipantPerson,
+  formatServerToTimeTableData,
 } from '@/utils/meeting/timetable/formatDateTime';
 import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
 import useModal from '@/hooks/useModal';
 import ResultTimeSelectModal from '@/components/meeting/result/ResultTimeSelectModal';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { axiosInstance } from '@/apis/instance';
+import useTimeTableData from '@/hooks/useTimeTableData';
+import { toast } from 'sonner';
+import styled from 'styled-components';
 
 function DecisionPage() {
   const navigate = useNavigate();
-  const { id } = useParams();
-
-  const timeTableData = formatTimeTableData([
-    '2024-07-01T10:30',
-    '2024-07-07T22:30',
-  ]);
-
   const [isSelected, setIsSelected] = useState(false);
   const { isOpen, closeModal, openModal } = useModal();
   const { selectedResult } = useTimeStore();
+  const {
+    isGuest,
+    isTimeTableLoading,
+    meetingId,
+    timeTableServerData,
+    token,
+    roomId,
+  } = useTimeTableData();
 
-  const { isPending, error, data } = useQuery<ResultHeatmapProps>({
+  const { isLoading, error, data } = useQuery<DecisionHeatmapProps>({
     queryKey: ['selectedTimeData'],
-    queryFn: () => fetch('/selectedResult').then((res) => res.json()),
+    queryFn: async () => {
+      // 여기도 토큰 넣으셈
+      const headers = isGuest ? {} : { Authorization: `Bearer ${token}` };
+      const response = await axiosInstance.get(
+        `/${isGuest ? 'gs-record' : `ms-record/${roomId}`}/${meetingId}`,
+        { headers }
+      );
+      return response.data; // 데이터 반환
+    },
   });
 
-  if (isPending) return <div>로딩중...</div>;
+  if (isLoading || !timeTableServerData || !data || isTimeTableLoading) {
+    return (
+      <NormalContainer>
+        <Header title="일정 조율" />
+      </NormalContainer>
+    );
+  }
   if (error) return <div>에러가 발생했습니다</div>;
-  if (!data) return <div>데이터가 없습니다</div>;
 
-  const handleDecide = () => {
+  const handleDecide = async () => {
     setIsSelected(true);
-    navigate(`/meeting/${id}/result`);
-    console.log('selectedResult: ', formatPostDateTime(selectedResult));
+    navigate(`/meeting/${roomId}/result/${meetingId}`);
+    const postParticipantPerson = formatPostParticipantPerson(selectedResult);
+    const postDateTime = formatPostDateTime(selectedResult);
+    const headers = isGuest
+      ? {
+          Authorization:
+            'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJpZFwiOjMsXCJuaWNrbmFtZVwiOlwi7LWc7LGE66a8XCIsXCJyb2xlXCI6XCJURU1QT1JBUllcIixcIm1lbWJlclwiOmZhbHNlLFwiZ3Vlc3RcIjp0cnVlfSIsImlhdCI6MTcyNzE5NTcyMCwiZXhwIjoxNzI3MTk5MzIwfQ.DxG95w96ceWVNRUIExB8axSbiKE-793STYBS-TnENFUFRk4TkVo7NyVZBoy8vdfZiYp7UThjGC1PsaBcN8jigA',
+        }
+      : { Authorization: `Bearer ${token}` };
+
+    await axiosInstance.post(
+      `confirm/${meetingId}`,
+      {
+        msId: meetingId,
+        time: [postDateTime[0], postDateTime[postDateTime.length - 1]],
+        participantPerson: postParticipantPerson,
+      },
+      { headers }
+    );
+    toast.message('정보가 성공적으로 저장되었습니다!');
   };
+
+  const timeTableData = formatServerToTimeTableData(timeTableServerData);
 
   return (
     <NormalContainer>
       <Header title="일정 조율" />
       <AttendStatusHeader
-        TotalParticipants={data.totalParticipants.names.length}
-        currentParticipants={data.participatedUsers.names.length}
-        participatedUsers={data.participatedUsers.names}
-        unParticipatedUsers={data.totalParticipants.names.filter(
-          (name) => !data.participatedUsers.names.includes(name)
+        TotalPersonnel={data.totalPersonnel.length}
+        currentParticipants={data.participatedPersonnel.length}
+        participatedPersonnel={data.participatedPersonnel}
+        unParticipatedPersonnel={data.totalPersonnel.filter(
+          (name) => !data.participatedPersonnel.includes(name)
         )}
       />
       <ResultTimeTable
@@ -62,18 +101,26 @@ function DecisionPage() {
         roomInfo={data}
         dragDisabled={isSelected}
       />
-      <ButtonContainer>
-        <Button
-          $style="solid"
-          onClick={openModal}
-          $theme="primary-purple"
-          disabled={selectedResult.length === 0}
-        >
-          {selectedResult.length === 0
-            ? '드래그로 시간 확정하기'
-            : '일정 확정하기'}
-        </Button>
-      </ButtonContainer>
+      {isGuest ? null : (
+        <ButtonContainer center>
+          <RewriteButton
+            onClick={() => navigate(`/meeting/${roomId}/select/${meetingId}`)}
+          >
+            다시 선택하기
+          </RewriteButton>
+          <Button
+            $style="solid"
+            onClick={openModal}
+            $theme="primary-purple"
+            disabled={selectedResult.length === 0}
+            style={{ width: '95%' }}
+          >
+            {selectedResult.length === 0
+              ? '드래그로 시간 확정하기'
+              : '일정 확정하기'}
+          </Button>
+        </ButtonContainer>
+      )}
       {isOpen ? (
         <ResultTimeSelectModal
           handleModalClose={closeModal}
@@ -86,3 +133,15 @@ function DecisionPage() {
 }
 
 export default DecisionPage;
+
+const RewriteButton = styled.div`
+  width: fit-content;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.color.secondary.solid.bk[400]};
+  padding: 5px 15px;
+  cursor: pointer;
+  margin: 10px 0;
+  border-bottom: 2px solid ${({ theme }) => theme.color.secondary.solid.bk[400]};
+`;

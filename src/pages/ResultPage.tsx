@@ -1,3 +1,4 @@
+import { axiosInstance } from '@/apis/instance';
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
 import ResultInfoComp, {
@@ -5,9 +6,9 @@ import ResultInfoComp, {
   Container,
 } from '@/components/meeting/result/ResultInfoComp';
 import ResultNavbar from '@/components/meeting/result/ResultNavbar';
-import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
 import UrlShareModal from '@/components/meeting/result/UrlShareModal';
 import useModal from '@/hooks/useModal';
+import useTimeTableData from '@/hooks/useTimeTableData';
 import {
   ButtonContainer,
   NormalContainer,
@@ -15,59 +16,63 @@ import {
 import { ResultHeatmapProps, TimeTableData } from '@/types/timeTableTypes';
 import {
   formatResultTime,
-  formatTimeTableData,
+  formatServerToTimeTableData,
 } from '@/utils/meeting/timetable/formatDateTime';
 import { useQuery } from '@tanstack/react-query';
+import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
 
 function ResultPage() {
   const { isOpen, closeModal, openModal } = useModal();
 
-  const timeTableData: TimeTableData = formatTimeTableData([
-    '2024-07-01T10:30',
-    '2024-07-07T22:30',
-  ]);
+  const {
+    isTimeTableLoading,
+    roomId,
+    meetingId,
+    timeTableServerData,
+    isError,
+  } = useTimeTableData();
 
-  const { isPending, error, data } = useQuery<ResultHeatmapProps>({
+  const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['selectedTimeData'],
-    queryFn: () => fetch('/selectedResult').then((res) => res.json()),
+    queryFn: async () => {
+      const response = await axiosInstance.get(
+        `/confirm/${roomId}/${meetingId}`
+      );
+      console.log(response);
+      return response.data; // 데이터 반환
+    },
   });
+  if (isLoading || !timeTableServerData || !data || isTimeTableLoading)
+    return (
+      <NormalContainer>
+        <Header title="일정 조율" />
+        <ResultNavbar />
 
-  if (isPending) return <div>로딩중...</div>;
-  if (error) return <div>에러가 발생했습니다</div>;
+        <BackLayout>
+          <Container />
+        </BackLayout>
+
+        {isOpen && <UrlShareModal handleModalClose={closeModal} />}
+      </NormalContainer>
+    );
+  if (error || isError) return <div>에러가 발생했습니다</div>;
   if (!data) return <div>데이터가 없습니다</div>;
+
+  const timeTableData: TimeTableData =
+    formatServerToTimeTableData(timeTableServerData);
 
   const handleClick = () => {
     openModal();
   };
-
-  const dateTimes = [
-    '2024-07-01T16:00',
-    '2024-07-01T16:30',
-    '2024-07-01T17:00',
-    '2024-07-01T17:30',
-    '2024-07-01T18:00',
-  ];
-
-  const participant = [
-    '구예진',
-    '경효선',
-    '김유희',
-    '류지민',
-    '권오영',
-    '고세종',
-    '김민우',
-    '이수현',
-    '이채림',
-  ];
 
   return (
     <NormalContainer>
       <Header title="일정 조율" />
       <ResultNavbar />
       <ResultInfoComp
-        decidedTime={formatResultTime(dateTimes)}
-        title="류세영의 방"
-        participants={participant}
+        decidedTime={formatResultTime(data.confirmTime)}
+        title={data.roomName}
+        participants={data.participantPerson}
       />
       <BackLayout>
         <Container>
@@ -78,8 +83,13 @@ function ResultPage() {
           />
         </Container>
       </BackLayout>
-      <ButtonContainer>
-        <Button $style="solid" onClick={handleClick}>
+      <ButtonContainer center>
+        <Button
+          $style="solid"
+          $theme="primary-purple"
+          onClick={handleClick}
+          style={{ width: '95%' }}
+        >
           공유하기
         </Button>
       </ButtonContainer>

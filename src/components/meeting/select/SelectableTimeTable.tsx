@@ -15,6 +15,7 @@ function SelectableTimeTable({
   const { handleDragStart, handleDragMove, handleDragEnd, isSelected } =
     useTimeSelectionLogic({ isSelectOption: true });
 
+  console.log(data);
   const renderCell = (
     hour: string,
     date: string,
@@ -30,6 +31,9 @@ function SelectableTimeTable({
       month: data.months[data.dates.indexOf(date)],
     };
 
+    const isDisabled =
+      data.isContainMidnight && date === data.dates[0] && hour < data.startHour;
+
     return (
       <SelectTimeCell
         key={`${hour}-${date}-${minute}`}
@@ -41,6 +45,7 @@ function SelectableTimeTable({
         onDragEnd={handleDragEnd}
         isEndCellHalf={isEndCellHalf}
         isStartCellHalf={isStartCellHalf}
+        disabled={isDisabled || false}
       />
     );
   };
