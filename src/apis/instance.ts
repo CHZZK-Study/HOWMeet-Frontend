@@ -2,6 +2,7 @@ import { BASE_URL, DEFAULT_TIMOUT } from '@/constants/api';
 import { PATH } from '@/constants/path';
 import { STORAGE_KEY } from '@/constants/storage';
 import useUserStore from '@/store/userStore';
+import { getTokenFromStorage } from '@/utils/token';
 import axios from 'axios';
 import { toast } from 'sonner';
 
@@ -13,6 +14,11 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (req) => {
+    const { accessToken } = getTokenFromStorage();
+
+    if (accessToken) {
+      req.headers.Authorization = `Bearer ${accessToken}`;
+    }
     return req;
   },
   (err) => Promise.reject(err)
