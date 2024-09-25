@@ -9,8 +9,9 @@ import { toast } from 'sonner';
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: DEFAULT_TIMOUT,
-  withCredentials: true,
 });
+
+axios.defaults.withCredentials = true;
 
 axiosInstance.interceptors.request.use(
   (req) => {
@@ -51,16 +52,17 @@ axiosInstance.interceptors.response.use(
       } catch (error) {
         setUser(null);
         localStorage.removeItem(STORAGE_KEY.accessToken);
-        toast.error('로그인 세션이 만료되었습니다. 다시 로그인해주세요.');
         window.location.href = PATH.login;
+        toast.error('로그인 세션이 만료되었습니다. 다시 로그인해주세요.');
         return Promise.reject(error);
       }
-    } else {
+    } else if (!user && err.response.status === 401) {
       setUser(null);
       sessionStorage.removeItem(STORAGE_KEY.accessToken);
-      toast.error('로그인 세션이 만료되었습니다. 다시 로그인해주세요.');
       window.location.href = PATH.login;
+      toast.error('로그인 세션이 만료되었습니다. 다시 로그인해주세요.');
       return Promise.reject(err);
     }
+    return Promise.reject(err);
   }
 );

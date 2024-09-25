@@ -1,13 +1,13 @@
 import { STORAGE_KEY } from '@/constants/storage';
 
 export const getTokenFromStorage = () => {
-  const getTokensFromStorage = (storage: Storage) =>
+  const getToken = (storage: Storage) =>
     storage.getItem(STORAGE_KEY.accessToken);
 
-  let accessToken = getTokensFromStorage(sessionStorage);
+  let accessToken = getToken(sessionStorage);
 
   if (!accessToken) {
-    accessToken = getTokensFromStorage(localStorage);
+    accessToken = getToken(localStorage);
   }
 
   return { accessToken };

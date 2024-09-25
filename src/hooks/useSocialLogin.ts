@@ -4,7 +4,7 @@ import { STORAGE_KEY } from '@/constants/storage';
 import { handleAllowNotification } from '@/lib/notification';
 import { SocialLoginReq } from '@/models/user.model';
 import useUserStore from '@/store/userStore';
-import { ProviderName } from '@/types/socialLogin';
+import { ProviderName } from '@/types/auth';
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 

@@ -1,11 +1,12 @@
 import {
   GetSocialLoginUrlRes,
+  GetUserProfileRes,
   LoginReq,
   LoginRes,
   SocialLoginReq,
   SocialLoginRes,
 } from '@/models/user.model';
-import { ProviderName } from '@/types/socialLogin';
+import { ProviderName } from '@/types/auth';
 import { AxiosResponse } from 'axios';
 import { axiosInstance } from './instance';
 
@@ -38,6 +39,13 @@ export const socialLogin = async (req: SocialLoginReq) => {
 };
 
 export const logOut = async () => {
+  console.log('in');
   const result = await axiosInstance.post('/oauth/logout');
   return result;
+};
+
+export const getUserProfile = async () => {
+  const result: AxiosResponse<GetUserProfileRes> =
+    await axiosInstance.get('/member/summary');
+  return result.data;
 };

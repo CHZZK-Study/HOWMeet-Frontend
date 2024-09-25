@@ -14,6 +14,7 @@ function LogOut() {
       <BottomSheetHeader title="로그아웃 하시겠습니까?" onClick={closeLogOut} />
       <ButtonContainer>
         <Button
+          type="button"
           $style="solid"
           $theme="primary-purple"
           onClick={() => handleLogout()}
