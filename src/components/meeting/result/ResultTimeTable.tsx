@@ -6,7 +6,7 @@ import {
   DecisionHeatmapProps,
 } from '@/types/timeTableTypes';
 import ToolTip from '@/components/common/ToolTip';
-import BaseTimeTable from '../timetable/BaseTimeTable';
+import BaseTimeTable, { TableContainer } from '../timetable/BaseTimeTable';
 import ResultTimeCell from '../timetable/ResultTimeCell';
 
 interface ResultTimeTableProps {
@@ -81,7 +81,7 @@ function ResultTimeTable({
   };
 
   return (
-    <div ref={heatmapRef} style={{ position: 'relative' }}>
+    <TableContainer ref={heatmapRef} style={{ position: 'relative' }}>
       <BaseTimeTable data={timetableInfo} renderCell={renderCell} />
       {tooltipInfo?.content && (
         <ToolTip
@@ -91,7 +91,7 @@ function ResultTimeTable({
           isAbove={tooltipInfo.isAbove}
         />
       )}
-    </div>
+    </TableContainer>
   );
 }
 

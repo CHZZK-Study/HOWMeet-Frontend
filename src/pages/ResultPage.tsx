@@ -61,7 +61,6 @@ function ResultPage() {
   const timeTableData: TimeTableData =
     formatServerToTimeTableData(timeTableServerData);
 
-  console.log(timeTableData);
   const handleClick = () => {
     openModal();
   };

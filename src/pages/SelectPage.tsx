@@ -22,18 +22,17 @@ import { toast } from 'sonner';
 import Skeleton from 'react-loading-skeleton'; // 추가
 import 'react-loading-skeleton/dist/skeleton.css';
 import useTimeTableData from '@/hooks/useTimeTableData';
+import { useNavigate } from 'react-router-dom';
 
 function SelectPage() {
-  // const { meetingId, roomId } = useParams();
+  const navigate = useNavigate();
   const { selectedTimes } = useTimeStore();
-  // const { user } = useUserStore();
   const { closeModal, isOpen, openModal } = useModal();
   const { isToolTipOpen, closeToolTip } = useToolTip();
   const [isSelected, setIsSelected] = useState(false);
   const handleReWrite = () => {
     setIsSelected(false);
   };
-
   const {
     isGuest,
     isTimeTableLoading,
@@ -42,10 +41,13 @@ function SelectPage() {
     token,
     isError,
     user,
+    isLeader,
+    roomId,
+    isMemberLoading,
   } = useTimeTableData();
 
   // 로딩 상태 처리
-  if (isTimeTableLoading || !timeTableServerData) {
+  if (isTimeTableLoading || !timeTableServerData || isMemberLoading) {
     return (
       <NormalContainer>
         <Header
@@ -57,7 +59,7 @@ function SelectPage() {
         <TimeSelectTitle
           Title={
             isSelected
-              ? `00님이 제출한 시간을 확인해보세요`
+              ? `${user?.username}님이 제출한 시간을 확인해보세요`
               : `가능한 시간을 드래그 해주세요!`
           }
         />
@@ -100,13 +102,11 @@ function SelectPage() {
         );
         console.log(response);
         toast.message('정보가 성공적으로 저장되었습니다!');
+        openModal();
       } catch (error) {
         toast.error('정보 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
       }
-
-      openModal();
       setIsSelected(true);
-      toast.message('정보가 성공적으로 저장되었습니다!');
     } catch (error) {
       toast.error('정보 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
@@ -140,7 +140,16 @@ function SelectPage() {
           {isSelected ? '수정하기' : '시간 선택 완료'}
         </Button>
       </ButtonContainer>
-      {isOpen && <TimeSelectModalComp handleModalClose={closeModal} />}
+      {isOpen && (
+        <TimeSelectModalComp
+          handleModalClose={() => {
+            closeModal();
+            if (isLeader) {
+              navigate(`/meeting/${roomId}/decision/${meetingId}`);
+            }
+          }}
+        />
+      )}
     </NormalContainer>
   );
 }

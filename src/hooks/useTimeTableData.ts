@@ -28,6 +28,18 @@ const useTimeTableData = () => {
     },
   });
 
+  const { isLoading: isMemberLoading, data: isLeader } = useQuery<boolean>({
+    queryKey: ['isLeader'],
+    queryFn: async () => {
+      if (isGuest) return null; // isGuest가 true면 null 반환
+      const headers = { Authorization: `Bearer ${token}` };
+      const response = await axiosInstance.get(`/room/${roomId}/members`, {
+        headers,
+      });
+      return response.data; // 데이터 반환
+    },
+  });
+
   return {
     isTimeTableLoading,
     timeTableServerData,
@@ -37,6 +49,8 @@ const useTimeTableData = () => {
     token,
     user,
     isError,
+    isLeader,
+    isMemberLoading,
   };
 };
 

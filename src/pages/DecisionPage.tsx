@@ -85,14 +85,6 @@ function DecisionPage() {
 
   const timeTableData = formatServerToTimeTableData(timeTableServerData);
 
-  const printResult = () => {
-    const postParticipant = formatPostParticipantPerson(selectedResult);
-    const postDate = formatPostDateTime(selectedResult);
-
-    console.log('postParticipant', postParticipant);
-    console.log('postDate', postDate);
-  };
-
   return (
     <NormalContainer>
       <Header title="일정 조율" />
@@ -118,10 +110,7 @@ function DecisionPage() {
           </RewriteButton>
           <Button
             $style="solid"
-            onClick={() => {
-              openModal();
-              printResult();
-            }}
+            onClick={openModal}
             $theme="primary-purple"
             disabled={selectedResult.length === 0}
             style={{ width: '95%' }}
