@@ -7,7 +7,7 @@ import { TimeTableServerInfoProps } from '@/types/timeTableTypes';
 const useTimeTableData = () => {
   const { roomId, meetingId } = useParams();
   const { user } = useUserStore();
-  const isGuest = user?.isMember;
+  const isGuest = !user?.isMember;
   const token = isGuest
     ? sessionStorage.getItem('@HOWMEET_ACCESS_TOKEN')
     : localStorage.getItem('@HOWMEET_ACCESS_TOKEN');

@@ -9,6 +9,7 @@ import ResultNavbar from '@/components/meeting/result/ResultNavbar';
 import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
 import UrlShareModal from '@/components/meeting/result/UrlShareModal';
 import useModal from '@/hooks/useModal';
+import useTimeTableData from '@/hooks/useTimeTableData';
 import {
   ButtonContainer,
   NormalContainer,
@@ -16,31 +17,33 @@ import {
 import { ResultHeatmapProps, TimeTableData } from '@/types/timeTableTypes';
 import {
   formatResultTime,
-  formatTimeTableData,
+  formatServerToTimeTableData,
 } from '@/utils/meeting/timetable/formatDateTime';
 import { useQuery } from '@tanstack/react-query';
 
 function ResultPage() {
   const { isOpen, closeModal, openModal } = useModal();
 
-  const timeTableData: TimeTableData = formatTimeTableData([
-    '2024-07-01T10:30',
-    '2024-07-07T22:30',
-  ]);
+  const {
+    isGuest,
+    isTimeTableLoading,
+    roomId,
+    meetingId,
+    timeTableServerData,
+    isError,
+  } = useTimeTableData();
 
   const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['selectedTimeData'],
-    // queryFn: () => fetch('/gs-record/1').then((res) => res.json()),
     queryFn: async () => {
-      const response = await axiosInstance.get('/gs-record/1');
+      const response = await axiosInstance.get(
+        `/confirm/${roomId}/${meetingId}`
+      );
       console.log(response);
       return response.data; // 데이터 반환
     },
   });
-
-  console.log(data);
-
-  if (isLoading)
+  if (isLoading || !timeTableServerData || !data || isTimeTableLoading)
     return (
       <NormalContainer>
         <Header title="일정 조율" />
@@ -53,9 +56,13 @@ function ResultPage() {
         {isOpen && <UrlShareModal handleModalClose={closeModal} />}
       </NormalContainer>
     );
-  if (error) return <div>에러가 발생했습니다</div>;
+  if (error || isError) return <div>에러가 발생했습니다</div>;
   if (!data) return <div>데이터가 없습니다</div>;
 
+  const timeTableData: TimeTableData =
+    formatServerToTimeTableData(timeTableServerData);
+
+  console.log(timeTableData);
   const handleClick = () => {
     openModal();
   };
@@ -79,11 +86,7 @@ function ResultPage() {
       />
       <BackLayout>
         <Container>
-          <ResultTimeTable
-            roomInfo={data}
-            timetableInfo={timeTableData}
-            dragDisabled
-          />
+          {/* <ResultTimeTable roomInfo={data} timetableInfo={} dragDisabled /> */}
         </Container>
       </BackLayout>
       <ButtonContainer>

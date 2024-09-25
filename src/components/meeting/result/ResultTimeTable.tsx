@@ -37,12 +37,19 @@ function ResultTimeTable({
     isEndCellHalf: boolean
   ) => {
     const slot = roomInfo.time.find(
-      (s) => s.selectTime === `${date}T${hour}:${minute}`
+      (s) => s.selectTime === `${date}T${hour}:${minute}:00`
     );
+
     const intensity = slot
       ? slot.participantDetails.nicknames.length /
         roomInfo.totalPersonnel.length
       : 0;
+
+    const isDisabled =
+      timetableInfo.isContainMidnight &&
+      ((date === timetableInfo.dates[0] && hour < timetableInfo.startHour) ||
+        (date === timetableInfo.dates[timetableInfo.dates.length - 1] &&
+          hour > '00'));
 
     const timeSlot: ResultHeatmapCellInfo = {
       hour,
@@ -67,6 +74,7 @@ function ResultTimeTable({
         onDragEnd={handleDragEnd}
         isEndCellHalf={isEndCellHalf}
         isStartCellHalf={isStartCellHalf}
+        disabled={isDisabled || false}
       />
     );
   };

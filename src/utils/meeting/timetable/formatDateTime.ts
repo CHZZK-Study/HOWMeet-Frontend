@@ -2,6 +2,7 @@ import {
   ResultHeatmapCellInfo,
   TimeSlot,
   TimeTableData,
+  TimeTableServerInfoProps,
 } from '@/types/timeTableTypes';
 
 // export const formatDateTime = (time: {
@@ -86,21 +87,8 @@ const generateHoursRange = (
   return hours;
 };
 
-interface TimeTableServerData {
-  id: number;
-  dates: string[];
-  time: {
-    startTime: string;
-    endTime: string;
-    containsMidnight: boolean;
-  };
-  name: {
-    value: string;
-  };
-}
-
 export const formatServerToTimeTableData = (
-  data: TimeTableServerData
+  data: TimeTableServerInfoProps
 ): TimeTableData => {
   const start = data.dates[0];
   const end = data.dates[1];

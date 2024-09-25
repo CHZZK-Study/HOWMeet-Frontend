@@ -7,23 +7,17 @@ import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
 import useModal from '@/hooks/useModal';
 import useToolTip from '@/hooks/useToolTip';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
-// import useUserStore from '@/store/userStore';
 import {
   ButtonContainer,
   FlexColContainer,
   NormalContainer,
 } from '@/styles/components/container';
-import {
-  TimeTableData,
-  // TimeTableServerInfoProps,
-} from '@/types/timeTableTypes';
+import { TimeTableData } from '@/types/timeTableTypes';
 import {
   formatPostDateTime,
   formatServerToTimeTableData,
 } from '@/utils/meeting/timetable/formatDateTime';
-// import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-// import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import Skeleton from 'react-loading-skeleton'; // 추가
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -39,22 +33,6 @@ function SelectPage() {
   const handleReWrite = () => {
     setIsSelected(false);
   };
-  // const isGuest = user?.isMember;
-  // const token = isGuest
-  //   ? sessionStorage.getItem('@HOWMEET_ACCESS_TOKEN')
-  //   : localStorage.getItem('@HOWMEET_ACCESS_TOKEN');
-
-  // const { isLoading, isError, data } = useQuery<TimeTableServerInfoProps>({
-  //   queryKey: ['TimeTableServerInfo'],
-  //   queryFn: async () => {
-  //     const headers = isGuest ? {} : { Authorization: `Bearer ${token}` };
-  //     const response = await axiosInstance.get(
-  //       `/${isGuest ? `guest-schedule/${meetingId}` : `room/${roomId}/${meetingId}`}`,
-  //       { headers }
-  //     );
-  //     return response.data; // 데이터 반환
-  //   },
-  // });
 
   const {
     isGuest,

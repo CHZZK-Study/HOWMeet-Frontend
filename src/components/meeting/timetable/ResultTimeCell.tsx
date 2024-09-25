@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import { CellProps, ResultTimeCellProps } from '@/types/timeTableTypes';
 import getAdjustedColor from '@/utils/meeting/timetable/getAdjustedColor';
 import theme from '@/styles/theme';
-import { SelectHalfCell } from './SelectTimeCell';
+import { SelectHalfCell, SingleCell } from './SelectTimeCell';
 
 function ResultTimeCell({
   timeSlot,
   isSelected,
   dragDisabled,
+  disabled,
   intensity,
   onDragStart,
   onDragMove,
@@ -62,6 +63,10 @@ function ResultTimeCell({
       }
     };
   }, [handleTouchStart, handleTouchMove, onDragEnd]);
+
+  if (disabled) {
+    return <SingleCell ref={cellRef} className="disabled-cell" />;
+  }
 
   return (
     <ResultHalfCell

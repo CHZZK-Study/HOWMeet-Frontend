@@ -1,5 +1,6 @@
 export interface ResultHeatmapProps {
-  RoomId: number;
+  msId: number;
+  roomName: string;
   totalPersonnel: string[];
   time: {
     selectTime: string;
@@ -10,6 +11,7 @@ export interface ResultHeatmapProps {
   }[];
   participatedPersonnel: string[];
 }
+
 export interface TimeTableServerInfoProps {
   id: number;
   dates: string[];
@@ -93,6 +95,8 @@ export interface SelectTimeCellProps extends BaseTimeCellProps {
 export interface ResultTimeCellProps extends BaseTimeCellProps {
   timeSlot: ResultHeatmapCellInfo;
   intensity: number;
+  disabled: boolean;
+
   onDragStart: (
     timeSlot: ResultHeatmapCellInfo,
     event: React.MouseEvent | React.TouchEvent

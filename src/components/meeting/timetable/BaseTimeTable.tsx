@@ -100,9 +100,9 @@ const HourContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 15px;
   padding-top: 0px;
-  padding-bottom: 14px;
+  padding-bottom: 16px;
 `;
 
 const HourCell = styled.div`

@@ -3,12 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
 import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
+import { ResultHeatmapProps } from '@/types/timeTableTypes';
 import {
-  ResultHeatmapProps,
-  TimeTableServerInfoProps,
-} from '@/types/timeTableTypes';
-import {
-  FlexColContainer,
+  ButtonContainer,
   NormalContainer,
 } from '@/styles/components/container';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
@@ -20,44 +17,37 @@ import {
 import AttendStatusHeader from '@/components/meeting/result/AttendStatusHeader';
 import useModal from '@/hooks/useModal';
 import ResultTimeSelectModal from '@/components/meeting/result/ResultTimeSelectModal';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '@/apis/instance';
-import useUserStore from '@/store/userStore';
+import useTimeTableData from '@/hooks/useTimeTableData';
+import { toast } from 'sonner';
 
 function DecisionPage() {
   const navigate = useNavigate();
-  const { roomId, meetingId } = useParams();
-  const { user } = useUserStore();
-  const isGuest = user?.isMember;
-  const token = isGuest
-    ? sessionStorage.getItem('@HOWMEET_ACCESS_TOKEN')
-    : localStorage.getItem('@HOWMEET_ACCESS_TOKEN');
+  const [isSelected, setIsSelected] = useState(false);
+  const { isOpen, closeModal, openModal } = useModal();
+  const { selectedResult } = useTimeStore();
+  const {
+    isGuest,
+    isTimeTableLoading,
+    meetingId,
+    timeTableServerData,
+    token,
+    roomId,
+  } = useTimeTableData();
 
-  const { isLoading: isTimeTableLoading, data: timeTableServerData } =
-    useQuery<TimeTableServerInfoProps>({
-      queryKey: ['TimeTableServerInfo'],
-      queryFn: async () => {
-        const headers = isGuest ? {} : { Authorization: `Bearer ${token}` };
-        const response = await axiosInstance.get(
-          `/${isGuest ? `guest-schedule/${meetingId}` : `room/${roomId}/${meetingId}`}`,
-          { headers }
-        );
-        return response.data; // 데이터 반환
-      },
-    });
   const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['selectedTimeData'],
     queryFn: async () => {
+      // 여기도 토큰 넣으셈
+      const headers = isGuest ? {} : { Authorization: `Bearer ${token}` };
       const response = await axiosInstance.get(
-        `/${isGuest ? 'gs-record' : `ms-record/${roomId}`}/${meetingId}`
+        `/${isGuest ? 'gs-record' : `ms-record/${roomId}`}/${meetingId}`,
+        { headers }
       );
       return response.data; // 데이터 반환
     },
   });
-
-  const [isSelected, setIsSelected] = useState(false);
-  const { isOpen, closeModal, openModal } = useModal();
-  const { selectedResult } = useTimeStore();
 
   if (isLoading || !timeTableServerData || !data || isTimeTableLoading) {
     return (
@@ -68,21 +58,39 @@ function DecisionPage() {
   }
   if (error) return <div>에러가 발생했습니다</div>;
 
-  const handleDecide = () => {
+  const handleDecide = async () => {
     setIsSelected(true);
     navigate(`/meeting/${roomId}/result/${meetingId}`);
     const postParticipantPerson = formatPostParticipantPerson(selectedResult);
     const postDateTime = formatPostDateTime(selectedResult);
-    const postData = {
-      msId: roomId,
-      time: [postDateTime[0], postDateTime[postDateTime.length - 1]],
-      participantPerson: postParticipantPerson,
-    };
+    const headers = isGuest
+      ? {
+          Authorization:
+            'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJpZFwiOjMsXCJuaWNrbmFtZVwiOlwi7LWc7LGE66a8XCIsXCJyb2xlXCI6XCJURU1QT1JBUllcIixcIm1lbWJlclwiOmZhbHNlLFwiZ3Vlc3RcIjp0cnVlfSIsImlhdCI6MTcyNzE5NTcyMCwiZXhwIjoxNzI3MTk5MzIwfQ.DxG95w96ceWVNRUIExB8axSbiKE-793STYBS-TnENFUFRk4TkVo7NyVZBoy8vdfZiYp7UThjGC1PsaBcN8jigA',
+        }
+      : { Authorization: `Bearer ${token}` };
 
-    console.log(postData);
+    await axiosInstance.post(
+      `confirm/${meetingId}`,
+      {
+        msId: meetingId,
+        time: [postDateTime[0], postDateTime[postDateTime.length - 1]],
+        participantPerson: postParticipantPerson,
+      },
+      { headers }
+    );
+    toast.message('정보가 성공적으로 저장되었습니다!');
   };
 
   const timeTableData = formatServerToTimeTableData(timeTableServerData);
+
+  const printResult = () => {
+    const postParticipant = formatPostParticipantPerson(selectedResult);
+    const postDate = formatPostDateTime(selectedResult);
+
+    console.log('postParticipant', postParticipant);
+    console.log('postDate', postDate);
+  };
 
   return (
     <NormalContainer>
@@ -100,19 +108,24 @@ function DecisionPage() {
         roomInfo={data}
         dragDisabled={isSelected}
       />
-      <FlexColContainer>
-        <Button
-          $style="solid"
-          onClick={openModal}
-          $theme="primary-purple"
-          disabled={selectedResult.length === 0}
-          style={{ width: '95%' }}
-        >
-          {selectedResult.length === 0
-            ? '드래그로 시간 확정하기'
-            : '일정 확정하기'}
-        </Button>
-      </FlexColContainer>
+      {isGuest ? null : (
+        <ButtonContainer center>
+          <Button
+            $style="solid"
+            onClick={() => {
+              openModal();
+              printResult();
+            }}
+            $theme="primary-purple"
+            disabled={selectedResult.length === 0}
+            style={{ width: '95%' }}
+          >
+            {selectedResult.length === 0
+              ? '드래그로 시간 확정하기'
+              : '일정 확정하기'}
+          </Button>
+        </ButtonContainer>
+      )}
       {isOpen ? (
         <ResultTimeSelectModal
           handleModalClose={closeModal}
