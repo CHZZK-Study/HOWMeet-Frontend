@@ -1,5 +1,6 @@
 import { logOut } from '@/apis/user.api';
 import { PATH } from '@/constants/path';
+import { STORAGE_KEY } from '@/constants/storage';
 import { useLogOutModal } from '@/store/useModalStore';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +15,8 @@ export const useLogout = () => {
     onError: () => toast.error('로그아웃에 실패했습니다.'),
     onSuccess: () => {
       closeLogOut();
+      localStorage.removeItem(STORAGE_KEY.accessToken);
+      localStorage.removeItem(STORAGE_KEY.socialLoginType);
       navigate(PATH.main);
     },
   });
