@@ -2,6 +2,7 @@ import { login } from '@/apis/user.api';
 import { STORAGE_KEY } from '@/constants/storage';
 import { handleAllowNotification } from '@/lib/notification';
 import { LoginReq } from '@/models/user.model';
+import useStepStore from '@/store/meeting/useStepStore';
 import useUserStore from '@/store/userStore';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -9,6 +10,7 @@ import { toast } from 'sonner';
 
 export const useLogin = () => {
   const navigate = useNavigate();
+  const setStep = useStepStore((state) => state.setStep);
   const [searchParams] = useSearchParams();
   const callback = searchParams.get('callbackUrl');
   const setUser = useUserStore((state) => state.setUser);
@@ -24,6 +26,8 @@ export const useLogin = () => {
 
       if (callback) {
         navigate(callback);
+      } else {
+        setStep('share');
       }
     },
     onError: () => {
