@@ -7,5 +7,22 @@ import { pwaConfig } from './src/lib/pwaConfig';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), tsconfigPaths(), svgr(), VitePWA(pwaConfig)],
+  plugins: [
+    react({
+      babel: {
+        plugins: [
+          // other Babel plugins
+          [
+            '@locator/babel-jsx/dist',
+            {
+              env: 'development',
+            },
+          ],
+        ],
+      },
+    }),
+    tsconfigPaths(),
+    svgr(),
+    VitePWA(pwaConfig),
+  ],
 });

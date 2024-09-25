@@ -9,13 +9,13 @@ import BaseTimeTable from '../timetable/BaseTimeTable';
 import ResultTimeCell from '../timetable/ResultTimeCell';
 
 interface ResultTimeTableProps {
-  data: TimeTableData;
+  timetableInfo: TimeTableData;
   roomInfo: ResultHeatmapProps;
   dragDisabled: boolean;
 }
 
 function ResultTimeTable({
-  data,
+  timetableInfo,
   roomInfo,
   dragDisabled,
 }: ResultTimeTableProps) {
@@ -29,7 +29,13 @@ function ResultTimeTable({
     heatmapRef,
   } = useTimeSelectionLogic({ isSelectOption: false });
 
-  const renderCell = (hour: string, date: string, minute: string) => {
+  const renderCell = (
+    hour: string,
+    date: string,
+    minute: string,
+    isStartCellHalf: boolean,
+    isEndCellHalf: boolean
+  ) => {
     const slot = roomInfo.selectTime.find(
       (s) => s.time === `${date}T${hour}:${minute}`
     );
@@ -40,9 +46,9 @@ function ResultTimeTable({
     const timeSlot: ResultHeatmapCellInfo = {
       hour,
       minute,
-      day: data.days[data.dates.indexOf(date)],
+      day: timetableInfo.days[timetableInfo.dates.indexOf(date)],
       date,
-      month: data.months[data.dates.indexOf(date)],
+      month: timetableInfo.months[timetableInfo.dates.indexOf(date)],
       users: slot ? slot.users : [],
       userCount: slot ? slot.userCount : 0,
     };
@@ -58,13 +64,15 @@ function ResultTimeTable({
         onDragStart={handleDragStart}
         onDragMove={handleDragMove}
         onDragEnd={handleDragEnd}
+        isEndCellHalf={isEndCellHalf}
+        isStartCellHalf={isStartCellHalf}
       />
     );
   };
 
   return (
     <div ref={heatmapRef} style={{ position: 'relative' }}>
-      <BaseTimeTable data={data} renderCell={renderCell} />
+      <BaseTimeTable data={timetableInfo} renderCell={renderCell} />
       {tooltipInfo?.content && (
         <ToolTip
           content={tooltipInfo.content}

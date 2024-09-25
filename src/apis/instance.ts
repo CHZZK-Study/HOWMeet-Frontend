@@ -1,8 +1,8 @@
-import { DEFAULT_TIMOUT } from '@/constants/api';
+import { BASE_URL, DEFAULT_TIMOUT } from '@/constants/api';
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
-  baseURL: 'http://api.howmeet.shop:8080/',
+  baseURL: BASE_URL,
   timeout: DEFAULT_TIMOUT,
 });
 

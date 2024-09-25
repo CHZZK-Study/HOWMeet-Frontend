@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { useLogOutModal } from '@/store/useModalStore';
-import { BottomSheetContainer } from '../meeting/result/ResultBottomSheet';
 import BottomSheetHeader from './BottomSheetHeader';
 import Button from '../common/Button';
+import { BottomSheetContainer } from '../meeting/result/ResultBottomSheet';
 
 function LogOut() {
   const closeLogOut = useLogOutModal((state) => state.close);
@@ -10,10 +10,10 @@ function LogOut() {
     <Container>
       <BottomSheetHeader title="로그아웃 하시겠습니까?" onClick={closeLogOut} />
       <ButtonContainer>
-        <Button $style="solid" $theme="primary">
+        <Button $style="solid" $theme="primary-purple">
           로그아웃
         </Button>
-        <Button $style="solid" $theme="neutral" onClick={closeLogOut}>
+        <Button $style="solid" $theme="primary-purple" onClick={closeLogOut}>
           취소
         </Button>
       </ButtonContainer>

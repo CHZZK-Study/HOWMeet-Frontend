@@ -42,6 +42,8 @@ export interface TimeTableData {
   days: string[];
   dates: string[];
   months: string[];
+  isStartHalfMinute: boolean;
+  isEndHalfMinute: boolean;
 }
 
 export interface TimeTableProps {
@@ -51,4 +53,45 @@ export interface TimeTableProps {
 
 export interface CellProps {
   selected: boolean;
+  isStartCellHalf: boolean;
+  isEndCellHalf: boolean;
+}
+
+export interface RenderCellProps {
+  hour: string;
+  date: string;
+  minute: string;
+  isStartCellHalf: boolean;
+  isEndCellHalf: boolean;
+}
+
+interface BaseTimeCellProps {
+  isSelected: boolean;
+  dragDisabled: boolean;
+  isStartCellHalf: boolean;
+  isEndCellHalf: boolean;
+  onDragEnd: () => void;
+}
+
+export interface SelectTimeCellProps extends BaseTimeCellProps {
+  timeSlot: TimeSlot;
+  onDragStart: (timeSlot: TimeSlot) => void;
+  onDragMove: (timeSlot: TimeSlot) => void;
+}
+
+export interface ResultTimeCellProps extends BaseTimeCellProps {
+  timeSlot: ResultHeatmapCellInfo;
+  intensity: number;
+  onDragStart: (
+    timeSlot: ResultHeatmapCellInfo,
+    event: React.MouseEvent | React.TouchEvent
+  ) => void;
+  onDragMove: (
+    timeSlot: ResultHeatmapCellInfo,
+    event: React.MouseEvent | React.TouchEvent
+  ) => void;
+  onCellInteraction: (
+    event: React.MouseEvent | React.TouchEvent,
+    slot: ResultHeatmapCellInfo | null
+  ) => void;
 }

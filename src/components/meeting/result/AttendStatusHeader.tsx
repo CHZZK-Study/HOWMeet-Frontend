@@ -30,10 +30,13 @@ function AttendStatusHeader({
           <Title>일정 조율 중</Title>
           <GrayColLine />
           <AttendStatus>
-            현재 참여인원 : {TotalParticipants}명 중 참여자
-            <AttendParticipantCount onClick={openBottomSheet}>
-              {currentParticipants}명
-            </AttendParticipantCount>
+            현재 참여인원
+            <AttendParticipantContainer onClick={openBottomSheet}>
+              {TotalParticipants}명 중
+              <AttendParticipantCount>
+                {currentParticipants}명
+              </AttendParticipantCount>
+            </AttendParticipantContainer>
           </AttendStatus>
         </AttendStatusHeaderContainer>
       )}
@@ -75,12 +78,23 @@ export const GrayColLine = styled.div`
   margin: 0 10px;
 `;
 
-const AttendParticipantCount = styled.span`
+export const AttendParticipantCount = styled.span`
   font-size: 16px;
   font-weight: bold;
   margin-left: 5px;
   color: #33c894;
   cursor: pointer;
+  border-radius: 13px;
+`;
+
+const AttendParticipantContainer = styled.span`
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 5px;
+  cursor: pointer;
+  border-radius: 13px;
+  border: 1px solid #33c894;
+  padding: 2px 5px;
 `;
 
 export default AttendStatusHeader;
