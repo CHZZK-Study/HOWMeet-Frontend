@@ -39,7 +39,6 @@ export const socialLogin = async (req: SocialLoginReq) => {
 };
 
 export const logOut = async () => {
-  console.log('in');
   const result = await axiosInstance.post('/oauth/logout');
   return result;
 };

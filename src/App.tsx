@@ -10,6 +10,7 @@ import { toasterStyle } from './styles/ToasterStyles';
 import { getUserProfile } from './apis/user.api';
 import { getMemberType } from './utils/auth';
 import useUserStore from './store/userStore';
+import { getTokenFromStorage } from './utils/token';
 
 if (process.env.NODE_ENV === 'development') {
   setupLocatorUI();
@@ -28,12 +29,16 @@ function App() {
   };
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const profile = await getProfile();
-      setUser(profile);
-    };
+    const { accessToken } = getTokenFromStorage();
 
-    fetchProfile();
+    if (accessToken) {
+      const fetchProfile = async () => {
+        const profile = await getProfile();
+        setUser(profile);
+      };
+
+      fetchProfile();
+    }
   }, [setUser]);
 
   return (

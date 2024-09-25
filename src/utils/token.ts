@@ -12,3 +12,8 @@ export const getTokenFromStorage = () => {
 
   return { accessToken };
 };
+
+export const deleteTokenFromStorage = () => {
+  localStorage.removeItem(STORAGE_KEY.accessToken);
+  sessionStorage.removeItem(STORAGE_KEY.accessToken);
+};

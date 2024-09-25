@@ -2,7 +2,7 @@ import { BASE_URL, DEFAULT_TIMOUT } from '@/constants/api';
 import { PATH } from '@/constants/path';
 import { STORAGE_KEY } from '@/constants/storage';
 import useUserStore from '@/store/userStore';
-import { getTokenFromStorage } from '@/utils/token';
+import { deleteTokenFromStorage, getTokenFromStorage } from '@/utils/token';
 import axios from 'axios';
 import { toast } from 'sonner';
 
@@ -51,14 +51,14 @@ axiosInstance.interceptors.response.use(
         return await axiosInstance(originRequest);
       } catch (error) {
         setUser(null);
-        localStorage.removeItem(STORAGE_KEY.accessToken);
+        deleteTokenFromStorage();
         window.location.href = PATH.login;
         toast.error('로그인 세션이 만료되었습니다. 다시 로그인해주세요.');
         return Promise.reject(error);
       }
     } else if (!user && err.response.status === 401) {
       setUser(null);
-      sessionStorage.removeItem(STORAGE_KEY.accessToken);
+      deleteTokenFromStorage();
       window.location.href = PATH.login;
       toast.error('로그인 세션이 만료되었습니다. 다시 로그인해주세요.');
       return Promise.reject(err);
