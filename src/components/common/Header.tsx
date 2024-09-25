@@ -1,5 +1,5 @@
-import { LeftArrowIcon, ShareIcon } from 'public/assets/icons';
-import styled from 'styled-components';
+import { CancelIcon, LeftArrowIcon, ShareIcon } from 'public/assets/icons';
+import styled, { useTheme } from 'styled-components';
 import useUserStore from '@/store/userStore';
 import { useParams } from 'react-router-dom';
 import useCopyUrl from '@/hooks/useCopyUrl';
@@ -8,15 +8,21 @@ import ToolTip from '../meeting/select/HeaderToolTip';
 interface Props {
   title: string;
   isShare?: boolean;
-  toggle?: () => void;
+  isClose?: boolean;
+  onIconClick?: () => void;
   isVisible?: boolean;
+  toggle?: () => void;
 }
 
-interface HeaderProps {
-  isShare?: boolean;
-}
-
-function Header({ title, isShare, isVisible, toggle }: Props) {
+function Header({
+  title,
+  isShare = false,
+  isClose,
+  onIconClick,
+  isVisible,
+  toggle,
+}: Props) {
+  const theme = useTheme();
   const { user } = useUserStore();
   const { roomId, meetingId } = useParams();
   const handleUrlCopy = useCopyUrl(roomId, meetingId, user?.isMember);
@@ -27,7 +33,7 @@ function Header({ title, isShare, isVisible, toggle }: Props) {
       <HeadTitle>{title}</HeadTitle>
       {isShare && (
         <>
-          <ShareIcon className="share-button" onClick={handleUrlCopy} />
+          <ShareIcon className="icon-button" onClick={handleUrlCopy} />
           {isVisible && (
             <ToolTip
               content="팀원에게 공유해서 함께 일정을 조율해보세요!"
@@ -36,13 +42,21 @@ function Header({ title, isShare, isVisible, toggle }: Props) {
           )}
         </>
       )}
+      {isClose && (
+        <CancelIcon
+          className="icon-button"
+          fill={theme.color.secondary.solid.bk[700]}
+          onClick={onIconClick}
+        />
+      )}
     </HeaderContainer>
   );
 }
 
-const HeaderContainer = styled.div<HeaderProps>`
+const HeaderContainer = styled.div`
   width: 100%;
   height: 52px;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,7 +71,7 @@ const HeaderContainer = styled.div<HeaderProps>`
     top: 17.63px;
     cursor: pointer;
   }
-  .share-button {
+  .icon-button {
     position: absolute;
     right: 25px;
     top: 17.63px;
@@ -67,6 +81,8 @@ const HeaderContainer = styled.div<HeaderProps>`
 
 const HeadTitle = styled.h1`
   ${({ theme }) => theme.typo.body.semi_bold[16]};
+  margin: 0 auto;
+  text-align: center;
 `;
 
 export default Header;
