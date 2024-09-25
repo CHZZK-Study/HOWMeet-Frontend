@@ -2,6 +2,7 @@ import { LeftArrowIcon, ShareIcon } from 'public/assets/icons';
 import styled from 'styled-components';
 import useUserStore from '@/store/userStore';
 import { useParams } from 'react-router-dom';
+import useCopyUrl from '@/hooks/useCopyUrl';
 import ToolTip from '../meeting/select/HeaderToolTip';
 
 interface Props {
@@ -18,22 +19,7 @@ interface HeaderProps {
 function Header({ title, isShare, isVisible, toggle }: Props) {
   const { user } = useUserStore();
   const { roomId, meetingId } = useParams();
-  const handleUrlCopy = () => {
-    const baseUrl = window.location.origin; // 도메인만 추출
-    const path = `/meeting/${roomId}/select/${meetingId}`; // 경로 설정
-    const isGuest = !user?.isMember; // 게스트 여부 확인
-
-    const fullUrl = `${baseUrl}${path}?isGuest=${isGuest}`; // 전체 URL 조합
-
-    navigator.clipboard
-      .writeText(fullUrl)
-      .then(() => {
-        console.log('URL copied to clipboard:', fullUrl);
-      })
-      .catch((err) => {
-        console.error('Failed to copy URL:', err);
-      });
-  };
+  const handleUrlCopy = useCopyUrl(roomId, meetingId, user?.isMember);
 
   return (
     <HeaderContainer>
