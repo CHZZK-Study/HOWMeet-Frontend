@@ -32,9 +32,7 @@ function SelectableTimeTable({
     };
 
     const isDisabled =
-      data.isContainMidnight &&
-      ((date === data.dates[0] && hour < data.startHour) || // Before start hour on the first date
-        (date === data.dates[data.dates.length - 1] && hour > '00')); // After midnight on the last date
+      data.isContainMidnight && date === data.dates[0] && hour < data.startHour;
 
     return (
       <SelectTimeCell

@@ -33,6 +33,7 @@ function SelectPage() {
   const handleReWrite = () => {
     setIsSelected(false);
   };
+
   const {
     isGuest,
     isTimeTableLoading,
@@ -65,6 +66,8 @@ function SelectPage() {
         />
         <FlexColContainer>
           <Skeleton height={600} width={400} count={1} />
+          <br />
+          <Skeleton height={100} width={400} count={1} />
         </FlexColContainer>
 
         {isOpen && <TimeSelectModalComp handleModalClose={closeModal} />}
@@ -82,7 +85,6 @@ function SelectPage() {
   const handleModalOpen = async () => {
     try {
       const formattedTimes = formatPostDateTime(selectedTimes);
-      console.log('formattedTimes', formattedTimes);
       const headers = isGuest
         ? {
             Authorization:
