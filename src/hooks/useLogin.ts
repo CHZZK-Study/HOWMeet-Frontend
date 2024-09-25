@@ -25,7 +25,7 @@ export const useLogin = () => {
       handleAllowNotification();
 
       if (callback) {
-        navigate(callback);
+        navigate(callback, { replace: true });
       } else {
         setStep('share');
       }
