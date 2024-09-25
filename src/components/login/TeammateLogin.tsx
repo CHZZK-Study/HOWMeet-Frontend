@@ -7,7 +7,7 @@ import LoginForm from './LoginForm';
 
 function TeammateLogin() {
   const [searchParams] = useSearchParams();
-  const roomId = searchParams.get('roomId');
+  const meetingId = searchParams.get('meetingId');
   const loginType = searchParams.get('loginType');
 
   return (
@@ -32,7 +32,7 @@ function TeammateLogin() {
       </Header>
       <LoginFormContainer>
         {loginType === 'non-member' ? (
-          <LoginForm roomId={roomId!} />
+          <LoginForm meetingId={meetingId!} />
         ) : (
           <SocialLoginButtons />
         )}

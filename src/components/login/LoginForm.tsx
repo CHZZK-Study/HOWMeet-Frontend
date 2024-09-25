@@ -13,10 +13,10 @@ interface LoginFormType {
 }
 
 interface Props {
-  roomId: string;
+  meetingId: string;
 }
 
-function LoginForm({ roomId }: Props) {
+function LoginForm({ meetingId }: Props) {
   const { handleLogin } = useLogin();
   const methods = useForm<LoginFormType>({ mode: 'onChange' });
   const {
@@ -28,7 +28,7 @@ function LoginForm({ roomId }: Props) {
   return (
     <Form
       onSubmit={handleSubmit((data) =>
-        handleLogin({ ...data, guestScheduleId: roomId })
+        handleLogin({ ...data, guestScheduleId: meetingId })
       )}
     >
       <FormProvider {...methods}>

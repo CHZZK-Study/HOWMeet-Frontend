@@ -12,6 +12,7 @@ export const useSocialLogin = () => {
   const navigate = useNavigate();
   const setUser = useUserStore((state) => state.setUser);
   const [searchParams] = useSearchParams();
+  const callback = searchParams.get('callbackUrl');
   const code = searchParams.get('code');
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export const useSocialLogin = () => {
         setUser({ username: nickname, id: memberId, isMember: true });
         localStorage.setItem(STORAGE_KEY.accessToken, accessToken);
         handleAllowNotification();
-        navigate(PATH.home);
+        navigate(callback || PATH.home);
       }
     });
   };

@@ -8,11 +8,11 @@ import styled from 'styled-components';
 function LoginPage() {
   useSocialLogin();
   const [searchParams] = useSearchParams();
-  const roomId = searchParams.get('roomId');
+  const meetingId = searchParams.get('meetingId');
 
   return (
     <FlexColContainer>
-      <Content>{roomId ? <TeammateLogin /> : <DefaultLogin />}</Content>
+      <Content>{meetingId ? <TeammateLogin /> : <DefaultLogin />}</Content>
     </FlexColContainer>
   );
 }
