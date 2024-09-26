@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Schedule } from '@/types/room';
 import RoomItem from './RoomItem';
 
 interface Props {
@@ -6,18 +7,7 @@ interface Props {
     roomId: string;
     name: string;
     memberSummary: string;
-    schedules: {
-      id: string;
-      dates: string[];
-      time: {
-        startTime: string;
-        endTime: string;
-      };
-      name: {
-        value: string;
-      };
-      status: string;
-    }[];
+    schedules: Schedule[];
   }[];
 }
 

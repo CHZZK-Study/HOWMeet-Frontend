@@ -1,21 +1,11 @@
 import { Badge } from '@/styles/components/badge';
+import { Schedule } from '@/types/room';
 import styled from 'styled-components';
 
 interface Props {
   name: string;
   member: string;
-  schedule: {
-    id: string;
-    dates: string[];
-    time: {
-      startTime: string;
-      endTime: string;
-    };
-    name: {
-      value: string;
-    };
-    status: string;
-  };
+  schedule: Schedule;
 }
 
 function RoomItem({ name, member, schedule }: Props) {
