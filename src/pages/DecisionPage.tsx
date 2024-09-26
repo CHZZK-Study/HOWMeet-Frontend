@@ -33,7 +33,6 @@ function DecisionPage() {
     isTimeTableLoading,
     meetingId,
     timeTableServerData,
-    token,
     roomId,
   } = useTimeTableData();
 
@@ -41,10 +40,8 @@ function DecisionPage() {
     queryKey: ['selectedTimeData'],
     queryFn: async () => {
       // 여기도 토큰 넣으셈
-      const headers = isGuest ? {} : { Authorization: `Bearer ${token}` };
       const response = await axiosInstance.get(
-        `/${isGuest ? 'gs-record' : `ms-record/${roomId}`}/${meetingId}`,
-        { headers }
+        `/${isGuest ? 'gs-record' : `ms-record/${roomId}`}/${meetingId}`
       );
       return response.data; // 데이터 반환
     },
@@ -64,22 +61,12 @@ function DecisionPage() {
     navigate(`/meeting/${roomId}/result/${meetingId}`);
     const postParticipantPerson = formatPostParticipantPerson(selectedResult);
     const postDateTime = formatPostDateTime(selectedResult);
-    const headers = isGuest
-      ? {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJpZFwiOjMsXCJuaWNrbmFtZVwiOlwi7LWc7LGE66a8XCIsXCJyb2xlXCI6XCJURU1QT1JBUllcIixcIm1lbWJlclwiOmZhbHNlLFwiZ3Vlc3RcIjp0cnVlfSIsImlhdCI6MTcyNzE5NTcyMCwiZXhwIjoxNzI3MTk5MzIwfQ.DxG95w96ceWVNRUIExB8axSbiKE-793STYBS-TnENFUFRk4TkVo7NyVZBoy8vdfZiYp7UThjGC1PsaBcN8jigA',
-        }
-      : { Authorization: `Bearer ${token}` };
 
-    await axiosInstance.post(
-      `confirm/${meetingId}`,
-      {
-        msId: meetingId,
-        time: [postDateTime[0], postDateTime[postDateTime.length - 1]],
-        participantPerson: postParticipantPerson,
-      },
-      { headers }
-    );
+    await axiosInstance.post(`confirm/${meetingId}`, {
+      msId: meetingId,
+      time: [postDateTime[0], postDateTime[postDateTime.length - 1]],
+      participantPerson: postParticipantPerson,
+    });
     toast.message('정보가 성공적으로 저장되었습니다!');
   };
 

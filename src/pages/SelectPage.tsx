@@ -8,7 +8,6 @@ import { PATH } from '@/constants/path';
 import useModal from '@/hooks/useModal';
 import useToolTip from '@/hooks/useToolTip';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
-import useUserStore from '@/store/userStore';
 import {
   ButtonContainer,
   FlexColContainer,
@@ -20,28 +19,16 @@ import {
   formatServerToTimeTableData,
 } from '@/utils/meeting/timetable/formatDateTime';
 import { useEffect, useState } from 'react';
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import Skeleton from 'react-loading-skeleton'; // 추가
 import 'react-loading-skeleton/dist/skeleton.css';
 import useTimeTableData from '@/hooks/useTimeTableData';
-import { useNavigate } from 'react-router-dom';
 
 function SelectPage() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { meetingId } = useParams();
   const [searchParams] = useSearchParams();
-  const user = useUserStore((state) => state.user);
-  const timeTableData: TimeTableData = formatTimeTableData([
-    '2024-07-01T11:00',
-    '2024-07-07T22:00',
-  ]);
 
   useEffect(() => {
     if (!user) {
@@ -66,7 +53,6 @@ function SelectPage() {
     isTimeTableLoading,
     meetingId,
     timeTableServerData,
-    token,
     isError,
     user,
     isLeader,
@@ -112,13 +98,6 @@ function SelectPage() {
   const handleModalOpen = async () => {
     try {
       const formattedTimes = formatPostDateTime(selectedTimes);
-      const headers = isGuest
-        ? {
-            Authorization:
-              'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJpZFwiOjMsXCJuaWNrbmFtZVwiOlwi7LWc7LGE66a8XCIsXCJyb2xlXCI6XCJURU1QT1JBUllcIixcIm1lbWJlclwiOmZhbHNlLFwiZ3Vlc3RcIjp0cnVlfSIsImlhdCI6MTcyNzE5NTcyMCwiZXhwIjoxNzI3MTk5MzIwfQ.DxG95w96ceWVNRUIExB8axSbiKE-793STYBS-TnENFUFRk4TkVo7NyVZBoy8vdfZiYp7UThjGC1PsaBcN8jigA',
-          }
-        : // ? sessionStorage.getItem('@HOWMEET_ACCESS_TOKEN')
-          { Authorization: `Bearer ${token}` };
 
       try {
         const response = await axiosInstance.post(
@@ -126,8 +105,7 @@ function SelectPage() {
           {
             [isGuest ? 'gsId' : 'msId']: meetingId,
             selectTime: formattedTimes,
-          },
-          { headers }
+          }
         );
         console.log(response);
         toast.message('정보가 성공적으로 저장되었습니다!');

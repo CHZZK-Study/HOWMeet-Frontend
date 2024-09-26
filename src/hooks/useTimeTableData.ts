@@ -6,11 +6,9 @@ import { TimeTableServerInfoProps } from '@/types/timeTableTypes';
 
 const useTimeTableData = () => {
   const { roomId, meetingId } = useParams();
-  const { user } = useUserStore();
+  const user = useUserStore((state) => state.user);
+
   const isGuest = !user?.isMember;
-  const token = isGuest
-    ? sessionStorage.getItem('@HOWMEET_ACCESS_TOKEN')
-    : localStorage.getItem('@HOWMEET_ACCESS_TOKEN');
 
   const {
     isLoading: isTimeTableLoading,
@@ -19,10 +17,8 @@ const useTimeTableData = () => {
   } = useQuery<TimeTableServerInfoProps>({
     queryKey: ['TimeTableServerInfo'],
     queryFn: async () => {
-      const headers = isGuest ? {} : { Authorization: `Bearer ${token}` };
       const response = await axiosInstance.get(
-        `/${isGuest ? `guest-schedule/${meetingId}` : `room/${roomId}/${meetingId}`}`,
-        { headers }
+        `/${isGuest ? `guest-schedule/${meetingId}` : `room/${roomId}/${meetingId}`}`
       );
       return response.data; // 데이터 반환
     },
@@ -32,10 +28,7 @@ const useTimeTableData = () => {
     queryKey: ['isLeader'],
     queryFn: async () => {
       if (isGuest) return null; // isGuest가 true면 null 반환
-      const headers = { Authorization: `Bearer ${token}` };
-      const response = await axiosInstance.get(`/room/${roomId}/members`, {
-        headers,
-      });
+      const response = await axiosInstance.get(`/room/${roomId}/members`);
       return response.data; // 데이터 반환
     },
   });
@@ -46,7 +39,6 @@ const useTimeTableData = () => {
     roomId,
     meetingId,
     isGuest,
-    token,
     user,
     isError,
     isLeader,
