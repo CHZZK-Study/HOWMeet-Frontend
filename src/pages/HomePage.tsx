@@ -5,6 +5,7 @@ import UpComming from '@/components/home/UpComming';
 import CreateRoomButton from '@/components/roomlist/CreateRoomButton';
 import RoomList from '@/components/roomlist/RoomList';
 import { SUB_TITLE, TITLE } from '@/constants/title';
+import useClosestMeeting from '@/hooks/useClosestMeeting';
 import useRoomList from '@/hooks/useRoomList';
 import { useLogOutModal } from '@/store/useModalStore';
 import {
@@ -22,12 +23,17 @@ function HomePage() {
 
   const { isOpen: isLogOutOpen, close: closeLogOut } = useLogOutModal();
   const { roomListRes, isError } = useRoomList(userId);
+  const { findClosestSchedules } = useClosestMeeting();
 
   if (isError) window.alert('잠시후 다시 시도해 주세요.');
   if (!roomListRes) return null;
 
   const roomList =
     roomListRes.roomList.length === 0 ? [] : roomListRes.roomList;
+
+  const today: Date = new Date();
+
+  const closestSchedules = findClosestSchedules(roomList, today);
 
   return (
     <FlexColContainer>
@@ -36,14 +42,14 @@ function HomePage() {
         <PageTitle>{`${userName}님! 반가워요\r\n일정을 효율적으로 관리해봐요`}</PageTitle>
         <ContentWrapper>
           <SubTitle>{SUB_TITLE.upcomming}</SubTitle>
-          <UpComming />
+          <UpComming schedules={closestSchedules} />
         </ContentWrapper>
         <ContentWrapper>
           <SubTitle>{TITLE.attendRoom}</SubTitle>
           {roomList.length === 0 ? (
             <EmptyBox>아직 참여중인 방이 없습니다</EmptyBox>
           ) : (
-            <RoomList roomList={roomList} />
+            <RoomList roomList={roomList.slice(0, 2)} />
           )}
         </ContentWrapper>
         <TotalButton>전체 모임보기</TotalButton>
