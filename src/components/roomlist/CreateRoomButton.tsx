@@ -1,10 +1,12 @@
 import { CreateRoomPlusIcon } from 'public/assets/icons';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 function CreateRoomButton() {
+  const theme = useTheme();
+
   return (
     <StyledCreateRoomButton>
-      <CreateRoomPlusIcon />
+      <CreateRoomPlusIcon stroke={theme.color.primary.white} />
     </StyledCreateRoomButton>
   );
 }
@@ -12,7 +14,7 @@ function CreateRoomButton() {
 const StyledCreateRoomButton = styled.button`
   position: sticky;
   left: 90%;
-  bottom: 15%;
+  bottom: 10%;
 
   display: flex;
   align-items: center;
