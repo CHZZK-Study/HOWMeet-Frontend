@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Button from '@/components/common/Button';
 import { CloseIcon, UrlIcon } from 'public/assets/icons';
+import { toast } from 'sonner';
 import {
   CloseButton,
   ModalContainer,
@@ -11,6 +12,7 @@ import {
 function UrlShareModal({ handleModalClose }: { handleModalClose: () => void }) {
   const handleUrlCopy = () => {
     navigator.clipboard.writeText(window.location.href);
+    toast.success('URL이 복사되었습니다.');
   };
 
   return (

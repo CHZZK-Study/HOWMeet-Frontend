@@ -51,15 +51,15 @@ const router = createBrowserRouter([
     element: <MeetingPage />,
   },
   {
-    path: 'meeting/:id/select',
+    path: 'meeting/:roomId/select/:meetingId',
     element: <SelectPage />,
   },
   {
-    path: 'meeting/:id/decision',
+    path: 'meeting/:roomId/decision/:meetingId',
     element: <DecisionPage />,
   },
   {
-    path: 'meeting/:id/result',
+    path: 'meeting/:roomId/result/:meetingId',
     element: <ResultPage />,
   },
   {

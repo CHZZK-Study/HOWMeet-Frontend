@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,
-  timeout: DEFAULT_TIMOUT,
+  timeout: DEFAULT_TIMEOUT,
 });
 
 axios.defaults.withCredentials = true;
