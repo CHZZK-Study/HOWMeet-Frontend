@@ -3,4 +3,5 @@ export const PATH = {
   home: '/home',
   login: '/login',
   new_meeting: '/new-meeting',
+  rooms: '/rooms',
 } as const;
