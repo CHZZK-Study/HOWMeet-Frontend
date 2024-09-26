@@ -4,6 +4,7 @@ import HomeHeader from '@/components/home/HomeHeader';
 import UpComming from '@/components/home/UpComming';
 import CreateRoomButton from '@/components/roomlist/CreateRoomButton';
 import RoomList from '@/components/roomlist/RoomList';
+import { PATH } from '@/constants/path';
 import { SUB_TITLE, TITLE } from '@/constants/title';
 import useClosestMeeting from '@/hooks/useClosestMeeting';
 import useRoomList from '@/hooks/useRoomList';
@@ -13,10 +14,13 @@ import {
   FlexColContainer,
 } from '@/styles/components/container';
 import { PageTitle } from '@/styles/components/text';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import styled from 'styled-components';
 
 function HomePage() {
+  const navigate = useNavigate();
+
   const userInfo = sessionStorage.getItem('UserStore') || '';
   const parsedUserInfo = JSON.parse(userInfo);
   const userId = parsedUserInfo.state.user.id;
@@ -43,17 +47,23 @@ function HomePage() {
         <PageTitle>{`${userName}님! 반가워요\r\n일정을 효율적으로 관리해봐요`}</PageTitle>
         <ContentWrapper>
           <SubTitle>{SUB_TITLE.upcomming}</SubTitle>
-          <UpComming schedules={closestSchedules} />
+          {closestSchedules.length === 0 ? (
+            <EmptyBox $height="122px">다가오는 일정이 없습니다</EmptyBox>
+          ) : (
+            <UpComming schedules={closestSchedules} />
+          )}
         </ContentWrapper>
         <ContentWrapper>
           <SubTitle>{TITLE.attendRoom}</SubTitle>
           {roomList.length === 0 ? (
-            <EmptyBox>아직 참여중인 방이 없습니다</EmptyBox>
+            <EmptyBox $height="270px">아직 참여중인 방이 없습니다</EmptyBox>
           ) : (
             <RoomList roomList={roomList.slice(0, 2)} />
           )}
         </ContentWrapper>
-        <TotalButton>전체 모임보기</TotalButton>
+        <TotalButton onClick={() => navigate(PATH.rooms)}>
+          전체 모임보기
+        </TotalButton>
         <CreateRoomButton />
       </ContentContainer>
       {isLogOutOpen && (
@@ -82,9 +92,9 @@ const ContentWrapper = styled.div`
   gap: 18px;
 `;
 
-const EmptyBox = styled.div`
+const EmptyBox = styled.div<{ $height: string }>`
   width: 100%;
-  height: 270px;
+  height: ${({ $height }) => $height};
   display: flex;
   align-items: center;
   justify-content: center;
