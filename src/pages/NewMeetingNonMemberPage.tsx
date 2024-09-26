@@ -4,6 +4,7 @@ import LoginNonMember from '@/components/newmeeting/LoginNonMember';
 import MakeNewMeeting from '@/components/newmeeting/MakeNewMeeting';
 import QuitMakeMeetingModal from '@/components/newmeeting/QuitMakeMeetingModal';
 import useStepStore from '@/store/meeting/useStepStore';
+import ShareMeeting from '@/components/newmeeting/ShareMeeting';
 import { useQuitMakeMeetingModal } from '@/store/useModalStore';
 import { FlexColContainer } from '@/styles/components/container';
 import { MeetingData } from '@/types/meeting';
@@ -28,6 +29,7 @@ function NewMeetingNonMemberPage() {
         <ConfirmMeeting meetingData={meetingData} setContent={setStep} />
       )}
       {step === 'login' && <LoginNonMember />}
+      {step === 'share' && <ShareMeeting />}
       {isQuitModalOpen && (
         <Modal onClose={closeQuit}>
           <QuitMakeMeetingModal />
