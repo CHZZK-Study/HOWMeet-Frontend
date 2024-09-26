@@ -17,7 +17,6 @@ const useUserStore = create<Store>()(
     persist<Store>(
       (set) => ({
         user: null,
-        guestId: null,
         setUser: (userData: User | null) => {
           set(() => ({ user: userData }));
         },
