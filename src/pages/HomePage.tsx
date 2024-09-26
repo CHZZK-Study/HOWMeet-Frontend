@@ -5,6 +5,7 @@ import UpComming from '@/components/home/UpComming';
 import CreateRoomButton from '@/components/roomlist/CreateRoomButton';
 import RoomList from '@/components/roomlist/RoomList';
 import { SUB_TITLE, TITLE } from '@/constants/title';
+import useRoomList from '@/hooks/useRoomList';
 import { useLogOutModal } from '@/store/useModalStore';
 import {
   ContentContainer,
@@ -13,21 +14,15 @@ import {
 import { PageTitle } from '@/styles/components/text';
 import styled from 'styled-components';
 
-const mockRoom = [
-  {
-    title: '마이팀 방',
-    date: '2024. 07. 08 14:00~15:00',
-    member: '김민석님 외 12명',
-  },
-  {
-    title: '아자아자 방',
-    date: '2024. 07. 09 12:00~16:00',
-    member: '김민석님 외 12명',
-  },
-];
-
 function HomePage() {
+  const userInfo = sessionStorage.getItem('UserStore') || '';
+  const userId = JSON.parse(userInfo).state.user.id;
   const { isOpen: isLogOutOpen, close: closeLogOut } = useLogOutModal();
+  const { roomList, isError } = useRoomList(userId);
+
+  if (isError) window.alert('잠시후 다시 시도해 주세요.');
+
+  if (!roomList) return null;
 
   return (
     <FlexColContainer>
@@ -40,7 +35,7 @@ function HomePage() {
         </ContentWrapper>
         <ContentWrapper>
           <SubTitle>{TITLE.attendRoom}</SubTitle>
-          <RoomList mock={mockRoom} />
+          <RoomList roomList={roomList} />
         </ContentWrapper>
         <TotalButton>전체 모임보기</TotalButton>
         <CreateRoomButton />
