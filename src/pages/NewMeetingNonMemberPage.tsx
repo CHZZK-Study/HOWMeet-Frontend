@@ -3,13 +3,14 @@ import ConfirmMeeting from '@/components/newmeeting/ConfirmMeeting';
 import LoginNonMember from '@/components/newmeeting/LoginNonMember';
 import MakeNewMeeting from '@/components/newmeeting/MakeNewMeeting';
 import QuitMakeMeetingModal from '@/components/newmeeting/QuitMakeMeetingModal';
+import ShareMeeting from '@/components/newmeeting/ShareMeeting';
 import { useQuitMakeMeetingModal } from '@/store/useModalStore';
 import { FlexColContainer } from '@/styles/components/container';
 import { Content, MeetingData } from '@/types/meeting';
 import { useState } from 'react';
 
 function NewMeetingNonMemberPage() {
-  const [currentContent, setCurrentContent] = useState<Content>('login');
+  const [currentContent, setCurrentContent] = useState<Content>('make');
   const [meetingData, setMeetingData] = useState<MeetingData>({
     name: { value: '' },
     dates: [],
@@ -33,6 +34,7 @@ function NewMeetingNonMemberPage() {
         />
       )}
       {currentContent === 'login' && <LoginNonMember />}
+      {currentContent === 'share' && <ShareMeeting />}
       {isQuitModalOpen && (
         <Modal onClose={closeQuit}>
           <QuitMakeMeetingModal />
