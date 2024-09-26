@@ -17,7 +17,7 @@ interface Props {
         value: string;
       };
       status: string;
-    };
+    }[];
   }[];
 }
 
@@ -28,8 +28,8 @@ function RoomList({ roomList }: Props) {
         <RoomItem
           key={item.roomId}
           name={item.name}
-          date={item.schedules.dates[1]}
-          time={item.schedules.time}
+          date={item.schedules[0].dates[1]}
+          time={item.schedules[0].time}
           member={item.memberSummary}
         />
       ))}
