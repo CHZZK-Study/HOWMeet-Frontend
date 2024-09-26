@@ -14,7 +14,7 @@ export interface RoomListRes {
         value: string;
       };
       status: string;
-    };
+    }[];
   }[];
   currentPage: string;
   hasNextPage: string;
