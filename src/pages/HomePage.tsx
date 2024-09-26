@@ -13,6 +13,7 @@ import {
   FlexColContainer,
 } from '@/styles/components/container';
 import { PageTitle } from '@/styles/components/text';
+import { toast } from 'sonner';
 import styled from 'styled-components';
 
 function HomePage() {
@@ -25,7 +26,7 @@ function HomePage() {
   const { roomListRes, isError } = useRoomList(userId);
   const { findClosestSchedules } = useClosestMeeting();
 
-  if (isError) window.alert('잠시후 다시 시도해 주세요.');
+  if (isError) toast.error('잠시후 다시 시도해 주세요.');
   if (!roomListRes) return null;
 
   const roomList =
