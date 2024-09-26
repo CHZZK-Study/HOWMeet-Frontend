@@ -32,7 +32,12 @@ function SelectableTimeTable({
     };
 
     const isDisabled =
-      data.isContainMidnight && date === data.dates[0] && hour < data.startHour;
+      (data.isContainMidnight &&
+        date === data.dates[0] &&
+        hour < data.startHour) ||
+      (data.isContainMidnight &&
+        date === data.dates[data.dates.length - 1] &&
+        hour >= data.endHour);
 
     return (
       <SelectTimeCell

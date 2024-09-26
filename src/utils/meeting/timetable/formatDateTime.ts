@@ -183,9 +183,34 @@ const generateServerHoursRange = (
 //   return hours;
 // };
 
-const generateServerDateRange = (start: string, end: string): string[] => {
+// const generateServerDateRange = (start: string, end: string): string[] => {
+//   const startDate = new Date(start);
+//   const endDate = new Date(end);
+//   const dateArray = [];
+
+//   while (startDate <= endDate) {
+//     const year = startDate.getFullYear();
+//     const month = String(startDate.getMonth() + 1).padStart(2, '0');
+//     const day = String(startDate.getDate()).padStart(2, '0');
+//     dateArray.push(`${year}-${month}-${day}`);
+//     startDate.setDate(startDate.getDate() + 1);
+//   }
+
+//   return dateArray;
+// };
+const generateServerDateRange = (
+  start: string,
+  end: string
+  // containsMidnight?: boolean
+): string[] => {
   const startDate = new Date(start);
   const endDate = new Date(end);
+
+  // containsMidnight이 true면 endDate에 하루를 더함
+  // if (containsMidnight) {
+  //   endDate.setDate(endDate.getDate() + 1);
+  // }
+
   const dateArray = [];
 
   while (startDate <= endDate) {

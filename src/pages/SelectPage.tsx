@@ -63,7 +63,7 @@ function SelectPage() {
     isLeader,
     roomId,
     isMemberLoading,
-  } = useTimeTableData();
+  } = useTimeTableData(true);
   // 로딩 상태 처리
   if (isTimeTableLoading || !timeTableServerData || isMemberLoading) {
     return (

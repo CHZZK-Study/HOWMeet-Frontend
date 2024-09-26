@@ -2,9 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import { axiosInstance } from '@/apis/instance';
 import { useParams } from 'react-router-dom';
 import useUserStore from '@/store/userStore';
-import { TimeTableServerInfoProps } from '@/types/timeTableTypes';
+import {
+  DecisionHeatmapProps,
+  TimeTableServerInfoProps,
+} from '@/types/timeTableTypes';
 
-const useTimeTableData = () => {
+const useTimeTableData = (isSelectPage?: boolean) => {
   const { roomId, meetingId } = useParams();
   const user = useUserStore((state) => state.user);
 
@@ -33,8 +36,26 @@ const useTimeTableData = () => {
     },
   });
 
+  const {
+    isLoading: isSelectTimeDataLoading,
+    error: isSelectedTimeDataError,
+    data: selectedTimeData,
+  } = useQuery<DecisionHeatmapProps>({
+    queryKey: ['selectedTimeData'],
+    queryFn: async () => {
+      const response = await axiosInstance.get(
+        `/${isGuest ? 'gs-record' : `ms-record/${roomId}`}/${meetingId}`
+      );
+      return response.data; // 데이터 반환
+    },
+    enabled: !isSelectPage,
+  });
+
   return {
     isTimeTableLoading,
+    isSelectTimeDataLoading,
+    selectedTimeData,
+    isSelectedTimeDataError,
     timeTableServerData,
     roomId,
     meetingId,

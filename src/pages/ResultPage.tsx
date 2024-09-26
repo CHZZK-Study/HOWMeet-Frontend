@@ -30,15 +30,14 @@ function ResultPage() {
     meetingId,
     timeTableServerData,
     isError,
-  } = useTimeTableData();
+  } = useTimeTableData(true);
 
   const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
-    queryKey: ['selectedTimeData'],
+    queryKey: ['resultData'],
     queryFn: async () => {
       const response = await axiosInstance.get(
         `/confirm/${roomId}/${meetingId}`
       );
-      console.log(response);
       return response.data; // 데이터 반환
     },
   });
@@ -56,8 +55,8 @@ function ResultPage() {
       </NormalContainer>
     );
   if (error || isError) return <div>에러가 발생했습니다</div>;
-  if (!data) return <div>데이터가 없습니다</div>;
 
+  if (!data) return <div>데이터가 없습니다</div>;
   const timeTableData: TimeTableData =
     formatServerToTimeTableData(timeTableServerData);
 

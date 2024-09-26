@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
 import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
-import { DecisionHeatmapProps } from '@/types/timeTableTypes';
 import {
   ButtonContainer,
   NormalContainer,
@@ -34,31 +32,27 @@ function DecisionPage() {
     meetingId,
     timeTableServerData,
     roomId,
+    selectedTimeData,
+    isSelectTimeDataLoading,
+    isSelectedTimeDataError,
   } = useTimeTableData();
 
-  const { isLoading, error, data } = useQuery<DecisionHeatmapProps>({
-    queryKey: ['selectedTimeData'],
-    queryFn: async () => {
-      // 여기도 토큰 넣으셈
-      const response = await axiosInstance.get(
-        `/${isGuest ? 'gs-record' : `ms-record/${roomId}`}/${meetingId}`
-      );
-      return response.data; // 데이터 반환
-    },
-  });
-
-  if (isLoading || !timeTableServerData || !data || isTimeTableLoading) {
+  if (
+    isSelectTimeDataLoading ||
+    !timeTableServerData ||
+    !selectedTimeData ||
+    isTimeTableLoading
+  ) {
     return (
       <NormalContainer>
         <Header title="일정 조율" />
       </NormalContainer>
     );
   }
-  if (error) return <div>에러가 발생했습니다</div>;
+  if (isSelectedTimeDataError) return <div>에러가 발생했습니다</div>;
 
   const handleDecide = async () => {
     setIsSelected(true);
-    navigate(`/meeting/${roomId}/result/${meetingId}`);
     const postParticipantPerson = formatPostParticipantPerson(selectedResult);
     const postDateTime = formatPostDateTime(selectedResult);
 
@@ -67,6 +61,7 @@ function DecisionPage() {
       time: [postDateTime[0], postDateTime[postDateTime.length - 1]],
       participantPerson: postParticipantPerson,
     });
+    navigate(`/meeting/${roomId}/result/${meetingId}`);
     toast.message('정보가 성공적으로 저장되었습니다!');
   };
 
@@ -76,16 +71,16 @@ function DecisionPage() {
     <NormalContainer>
       <Header title="일정 조율" />
       <AttendStatusHeader
-        TotalPersonnel={data.totalPersonnel.length}
-        currentParticipants={data.participatedPersonnel.length}
-        participatedPersonnel={data.participatedPersonnel}
-        unParticipatedPersonnel={data.totalPersonnel.filter(
-          (name) => !data.participatedPersonnel.includes(name)
+        TotalPersonnel={selectedTimeData.totalPersonnel.length}
+        currentParticipants={selectedTimeData.participatedPersonnel.length}
+        participatedPersonnel={selectedTimeData.participatedPersonnel}
+        unParticipatedPersonnel={selectedTimeData.totalPersonnel.filter(
+          (name) => !selectedTimeData.participatedPersonnel.includes(name)
         )}
       />
       <ResultTimeTable
         timetableInfo={timeTableData}
-        roomInfo={data}
+        roomInfo={selectedTimeData}
         dragDisabled={isSelected}
       />
       {isGuest ? null : (
