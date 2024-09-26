@@ -1,16 +1,21 @@
+import { PATH } from '@/constants/path';
 import { Badge } from '@/styles/components/badge';
 import { Schedule } from '@/types/room';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface Props {
   name: string;
   member: string;
+  roomId: string;
   schedule: Schedule;
 }
 
-function RoomItem({ name, member, schedule }: Props) {
+function RoomItem({ name, member, roomId, schedule }: Props) {
+  const navigate = useNavigate();
+
   return (
-    <RoomItemContainer>
+    <RoomItemContainer onClick={() => navigate(`${PATH.rooms}/${roomId}`)}>
       <NoticeDot />
       <RoomTitle>{name}</RoomTitle>
       <RoomDesc>

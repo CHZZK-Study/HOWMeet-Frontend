@@ -23,6 +23,7 @@ function RoomList({ roomList }: Props) {
         return (
           <RoomItem
             key={item.roomId}
+            roomId={item.roomId}
             name={item.name}
             member={item.memberSummary}
             schedule={latestSchedule}
