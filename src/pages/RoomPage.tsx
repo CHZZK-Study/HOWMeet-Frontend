@@ -3,34 +3,59 @@ import Attenders from '@/components/roomdetail/Attenders';
 import ConfirmList from '@/components/roomdetail/ConfirmList';
 import CreateNewMeeting from '@/components/roomdetail/CreateNewMeeting';
 import NonConfirmList from '@/components/roomdetail/NonConfirmList';
+import useRoom from '@/hooks/useRoom';
 import {
   FlexColContainer,
   ContentContainer,
 } from '@/styles/components/container';
+import { EmptyBox } from '@/styles/components/emptybox';
 import { PageTitle } from '@/styles/components/text';
 import { ShareIcon } from 'public/assets/icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 import styled from 'styled-components';
 
 function RoomPage() {
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  const { roomDetail, isError } = useRoom(Number(id));
+
+  if (isError) toast.error('잠시후 다시 시도해 주세요');
+
+  if (!roomDetail) return null;
+
+  const progressMeetings = roomDetail.schedules.filter(
+    (item) => item.status === 'PROGRESS'
+  );
+  const completedMeetings = roomDetail.schedules.filter(
+    (item) => item.status === 'COMPLETE'
+  );
 
   return (
     <FlexColContainer>
       <Header title="방 정보" onLeftArrowIconClick={() => navigate(-1)} />
       <ContentContainer>
         <TitleWrapper>
-          <PageTitle>마이팀 방</PageTitle>
+          <PageTitle>{roomDetail.name}</PageTitle>
           <ShareIcon />
         </TitleWrapper>
         <SubTitle>참여 인원</SubTitle>
-        <Attenders />
+        <Attenders member={roomDetail.roomMembers} />
         <SubTitle>확정되지 않은 일정</SubTitle>
         <Description>가능한 시간을 제출해주세요.</Description>
-        <NonConfirmList />
+        {progressMeetings.length === 0 ? (
+          <EmptyBox $height="96px">아직 일정이 없습니다</EmptyBox>
+        ) : (
+          <NonConfirmList progressMeetings={progressMeetings.reverse()} />
+        )}
         <SubTitle>전체 일정</SubTitle>
         <Description>확정된 일정을 확인해보세요 !</Description>
-        <ConfirmList />
+        {completedMeetings.length === 0 ? (
+          <EmptyBox $height="96px">아직 일정이 없습니다</EmptyBox>
+        ) : (
+          <ConfirmList completedMeetings={completedMeetings.reverse()} />
+        )}
       </ContentContainer>
       <CreateNewMeeting />
     </FlexColContainer>
