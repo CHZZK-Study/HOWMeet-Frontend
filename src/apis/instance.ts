@@ -1,4 +1,4 @@
-import { BASE_URL, DEFAULT_TIMOUT } from '@/constants/api';
+import { BASE_URL, DEFAULT_TIMEOUT } from '@/constants/api';
 import { PATH } from '@/constants/path';
 import { STORAGE_KEY } from '@/constants/storage';
 import useUserStore from '@/store/userStore';
