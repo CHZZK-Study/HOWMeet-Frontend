@@ -31,8 +31,7 @@ interface Props {
     roomName: string;
     scheduleId: string;
     scheduleName: string;
-    startDate: Date;
-    endDate: Date;
+    confirmDate: Date;
     startTime: string;
     endTime: string;
     status: string;
@@ -80,8 +79,8 @@ function UpComming({ schedules }: Props) {
                   <h3 className="name">{item.roomName}</h3>
                   <div className="devider" />
                   <p className="date">
-                    {moment(item.endDate).format('YYYY-MM-DD')} {item.startTime}
-                    ~{item.endTime}
+                    {moment(item.confirmDate).format('YYYY-MM-DD')}{' '}
+                    {item.startTime}~{item.endTime}
                   </p>
                 </ItemDesc>
               </UpCommingItem>

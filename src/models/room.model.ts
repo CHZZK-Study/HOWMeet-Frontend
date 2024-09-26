@@ -9,6 +9,7 @@ export interface RoomListRes {
       time: {
         startTime: string;
         endTime: string;
+        containsMidnight: boolean;
       };
       name: {
         value: string;

@@ -8,6 +8,7 @@ type Room = {
     time: {
       startTime: string;
       endTime: string;
+      containsMidnight: boolean;
     };
     name: {
       value: string;
@@ -21,8 +22,7 @@ type ScheduleWithDateDiff = {
   roomName: string;
   scheduleId: string;
   scheduleName: string;
-  startDate: Date;
-  endDate: Date;
+  confirmDate: Date;
   startTime: string;
   endTime: string;
   status: string;
@@ -43,26 +43,22 @@ const useClosestMeeting = () => {
     const scheduleList: ScheduleWithDateDiff[] = [];
 
     data.forEach((room) => {
-      room.schedules.forEach((schedule) => {
-        const startDate: Date = new Date(schedule.dates[0]);
-        const endDate: Date = new Date(schedule.dates[1]);
-
-        scheduleList.push({
-          roomId: room.roomId,
-          roomName: room.name,
-          scheduleId: schedule.id,
-          scheduleName: schedule.name.value,
-          startDate,
-          endDate,
-          startTime: schedule.time.startTime,
-          endTime: schedule.time.endTime,
-          status: schedule.status,
-          dateDiff: Math.min(
-            dateDiffInDays(today, startDate),
-            dateDiffInDays(today, endDate)
-          ),
+      room.schedules
+        .filter((item) => item.status === 'COMPLETE')
+        .forEach((schedule) => {
+          const confirmDate: Date = new Date(schedule.dates[0]);
+          scheduleList.push({
+            roomId: room.roomId,
+            roomName: room.name,
+            scheduleId: schedule.id,
+            scheduleName: schedule.name.value,
+            confirmDate,
+            startTime: schedule.time.startTime,
+            endTime: schedule.time.endTime,
+            status: schedule.status,
+            dateDiff: dateDiffInDays(today, confirmDate),
+          });
         });
-      });
     });
 
     scheduleList.sort((a, b) => a.dateDiff - b.dateDiff);
