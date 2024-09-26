@@ -13,6 +13,7 @@ import {
   ContentContainer,
   FlexColContainer,
 } from '@/styles/components/container';
+import { EmptyBox } from '@/styles/components/emptybox';
 import { PageTitle } from '@/styles/components/text';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -92,16 +93,4 @@ const ContentWrapper = styled.div`
   gap: 18px;
 `;
 
-const EmptyBox = styled.div<{ $height: string }>`
-  width: 100%;
-  height: ${({ $height }) => $height};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: ${({ theme }) => theme.color.primary.white};
-  border-radius: 14px;
-  box-shadow: 0px 3.805px 10.559px 0px rgba(90, 90, 90, 0.1);
-  color: ${({ theme }) => theme.color.secondary.solid.bk[500]};
-  ${({ theme }) => theme.typo.body.regular[20]}
-`;
 export default HomePage;
