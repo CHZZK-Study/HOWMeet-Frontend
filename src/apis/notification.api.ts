@@ -9,6 +9,6 @@ export const getVapidKey = async () => {
 };
 
 export const setFcmToken = async (token: string) => {
-  const result = await axiosInstance.post('/fcm/fcm-token', token);
+  const result = await axiosInstance.post('/fcm/fcm-token', { token });
   return result;
 };

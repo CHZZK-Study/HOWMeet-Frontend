@@ -19,7 +19,12 @@ import {
   formatServerToTimeTableData,
 } from '@/utils/meeting/timetable/formatDateTime';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 import { toast } from 'sonner';
 import Skeleton from 'react-loading-skeleton'; // 추가
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -28,18 +33,8 @@ import useTimeTableData from '@/hooks/useTimeTableData';
 function SelectPage() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const params = useParams();
   const [searchParams] = useSearchParams();
-
-  useEffect(() => {
-    if (!user) {
-      const isGuest = searchParams.get('isGuest') === 'true';
-      navigate(
-        `${PATH.login}?meetingId=${meetingId}&loginType=${isGuest ? 'non-member' : 'member'}&callbackUrl=${pathname}`,
-        { replace: true }
-      );
-    }
-  }, []);
-
   const { selectedTimes } = useTimeStore();
   const { closeModal, isOpen, openModal } = useModal();
   const { isToolTipOpen, closeToolTip } = useToolTip();
@@ -47,6 +42,16 @@ function SelectPage() {
   const handleReWrite = () => {
     setIsSelected(false);
   };
+
+  useEffect(() => {
+    if (!user) {
+      const isGuest = searchParams.get('isGuest') === 'true';
+      navigate(
+        `${PATH.login}?meetingId=${params.meetingId}&loginType=${isGuest ? 'non-member' : 'member'}&callbackUrl=${pathname}`,
+        { replace: true }
+      );
+    }
+  }, []);
 
   const {
     isGuest,
@@ -59,7 +64,6 @@ function SelectPage() {
     roomId,
     isMemberLoading,
   } = useTimeTableData();
-
   // 로딩 상태 처리
   if (isTimeTableLoading || !timeTableServerData || isMemberLoading) {
     return (
