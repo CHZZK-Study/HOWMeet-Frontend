@@ -1,10 +1,14 @@
+import { PATH } from '@/constants/path';
 import { CreateRoomPlusIcon } from 'public/assets/icons';
+import { useNavigate } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 
 function CreateNewMeeting() {
   const theme = useTheme();
+  const navigate = useNavigate();
+
   return (
-    <ButtonContainer>
+    <ButtonContainer onClick={() => navigate(PATH.new_meeting)}>
       <PlusButton>
         <CreateRoomPlusIcon stroke={theme.color.point.purple} />
       </PlusButton>
