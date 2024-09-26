@@ -1,5 +1,6 @@
 import { Badge } from '@/styles/components/badge';
 import { AnimatePresence, motion, PanInfo } from 'framer-motion';
+import moment from 'moment';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -24,7 +25,22 @@ const mockSchedules = [
   },
 ];
 
-function UpComming() {
+interface Props {
+  schedules: {
+    roomId: string;
+    roomName: string;
+    scheduleId: string;
+    scheduleName: string;
+    startDate: Date;
+    endDate: Date;
+    startTime: string;
+    endTime: string;
+    status: string;
+    dateDiff: number;
+  }[];
+}
+
+function UpComming({ schedules }: Props) {
   const [visible, setVisible] = useState(0);
 
   const handleDragEnd = (
@@ -41,7 +57,7 @@ function UpComming() {
   return (
     <UpCommingList>
       <AnimatePresence>
-        {mockSchedules.map(
+        {schedules.map(
           (item, index) =>
             visible === index && (
               <UpCommingItem
@@ -55,15 +71,18 @@ function UpComming() {
                 }}
                 onDragEnd={handleDragEnd}
               >
-                <StyledBadge>{item.badge}</StyledBadge>
+                <StyledBadge>D-{item.dateDiff}</StyledBadge>
                 <ItemTitle>
-                  {item.title}
+                  {item.scheduleName}
                   <div className="underline" />
                 </ItemTitle>
                 <ItemDesc>
-                  <h3 className="name">{item.room}</h3>
+                  <h3 className="name">{item.roomName}</h3>
                   <div className="devider" />
-                  <p className="date">{item.date}</p>
+                  <p className="date">
+                    {moment(item.endDate).format('YYYY-MM-DD')} {item.startTime}
+                    ~{item.endTime}
+                  </p>
                 </ItemDesc>
               </UpCommingItem>
             )
