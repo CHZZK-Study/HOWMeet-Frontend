@@ -1,6 +1,6 @@
 import { getSocialLoginUrl } from '@/apis/user.api';
 import { STORAGE_KEY } from '@/constants/storage';
-import { ProviderName } from '@/types/socialLogin';
+import { ProviderName } from '@/types/auth';
 import { GoogleIcon, KakaoIcon, NaverIcon } from 'public/assets/icons';
 import styled from 'styled-components';
 

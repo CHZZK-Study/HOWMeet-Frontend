@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import { CellProps, ResultTimeCellProps } from '@/types/timeTableTypes';
 import getAdjustedColor from '@/utils/meeting/timetable/getAdjustedColor';
 import theme from '@/styles/theme';
-import { SelectHalfCell } from './SelectTimeCell';
+import { SelectHalfCell, SingleCell } from './SelectTimeCell';
 
 function ResultTimeCell({
   timeSlot,
   isSelected,
   dragDisabled,
+  disabled,
   intensity,
   onDragStart,
   onDragMove,
@@ -63,11 +64,15 @@ function ResultTimeCell({
     };
   }, [handleTouchStart, handleTouchMove, onDragEnd]);
 
+  if (disabled) {
+    return <SingleCell ref={cellRef} className="disabled-cell" />;
+  }
+
   return (
     <ResultHalfCell
       ref={cellRef}
       selected={isSelected}
-      intensity={intensity}
+      $intensity={intensity}
       onMouseDown={(e) => !dragDisabled && onDragStart(timeSlot, e)}
       onMouseEnter={(e) =>
         !dragDisabled && e.buttons === 1 && onDragMove(timeSlot, e)
@@ -78,8 +83,8 @@ function ResultTimeCell({
       onClick={(e) => onCellInteraction(e, timeSlot)}
       data-timeslot={JSON.stringify(timeSlot)}
       data-hour={timeSlot.hour}
-      isEndCellHalf={isEndCellHalf}
-      isStartCellHalf={isStartCellHalf}
+      $isEndCellHalf={isEndCellHalf}
+      $isStartCellHalf={isStartCellHalf}
     />
   );
 }
@@ -88,7 +93,7 @@ const MemoizedResultTimeCell = React.memo(ResultTimeCell);
 export default MemoizedResultTimeCell;
 
 const ResultHalfCell = styled(SelectHalfCell)<
-  CellProps & { intensity: number }
+  CellProps & { $intensity: number }
 >`
   border-right: ${({ selected }) =>
     selected
@@ -104,25 +109,31 @@ const ResultHalfCell = styled(SelectHalfCell)<
       : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
   border-top: ${({ selected }) => (selected ? '2px solid white' : 'none')};
 
-  background-color: ${({ intensity }) =>
-    getAdjustedColor({ ratio: intensity })};
+  background-color: ${({ $intensity }) =>
+    getAdjustedColor({ ratio: $intensity })};
 
   &:first-child {
     border-top: ${({ selected }) =>
       selected
         ? '2px solid white'
         : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
-    border-bottom: ${({ selected, isStartCellHalf, isEndCellHalf }) => {
+    border-bottom: ${({ selected, $isStartCellHalf, $isEndCellHalf }) => {
       if (selected) {
         return '2px solid white';
       }
-      if (isStartCellHalf) {
+      if ($isStartCellHalf) {
         return 'none';
       }
-      if (isEndCellHalf) {
+      if ($isEndCellHalf) {
         return `0.1px solid ${theme.color.secondary.solid.gray[800]}`;
       }
       return `2px dashed #ccc`;
     }};
   }
+  
+  &:last-child {
+    border-bottom: ${({ selected }) =>
+      selected
+        ? '2px solid white'
+        : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
 `;

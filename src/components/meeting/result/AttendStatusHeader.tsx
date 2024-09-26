@@ -2,17 +2,18 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 import ResultBottomSheet from './ResultBottomSheet';
+import TimeSelectTitle from '../select/TimeSelectTitle';
 
 function AttendStatusHeader({
-  TotalParticipants,
+  TotalPersonnel,
   currentParticipants,
-  participatedUsers,
-  unParticipatedUsers,
+  participatedPersonnel,
+  unParticipatedPersonnel,
 }: {
-  TotalParticipants: number;
+  TotalPersonnel: number;
   currentParticipants: number;
-  participatedUsers: string[];
-  unParticipatedUsers: string[];
+  participatedPersonnel: string[];
+  unParticipatedPersonnel: string[];
 }) {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
@@ -21,10 +22,8 @@ function AttendStatusHeader({
 
   return (
     <>
-      {TotalParticipants === currentParticipants ? (
-        <AttendStatusHeaderContainer>
-          <Title>모든 팀원 일정 조율 완료!</Title>
-        </AttendStatusHeaderContainer>
+      {TotalPersonnel === currentParticipants ? (
+        <TimeSelectTitle Title="모든 팀원 일정 조율 완료!!" />
       ) : (
         <AttendStatusHeaderContainer>
           <Title>일정 조율 중</Title>
@@ -32,7 +31,7 @@ function AttendStatusHeader({
           <AttendStatus>
             현재 참여인원
             <AttendParticipantContainer onClick={openBottomSheet}>
-              {TotalParticipants}명 중
+              {TotalPersonnel}명 중
               <AttendParticipantCount>
                 {currentParticipants}명
               </AttendParticipantCount>
@@ -42,10 +41,10 @@ function AttendStatusHeader({
       )}
       {isBottomSheetOpen && (
         <ResultBottomSheet
-          TotalParticipants={TotalParticipants}
+          TotalPersonnel={TotalPersonnel}
           currentParticipants={currentParticipants}
-          participatedUsers={participatedUsers}
-          unParticipatedUsers={unParticipatedUsers}
+          participatedPersonnel={participatedPersonnel}
+          unParticipatedPersonnel={unParticipatedPersonnel}
           onClose={closeBottomSheet}
         />
       )}
@@ -57,12 +56,15 @@ const AttendStatusHeaderContainer = styled.div`
   display: flex;
   align-items: center;
   height: 50px;
-  padding: 0 20px;
+  padding: 0 40px;
+  margin-bottom: 20px;
+  margin-top: 20px;
   box-sizing: border-box;
 `;
 
 const Title = styled.div`
   ${theme.typo.heading.bold[20]}
+  font-size: 23px;
 `;
 
 const AttendStatus = styled.div`

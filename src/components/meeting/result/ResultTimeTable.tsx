@@ -3,14 +3,15 @@ import {
   TimeTableData,
   ResultHeatmapProps,
   ResultHeatmapCellInfo,
+  DecisionHeatmapProps,
 } from '@/types/timeTableTypes';
 import ToolTip from '@/components/common/ToolTip';
-import BaseTimeTable from '../timetable/BaseTimeTable';
+import BaseTimeTable, { TableContainer } from '../timetable/BaseTimeTable';
 import ResultTimeCell from '../timetable/ResultTimeCell';
 
 interface ResultTimeTableProps {
   timetableInfo: TimeTableData;
-  roomInfo: ResultHeatmapProps;
+  roomInfo: ResultHeatmapProps | DecisionHeatmapProps;
   dragDisabled: boolean;
 }
 
@@ -36,12 +37,19 @@ function ResultTimeTable({
     isStartCellHalf: boolean,
     isEndCellHalf: boolean
   ) => {
-    const slot = roomInfo.selectTime.find(
-      (s) => s.time === `${date}T${hour}:${minute}`
+    const slot = roomInfo.time.find(
+      (s) => s.selectTime === `${date}T${hour}:${minute}:00`
     );
+
     const intensity = slot
-      ? slot.userCount / roomInfo.totalParticipants.count
+      ? slot.participantDetails.nicknames.length /
+        roomInfo.totalPersonnel.length
       : 0;
+
+    const isDisabled =
+      timetableInfo.isContainMidnight &&
+      date === timetableInfo.dates[0] &&
+      hour < timetableInfo.startHour;
 
     const timeSlot: ResultHeatmapCellInfo = {
       hour,
@@ -49,8 +57,8 @@ function ResultTimeTable({
       day: timetableInfo.days[timetableInfo.dates.indexOf(date)],
       date,
       month: timetableInfo.months[timetableInfo.dates.indexOf(date)],
-      users: slot ? slot.users : [],
-      userCount: slot ? slot.userCount : 0,
+      users: slot ? slot.participantDetails.nicknames : [],
+      userCount: slot ? slot.participantDetails.nicknames.length : 0,
     };
 
     return (
@@ -66,12 +74,13 @@ function ResultTimeTable({
         onDragEnd={handleDragEnd}
         isEndCellHalf={isEndCellHalf}
         isStartCellHalf={isStartCellHalf}
+        disabled={isDisabled || false}
       />
     );
   };
 
   return (
-    <div ref={heatmapRef} style={{ position: 'relative' }}>
+    <TableContainer ref={heatmapRef} style={{ position: 'relative' }}>
       <BaseTimeTable data={timetableInfo} renderCell={renderCell} />
       {tooltipInfo?.content && (
         <ToolTip
@@ -81,7 +90,7 @@ function ResultTimeTable({
           isAbove={tooltipInfo.isAbove}
         />
       )}
-    </div>
+    </TableContainer>
   );
 }
 

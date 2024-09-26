@@ -19,7 +19,7 @@ const TitleContainer = styled.div`
   font-size: 20px;
   font-weight: bold;
   width: 100%;
-  padding: 0 20px;
+  padding: 38px 20px 38px 20px;
   box-sizing: border-box;
 `;
 

@@ -1,4 +1,4 @@
-import { ProviderName } from '@/types/socialLogin';
+import { ProviderName } from '@/types/auth';
 
 export interface LoginReq {
   guestScheduleId: string;
@@ -28,4 +28,9 @@ export interface GetSocialLoginUrlRes {
   scopes: string[];
   method: string;
   url: string;
+}
+
+export interface GetUserProfileRes {
+  id: string;
+  nickname: string;
 }
