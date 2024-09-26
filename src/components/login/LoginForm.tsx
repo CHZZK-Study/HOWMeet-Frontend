@@ -60,7 +60,12 @@ function LoginForm({ meetingId }: Props) {
         </InputContainer>
         <LoginGuide />
         <ButtonContainer>
-          <Button type="submit" $style="solid" disabled={!isValid}>
+          <Button
+            type="submit"
+            $style="solid"
+            $theme="primary-purple"
+            disabled={!isValid}
+          >
             완료
           </Button>
         </ButtonContainer>
