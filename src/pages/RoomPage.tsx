@@ -9,12 +9,15 @@ import {
 } from '@/styles/components/container';
 import { PageTitle } from '@/styles/components/text';
 import { ShareIcon } from 'public/assets/icons';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function RoomPage() {
+  const navigate = useNavigate();
+
   return (
     <FlexColContainer>
-      <Header title="방 정보" />
+      <Header title="방 정보" onLeftArrowIconClick={() => navigate(-1)} />
       <ContentContainer>
         <TitleWrapper>
           <PageTitle>마이팀 방</PageTitle>
