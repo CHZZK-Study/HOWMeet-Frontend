@@ -80,7 +80,7 @@ function UpComming({ schedules }: Props) {
                   <div className="devider" />
                   <p className="date">
                     {moment(item.confirmDate).format('YYYY-MM-DD')}{' '}
-                    {item.startTime}~{item.endTime}
+                    {item.startTime.slice(0, -3)}~{item.endTime.slice(0, -3)}
                   </p>
                 </ItemDesc>
               </UpCommingItem>
