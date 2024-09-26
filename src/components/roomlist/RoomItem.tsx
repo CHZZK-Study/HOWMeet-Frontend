@@ -3,24 +3,36 @@ import styled from 'styled-components';
 
 interface Props {
   name: string;
-  date: string;
-  time: {
-    startTime: string;
-    endTime: string;
-  };
   member: string;
+  schedule: {
+    id: string;
+    dates: string[];
+    time: {
+      startTime: string;
+      endTime: string;
+    };
+    name: {
+      value: string;
+    };
+    status: string;
+  };
 }
 
-function RoomItem({ name, date, time, member }: Props) {
+function RoomItem({ name, member, schedule }: Props) {
   return (
     <RoomItemContainer>
       <NoticeDot />
       <RoomTitle>{name}</RoomTitle>
       <RoomDesc>
         <Badge>예정된 일정</Badge>
-        <p>
-          {date} {time.startTime}~{time.endTime}
-        </p>
+        {schedule ? (
+          <p>
+            {schedule.dates[0]} {schedule.time.startTime.slice(0, -3)}~
+            {schedule.time.endTime.slice(0, -3)}
+          </p>
+        ) : (
+          <p>예정된 일정이 없습니다</p>
+        )}
       </RoomDesc>
       <RoomDesc>
         <Badge>참여 중인 팀원</Badge>

@@ -24,22 +24,28 @@ interface Props {
 function RoomList({ roomList }: Props) {
   return (
     <RoomListContainer>
-      {roomList.map((item) => (
-        <RoomItem
-          key={item.roomId}
-          name={item.name}
-          date={item.schedules[0].dates[1]}
-          time={item.schedules[0].time}
-          member={item.memberSummary}
-        />
-      ))}
+      {roomList.map((item) => {
+        const completedSchedules = item.schedules.filter(
+          (scheduleItem) => scheduleItem.status === 'COMPLETE'
+        );
+        const latestSchedule =
+          completedSchedules[completedSchedules.length - 1];
+        return (
+          <RoomItem
+            key={item.roomId}
+            name={item.name}
+            member={item.memberSummary}
+            schedule={latestSchedule}
+          />
+        );
+      })}
     </RoomListContainer>
   );
 }
 
 const RoomListContainer = styled.ul`
   overflow-y: scroll;
-  height: 80%;
+  height: 85%;
 
   display: flex;
   flex-direction: column;
