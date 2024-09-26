@@ -1,9 +1,24 @@
 import styled from 'styled-components';
-import { RoomListRes } from '@/models/room.model';
 import RoomItem from './RoomItem';
 
 interface Props {
-  roomList: RoomListRes[];
+  roomList: {
+    roomId: string;
+    name: string;
+    memberSummary: string;
+    schedules: {
+      id: string;
+      dates: string[];
+      time: {
+        startTime: string;
+        endTime: string;
+      };
+      name: {
+        value: string;
+      };
+      status: string;
+    };
+  }[];
 }
 
 function RoomList({ roomList }: Props) {
@@ -13,8 +28,8 @@ function RoomList({ roomList }: Props) {
         <RoomItem
           key={item.roomId}
           name={item.name}
-          date={item.schedules[0].dates[1]}
-          time={item.schedules[0].time}
+          date={item.schedules.dates[1]}
+          time={item.schedules.time}
           member={item.memberSummary}
         />
       ))}

@@ -2,12 +2,12 @@ import { getRoomList } from '@/apis/room.api';
 import { useQuery } from '@tanstack/react-query';
 
 const useRoomList = (memberId: number) => {
-  const { data: roomList, isError } = useQuery({
+  const { data: roomListRes, isError } = useQuery({
     queryKey: ['roomList'],
     queryFn: () => getRoomList(memberId),
   });
 
-  return { roomList, isError };
+  return { roomListRes, isError };
 };
 
 export default useRoomList;

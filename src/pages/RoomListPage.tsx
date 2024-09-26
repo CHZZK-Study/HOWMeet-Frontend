@@ -11,11 +11,14 @@ import { PageTitle } from '@/styles/components/text';
 import styled from 'styled-components';
 
 function RoomListPage() {
-  const { roomList, isError } = useRoomList(1);
+  const { roomListRes, isError } = useRoomList(1);
 
   if (isError) window.alert('잠시후 다시 시도해 주세요.');
 
-  if (!roomList) return null;
+  if (!roomListRes) return null;
+
+  const roomList =
+    roomListRes.roomList.length === 0 ? [] : roomListRes.roomList;
 
   return (
     <Container>
