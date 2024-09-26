@@ -12,6 +12,7 @@ interface Props {
   onIconClick?: () => void;
   isVisible?: boolean;
   toggle?: () => void;
+  onLeftArrowIconClick: () => void;
 }
 
 function Header({
@@ -21,6 +22,7 @@ function Header({
   onIconClick,
   isVisible,
   toggle,
+  onLeftArrowIconClick,
 }: Props) {
   const theme = useTheme();
   const { user } = useUserStore();
@@ -29,7 +31,7 @@ function Header({
 
   return (
     <HeaderContainer>
-      <LeftArrowIcon className="back-button" />
+      <LeftArrowIcon className="back-button" onClick={onLeftArrowIconClick} />
       <HeadTitle>{title}</HeadTitle>
       {isShare && (
         <>
