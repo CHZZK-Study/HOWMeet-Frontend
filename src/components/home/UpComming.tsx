@@ -118,7 +118,7 @@ const UpCommingItem = styled(motion.li)`
 
   box-shadow: 0px 4px 10px 0px rgba(90, 90, 90, 0.1);
 
-  cursor: pointer;
+  cursor: grab;
 `;
 
 const StyledBadge = styled(Badge)`

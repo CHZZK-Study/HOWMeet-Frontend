@@ -54,6 +54,10 @@ const RoomItemContainer = styled.li`
 
   background: ${({ theme }) => theme.color.primary.white};
   border-radius: 14.3px;
+
+  box-shadow: 0px 4px 10px 0px rgba(90, 90, 90, 0.1);
+
+  cursor: pointer;
 `;
 
 const RoomTitle = styled.p`
