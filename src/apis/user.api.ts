@@ -48,3 +48,8 @@ export const getUserProfile = async () => {
     await axiosInstance.get('/member/summary');
   return result.data;
 };
+
+export const addMemberToRoom = async (roomId: string) => {
+  const result = await axiosInstance.get(`/room/${roomId}/members`);
+  return result.data;
+};
