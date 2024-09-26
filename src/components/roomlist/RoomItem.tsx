@@ -15,7 +15,7 @@ function RoomItem({ name, member, roomId, schedule }: Props) {
   const navigate = useNavigate();
 
   return (
-    <RoomItemContainer onClick={() => navigate(`${PATH.rooms}/${roomId}`)}>
+    <RoomItemContainer onClick={() => navigate(`${PATH.room}/${roomId}`)}>
       <NoticeDot />
       <RoomTitle>{name}</RoomTitle>
       <RoomDesc>
