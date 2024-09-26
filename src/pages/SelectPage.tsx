@@ -30,24 +30,19 @@ import { toast } from 'sonner';
 import Skeleton from 'react-loading-skeleton'; // 추가
 import 'react-loading-skeleton/dist/skeleton.css';
 import useTimeTableData from '@/hooks/useTimeTableData';
-import { useNavigate } from 'react-router-dom';
 
 function SelectPage() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { meetingId } = useParams();
+  const params = useParams();
   const [searchParams] = useSearchParams();
-  const user = useUserStore((state) => state.user);
-  const timeTableData: TimeTableData = formatTimeTableData([
-    '2024-07-01T11:00',
-    '2024-07-07T22:00',
-  ]);
+  const userData = useUserStore((state) => state.user);
 
   useEffect(() => {
-    if (!user) {
+    if (!userData) {
       const isGuest = searchParams.get('isGuest') === 'true';
       navigate(
-        `${PATH.login}?meetingId=${meetingId}&loginType=${isGuest ? 'non-member' : 'member'}&callbackUrl=${pathname}`,
+        `${PATH.login}?meetingId=${params.meetingId}&loginType=${isGuest ? 'non-member' : 'member'}&callbackUrl=${pathname}`,
         { replace: true }
       );
     }
