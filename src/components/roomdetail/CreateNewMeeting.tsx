@@ -16,6 +16,7 @@ function CreateNewMeeting() {
 const ButtonContainer = styled.button`
   width: 93%;
   padding: 17px 17px;
+  margin-top: 30px;
   display: flex;
   align-items: center;
   gap: 12px;
