@@ -18,6 +18,9 @@ import styled from 'styled-components';
 function RoomPage() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const userInfo = sessionStorage.getItem('UserStore') || '';
+  const parsedUserInfo = JSON.parse(userInfo);
+  const userId = parsedUserInfo.state.user.id;
 
   const { roomDetail, isError } = useRoom(Number(id));
 
@@ -31,6 +34,12 @@ function RoomPage() {
   const completedMeetings = roomDetail.schedules.filter(
     (item) => item.status === 'COMPLETE'
   );
+
+  const leaderMember = roomDetail.roomMembers.filter(
+    (member) => member.memberId === userId
+  );
+
+  const { isLeader } = leaderMember[0];
 
   return (
     <FlexColContainer>
@@ -47,7 +56,10 @@ function RoomPage() {
         {progressMeetings.length === 0 ? (
           <EmptyBox $height="96px">아직 일정이 없습니다</EmptyBox>
         ) : (
-          <NonConfirmList progressMeetings={progressMeetings.reverse()} />
+          <NonConfirmList
+            isLeader={isLeader}
+            progressMeetings={progressMeetings.reverse()}
+          />
         )}
         <SubTitle>전체 일정</SubTitle>
         <Description>확정된 일정을 확인해보세요 !</Description>

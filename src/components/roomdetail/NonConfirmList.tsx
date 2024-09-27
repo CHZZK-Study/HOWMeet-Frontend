@@ -11,9 +11,10 @@ import styled from 'styled-components';
 
 interface Props {
   progressMeetings: Schedule[];
+  isLeader: boolean;
 }
 
-function NonConfirmList({ progressMeetings }: Props) {
+function NonConfirmList({ progressMeetings, isLeader }: Props) {
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -22,7 +23,11 @@ function NonConfirmList({ progressMeetings }: Props) {
       {progressMeetings.map((item) => (
         <NonConfirmListItem
           key={item.id}
-          onClick={() => navigate(`/meeting/${id}/select/${item.id}`)}
+          onClick={() =>
+            isLeader
+              ? navigate(`/meeting/${id}/decision/${item.id}`)
+              : navigate(`/meeting/${id}/select/${item.id}`)
+          }
         >
           <h1 className="title">{item.name.value}</h1>
           <DateWrapper>
