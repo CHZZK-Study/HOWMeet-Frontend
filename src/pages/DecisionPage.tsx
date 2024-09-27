@@ -35,6 +35,7 @@ function DecisionPage() {
     selectedTimeData,
     isSelectTimeDataLoading,
     isSelectedTimeDataError,
+    isLeader,
   } = useTimeTableData();
 
   if (
@@ -50,6 +51,9 @@ function DecisionPage() {
     );
   }
   if (isSelectedTimeDataError) return <div>에러가 발생했습니다</div>;
+  const handleNavigateToSelect = () => {
+    navigate(`/meeting/${roomId}/select/${meetingId}`);
+  };
 
   const handleDecide = async () => {
     setIsSelected(true);
@@ -85,22 +89,33 @@ function DecisionPage() {
       />
       {isGuest ? null : (
         <ButtonContainer center>
-          <RewriteButton
-            onClick={() => navigate(`/meeting/${roomId}/select/${meetingId}`)}
-          >
-            다시 선택하기
-          </RewriteButton>
-          <Button
-            $style="solid"
-            onClick={openModal}
-            $theme="primary-purple"
-            disabled={selectedResult.length === 0}
-            style={{ width: '95%' }}
-          >
-            {selectedResult.length === 0
-              ? '드래그로 시간 확정하기'
-              : '일정 확정하기'}
-          </Button>
+          {isLeader ? (
+            <>
+              <RewriteButton onClick={handleNavigateToSelect}>
+                다시 선택하기
+              </RewriteButton>
+              <Button
+                $style="solid"
+                onClick={openModal}
+                $theme="primary-purple"
+                disabled={selectedResult.length === 0}
+                style={{ width: '95%' }}
+              >
+                {selectedResult.length === 0
+                  ? '드래그로 시간 확정하기'
+                  : '일정 확정하기'}
+              </Button>
+            </>
+          ) : (
+            <Button
+              $style="solid"
+              onClick={handleNavigateToSelect}
+              $theme="primary-purple"
+              style={{ width: '95%' }}
+            >
+              수정하기
+            </Button>
+          )}
         </ButtonContainer>
       )}
       {isOpen ? (

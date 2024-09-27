@@ -97,17 +97,17 @@ const ResultHalfCell = styled(SelectHalfCell)<
 >`
   border-right: ${({ selected }) =>
     selected
-      ? '2px solid white'
+      ? '1px solid white'
       : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
   border-left: ${({ selected }) =>
     selected
-      ? '2px solid white'
+      ? '1px solid white'
       : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
   border-bottom: ${({ selected }) =>
     selected
-      ? '2px solid white'
+      ? '1px solid white'
       : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
-  border-top: ${({ selected }) => (selected ? '2px solid white' : 'none')};
+  border-top: ${({ selected }) => (selected ? '1px solid white' : 'none')};
 
   background-color: ${({ $intensity }) =>
     getAdjustedColor({ ratio: $intensity })};
@@ -115,11 +115,11 @@ const ResultHalfCell = styled(SelectHalfCell)<
   &:first-child {
     border-top: ${({ selected }) =>
       selected
-        ? '2px solid white'
+        ? '1px solid white'
         : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
     border-bottom: ${({ selected, $isStartCellHalf, $isEndCellHalf }) => {
       if (selected) {
-        return '2px solid white';
+        return '1px solid white';
       }
       if ($isStartCellHalf) {
         return 'none';

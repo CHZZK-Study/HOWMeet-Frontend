@@ -34,6 +34,7 @@ const useTimeTableData = (isSelectPage?: boolean) => {
       const response = await axiosInstance.get(`/room/${roomId}/members`);
       return response.data; // 데이터 반환
     },
+    enabled: !isGuest,
   });
 
   const {
