@@ -1,12 +1,16 @@
+import { PATH } from '@/constants/path';
 import { CreateRoomPlusIcon } from 'public/assets/icons';
+import { useNavigate } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 
 function CreateRoomButton() {
+  const navigate = useNavigate();
+
   const theme = useTheme();
 
   return (
-    <StyledCreateRoomButton>
-      <CreateRoomPlusIcon stroke={theme.color.primary.white} />
+    <StyledCreateRoomButton onClick={() => navigate(PATH.makeRoom)}>
+      <CreateRoomPlusIcon />
     </StyledCreateRoomButton>
   );
 }

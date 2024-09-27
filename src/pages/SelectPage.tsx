@@ -8,7 +8,6 @@ import { PATH } from '@/constants/path';
 import useModal from '@/hooks/useModal';
 import useToolTip from '@/hooks/useToolTip';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
-import useUserStore from '@/store/userStore';
 import {
   ButtonContainer,
   FlexColContainer,
@@ -36,18 +35,6 @@ function SelectPage() {
   const { pathname } = useLocation();
   const params = useParams();
   const [searchParams] = useSearchParams();
-  const userData = useUserStore((state) => state.user);
-
-  useEffect(() => {
-    if (!userData) {
-      const isGuest = searchParams.get('isGuest') === 'true';
-      navigate(
-        `${PATH.login}?meetingId=${params.meetingId}&loginType=${isGuest ? 'non-member' : 'member'}&callbackUrl=${pathname}`,
-        { replace: true }
-      );
-    }
-  }, []);
-
   const { selectedTimes } = useTimeStore();
   const { closeModal, isOpen, openModal } = useModal();
   const { isToolTipOpen, closeToolTip } = useToolTip();
@@ -56,19 +43,27 @@ function SelectPage() {
     setIsSelected(false);
   };
 
+  useEffect(() => {
+    if (!user) {
+      const isGuest = searchParams.get('isGuest') === 'true';
+      navigate(
+        `${PATH.login}?meetingId=${params.meetingId}&roomId=${params.roomId}&loginType=${isGuest ? 'non-member' : 'member'}&callbackUrl=${pathname}`,
+        { replace: true }
+      );
+    }
+  }, []);
+
   const {
     isGuest,
     isTimeTableLoading,
     meetingId,
     timeTableServerData,
-    token,
     isError,
     user,
     isLeader,
     roomId,
     isMemberLoading,
-  } = useTimeTableData();
-
+  } = useTimeTableData(true);
   // 로딩 상태 처리
   if (isTimeTableLoading || !timeTableServerData || isMemberLoading) {
     return (
@@ -104,16 +99,10 @@ function SelectPage() {
   const timeTableData: TimeTableData =
     formatServerToTimeTableData(timeTableServerData);
 
+  console.log(timeTableData);
   const handleModalOpen = async () => {
     try {
       const formattedTimes = formatPostDateTime(selectedTimes);
-      const headers = isGuest
-        ? {
-            Authorization:
-              'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJpZFwiOjMsXCJuaWNrbmFtZVwiOlwi7LWc7LGE66a8XCIsXCJyb2xlXCI6XCJURU1QT1JBUllcIixcIm1lbWJlclwiOmZhbHNlLFwiZ3Vlc3RcIjp0cnVlfSIsImlhdCI6MTcyNzE5NTcyMCwiZXhwIjoxNzI3MTk5MzIwfQ.DxG95w96ceWVNRUIExB8axSbiKE-793STYBS-TnENFUFRk4TkVo7NyVZBoy8vdfZiYp7UThjGC1PsaBcN8jigA',
-          }
-        : // ? sessionStorage.getItem('@HOWMEET_ACCESS_TOKEN')
-          { Authorization: `Bearer ${token}` };
 
       try {
         const response = await axiosInstance.post(
@@ -121,12 +110,16 @@ function SelectPage() {
           {
             [isGuest ? 'gsId' : 'msId']: meetingId,
             selectTime: formattedTimes,
-          },
-          { headers }
+          }
         );
         console.log(response);
         toast.message('정보가 성공적으로 저장되었습니다!');
-        openModal();
+
+        if (isGuest) {
+          navigate(`/meeting/${roomId}/result/${meetingId}`);
+        } else {
+          openModal();
+        }
       } catch (error) {
         toast.error('정보 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
       }

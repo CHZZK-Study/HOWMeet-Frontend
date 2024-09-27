@@ -1,3 +1,8 @@
+export interface PostRoomReq {
+  name: string;
+  leaderMemberId: number;
+}
+
 import { Schedule } from '@/types/room';
 
 export interface RoomListRes {

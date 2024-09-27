@@ -26,7 +26,11 @@ function DefaultLogin() {
           <SocialLoginButtons />
         </div>
         <Divider />
-        <Button $style="outlined" $theme="primary-green">
+        <Button
+          $style="outlined"
+          $theme="primary-green"
+          onClick={() => navigate(PATH.non_member_meeting)}
+        >
           비회원으로 일정 만들기
         </Button>
         <LoginGuide />
