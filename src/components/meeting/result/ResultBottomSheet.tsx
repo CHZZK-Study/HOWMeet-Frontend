@@ -125,11 +125,12 @@ const slideIn = keyframes`
 `;
 
 export const BottomSheetContainer = styled.div`
-  width: 100%;
+  width: 100vw;
+  max-width: 450px;
   height: 55vh;
 
   z-index: 1000;
-  position: absolute;
+  position: fixed;
   bottom: 0;
 
   margin-top: 22%;

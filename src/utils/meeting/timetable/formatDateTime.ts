@@ -91,7 +91,7 @@ export const formatServerToTimeTableData = (
   data: TimeTableServerInfoProps
 ): TimeTableData => {
   const start = data.dates[0];
-  const end = data.dates[1];
+  const end = data.dates[data.dates.length - 1];
   const { startTime } = data.time;
   const { endTime } = data.time;
   const { containsMidnight } = data.time;
@@ -206,7 +206,6 @@ const generateServerDateRange = (
   const startDate = new Date(start);
   const endDate = new Date(end);
 
-  // containsMidnight이 true면 endDate에 하루를 더함
   // if (containsMidnight) {
   //   endDate.setDate(endDate.getDate() + 1);
   // }

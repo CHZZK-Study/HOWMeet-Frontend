@@ -99,6 +99,7 @@ function SelectPage() {
   const timeTableData: TimeTableData =
     formatServerToTimeTableData(timeTableServerData);
 
+  console.log(timeTableData);
   const handleModalOpen = async () => {
     try {
       const formattedTimes = formatPostDateTime(selectedTimes);

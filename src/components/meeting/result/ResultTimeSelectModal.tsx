@@ -26,8 +26,15 @@ function ResultTimeSelectModal({
   const decidedDate = decidedTime[0].date;
   const startHour = decidedTime[0].hour;
   const startMinute = decidedTime[0].minute;
-  const endHour = decidedTime[decidedTime.length - 1].hour;
-  const endMinute = decidedTime[decidedTime.length - 1].minute;
+  let endHour = decidedTime[decidedTime.length - 1].hour;
+  let endMinute = decidedTime[decidedTime.length - 1].minute + 30;
+
+  if (endMinute === '00') {
+    endMinute = '30';
+  } else {
+    endHour = String(Number(endHour) + 1);
+    endMinute = '00';
+  }
   return (
     <ModalOverlay>
       <ModalContainer>
