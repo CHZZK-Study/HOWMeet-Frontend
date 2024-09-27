@@ -1,13 +1,11 @@
-import { PostRoomReq } from '@/models/room.model';
+import { PostRoomReq, RoomDetailRes, RoomListRes } from '@/models/room.model';
+import { AxiosResponse } from 'axios';
 import { axiosInstance } from './instance';
 
 export const postRoom = async (req: PostRoomReq) => {
   const result = await axiosInstance.post('/room', req);
   return result;
 };
-
-import { AxiosResponse } from 'axios';
-import { RoomDetailRes, RoomListRes } from '@/models/room.model';
 
 export const getRoomList = async (memberId: number) => {
   const result: AxiosResponse<RoomListRes> = await axiosInstance.get(

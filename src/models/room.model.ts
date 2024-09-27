@@ -1,9 +1,9 @@
+import { Schedule } from '@/types/room';
+
 export interface PostRoomReq {
   name: string;
   leaderMemberId: number;
 }
-
-import { Schedule } from '@/types/room';
 
 export interface RoomListRes {
   roomList: {
@@ -23,6 +23,7 @@ export interface RoomListRes {
       };
       status: string;
     }[];
+    hasNonParticipant: boolean;
   }[];
   currentPage: string;
   hasNextPage: string;
