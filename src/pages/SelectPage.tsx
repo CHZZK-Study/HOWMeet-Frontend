@@ -47,7 +47,7 @@ function SelectPage() {
     if (!user) {
       const isGuest = searchParams.get('isGuest') === 'true';
       navigate(
-        `${PATH.login}?meetingId=${params.meetingId}&loginType=${isGuest ? 'non-member' : 'member'}&callbackUrl=${pathname}`,
+        `${PATH.login}?meetingId=${params.meetingId}&roomId=${params.roomId}&loginType=${isGuest ? 'non-member' : 'member'}&callbackUrl=${pathname}`,
         { replace: true }
       );
     }
