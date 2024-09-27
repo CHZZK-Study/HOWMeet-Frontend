@@ -34,6 +34,17 @@ function ResultInfoComp({
 
 export default ResultInfoComp;
 
+export const ExtendedBackLayout = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100%);
+  width: 100%;
+  margin-top: 1.25rem;
+  padding-bottom: 10rem;
+  background-color: #f4f5f5;
+`;
+
 export const BackLayout = styled.div`
   display: flex;
   justify-content: center;

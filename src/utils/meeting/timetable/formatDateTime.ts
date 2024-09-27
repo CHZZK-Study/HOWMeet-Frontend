@@ -91,7 +91,7 @@ export const formatServerToTimeTableData = (
   data: TimeTableServerInfoProps
 ): TimeTableData => {
   const start = data.dates[0];
-  const end = data.dates[1];
+  const end = data.dates[data.dates.length - 1];
   const { startTime } = data.time;
   const { endTime } = data.time;
   const { containsMidnight } = data.time;
@@ -183,9 +183,33 @@ const generateServerHoursRange = (
 //   return hours;
 // };
 
-const generateServerDateRange = (start: string, end: string): string[] => {
+// const generateServerDateRange = (start: string, end: string): string[] => {
+//   const startDate = new Date(start);
+//   const endDate = new Date(end);
+//   const dateArray = [];
+
+//   while (startDate <= endDate) {
+//     const year = startDate.getFullYear();
+//     const month = String(startDate.getMonth() + 1).padStart(2, '0');
+//     const day = String(startDate.getDate()).padStart(2, '0');
+//     dateArray.push(`${year}-${month}-${day}`);
+//     startDate.setDate(startDate.getDate() + 1);
+//   }
+
+//   return dateArray;
+// };
+const generateServerDateRange = (
+  start: string,
+  end: string
+  // containsMidnight?: boolean
+): string[] => {
   const startDate = new Date(start);
   const endDate = new Date(end);
+
+  // if (containsMidnight) {
+  //   endDate.setDate(endDate.getDate() + 1);
+  // }
+
   const dateArray = [];
 
   while (startDate <= endDate) {

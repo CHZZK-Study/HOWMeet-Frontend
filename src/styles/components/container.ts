@@ -15,6 +15,7 @@ export const ButtonContainer = styled.div<{ center?: boolean }>`
   align-items: ${({ center }) => (center ? 'center' : 'end')};
   justify-content: ${({ center }) => (center ? 'center' : 'unset')};
   flex-direction: ${({ center }) => (center ? 'column' : 'row')};
+  padding: ${({ center }) => (center ? '16px 0' : '24px 0;')};
   width: 100%;
   height: 130px;
   position: sticky;
@@ -23,7 +24,6 @@ export const ButtonContainer = styled.div<{ center?: boolean }>`
   z-index: 999;
 
   display: flex;
-  padding: 24px 0;
   padding-top: 0px;
 
   background: linear-gradient(

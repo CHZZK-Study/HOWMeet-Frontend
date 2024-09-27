@@ -93,6 +93,7 @@ export const TableContainer = styled.div`
 
 const Header = styled.div`
   display: flex;
+  padding-left: 30px;
 `;
 
 const HourContainer = styled.div`
@@ -101,8 +102,9 @@ const HourContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 15px;
-  padding-top: 0px;
   padding-bottom: 16px;
+  padding-left: 15px;
+  padding-right: 15px;
 `;
 
 const HourCell = styled.div`
@@ -111,6 +113,7 @@ const HourCell = styled.div`
   justify-content: flex-end;
   padding-right: 4px;
   font-size: 12px;
+  padding-left: 15px;
 `;
 
 const DateCell = styled.div`
