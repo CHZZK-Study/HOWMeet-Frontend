@@ -22,7 +22,7 @@ function NonConfirmList({ progressMeetings }: Props) {
       {progressMeetings.map((item) => (
         <NonConfirmListItem
           key={item.id}
-          onClick={() => navigate(`meeting/${id}/select/${item.id}`)}
+          onClick={() => navigate(`/meeting/${id}/select/${item.id}`)}
         >
           <h1 className="title">{item.name.value}</h1>
           <DateWrapper>
