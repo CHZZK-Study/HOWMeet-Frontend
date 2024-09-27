@@ -73,18 +73,15 @@ function NewMeetingPage() {
 
   const handleClickConfirm = () => {
     const req = {
-      name: roomName,
-      msRequest: {
-        dates: [startDate, endDate],
-        time: {
-          startTime,
-          endTime,
-        },
-        name: {
-          value: watch('newMeeting'),
-        },
+      roomName,
+      dates: [startDate, endDate],
+      time: {
+        startTime,
+        endTime,
       },
-      leaderMemberId: 1,
+      name: {
+        value: watch('newMeeting'),
+      },
     };
     navigate('/confirm-meeting', { state: { req } });
   };
@@ -109,11 +106,19 @@ function NewMeetingPage() {
       </ContentContainer>
       <ButtonContainer>
         {isValid ? (
-          <Button $style="solid" $theme="primary-purple">
+          <Button
+            $style="solid"
+            $theme="primary-purple"
+            onClick={handleClickConfirm}
+          >
             완료
           </Button>
         ) : (
-          <Button $style="outlined" $theme="primary-purple">
+          <Button
+            $style="outlined"
+            $theme="primary-purple"
+            onClick={handleClickSkip}
+          >
             건너 뛰기
           </Button>
         )}
