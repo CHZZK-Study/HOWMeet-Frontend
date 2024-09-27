@@ -10,11 +10,14 @@ import SelectTime from '@/components/room/SelectTime';
 import HEAD_TITLE from '@/constants/header';
 import INPUT from '@/constants/input';
 import { TITLE } from '@/constants/title';
+import useMakeRoomStore from '@/store/makeroom/useMakeRoomStore';
+import { useEndDateStore, useStartDateStore } from '@/store/useDateStore';
 import {
   useEndDateModal,
   useStartDateModal,
   useTimeModal,
 } from '@/store/useModalStore';
+import { useEndTimeStore, useStartTimeStore } from '@/store/useTimeStore';
 import {
   ContentContainer,
   FlexColContainer,
@@ -23,6 +26,7 @@ import { PageTitle } from '@/styles/components/text';
 import { SetTime } from '@/types/SetTime';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function NewMeetingPage() {
@@ -30,6 +34,16 @@ function NewMeetingPage() {
   const { isOpen: isStartDateOpen, close: closeStartDate } =
     useStartDateModal();
   const { isOpen: isEndDateOpen, close: closeEndDate } = useEndDateModal();
+
+  const startDate = useStartDateStore((state) => state.date);
+  const endDate = useEndDateStore((state) => state.date);
+  const startTime = useStartTimeStore((state) => state.time);
+  const endTime = useEndTimeStore((state) => state.time);
+
+  const roomName = useMakeRoomStore((state) => state.roomName);
+
+  const navigate = useNavigate();
+
   const {
     isOpen: isTimeOpen,
     open: openTime,
@@ -44,12 +58,32 @@ function NewMeetingPage() {
   });
   const {
     register,
+    watch,
     formState: { isValid },
   } = methods;
 
   const handleSetType = (type: SetTime) => {
     setTimeType(type);
     openTime();
+  };
+
+  const handleClickSkip = () => {
+    navigate('/confirm-meeting', { state: { roomName } });
+  };
+
+  const handleClickConfirm = () => {
+    const req = {
+      roomName,
+      dates: [startDate, endDate],
+      time: {
+        startTime,
+        endTime,
+      },
+      name: {
+        value: watch('newMeeting'),
+      },
+    };
+    navigate('/confirm-meeting', { state: { req } });
   };
 
   return (
@@ -72,11 +106,19 @@ function NewMeetingPage() {
       </ContentContainer>
       <ButtonContainer>
         {isValid ? (
-          <Button $style="solid" $theme="primary-purple">
+          <Button
+            $style="solid"
+            $theme="primary-purple"
+            onClick={handleClickConfirm}
+          >
             완료
           </Button>
         ) : (
-          <Button $style="outlined" $theme="primary-purple">
+          <Button
+            $style="outlined"
+            $theme="primary-purple"
+            onClick={handleClickSkip}
+          >
             건너 뛰기
           </Button>
         )}
