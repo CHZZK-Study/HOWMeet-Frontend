@@ -20,9 +20,6 @@ function AttendStatusHeader({
   const openBottomSheet = () => setIsBottomSheetOpen(true);
   const closeBottomSheet = () => setIsBottomSheetOpen(false);
 
-  useEffect(() => {
-    console.log(isBottomSheetOpen);
-  }, [isBottomSheetOpen]);
   return (
     <>
       {TotalPersonnel === currentParticipants ? (
