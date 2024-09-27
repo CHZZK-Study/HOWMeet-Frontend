@@ -7,9 +7,9 @@ export const postRoom = async (req: PostRoomReq) => {
   return result;
 };
 
-export const getRoomList = async (memberId: number) => {
+export const getRoomList = async (memberId: number, page: number) => {
   const result: AxiosResponse<RoomListRes> = await axiosInstance.get(
-    `/room/joined/${memberId}`
+    `/room/joined/${memberId}?page=${page}`
   );
 
   return result.data;

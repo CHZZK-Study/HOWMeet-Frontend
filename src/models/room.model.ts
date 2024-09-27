@@ -25,9 +25,9 @@ export interface RoomListRes {
     }[];
     hasNonParticipant: boolean;
   }[];
-  currentPage: string;
-  hasNextPage: string;
-  totalPages: string;
+  currentPage: number;
+  hasNextPage: boolean;
+  totalPages: number;
 }
 
 export interface RoomDetailRes {
