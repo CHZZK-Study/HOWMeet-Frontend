@@ -8,7 +8,9 @@ function CreateNewMeeting() {
   const navigate = useNavigate();
 
   return (
-    <ButtonContainer onClick={() => navigate(PATH.new_meeting)}>
+    <ButtonContainer
+      onClick={() => navigate(PATH.new_meeting, { state: { hasRoom: true } })}
+    >
       <PlusButton>
         <CreateRoomPlusIcon stroke={theme.color.point.purple} />
       </PlusButton>
