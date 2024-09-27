@@ -9,4 +9,5 @@ export type Schedule = {
     value: string;
   };
   status: string;
+  isParticipant?: boolean;
 };

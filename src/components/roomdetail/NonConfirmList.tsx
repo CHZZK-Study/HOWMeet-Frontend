@@ -24,7 +24,7 @@ function NonConfirmList({ progressMeetings }: Props) {
               {item.dates[0]} ~ {item.dates[1]}
             </p>
           </DateWrapper>
-          <NoticeDot />
+          {item.isParticipant === false && <NoticeDot />}
         </NonConfirmListItem>
       ))}
     </List>
