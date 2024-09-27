@@ -7,8 +7,7 @@ interface State {
 
 const useNonMemberMeetingStore = create<State>((set) => ({
   meetingId: '',
-  setMeetingId: (updatedMeetingId) => () =>
-    set({ meetingId: updatedMeetingId }),
+  setMeetingId: (updatedMeetingId) => set({ meetingId: updatedMeetingId }),
 }));
 
 export default useNonMemberMeetingStore;
