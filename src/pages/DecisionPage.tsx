@@ -118,7 +118,7 @@ export default DecisionPage;
 
 const RewriteButton = styled.div`
   width: fit-content;
-  height: 50px;
+  height: fit-content;
   font-size: 16px;
   font-weight: 500;
   color: ${({ theme }) => theme.color.secondary.solid.bk[400]};

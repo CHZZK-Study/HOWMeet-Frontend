@@ -4,6 +4,7 @@ import Header from '@/components/common/Header';
 import ResultInfoComp, {
   BackLayout,
   Container,
+  ExtendedBackLayout,
 } from '@/components/meeting/result/ResultInfoComp';
 import ResultNavbar from '@/components/meeting/result/ResultNavbar';
 import UrlShareModal from '@/components/meeting/result/UrlShareModal';
@@ -73,7 +74,7 @@ function ResultPage() {
         title={data.roomName}
         participants={data.participantPerson}
       />
-      <BackLayout>
+      <ExtendedBackLayout>
         <Container>
           <ResultTimeTable
             roomInfo={data}
@@ -81,7 +82,7 @@ function ResultPage() {
             dragDisabled
           />
         </Container>
-      </BackLayout>
+      </ExtendedBackLayout>
       <ButtonContainer center>
         <Button
           $style="solid"
