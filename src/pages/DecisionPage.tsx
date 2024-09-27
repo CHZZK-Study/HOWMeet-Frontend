@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
 import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
-import { DecisionHeatmapProps } from '@/types/timeTableTypes';
 import {
   ButtonContainer,
   NormalContainer,
@@ -33,53 +31,41 @@ function DecisionPage() {
     isTimeTableLoading,
     meetingId,
     timeTableServerData,
-    token,
     roomId,
+    selectedTimeData,
+    isSelectTimeDataLoading,
+    isSelectedTimeDataError,
+    isLeader,
   } = useTimeTableData();
 
-  const { isLoading, error, data } = useQuery<DecisionHeatmapProps>({
-    queryKey: ['selectedTimeData'],
-    queryFn: async () => {
-      // 여기도 토큰 넣으셈
-      const headers = isGuest ? {} : { Authorization: `Bearer ${token}` };
-      const response = await axiosInstance.get(
-        `/${isGuest ? 'gs-record' : `ms-record/${roomId}`}/${meetingId}`,
-        { headers }
-      );
-      return response.data; // 데이터 반환
-    },
-  });
-
-  if (isLoading || !timeTableServerData || !data || isTimeTableLoading) {
+  if (
+    isSelectTimeDataLoading ||
+    !timeTableServerData ||
+    !selectedTimeData ||
+    isTimeTableLoading
+  ) {
     return (
       <NormalContainer>
         <Header title="일정 조율" />
       </NormalContainer>
     );
   }
-  if (error) return <div>에러가 발생했습니다</div>;
+  if (isSelectedTimeDataError) return <div>에러가 발생했습니다</div>;
+  const handleNavigateToSelect = () => {
+    navigate(`/meeting/${roomId}/select/${meetingId}`);
+  };
 
   const handleDecide = async () => {
     setIsSelected(true);
-    navigate(`/meeting/${roomId}/result/${meetingId}`);
     const postParticipantPerson = formatPostParticipantPerson(selectedResult);
     const postDateTime = formatPostDateTime(selectedResult);
-    const headers = isGuest
-      ? {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJpZFwiOjMsXCJuaWNrbmFtZVwiOlwi7LWc7LGE66a8XCIsXCJyb2xlXCI6XCJURU1QT1JBUllcIixcIm1lbWJlclwiOmZhbHNlLFwiZ3Vlc3RcIjp0cnVlfSIsImlhdCI6MTcyNzE5NTcyMCwiZXhwIjoxNzI3MTk5MzIwfQ.DxG95w96ceWVNRUIExB8axSbiKE-793STYBS-TnENFUFRk4TkVo7NyVZBoy8vdfZiYp7UThjGC1PsaBcN8jigA',
-        }
-      : { Authorization: `Bearer ${token}` };
 
-    await axiosInstance.post(
-      `confirm/${meetingId}`,
-      {
-        msId: meetingId,
-        time: [postDateTime[0], postDateTime[postDateTime.length - 1]],
-        participantPerson: postParticipantPerson,
-      },
-      { headers }
-    );
+    await axiosInstance.post(`confirm/${meetingId}`, {
+      msId: meetingId,
+      time: [postDateTime[0], postDateTime[postDateTime.length - 1]],
+      participantPerson: postParticipantPerson,
+    });
+    navigate(`/meeting/${roomId}/result/${meetingId}`);
     toast.message('정보가 성공적으로 저장되었습니다!');
   };
 
@@ -89,36 +75,47 @@ function DecisionPage() {
     <NormalContainer>
       <Header title="일정 조율" />
       <AttendStatusHeader
-        TotalPersonnel={data.totalPersonnel.length}
-        currentParticipants={data.participatedPersonnel.length}
-        participatedPersonnel={data.participatedPersonnel}
-        unParticipatedPersonnel={data.totalPersonnel.filter(
-          (name) => !data.participatedPersonnel.includes(name)
+        TotalPersonnel={selectedTimeData.totalPersonnel.length}
+        currentParticipants={selectedTimeData.participatedPersonnel.length}
+        participatedPersonnel={selectedTimeData.participatedPersonnel}
+        unParticipatedPersonnel={selectedTimeData.totalPersonnel.filter(
+          (name) => !selectedTimeData.participatedPersonnel.includes(name)
         )}
       />
       <ResultTimeTable
         timetableInfo={timeTableData}
-        roomInfo={data}
+        roomInfo={selectedTimeData}
         dragDisabled={isSelected}
       />
       {isGuest ? null : (
         <ButtonContainer center>
-          <RewriteButton
-            onClick={() => navigate(`/meeting/${roomId}/select/${meetingId}`)}
-          >
-            다시 선택하기
-          </RewriteButton>
-          <Button
-            $style="solid"
-            onClick={openModal}
-            $theme="primary-purple"
-            disabled={selectedResult.length === 0}
-            style={{ width: '95%' }}
-          >
-            {selectedResult.length === 0
-              ? '드래그로 시간 확정하기'
-              : '일정 확정하기'}
-          </Button>
+          {isLeader ? (
+            <>
+              <RewriteButton onClick={handleNavigateToSelect}>
+                다시 선택하기
+              </RewriteButton>
+              <Button
+                $style="solid"
+                onClick={openModal}
+                $theme="primary-purple"
+                disabled={selectedResult.length === 0}
+                style={{ width: '95%' }}
+              >
+                {selectedResult.length === 0
+                  ? '드래그로 시간 확정하기'
+                  : '일정 확정하기'}
+              </Button>
+            </>
+          ) : (
+            <Button
+              $style="solid"
+              onClick={handleNavigateToSelect}
+              $theme="primary-purple"
+              style={{ width: '95%' }}
+            >
+              수정하기
+            </Button>
+          )}
         </ButtonContainer>
       )}
       {isOpen ? (
@@ -136,7 +133,7 @@ export default DecisionPage;
 
 const RewriteButton = styled.div`
   width: fit-content;
-  height: 50px;
+  height: fit-content;
   font-size: 16px;
   font-weight: 500;
   color: ${({ theme }) => theme.color.secondary.solid.bk[400]};
