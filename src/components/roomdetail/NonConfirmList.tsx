@@ -24,7 +24,7 @@ function NonConfirmList({ progressMeetings, isLeader }: Props) {
         <NonConfirmListItem
           key={item.id}
           onClick={() =>
-            isLeader
+            isLeader && item.isParticipant
               ? navigate(`/meeting/${id}/decision/${item.id}`)
               : navigate(`/meeting/${id}/select/${item.id}`)
           }
