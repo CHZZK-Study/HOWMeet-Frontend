@@ -16,7 +16,6 @@ import {
 import { EmptyBox } from '@/styles/components/emptybox';
 import { PageTitle } from '@/styles/components/text';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
 import styled from 'styled-components';
 
 function HomePage() {
@@ -28,14 +27,15 @@ function HomePage() {
   const userName = parsedUserInfo.state.user.username;
 
   const { isOpen: isLogOutOpen, close: closeLogOut } = useLogOutModal();
-  const { roomListRes, isError } = useRoomList(userId);
+  const { roomListRes } = useRoomList(userId);
   const { findClosestSchedules } = useClosestMeeting();
 
-  if (isError) toast.error('잠시후 다시 시도해 주세요.');
   if (!roomListRes) return null;
 
   const roomList =
-    roomListRes.roomList.length === 0 ? [] : roomListRes.roomList;
+    roomListRes.pages[0].roomList.length === 0
+      ? []
+      : roomListRes.pages[0].roomList;
 
   const today: Date = new Date();
 

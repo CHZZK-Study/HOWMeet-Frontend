@@ -9,24 +9,30 @@ import {
   FlexColContainer,
 } from '@/styles/components/container';
 import { PageTitle } from '@/styles/components/text';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
 import styled from 'styled-components';
 
 function RoomListPage() {
   const navigate = useNavigate();
+  const [isBottom, setIsBottom] = useState(false);
+
   const userInfo = sessionStorage.getItem('UserStore') || '';
   const parsedUserInfo = JSON.parse(userInfo);
   const userId = parsedUserInfo.state.user.id;
 
-  const { roomListRes, isError } = useRoomList(userId);
+  const { roomListRes, fetchNextPage, hasNextPage } = useRoomList(userId);
 
-  if (isError) toast.error('잠시후 다시 시도해 주세요.');
+  useEffect(() => {
+    if (isBottom && hasNextPage) fetchNextPage();
+  }, [isBottom, hasNextPage, fetchNextPage]);
 
   if (!roomListRes) return null;
 
   const roomList =
-    roomListRes.roomList.length === 0 ? [] : roomListRes.roomList;
+    roomListRes.pages[0].roomList.length === 0
+      ? []
+      : roomListRes.pages.map((item) => item.roomList).flat();
 
   return (
     <Container>
@@ -39,7 +45,7 @@ function RoomListPage() {
           {TITLE.attendRoom}{' '}
           <span className="currentNumber">{roomList.length}</span>
         </Title>
-        <RoomList roomList={roomList} />
+        <RoomList roomList={roomList} setIsBottom={setIsBottom} />
         <CreateRoomButton />
       </ContentContainer>
     </Container>
