@@ -2,10 +2,13 @@ import Button from '@/components/common/Button';
 import { CloseIcon } from 'public/assets/icons';
 import styled, { useTheme } from 'styled-components';
 import { useQuitMakeMeetingModal } from '@/store/useModalStore';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '@/constants/path';
 
 function QuitMakeMeetingModal() {
   const theme = useTheme();
   const closeQuit = useQuitMakeMeetingModal((state) => state.close);
+  const navigate = useNavigate();
 
   return (
     <QuitMakeMeetingModalContainer>
@@ -16,8 +19,14 @@ function QuitMakeMeetingModal() {
       />
       <Title>일정 만들기를 중단하시겠어요?</Title>
       <ButtonContainer>
-        <Button $style="solid">계속 진행</Button>
-        <Button $style="solid" $theme="primary-purple">
+        <Button $style="solid" onClick={closeQuit}>
+          계속 진행
+        </Button>
+        <Button
+          $style="solid"
+          $theme="primary-purple"
+          onClick={() => navigate(PATH.login)}
+        >
           중단하기
         </Button>
       </ButtonContainer>
