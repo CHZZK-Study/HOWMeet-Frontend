@@ -129,7 +129,10 @@ function NewMeetingPage() {
 
   return (
     <FlexColContainer>
-      <Header title={HEAD_TITLE.newMeeting} />
+      <Header
+        title={HEAD_TITLE.newMeeting}
+        onLeftArrowIconClick={() => navigate(-1)}
+      />
       <ContentContainer>
         <PageTitle>
           {hasRoom ? TITLE.newMeetingNonMember : TITLE.newMeeting}
