@@ -24,7 +24,7 @@ import {
 } from '@/styles/components/container';
 import { PageTitle } from '@/styles/components/text';
 import { SetTime } from '@/types/SetTime';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -34,6 +34,7 @@ function NewMeetingPage() {
   const location = useLocation();
   const { hasRoom } = location.state || false;
   const { roomId } = location.state || 0;
+  const { meetingName } = location.state || '';
 
   const { isOpen: isStartDateOpen, close: closeStartDate } =
     useStartDateModal();
@@ -63,8 +64,13 @@ function NewMeetingPage() {
   const {
     register,
     watch,
+    setValue,
     formState: { isValid },
   } = methods;
+
+  useEffect(() => {
+    if (meetingName) setValue('newMeeting', meetingName);
+  }, [meetingName, setValue]);
 
   const handleSetType = (type: SetTime) => {
     setTimeType(type);
@@ -91,7 +97,7 @@ function NewMeetingPage() {
   };
 
   const renderButton = () => {
-    if (hasRoom) {
+    if (isValid) {
       return (
         <Button
           $style="solid"
@@ -104,12 +110,13 @@ function NewMeetingPage() {
       );
     }
 
-    if (isValid) {
+    if (hasRoom && meetingName) {
       return (
         <Button
           $style="solid"
           $theme="primary-purple"
           onClick={handleClickConfirm}
+          disabled={!isValid}
         >
           완료
         </Button>
