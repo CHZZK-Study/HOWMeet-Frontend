@@ -8,6 +8,7 @@ interface Props {
     name: string;
     memberSummary: string;
     schedules: Schedule[];
+    hasNonParticipant: boolean;
   }[];
 }
 
@@ -20,6 +21,7 @@ function RoomList({ roomList }: Props) {
         );
         const latestSchedule =
           completedSchedules[completedSchedules.length - 1];
+
         return (
           <RoomItem
             key={item.roomId}
@@ -27,6 +29,7 @@ function RoomList({ roomList }: Props) {
             name={item.name}
             member={item.memberSummary}
             schedule={latestSchedule}
+            hasNonParticipant={item.hasNonParticipant}
           />
         );
       })}

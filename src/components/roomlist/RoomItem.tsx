@@ -9,14 +9,21 @@ interface Props {
   member: string;
   roomId: string;
   schedule: Schedule;
+  hasNonParticipant: boolean;
 }
 
-function RoomItem({ name, member, roomId, schedule }: Props) {
+function RoomItem({
+  name,
+  member,
+  roomId,
+  schedule,
+  hasNonParticipant,
+}: Props) {
   const navigate = useNavigate();
 
   return (
     <RoomItemContainer onClick={() => navigate(`${PATH.room}/${roomId}`)}>
-      <NoticeDot />
+      {hasNonParticipant && <NoticeDot />}
       <RoomTitle>{name}</RoomTitle>
       <RoomDesc>
         <Badge>예정된 일정</Badge>
