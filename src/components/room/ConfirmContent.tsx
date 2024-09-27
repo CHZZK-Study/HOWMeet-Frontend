@@ -6,29 +6,44 @@ import {
 } from '@/styles/components/meeting/content';
 import styled from 'styled-components';
 
-function ConfirmContent() {
+interface Props {
+  contents: {
+    roomName?: string;
+    req: {
+      roomName: string;
+      name: { value: string };
+      dates: string[];
+      time: {
+        startTime: string;
+        endTime: string;
+      };
+    };
+  };
+}
+
+function ConfirmContent({ contents }: Props) {
   return (
     <>
       <ContentWrapper>
         <ContentTitle>{LABEL.roomName}</ContentTitle>
         <ContentDescription>
-          {contents.req ? contents.req.name : contents.roomName}
+          {contents.req ? contents.req.roomName : contents.roomName}
         </ContentDescription>
       </ContentWrapper>
       {contents.req && (
         <>
           <ContentWrapper>
             <ContentTitle>{LABEL.meeting}</ContentTitle>
-            <ContentDescription>킥오프 일정</ContentDescription>
+            <ContentDescription>{contents.req.name.value}</ContentDescription>
           </ContentWrapper>
           <ContentWrapper>
             <ContentTitle>{LABEL.setDate}</ContentTitle>
             <SettingTimeWrapper>
               <ContentDescription>
-                시작일 : {contents.req.msRequest.dates[0]}
+                시작일 : {contents.req.dates[0]}
               </ContentDescription>
               <ContentDescription>
-                종료일 : {contents.req.msRequest.dates[1]}
+                종료일 : {contents.req.dates[1]}
               </ContentDescription>
             </SettingTimeWrapper>
           </ContentWrapper>
@@ -38,8 +53,8 @@ function ConfirmContent() {
         <ContentWrapper>
           <ContentTitle>{LABEL.setTime}</ContentTitle>
           <ContentDescription>
-            {contents.req.msRequest.time.startTime} 이후 ~{' '}
-            {contents.req.msRequest.time.endTime} 이전
+            {contents.req.time.startTime} 이후 ~ {contents.req.time.endTime}{' '}
+            이전
           </ContentDescription>
         </ContentWrapper>
       )}
