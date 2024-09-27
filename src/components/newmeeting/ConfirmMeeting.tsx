@@ -6,7 +6,7 @@ import {
 import { PageTitle } from '@/styles/components/text';
 import HEAD_TITLE from '@/constants/header';
 import Header from '@/components/common/Header';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 import { RightArrowIcon } from 'public/assets/icons';
 import { Content, MeetingData } from '@/types/meeting';
 import { useQuitMakeMeetingModal } from '@/store/useModalStore';
@@ -22,7 +22,6 @@ interface Props {
 }
 
 function ConfirmMeeting({ meetingData, setContent }: Props) {
-  const theme = useTheme();
   const openQuit = useQuitMakeMeetingModal((state) => state.open);
   const { handleMakeNonMemberMeeting } = useNonMemberMeeting();
   const { convertTimeToPm } = useConvertTime();
@@ -98,12 +97,7 @@ function ConfirmMeeting({ meetingData, setContent }: Props) {
           </Button>
         </ButtonWrapper>
         <EditButton onClick={handleClickPrev}>
-          수정하기{' '}
-          <RightArrowIcon
-            width={20}
-            height={20}
-            fill={theme.color.secondary.solid.bk[800]}
-          />
+          수정하기 <RightArrowIcon width={15} height={15} />
         </EditButton>
       </ButtonContainer>
     </FlexColContainer>
