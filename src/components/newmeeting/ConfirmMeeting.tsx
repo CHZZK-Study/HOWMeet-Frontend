@@ -10,6 +10,9 @@ import styled, { useTheme } from 'styled-components';
 import { RightArrowIcon } from 'public/assets/icons';
 import { Content, MeetingData } from '@/types/meeting';
 import { useQuitMakeMeetingModal } from '@/store/useModalStore';
+
+import useNonMemberMeeting from '@/hooks/useNonMemberMeeting';
+import useConvertTime from '@/hooks/useConvertTime';
 import ProgressBar from './ProgressBar';
 import Button from '../common/Button';
 
@@ -21,6 +24,8 @@ interface Props {
 function ConfirmMeeting({ meetingData, setContent }: Props) {
   const theme = useTheme();
   const openQuit = useQuitMakeMeetingModal((state) => state.open);
+  const { handleMakeNonMemberMeeting } = useNonMemberMeeting();
+  const { convertTimeToPm } = useConvertTime();
 
   const {
     name: { value },
@@ -30,6 +35,17 @@ function ConfirmMeeting({ meetingData, setContent }: Props) {
 
   const handleClickPrev = () => {
     setContent('make');
+  };
+
+  const handleClickMakeMeeting = () => {
+    const meetingDataReq = {
+      ...meetingData,
+      time: {
+        startTime: convertTimeToPm(startTime),
+        endTime: convertTimeToPm(endTime),
+      },
+    };
+    handleMakeNonMemberMeeting(meetingDataReq);
   };
 
   return (
@@ -71,7 +87,7 @@ function ConfirmMeeting({ meetingData, setContent }: Props) {
           <Button
             $style="solid"
             $theme="primary-purple"
-            onClick={() => setContent('login')}
+            onClick={handleClickMakeMeeting}
           >
             일정 생성
           </Button>
