@@ -26,7 +26,7 @@ function RoomItem({ name, member, roomId, schedule }: Props) {
             {schedule.time.endTime.slice(0, -3)}
           </p>
         ) : (
-          <p>예정된 일정이 없습니다</p>
+          <p>없음</p>
         )}
       </RoomDesc>
       <RoomDesc>
