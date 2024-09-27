@@ -33,6 +33,7 @@ function NewMeetingPage() {
   const [timeType, setTimeType] = useState<SetTime>('start');
   const location = useLocation();
   const { hasRoom } = location.state || false;
+  const { roomId } = location.state || 0;
 
   const { isOpen: isStartDateOpen, close: closeStartDate } =
     useStartDateModal();
@@ -86,13 +87,18 @@ function NewMeetingPage() {
         value: watch('newMeeting'),
       },
     };
-    navigate('/confirm-meeting', { state: { req } });
+    navigate('/confirm-meeting', { state: { req, hasRoom, roomId } });
   };
 
   const renderButton = () => {
     if (hasRoom) {
       return (
-        <Button $style="solid" $theme="primary-purple" disabled={!isValid}>
+        <Button
+          $style="solid"
+          $theme="primary-purple"
+          disabled={!isValid}
+          onClick={handleClickConfirm}
+        >
           완료
         </Button>
       );
@@ -100,14 +106,22 @@ function NewMeetingPage() {
 
     if (isValid) {
       return (
-        <Button $style="solid" $theme="primary-purple">
+        <Button
+          $style="solid"
+          $theme="primary-purple"
+          onClick={handleClickConfirm}
+        >
           완료
         </Button>
       );
     }
 
     return (
-      <Button $style="outlined" $theme="primary-purple">
+      <Button
+        $style="outlined"
+        $theme="primary-purple"
+        onClick={handleClickSkip}
+      >
         건너 뛰기
       </Button>
     );

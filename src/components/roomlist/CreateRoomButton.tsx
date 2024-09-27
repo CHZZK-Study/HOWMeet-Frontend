@@ -10,7 +10,7 @@ function CreateRoomButton() {
 
   return (
     <StyledCreateRoomButton onClick={() => navigate(PATH.makeRoom)}>
-      <CreateRoomPlusIcon />
+      <CreateRoomPlusIcon stroke={theme.color.primary.white} />
     </StyledCreateRoomButton>
   );
 }

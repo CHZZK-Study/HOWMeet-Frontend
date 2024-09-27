@@ -69,7 +69,10 @@ function RoomPage() {
           <ConfirmList completedMeetings={completedMeetings.reverse()} />
         )}
       </ContentContainer>
-      <CreateNewMeeting />
+      <CreateNewMeeting
+        roomName={roomDetail.name}
+        roomId={Number(roomDetail.roomId)}
+      />
     </FlexColContainer>
   );
 }
