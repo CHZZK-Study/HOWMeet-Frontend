@@ -7,7 +7,6 @@ const useConvertTime = () => {
 
     return `${convertedTime}:${minute}:00`;
   };
-
   return { convertTimeToPm };
 };
 

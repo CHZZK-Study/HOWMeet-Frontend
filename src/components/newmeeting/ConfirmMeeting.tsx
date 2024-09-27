@@ -7,7 +7,7 @@ import { PageTitle } from '@/styles/components/text';
 import HEAD_TITLE from '@/constants/header';
 import Header from '@/components/common/Header';
 import styled, { useTheme } from 'styled-components';
-import { NextIcon } from 'public/assets/icons';
+import { RightArrowIcon } from 'public/assets/icons';
 import { Content, MeetingData } from '@/types/meeting';
 import { useQuitMakeMeetingModal } from '@/store/useModalStore';
 
@@ -94,7 +94,7 @@ function ConfirmMeeting({ meetingData, setContent }: Props) {
         </ButtonWrapper>
         <EditButton onClick={handleClickPrev}>
           수정하기{' '}
-          <NextIcon
+          <RightArrowIcon
             width={20}
             height={20}
             fill={theme.color.secondary.solid.bk[800]}

@@ -6,28 +6,58 @@ import {
 } from '@/styles/components/meeting/content';
 import styled from 'styled-components';
 
-function ConfirmContent() {
+interface Props {
+  contents: {
+    roomName?: string;
+    req: {
+      roomName: string;
+      name: { value: string };
+      dates: string[];
+      time: {
+        startTime: string;
+        endTime: string;
+      };
+    };
+  };
+}
+
+function ConfirmContent({ contents }: Props) {
   return (
     <>
       <ContentWrapper>
         <ContentTitle>{LABEL.roomName}</ContentTitle>
-        <ContentDescription>하우밋</ContentDescription>
+        <ContentDescription>
+          {contents.req ? contents.req.roomName : contents.roomName}
+        </ContentDescription>
       </ContentWrapper>
-      <ContentWrapper>
-        <ContentTitle>{LABEL.meeting}</ContentTitle>
-        <ContentDescription>킥오프 일정</ContentDescription>
-      </ContentWrapper>
-      <ContentWrapper>
-        <ContentTitle>{LABEL.setDate}</ContentTitle>
-        <SettingTimeWrapper>
-          <ContentDescription>시작일 : 2024. 07. 11</ContentDescription>
-          <ContentDescription>종료일 : 2024. 07. 11</ContentDescription>
-        </SettingTimeWrapper>
-      </ContentWrapper>
-      <ContentWrapper>
-        <ContentTitle>{LABEL.setTime}</ContentTitle>
-        <ContentDescription>10:00 이후 ~ 23:00 이전</ContentDescription>
-      </ContentWrapper>
+      {contents.req && (
+        <>
+          <ContentWrapper>
+            <ContentTitle>{LABEL.meeting}</ContentTitle>
+            <ContentDescription>{contents.req.name.value}</ContentDescription>
+          </ContentWrapper>
+          <ContentWrapper>
+            <ContentTitle>{LABEL.setDate}</ContentTitle>
+            <SettingTimeWrapper>
+              <ContentDescription>
+                시작일 : {contents.req.dates[0]}
+              </ContentDescription>
+              <ContentDescription>
+                종료일 : {contents.req.dates[1]}
+              </ContentDescription>
+            </SettingTimeWrapper>
+          </ContentWrapper>
+        </>
+      )}
+      {contents.req && (
+        <ContentWrapper>
+          <ContentTitle>{LABEL.setTime}</ContentTitle>
+          <ContentDescription>
+            {contents.req.time.startTime} 이후 ~ {contents.req.time.endTime}{' '}
+            이전
+          </ContentDescription>
+        </ContentWrapper>
+      )}
     </>
   );
 }
