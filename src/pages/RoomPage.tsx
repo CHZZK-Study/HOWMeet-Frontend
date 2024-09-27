@@ -3,6 +3,7 @@ import Attenders from '@/components/roomdetail/Attenders';
 import ConfirmList from '@/components/roomdetail/ConfirmList';
 import CreateNewMeeting from '@/components/roomdetail/CreateNewMeeting';
 import NonConfirmList from '@/components/roomdetail/NonConfirmList';
+import { PATH } from '@/constants/path';
 import useRoom from '@/hooks/useRoom';
 import useToolTip from '@/hooks/useToolTip';
 import {
@@ -58,7 +59,7 @@ function RoomPage() {
     <FlexColContainer>
       <Header
         title="방 정보"
-        onLeftArrowIconClick={() => navigate(-1)}
+        onLeftArrowIconClick={() => navigate(PATH.rooms)}
         isShare
         isVisible={isToolTipOpen}
         toggle={closeToolTip}
