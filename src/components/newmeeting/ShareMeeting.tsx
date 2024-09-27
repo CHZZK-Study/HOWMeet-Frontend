@@ -2,7 +2,10 @@ import {
   ContentContainer,
   FlexColContainer,
 } from '@/styles/components/container';
+import { toast } from 'sonner';
+import uniqueId from 'lodash/uniqueId';
 import { PageTitle } from '@/styles/components/text';
+import useNonMemberMeetingStore from '@/store/meeting/useNonMemberMeeting';
 import styled, { useTheme } from 'styled-components';
 import { AlertIcon, ShareIcon } from 'public/assets/icons';
 import { useState } from 'react';
@@ -10,6 +13,8 @@ import Button from '../common/Button';
 
 function ShareMeeting() {
   const theme = useTheme();
+  const tempRoomId = uniqueId();
+  const meetingId = useNonMemberMeetingStore((state) => state.meetingId);
   const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
 
   const handleOnMouseOver = () => {
@@ -18,6 +23,17 @@ function ShareMeeting() {
 
   const handleOnMouseOut = () => {
     setIsMouseOver(false);
+  };
+
+  const handleCopyMeetingUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(
+        `${import.meta.env.VITE_APP_CLIENT_URL}/meeting/${tempRoomId}/select/${meetingId}?isGuest=true`
+      );
+      toast.info('링크가 복사되었습니다.');
+    } catch (e) {
+      toast.error('복사에 실패하였습니다.');
+    }
   };
 
   return (
@@ -42,6 +58,7 @@ function ShareMeeting() {
             </InfoDesc>
           </InfoWrapper>
           <ShareButton
+            onClick={handleCopyMeetingUrl}
             onMouseOut={handleOnMouseOut}
             onMouseOver={handleOnMouseOver}
           >
