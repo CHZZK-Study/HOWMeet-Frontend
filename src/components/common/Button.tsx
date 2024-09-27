@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   $style: 'solid' | 'outlined';
-  $theme?: 'primary' | 'neutral';
+  $theme?: 'primary-purple' | 'primary-green' | 'neutral';
 }
 
 function Button({ $style, $theme, ...props }: Props) {
@@ -24,6 +24,7 @@ const StyledButton = styled.button<Props>`
   text-align: center;
   padding: 16px 0;
   border-radius: 8px;
+  box-shadow: 0px 4px 10px 0px rgba(90, 90, 90, 0.1);
 
   ${({ theme, $style, $theme, disabled }) => {
     if (disabled) {
@@ -36,26 +37,33 @@ const StyledButton = styled.button<Props>`
     if ($style === 'outlined') {
       return css`
         background: ${theme.color.primary.white};
-        color: ${theme.color.point.purple};
-        border: 1px solid ${theme.color.point.purple};
+        color: ${$theme === 'primary-purple'
+          ? theme.color.point.purple
+          : theme.color.point.green};
+        border: 1px solid
+          ${$theme === 'primary-purple'
+            ? theme.color.point.purple
+            : theme.color.point.green};
 
         &:hover {
-          background-color: ${theme.color.point.purple};
+          background-color: ${$theme === 'primary-purple'
+            ? theme.color.point.purple
+            : theme.color.point.green};
           color: ${theme.color.primary.white};
         }
       `;
     }
 
     return css`
-      background: ${$theme === 'primary'
+      background: ${$theme === 'primary-purple'
         ? theme.color.point.purple
         : theme.color.secondary.solid.bk[200]};
-      color: ${$theme === 'primary'
+      color: ${$theme === 'primary-purple'
         ? theme.color.primary.white
         : theme.color.secondary.solid.bk[700]};
       border: none;
     `;
   }}
 
-  ${({ theme }) => theme.typo.heading.bold[16]}
+  ${({ theme }) => theme.typo.body.medium[16]}
 `;

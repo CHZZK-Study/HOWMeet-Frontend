@@ -1,15 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { CellProps, TimeSlot } from '@/types/timeTableTypes';
-
-interface SelectTimeCellProps {
-  timeSlot: TimeSlot;
-  isSelected: boolean;
-  dragDisabled: boolean;
-  onDragStart: (timeSlot: TimeSlot) => void;
-  onDragMove: (timeSlot: TimeSlot) => void;
-  onDragEnd: () => void;
-}
+import { CellProps, SelectTimeCellProps } from '@/types/timeTableTypes';
+import theme from '@/styles/theme';
 
 function SelectTimeCell({
   timeSlot,
@@ -18,6 +10,9 @@ function SelectTimeCell({
   onDragStart,
   onDragMove,
   onDragEnd,
+  isStartCellHalf,
+  isEndCellHalf,
+  disabled,
 }: SelectTimeCellProps) {
   const cellRef = useRef<HTMLDivElement>(null);
 
@@ -65,6 +60,10 @@ function SelectTimeCell({
     };
   }, [handleTouchStart, handleTouchMove, onDragEnd]);
 
+  if (disabled) {
+    return <SingleCell ref={cellRef} className="disabled-cell" />;
+  }
+
   return (
     <SelectHalfCell
       ref={cellRef}
@@ -73,24 +72,58 @@ function SelectTimeCell({
       onMouseEnter={(e) =>
         !dragDisabled && e.buttons === 1 && onDragMove(timeSlot)
       }
-      onMouseUp={onDragEnd}
       data-timeslot={JSON.stringify(timeSlot)}
+      onMouseUp={onDragEnd}
+      $isEndCellHalf={isEndCellHalf}
+      $isStartCellHalf={isStartCellHalf}
     />
   );
 }
-
 const MemoizedSelectTimeCell = React.memo(SelectTimeCell);
 export default MemoizedSelectTimeCell;
 
-const SelectHalfCell = styled.div<CellProps>`
+export const SelectHalfCell = styled.div<CellProps>`
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 0.1px solid rgba(83, 85, 91, 1);
+  border-right: 0.1px solid ${theme.color.secondary.solid.gray[800]};
+  border-left: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   background-color: ${(props) => (props.selected ? '#E2F5E3' : 'white')};
   &:first-child {
-    border-bottom: 2px dashed #ccc;
+    ${({ $isStartCellHalf, $isEndCellHalf }) => {
+      if ($isStartCellHalf) {
+        return null;
+      }
+      if ($isEndCellHalf) {
+        return `border-bottom: 0.1px solid ${theme.color.secondary.solid.gray[800]};`;
+      }
+      return `border-bottom: 2px dashed #ccc;`;
+    }}
+    border-top: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   }
+  &:last-child {
+    border-bottom: 0.1px solid ${theme.color.secondary.solid.gray[800]};
+  }
+  touch-action: none;
+`;
+
+export const SingleCell = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.1px solid ${theme.color.secondary.solid.gray[800]};
+  background: linear-gradient(
+    135deg,
+    rgba(255, 182, 193, 0.5) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 182, 193, 0.5) 50%,
+    rgba(255, 182, 193, 0.5) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 20px 20px; // 조정 가능
   touch-action: none;
 `;

@@ -37,9 +37,9 @@ const SelectOption = styled.div<{ selected: boolean }>`
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
-  color: ${(props) => (props.selected ? '#4caf50' : 'rgba(208, 208, 208, 1)')};
+  color: ${({ selected }) => (selected ? '#4caf50' : 'rgba(208, 208, 208, 1)')};
   border-bottom: 2px solid
-    ${(props) => (props.selected ? '#4caf50' : 'rgba(208, 208, 208, 1)')};
+    ${(selected) => (selected ? '#4caf50' : 'rgba(208, 208, 208, 1)')};
 `;
 
 // const SelectOption = styled.div`

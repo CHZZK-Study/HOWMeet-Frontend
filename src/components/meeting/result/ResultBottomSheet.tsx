@@ -4,43 +4,42 @@ import theme from '@/styles/theme';
 import styled, { keyframes } from 'styled-components';
 
 function ResultBottomSheet({
-  TotalParticipants,
+  TotalPersonnel,
   currentParticipants,
-  participatedUsers,
-  unParticipatedUsers,
+  participatedPersonnel,
+  unParticipatedPersonnel,
   onClose,
 }: {
-  TotalParticipants: number;
+  TotalPersonnel: number;
   currentParticipants: number;
-  participatedUsers: string[];
-  unParticipatedUsers: string[];
+  participatedPersonnel: string[];
+  unParticipatedPersonnel: string[];
   onClose: () => void;
 }) {
-  const participatedUsersList = participatedUsers.join(', ');
-  const unParticipatedUsersList = unParticipatedUsers.join(', ');
+  const participatedPersonnelList = participatedPersonnel.join(', ');
+  const unParticipatedPersonnelList = unParticipatedPersonnel.join(', ');
 
   return (
     <BottomSheetContainer>
       <BottomSheetHeader title="현재 참여 인원" onClick={onClose} />
       <UserCountContainer>
         <UserState>
-          총 참여 인원 :
-          <ParticipantCount>{TotalParticipants}명</ParticipantCount>
+          총 참여 인원 :<ParticipantCount>{TotalPersonnel}명</ParticipantCount>
         </UserState>
         <VerticalDivider />
         <UserState>참여 완료 : {currentParticipants}</UserState>
-        <UserState>
-          미참여 : {TotalParticipants - currentParticipants}
-        </UserState>
+        <UserState>미참여 : {TotalPersonnel - currentParticipants}</UserState>
       </UserCountContainer>
       <UserListContainer>
-        <ParticipantIcon participant>참여 완료</ParticipantIcon>
-        <ParticipantList participant>{participatedUsersList}</ParticipantList>
+        <ParticipantIcon $participant>참여 완료</ParticipantIcon>
+        <ParticipantList $participant>
+          {participatedPersonnelList}
+        </ParticipantList>
       </UserListContainer>
       <UserListContainer>
-        <ParticipantIcon participant={false}>미참여</ParticipantIcon>
-        <ParticipantList participant={false}>
-          {unParticipatedUsersList}
+        <ParticipantIcon $participant={false}>미참여</ParticipantIcon>
+        <ParticipantList $participant={false}>
+          {unParticipatedPersonnelList}
         </ParticipantList>
       </UserListContainer>
       <Button $style="solid" onClick={onClose}>
@@ -95,17 +94,17 @@ const UserListContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-const ParticipantList = styled.div<{ participant: boolean }>`
+const ParticipantList = styled.div<{ $participant: boolean }>`
   ${theme.typo.body.regular}
   font-weight: bold;
 
-  color: ${(props) =>
-    props.participant ? colors.participantText : colors.nonParticipantText};
+  color: ${({ $participant }) =>
+    $participant ? colors.participantText : colors.nonParticipantText};
 `;
 
-const ParticipantIcon = styled.div<{ participant: boolean }>`
+const ParticipantIcon = styled.div<{ $participant: boolean }>`
   background-color: ${(props) =>
-    props.participant
+    props.$participant
       ? colors.participantBackground
       : colors.nonParticipantBackground};
   border-radius: 40px;

@@ -5,12 +5,13 @@ import NewMeetingPage from '@/pages/NewMeetingPage';
 import MeetingListPage from '@/pages/MeetingListPage';
 import MeetingPage from '@/pages/MeetingPage';
 import SelectPage from '@/pages/SelectPage';
-import ResultPage from '@/pages/ResultPage';
 import MakingRoomPage from '@/pages/MakingRoomPage';
 import ConfirmMeeting from '@/pages/ConfirmMeeting';
-import ResultGraphPage from '@/pages/ResultGraphPage';
 import HomePage from '@/pages/HomePage';
 import RoomPage from '@/pages/RoomPage';
+import DecisionPage from '@/pages/DecisionPage';
+import ResultPage from '@/pages/ResultPage';
+import NewMeetingNonMemberPage from '@/pages/NewMeetingNonMemberPage';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
     element: <NewMeetingPage />,
   },
   {
+    path: 'new-meeting/non-member',
+    element: <NewMeetingNonMemberPage />,
+  },
+  {
     path: 'confirm-meeting',
     element: <ConfirmMeeting />,
   },
@@ -46,16 +51,16 @@ const router = createBrowserRouter([
     element: <MeetingPage />,
   },
   {
-    path: 'meeting/:id/select',
+    path: 'meeting/:roomId/select/:meetingId',
     element: <SelectPage />,
   },
   {
-    path: 'meeting/:id/result',
-    element: <ResultPage />,
+    path: 'meeting/:roomId/decision/:meetingId',
+    element: <DecisionPage />,
   },
   {
-    path: 'meeting/:id/result/graph',
-    element: <ResultGraphPage />,
+    path: 'meeting/:roomId/result/:meetingId',
+    element: <ResultPage />,
   },
   {
     path: 'room/:id',

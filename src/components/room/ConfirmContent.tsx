@@ -6,23 +6,7 @@ import {
 } from '@/styles/components/meeting/content';
 import styled from 'styled-components';
 
-interface Props {
-  contents: {
-    req?: {
-      leaderMemberId: number;
-      msRequest: {
-        dates: string[];
-        name: { value: string };
-        time: { startTime: string; endTime: string };
-      };
-      name: string;
-    };
-    roomName?: string;
-  };
-}
-
-function ConfirmContent({ contents }: Props) {
-  // TODO 로그인 유무에 따른 "방이름" 컨텐츠 제거
+function ConfirmContent() {
   return (
     <>
       <ContentWrapper>

@@ -31,7 +31,6 @@ import styled from 'styled-components';
 
 function NewMeetingPage() {
   const [timeType, setTimeType] = useState<SetTime>('start');
-  // TODO 소셜 로그인 유무에 따른 PageTitle 변경 및 버튼 변경
   const { isOpen: isStartDateOpen, close: closeStartDate } =
     useStartDateModal();
   const { isOpen: isEndDateOpen, close: closeEndDate } = useEndDateModal();
@@ -110,11 +109,11 @@ function NewMeetingPage() {
       </ContentContainer>
       <ButtonContainer>
         {isValid ? (
-          <Button $style="solid" $theme="primary" onClick={handleClickConfirm}>
+          <Button $style="solid" $theme="primary-purple">
             완료
           </Button>
         ) : (
-          <Button $style="outlined" $theme="primary" onClick={handleClickSkip}>
+          <Button $style="outlined" $theme="primary-purple">
             건너 뛰기
           </Button>
         )}

@@ -1,6 +1,7 @@
 import { LoginReq } from '@/models/user.model';
 import { http, HttpResponse, PathParams } from 'msw';
 import { selectedTimeData } from './data/selectedTimeData';
+import { TimeTableServerInfo } from './data/timeTableData';
 
 const handlers = [
   http.get('https://example.com/user', () => {
@@ -28,7 +29,23 @@ const handlers = [
   }),
 
   // 선택한 시간 결과 가져오기 (방장용)
-  http.get('/selectedResult', () => {
+  http.get('/gs-record/:id', () => {
+    return HttpResponse.json(selectedTimeData);
+  }),
+  http.get('/ms-record/:id', () => {
+    return HttpResponse.json(selectedTimeData);
+  }),
+  http.get('/guest-schedule/:id', () => {
+    return HttpResponse.json(TimeTableServerInfo);
+  }),
+  http.get('/room/:roomId/:memberScheduleId', () => {
+    return HttpResponse.json(TimeTableServerInfo);
+  }),
+
+  http.post('/gs-record', () => {
+    return HttpResponse.json(selectedTimeData);
+  }),
+  http.post('/ms-record', () => {
     return HttpResponse.json(selectedTimeData);
   }),
 ];
