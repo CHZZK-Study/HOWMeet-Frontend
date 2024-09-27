@@ -50,7 +50,12 @@ function ConfirmMeeting({ meetingData, setContent }: Props) {
 
   return (
     <FlexColContainer>
-      <Header title={HEAD_TITLE.newMeeting} isClose onIconClick={openQuit} />
+      <Header
+        title={HEAD_TITLE.newMeeting}
+        isClose
+        onIconClick={openQuit}
+        onLeftArrowIconClick={() => setContent('make')}
+      />
       <ContentContainer>
         <PageTitle>{TITLE.confirmMeeting}</PageTitle>
         <ProgressBar currentStep="confirm" />
