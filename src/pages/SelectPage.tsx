@@ -63,6 +63,7 @@ function SelectPage() {
     isLeader,
     roomId,
     isMemberLoading,
+    handleLeftArrowIconClick,
   } = useTimeTableData(true);
   // 로딩 상태 처리
   if (isTimeTableLoading || !timeTableServerData || isMemberLoading) {
@@ -73,6 +74,7 @@ function SelectPage() {
           isShare
           toggle={closeToolTip}
           isVisible={isToolTipOpen}
+          onLeftArrowIconClick={handleLeftArrowIconClick}
         />
         <TimeSelectTitle
           Title={
@@ -99,20 +101,15 @@ function SelectPage() {
   const timeTableData: TimeTableData =
     formatServerToTimeTableData(timeTableServerData);
 
-  console.log(timeTableData);
   const handleModalOpen = async () => {
     try {
       const formattedTimes = formatPostDateTime(selectedTimes);
 
       try {
-        const response = await axiosInstance.post(
-          `${isGuest ? 'gs-record' : 'ms-record'}`,
-          {
-            [isGuest ? 'gsId' : 'msId']: meetingId,
-            selectTime: formattedTimes,
-          }
-        );
-        console.log(response);
+        await axiosInstance.post(`${isGuest ? 'gs-record' : 'ms-record'}`, {
+          [isGuest ? 'gsId' : 'msId']: meetingId,
+          selectTime: formattedTimes,
+        });
         toast.message('정보가 성공적으로 저장되었습니다!');
 
         if (isGuest) {
@@ -136,6 +133,7 @@ function SelectPage() {
         isShare
         toggle={closeToolTip}
         isVisible={isToolTipOpen}
+        onLeftArrowIconClick={handleLeftArrowIconClick}
       />
       <TimeSelectTitle
         Title={
