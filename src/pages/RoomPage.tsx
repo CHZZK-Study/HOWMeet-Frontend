@@ -3,14 +3,15 @@ import Attenders from '@/components/roomdetail/Attenders';
 import ConfirmList from '@/components/roomdetail/ConfirmList';
 import CreateNewMeeting from '@/components/roomdetail/CreateNewMeeting';
 import NonConfirmList from '@/components/roomdetail/NonConfirmList';
+import { PATH } from '@/constants/path';
 import useRoom from '@/hooks/useRoom';
+import useToolTip from '@/hooks/useToolTip';
 import {
   FlexColContainer,
   ContentContainer,
 } from '@/styles/components/container';
 import { EmptyBox } from '@/styles/components/emptybox';
 import { PageTitle } from '@/styles/components/text';
-import { ShareIcon } from 'public/assets/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import styled from 'styled-components';
@@ -18,6 +19,8 @@ import styled from 'styled-components';
 function RoomPage() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { isToolTipOpen, closeToolTip } = useToolTip();
+
   const userInfo = sessionStorage.getItem('UserStore') || '';
   const parsedUserInfo = JSON.parse(userInfo);
   const userId = parsedUserInfo.state.user.id;
@@ -41,13 +44,30 @@ function RoomPage() {
 
   const { isLeader } = leaderMember[0];
 
+  const handleCopyRoomUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(
+        `${import.meta.env.VITE_APP_CLIENT_URL}/room/${id}`
+      );
+      toast.info('링크가 복사되었습니다.');
+    } catch (error) {
+      toast.error('복사에 실패하였습니다.');
+    }
+  };
+
   return (
     <FlexColContainer>
-      <Header title="방 정보" onLeftArrowIconClick={() => navigate(-1)} />
+      <Header
+        title="방 정보"
+        onLeftArrowIconClick={() => navigate(PATH.rooms)}
+        isShare
+        isVisible={isToolTipOpen}
+        toggle={closeToolTip}
+        onShareClick={handleCopyRoomUrl}
+      />
       <ContentContainer>
         <TitleWrapper>
           <PageTitle>{roomDetail.name}</PageTitle>
-          <ShareIcon />
         </TitleWrapper>
         <SubTitle>참여 인원</SubTitle>
         <Attenders member={roomDetail.roomMembers} />

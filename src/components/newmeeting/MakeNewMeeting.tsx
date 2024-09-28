@@ -27,6 +27,8 @@ import { useEndTimeStore, useStartTimeStore } from '@/store/useTimeStore';
 import { DeleteAllIcon } from 'public/assets/icons';
 import useMeetingStore from '@/store/useMeetingStore';
 import { Content, MeetingData } from '@/types/meeting';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '@/constants/path';
 import ProgressBar from './ProgressBar';
 
 interface Props {
@@ -36,6 +38,7 @@ interface Props {
 
 function MakeNewMeeting({ setContent, setMeetingData }: Props) {
   const [timeType, setTimeType] = useState<SetTime>('start');
+  const navigate = useNavigate();
 
   const { isOpen: isStartDateOpen, close: closeStartDate } =
     useStartDateModal();
@@ -77,7 +80,10 @@ function MakeNewMeeting({ setContent, setMeetingData }: Props) {
 
   return (
     <FlexColContainer>
-      <Header title={HEAD_TITLE.newMeeting} />
+      <Header
+        title={HEAD_TITLE.newMeeting}
+        onLeftArrowIconClick={() => navigate(PATH.login)}
+      />
       <ContentContainer>
         <PageTitle>{TITLE.newMeetingNonMember}</PageTitle>
         <ProgressBar currentStep="making" />

@@ -45,6 +45,7 @@ function NonConfirmList({ progressMeetings, isLeader }: Props) {
 
 const NonConfirmListItem = styled(ListItem)`
   position: relative;
+  cursor: pointer;
 `;
 
 export default NonConfirmList;
