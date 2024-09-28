@@ -9,28 +9,61 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'svg.d.ts', 'public'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: ['./tsconfig.app.json', './tsconfig.node.json'], // 여러 tsconfig 파일을 지정
+    project: ['./tsconfig.json', './tsconfig.node.json'],
+    tsconfigRootDir: __dirname,
   },
   plugins: ['react-refresh', '@typescript-eslint', 'prettier'],
   rules: {
+    'consistent-return': 'off',
+    'jsx-a11y/control-has-associated-label': 'off',
+    'react/destructuring-assignment': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'react/require-default-props': 'off',
+    'import/prefer-default-export': 'off',
+    '@typescript-eslint/no-use-before-define': 'off',
+    'import/no-extraneous-dependencies': 'off',
+    'react/no-array-index-key': 'off',
+    'react/function-component-definition': [
+      'error',
+      {
+        namedComponents: 'function-declaration', // 컴포넌트 선언 시 function 선언문 사용
+        unnamedComponents: 'arrow-function',
+      },
+    ],
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
     ],
     'react/react-in-jsx-scope': 'off',
-    'import/extensions': [
-      'error',
-      'ignorePackages',
+    'import/extensions': ['off'],
+    '@typescript-eslint/naming-convention': [
+      // 네이밍 컨벤션
+      'warn',
       {
-        js: 'never',
-        jsx: 'never',
-        ts: 'never',
-        tsx: 'never',
+        selector: 'typeAlias', // 타입 선언
+        format: ['PascalCase'],
+      },
+      {
+        selector: 'interface', // 인터페이스 선언
+        format: ['PascalCase'],
+      },
+      {
+        selector: 'variable',
+        format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
+      },
+      {
+        selector: 'function', // exported function (컴포넌트 명)
+        format: ['PascalCase'],
+        modifiers: ['exported'],
+      },
+      {
+        selector: 'function', // function
+        format: ['camelCase'],
       },
     ],
   },
@@ -39,6 +72,7 @@ module.exports = {
       node: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
+      typescript: {}, // 추가된 부분
     },
   },
 };
