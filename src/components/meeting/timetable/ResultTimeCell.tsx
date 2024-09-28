@@ -96,31 +96,38 @@ const ResultHalfCell = styled(SelectHalfCell)<
   CellProps & { $intensity: number }
 >`
   border-right: ${({ selected }) =>
-    selected
-      ? '1px solid white'
-      : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
+    `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
   border-left: ${({ selected }) =>
-    selected
-      ? '1px solid white'
-      : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
+    `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
   border-bottom: ${({ selected }) =>
-    selected
-      ? '1px solid white'
-      : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
-  border-top: ${({ selected }) => (selected ? '1px solid white' : 'none')};
+    `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
 
   background-color: ${({ $intensity }) =>
     getAdjustedColor({ ratio: $intensity })};
 
+  ${({ selected }) =>
+    selected &&
+    `
+    background-image: linear-gradient(
+      45deg,
+      ${theme.color.point.green} 25%,
+      transparent 25%,
+      transparent 50%,
+      ${theme.color.point.green} 50%,
+      ${theme.color.point.green} 75%,
+      transparent 75%,
+      transparent
+    );
+    background-size: 10px 10px;
+  `};
+
   &:first-child {
     border-top: ${({ selected }) =>
-      selected
-        ? '1px solid white'
-        : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
+      `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
     border-bottom: ${({ selected, $isStartCellHalf, $isEndCellHalf }) => {
-      if (selected) {
-        return '1px solid white';
-      }
+      // if (selected) {
+      //   return '1px solid white';
+      // }
       if ($isStartCellHalf) {
         return 'none';
       }
@@ -130,10 +137,9 @@ const ResultHalfCell = styled(SelectHalfCell)<
       return `2px dashed #ccc`;
     }};
   }
-  
+
   &:last-child {
     border-bottom: ${({ selected }) =>
-      selected
-        ? '2px solid white'
-        : `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
+      `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
+  }
 `;
