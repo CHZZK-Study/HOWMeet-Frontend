@@ -1,10 +1,18 @@
 import styled from 'styled-components';
 
-function Attenders() {
+interface Props {
+  member: {
+    id: string;
+    memberId: string;
+    nickname: string;
+    isLeader: boolean;
+  }[];
+}
+
+function Attenders({ member }: Props) {
   return (
     <StyledAttenders>
-      강하람, 김민희, 김성희, 김찬수, 김태호, 노지우, 이다희, 이민서, 이보람,
-      전채연, 정현규
+      {member.map((memberItem) => `${memberItem.nickname}, `)}
     </StyledAttenders>
   );
 }

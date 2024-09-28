@@ -26,11 +26,15 @@ import { PageTitle } from '@/styles/components/text';
 import { SetTime } from '@/types/SetTime';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 function NewMeetingPage() {
   const [timeType, setTimeType] = useState<SetTime>('start');
+  const location = useLocation();
+  const { hasRoom } = location.state || false;
+  const { roomId } = location.state || 0;
+
   const { isOpen: isStartDateOpen, close: closeStartDate } =
     useStartDateModal();
   const { isOpen: isEndDateOpen, close: closeEndDate } = useEndDateModal();
@@ -83,14 +87,53 @@ function NewMeetingPage() {
         value: watch('newMeeting'),
       },
     };
-    navigate('/confirm-meeting', { state: { req } });
+    navigate('/confirm-meeting', { state: { req, hasRoom, roomId } });
+  };
+
+  const renderButton = () => {
+    if (hasRoom) {
+      return (
+        <Button
+          $style="solid"
+          $theme="primary-purple"
+          disabled={!isValid}
+          onClick={handleClickConfirm}
+        >
+          완료
+        </Button>
+      );
+    }
+
+    if (isValid) {
+      return (
+        <Button
+          $style="solid"
+          $theme="primary-purple"
+          onClick={handleClickConfirm}
+        >
+          완료
+        </Button>
+      );
+    }
+
+    return (
+      <Button
+        $style="outlined"
+        $theme="primary-purple"
+        onClick={handleClickSkip}
+      >
+        건너 뛰기
+      </Button>
+    );
   };
 
   return (
     <FlexColContainer>
       <Header title={HEAD_TITLE.newMeeting} />
       <ContentContainer>
-        <PageTitle>{TITLE.newMeeting}</PageTitle>
+        <PageTitle>
+          {hasRoom ? TITLE.newMeetingNonMember : TITLE.newMeeting}
+        </PageTitle>
         <FormProvider {...methods}>
           <RoomInput
             placeholder={INPUT.newMeeting.placeholder}
@@ -104,25 +147,7 @@ function NewMeetingPage() {
         <SelectDate />
         <SelectTime onClick={handleSetType} />
       </ContentContainer>
-      <ButtonContainer>
-        {isValid ? (
-          <Button
-            $style="solid"
-            $theme="primary-purple"
-            onClick={handleClickConfirm}
-          >
-            완료
-          </Button>
-        ) : (
-          <Button
-            $style="outlined"
-            $theme="primary-purple"
-            onClick={handleClickSkip}
-          >
-            건너 뛰기
-          </Button>
-        )}
-      </ButtonContainer>
+      <ButtonContainer>{renderButton()}</ButtonContainer>
       {isStartDateOpen && (
         <Modal onClose={closeStartDate}>
           <StartDate />
