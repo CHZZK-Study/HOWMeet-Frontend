@@ -52,6 +52,9 @@ const useTimeTableData = (isSelectPage?: boolean) => {
     enabled: !isSelectPage,
   });
 
+  const handleLeftArrowIconClick = () => {
+    window.history.back();
+  };
   return {
     isTimeTableLoading,
     isSelectTimeDataLoading,
@@ -65,6 +68,7 @@ const useTimeTableData = (isSelectPage?: boolean) => {
     isError,
     isLeader,
     isMemberLoading,
+    handleLeftArrowIconClick,
   };
 };
 

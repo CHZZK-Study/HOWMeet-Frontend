@@ -36,6 +36,7 @@ function DecisionPage() {
     isSelectTimeDataLoading,
     isSelectedTimeDataError,
     isLeader,
+    handleLeftArrowIconClick,
   } = useTimeTableData();
 
   if (
@@ -46,7 +47,10 @@ function DecisionPage() {
   ) {
     return (
       <NormalContainer>
-        <Header title="일정 조율" />
+        <Header
+          title="일정 조율"
+          onLeftArrowIconClick={handleLeftArrowIconClick}
+        />
       </NormalContainer>
     );
   }
@@ -73,7 +77,10 @@ function DecisionPage() {
 
   return (
     <NormalContainer>
-      <Header title="일정 조율" />
+      <Header
+        title="일정 조율"
+        onLeftArrowIconClick={handleLeftArrowIconClick}
+      />
       <AttendStatusHeader
         TotalPersonnel={selectedTimeData.totalPersonnel.length}
         currentParticipants={selectedTimeData.participatedPersonnel.length}
