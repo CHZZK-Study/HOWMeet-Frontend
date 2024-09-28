@@ -7,15 +7,18 @@ import styled from 'styled-components';
 import Button from '@/components/common/Button';
 import { SUB_TITLE, TITLE } from '@/constants/title';
 import ConfirmContent from '@/components/room/ConfirmContent';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useMakeRoom from '@/hooks/useMakeRoom';
 import useConvertTime from '@/hooks/useConvertTime';
+import useMakeMemberMeeting from '@/hooks/useMakeMemberMeeting';
 
 function ConfirmMeeting() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isContainMeeting = !!location.state.req;
   const { convertTimeToPm } = useConvertTime();
-  const { handleMakeRoom } = useMakeRoom(isContainMeeting, {
+
+  const meetingReq = {
     ...location.state.req,
     time: {
       startTime: isContainMeeting
@@ -25,7 +28,9 @@ function ConfirmMeeting() {
         ? convertTimeToPm(location.state.req.time.endTime)
         : '',
     },
-  });
+  };
+  const { handleMakeRoom } = useMakeRoom(isContainMeeting, meetingReq);
+  const { handleMakeMemberMeeting } = useMakeMemberMeeting();
 
   const userInfo = sessionStorage.getItem('UserStore') || '';
   const parsedUserInfo = JSON.parse(userInfo);
@@ -42,6 +47,10 @@ function ConfirmMeeting() {
     handleMakeRoom(roomData);
   };
 
+  const handleClickMakeMeeting = () => {
+    handleMakeMemberMeeting({ roomId: location.state.roomId, meetingReq });
+  };
+
   return (
     <FlexColContainer>
       <ContentContainer>
@@ -52,13 +61,26 @@ function ConfirmMeeting() {
         <ConfirmContent contents={location.state} />
       </ContentContainer>
       <ButtonContainer>
-        <Button $style="solid" disabled>
+        <Button
+          $style="solid"
+          onClick={() =>
+            location.state.req
+              ? navigate('/new-meeting', {
+                  state: { meetingName: meetingReq.name.value },
+                })
+              : navigate('/make-room')
+          }
+        >
           수정하기
         </Button>
         <Button
           $style="solid"
           $theme="primary-purple"
-          onClick={handleClickMakeRoom}
+          onClick={
+            location.state.hasRoom
+              ? handleClickMakeMeeting
+              : handleClickMakeRoom
+          }
         >
           일정 생성
         </Button>

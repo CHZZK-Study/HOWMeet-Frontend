@@ -21,7 +21,7 @@ function LogOut() {
         >
           로그아웃
         </Button>
-        <Button $style="solid" $theme="primary-purple" onClick={closeLogOut}>
+        <Button $style="solid" onClick={closeLogOut}>
           취소
         </Button>
       </ButtonContainer>

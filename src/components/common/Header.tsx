@@ -10,8 +10,10 @@ interface Props {
   isShare?: boolean;
   isClose?: boolean;
   onIconClick?: () => void;
+  onShareClick?: () => void;
   isVisible?: boolean;
   toggle?: () => void;
+  onLeftArrowIconClick: () => void;
 }
 
 function Header({
@@ -19,8 +21,10 @@ function Header({
   isShare = false,
   isClose,
   onIconClick,
+  onShareClick,
   isVisible,
   toggle,
+  onLeftArrowIconClick,
 }: Props) {
   const theme = useTheme();
   const { user } = useUserStore();
@@ -29,11 +33,14 @@ function Header({
 
   return (
     <HeaderContainer>
-      <LeftArrowIcon className="back-button" />
+      <LeftArrowIcon className="back-button" onClick={onLeftArrowIconClick} />
       <HeadTitle>{title}</HeadTitle>
       {isShare && (
         <>
-          <ShareIcon className="icon-button" onClick={handleUrlCopy} />
+          <ShareIcon
+            className="icon-button"
+            onClick={onShareClick || handleUrlCopy}
+          />
           {isVisible && (
             <ToolTip
               content="팀원에게 공유해서 함께 일정을 조율해보세요!"
