@@ -31,6 +31,7 @@ function ResultPage() {
     meetingId,
     timeTableServerData,
     isError,
+    handleLeftArrowIconClick,
   } = useTimeTableData(true);
 
   const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
@@ -45,7 +46,10 @@ function ResultPage() {
   if (isLoading || !timeTableServerData || !data || isTimeTableLoading)
     return (
       <NormalContainer>
-        <Header title="일정 조율" />
+        <Header
+          title="일정 조율"
+          onLeftArrowIconClick={handleLeftArrowIconClick}
+        />
         <ResultNavbar />
 
         <BackLayout>
@@ -67,7 +71,10 @@ function ResultPage() {
 
   return (
     <NormalContainer>
-      <Header title="일정 조율" />
+      <Header
+        title="일정 조율"
+        onLeftArrowIconClick={handleLeftArrowIconClick}
+      />
       <ResultNavbar />
       <ResultInfoComp
         decidedTime={formatResultTime(data.confirmTime)}
