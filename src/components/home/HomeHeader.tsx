@@ -7,7 +7,7 @@ function HomeHeader() {
 
   return (
     <Header>
-      <LogoTitleIcon />
+      <LogoTitleIcon width={140} height={22} />
       <LogOutIcon onClick={openLogout} />
     </Header>
   );

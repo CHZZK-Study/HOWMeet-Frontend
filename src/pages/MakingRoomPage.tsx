@@ -38,7 +38,10 @@ function MakingRoomPage() {
 
   return (
     <FlexColContainer>
-      <Header title={HEAD_TITLE.makeRoom} />
+      <Header
+        title={HEAD_TITLE.makeRoom}
+        onLeftArrowIconClick={() => navigate(-1)}
+      />
       <ContentContainer>
         <PageTitle>{TITLE.makeRoom}</PageTitle>
         <FormProvider {...methods}>

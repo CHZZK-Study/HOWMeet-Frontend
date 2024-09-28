@@ -1,20 +1,40 @@
+import { PATH } from '@/constants/path';
 import { Badge } from '@/styles/components/badge';
+import { Schedule } from '@/types/room';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface Props {
-  title: string;
-  date: string;
+  name: string;
   member: string;
+  roomId: string;
+  schedule: Schedule;
+  hasNonParticipant: boolean;
 }
 
-function RoomItem({ title, date, member }: Props) {
+function RoomItem({
+  name,
+  member,
+  roomId,
+  schedule,
+  hasNonParticipant,
+}: Props) {
+  const navigate = useNavigate();
+
   return (
-    <RoomItemContainer>
-      <NoticeDot />
-      <RoomTitle>{title}</RoomTitle>
+    <RoomItemContainer onClick={() => navigate(`${PATH.room}/${roomId}`)}>
+      {hasNonParticipant && <NoticeDot />}
+      <RoomTitle>{name}</RoomTitle>
       <RoomDesc>
         <Badge>예정된 일정</Badge>
-        <p>{date}</p>
+        {schedule ? (
+          <p>
+            {schedule.dates[0]} {schedule.time.startTime.slice(0, -3)}~
+            {schedule.time.endTime.slice(0, -3)}
+          </p>
+        ) : (
+          <p>없음</p>
+        )}
       </RoomDesc>
       <RoomDesc>
         <Badge>참여 중인 팀원</Badge>
@@ -36,6 +56,10 @@ const RoomItemContainer = styled.li`
 
   background: ${({ theme }) => theme.color.primary.white};
   border-radius: 14.3px;
+
+  box-shadow: 0px 4px 10px 0px rgba(90, 90, 90, 0.1);
+
+  cursor: pointer;
 `;
 
 const RoomTitle = styled.p`

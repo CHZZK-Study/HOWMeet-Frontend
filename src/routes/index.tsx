@@ -2,7 +2,7 @@ import MainPage from '@/pages/MainPage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LoginPage from '@/pages/LoginPage';
 import NewMeetingPage from '@/pages/NewMeetingPage';
-import MeetingListPage from '@/pages/MeetingListPage';
+import RoomListPage from '@/pages/RoomListPage';
 import MeetingPage from '@/pages/MeetingPage';
 import SelectPage from '@/pages/SelectPage';
 import MakingRoomPage from '@/pages/MakingRoomPage';
@@ -43,8 +43,8 @@ const router = createBrowserRouter([
     element: <ConfirmMeeting />,
   },
   {
-    path: 'meetings',
-    element: <MeetingListPage />,
+    path: 'rooms',
+    element: <RoomListPage />,
   },
   {
     path: 'meeting/:id',

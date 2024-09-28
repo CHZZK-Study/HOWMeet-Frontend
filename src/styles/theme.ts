@@ -104,6 +104,11 @@ const typo = {
         font-weight: 400;
         line-height: 30.8px;
       `,
+      20: `
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 30px;
+      `,
       18: `
         font-size: 18px;
         font-weight: 400;

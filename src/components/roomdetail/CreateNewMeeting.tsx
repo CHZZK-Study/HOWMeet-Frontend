@@ -1,10 +1,26 @@
+import { PATH } from '@/constants/path';
+import useMakeRoomStore from '@/store/makeroom/useMakeRoomStore';
 import { CreateRoomPlusIcon } from 'public/assets/icons';
+import { useNavigate } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 
-function CreateNewMeeting() {
+interface Props {
+  roomName: string;
+  roomId: number;
+}
+
+function CreateNewMeeting({ roomName, roomId }: Props) {
   const theme = useTheme();
+  const navigate = useNavigate();
+  const setRoomName = useMakeRoomStore((state) => state.setRoomName);
+
+  const handleClickButton = () => {
+    setRoomName(roomName);
+    navigate(PATH.new_meeting, { state: { hasRoom: true, roomId } });
+  };
+
   return (
-    <ButtonContainer>
+    <ButtonContainer onClick={handleClickButton}>
       <PlusButton>
         <CreateRoomPlusIcon stroke={theme.color.point.purple} />
       </PlusButton>
@@ -16,6 +32,7 @@ function CreateNewMeeting() {
 const ButtonContainer = styled.button`
   width: 93%;
   padding: 17px 17px;
+  margin-top: 30px;
   display: flex;
   align-items: center;
   gap: 12px;
