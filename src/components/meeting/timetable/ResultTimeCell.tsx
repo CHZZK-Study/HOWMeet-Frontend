@@ -95,12 +95,10 @@ export default MemoizedResultTimeCell;
 const ResultHalfCell = styled(SelectHalfCell)<
   CellProps & { $intensity: number }
 >`
-  border-right: ${({ selected }) =>
-    `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
-  border-left: ${({ selected }) =>
-    `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
-  border-bottom: ${({ selected }) =>
-    `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
+
+  border-right: 0.1px solid ${theme.color.secondary.solid.gray[800]}
+  border-left: 0.1px solid ${theme.color.secondary.solid.gray[800]}
+  border-bottom: 0.1px solid ${theme.color.secondary.solid.gray[800]}
 
   background-color: ${({ $intensity }) =>
     getAdjustedColor({ ratio: $intensity })};
@@ -122,9 +120,8 @@ const ResultHalfCell = styled(SelectHalfCell)<
   `};
 
   &:first-child {
-    border-top: ${({ selected }) =>
-      `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
-    border-bottom: ${({ selected, $isStartCellHalf, $isEndCellHalf }) => {
+    border-top: 0.1px solid ${theme.color.secondary.solid.gray[800]};
+    border-bottom: ${({ $isStartCellHalf, $isEndCellHalf }) => {
       // if (selected) {
       //   return '1px solid white';
       // }
@@ -139,7 +136,7 @@ const ResultHalfCell = styled(SelectHalfCell)<
   }
 
   &:last-child {
-    border-bottom: ${({ selected }) =>
-      `0.1px solid ${theme.color.secondary.solid.gray[800]}`};
+    border-bottom: 
+    0.1px solid ${theme.color.secondary.solid.gray[800]};
   }
 `;
