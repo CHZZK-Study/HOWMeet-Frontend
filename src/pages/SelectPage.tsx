@@ -113,7 +113,7 @@ function SelectPage() {
         toast.message('정보가 성공적으로 저장되었습니다!');
 
         if (isGuest) {
-          navigate(`/meeting/${roomId}/result/${meetingId}`);
+          navigate(`/meeting/${roomId}/decision/${meetingId}`);
         } else {
           openModal();
         }
