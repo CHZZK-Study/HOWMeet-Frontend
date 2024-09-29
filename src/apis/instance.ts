@@ -39,7 +39,7 @@ axiosInstance.interceptors.response.use(
       try {
         const result = await axios.post(`${BASE_URL}/oauth/reissue`, {
           headers: {
-            token: accessToken,
+            Authorization: accessToken,
           },
         });
 
@@ -47,7 +47,7 @@ axiosInstance.interceptors.response.use(
 
         if (newAccessToken) {
           localStorage.setItem(STORAGE_KEY.accessToken, newAccessToken);
-          originRequest.headers.token = newAccessToken;
+          originRequest.headers.Authorization = newAccessToken;
         }
         return await axiosInstance(originRequest);
       } catch (error) {
