@@ -95,10 +95,9 @@ export default MemoizedResultTimeCell;
 const ResultHalfCell = styled(SelectHalfCell)<
   CellProps & { $intensity: number }
 >`
-
-  border-right: 0.1px solid ${theme.color.secondary.solid.gray[800]}
-  border-left: 0.1px solid ${theme.color.secondary.solid.gray[800]}
-  border-bottom: 0.1px solid ${theme.color.secondary.solid.gray[800]}
+  border-right: 0.1px solid ${theme.color.secondary.solid.gray[800]};
+  border-left: 0.1px solid ${theme.color.secondary.solid.gray[800]};
+  border-bottom: 0.1px solid ${theme.color.secondary.solid.gray[800]};
 
   background-color: ${({ $intensity }) =>
     getAdjustedColor({ ratio: $intensity })};
@@ -136,7 +135,6 @@ const ResultHalfCell = styled(SelectHalfCell)<
   }
 
   &:last-child {
-    border-bottom: 
-    0.1px solid ${theme.color.secondary.solid.gray[800]};
+    border-bottom: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   }
 `;
