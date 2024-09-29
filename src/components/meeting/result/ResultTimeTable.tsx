@@ -38,9 +38,8 @@ function ResultTimeTable({
     isEndCellHalf: boolean
   ) => {
     const slot = roomInfo.time.find(
-      (s) => s.selectTime === `${date}T${hour}:${minute}`
+      (s) => s.selectTime === `${date}T${hour}:${minute}:00`
     );
-
     const intensity = slot
       ? slot.participantDetails.nicknames.length /
         roomInfo.totalPersonnel.length
