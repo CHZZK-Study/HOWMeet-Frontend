@@ -6,6 +6,7 @@ export interface PostRoomReq {
 }
 
 export interface RoomListRes {
+  totalRoomCount: string;
   roomList: {
     roomId: string;
     name: string;

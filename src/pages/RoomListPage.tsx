@@ -43,7 +43,9 @@ function RoomListPage() {
       <ContentContainer>
         <Title>
           {TITLE.attendRoom}{' '}
-          <span className="currentNumber">{roomList.length}</span>
+          <span className="currentNumber">
+            {roomListRes.pages[0].totalRoomCount}
+          </span>
         </Title>
         <RoomList roomList={roomList} setIsBottom={setIsBottom} />
         <CreateRoomButton />
