@@ -29,6 +29,7 @@ import { toast } from 'sonner';
 import Skeleton from 'react-loading-skeleton'; // 추가
 import 'react-loading-skeleton/dist/skeleton.css';
 import useTimeTableData from '@/hooks/useTimeTableData';
+import useUserStore from '@/store/userStore';
 
 function SelectPage() {
   const navigate = useNavigate();
@@ -39,12 +40,13 @@ function SelectPage() {
   const { closeModal, isOpen, openModal } = useModal();
   const { isToolTipOpen, closeToolTip } = useToolTip();
   const [isSelected, setIsSelected] = useState(false);
+  const isNotLoggedIn = useUserStore((state) => state.user) === null;
   const handleReWrite = () => {
     setIsSelected(false);
   };
 
   useEffect(() => {
-    if (!user) {
+    if (isNotLoggedIn) {
       const isGuest = searchParams.get('isGuest') === 'true';
       navigate(
         `${PATH.login}?meetingId=${params.meetingId}&roomId=${params.roomId}&loginType=${isGuest ? 'non-member' : 'member'}&callbackUrl=${pathname}`,
