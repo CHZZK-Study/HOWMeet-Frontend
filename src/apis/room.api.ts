@@ -16,6 +16,7 @@ export const getRoomList = async (memberId: number, page: number) => {
 };
 
 export const getRoomDetail = async (roomId: number) => {
+  console.log('hello');
   const result: AxiosResponse<RoomDetailRes> = await axiosInstance.get(
     `/room/${roomId}`
   );
