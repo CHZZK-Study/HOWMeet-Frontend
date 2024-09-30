@@ -8,8 +8,8 @@ const useRoomList = (memberId: number) => {
     fetchNextPage,
   } = useInfiniteQuery({
     queryKey: ['roomList', memberId],
-    queryFn: ({ pageParam = 1 }) => getRoomList(memberId, pageParam),
-    initialPageParam: 1,
+    queryFn: ({ pageParam = 0 }) => getRoomList(memberId, pageParam),
+    initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       return lastPage.hasNextPage ? lastPage.currentPage + 1 : undefined;
     },

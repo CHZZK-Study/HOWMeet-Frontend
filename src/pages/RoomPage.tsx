@@ -31,6 +31,8 @@ function RoomPage() {
 
   if (!roomDetail) return null;
 
+  console.log(roomDetail);
+
   const progressMeetings = roomDetail.schedules.filter(
     (item) => item.status === 'PROGRESS'
   );
