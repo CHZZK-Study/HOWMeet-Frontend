@@ -88,8 +88,8 @@ function UpComming({ schedules }: Props) {
         )}
       </AnimatePresence>
       <StepWrapper>
-        {[0, 1, 2].map((item) => (
-          <Dot $isSelect={visible === item} />
+        {schedules.map((index) => (
+          <Dot $isSelect={visible === Number(index)} />
         ))}
       </StepWrapper>
     </UpCommingList>
