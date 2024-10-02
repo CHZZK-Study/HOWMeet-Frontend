@@ -84,7 +84,7 @@ function RoomPage() {
           />
         )}
         <SubTitle>전체 일정</SubTitle>
-        <Description>확정된 일정을 확인해보세요 !</Description>
+        <Description>확정된 일정을 확인해보세요!</Description>
         {completedMeetings.length === 0 ? (
           <EmptyBox $height="96px">아직 일정이 없습니다</EmptyBox>
         ) : (
