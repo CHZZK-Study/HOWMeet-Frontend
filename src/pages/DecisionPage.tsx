@@ -102,7 +102,7 @@ function DecisionPage() {
       <ResultTimeTable
         timetableInfo={timeTableData}
         roomInfo={selectedTimeData}
-        dragDisabled={isSelected}
+        dragDisabled={isSelected || isGuest}
       />
       {isGuest ? null : (
         <ButtonContainer center>
