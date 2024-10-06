@@ -88,7 +88,7 @@ function SelectPage() {
         <FlexColContainer>
           <Skeleton height={600} width={400} count={1} />
           <br />
-          <Skeleton height={100} width={400} count={1} />
+          <Skeleton height={50} width={400} count={1} />
         </FlexColContainer>
 
         {isOpen && <TimeSelectModalComp handleModalClose={closeModal} />}

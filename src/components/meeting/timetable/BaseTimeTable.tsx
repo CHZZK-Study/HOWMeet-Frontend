@@ -99,9 +99,11 @@ const Header = styled.div`
 const HourContainer = styled.div`
   display: flex;
   flex-direction: column;
+  height: fit-content;
   align-items: center;
   justify-content: center;
   gap: 15px;
+
   padding-bottom: 16px;
   padding-left: 15px;
   padding-right: 15px;
@@ -141,7 +143,6 @@ const Row = styled.div`
 
 const CellGroup = styled.div<{ $isHalf: boolean }>`
   flex: 1;
-  height: ${({ $isHalf }) => ($isHalf ? '35px;' : '55px;')}
   display: flex;
   flex-direction: column;
 `;

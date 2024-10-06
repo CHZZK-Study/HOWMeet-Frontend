@@ -30,7 +30,7 @@ function ShareMeeting() {
       await navigator.clipboard.writeText(
         `${import.meta.env.VITE_APP_CLIENT_URL}/meeting/${tempRoomId}/select/${meetingId}?isGuest=true`
       );
-      toast.info('링크가 복사되었습니다.');
+      toast('링크가 복사되었습니다.');
     } catch (e) {
       toast.error('복사에 실패하였습니다.');
     }

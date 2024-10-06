@@ -28,7 +28,11 @@ function UrlShareModal({ handleModalClose }: { handleModalClose: () => void }) {
           <UrlIcon onClick={handleUrlCopy} />
           <ModalTitle>URL 복사하기</ModalTitle>
         </ModalContentContainer>
-        <Button $style="solid" onClick={handleModalClose}>
+        <Button
+          $style="solid"
+          $theme="primary-purple"
+          onClick={handleModalClose}
+        >
           취소
         </Button>
       </ModalContainer>
@@ -40,7 +44,7 @@ export default UrlShareModal;
 
 const ModalHeader = styled.div`
   display: flex;
-  justify-content: flex-end; // 닫기 버튼을 오른쪽 끝에 배치
+  justify-content: flex-end;
   align-items: center;
 `;
 
