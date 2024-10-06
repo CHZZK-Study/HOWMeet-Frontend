@@ -89,7 +89,8 @@ export const SelectHalfCell = styled.div<CellProps>`
   justify-content: center;
   border-right: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   border-left: 0.1px solid ${theme.color.secondary.solid.gray[800]};
-  background-color: ${(props) => (props.selected ? '#E2F5E3' : 'white')};
+  background-color: ${({ selected }) => (selected ? '#E2F5E3' : 'white')};
+  height: 100%;
   &:first-child {
     ${({ $isStartCellHalf, $isEndCellHalf }) => {
       if ($isStartCellHalf) {
@@ -102,9 +103,11 @@ export const SelectHalfCell = styled.div<CellProps>`
     }}
     border-top: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   }
+
   &:last-child {
     border-bottom: 0.1px solid ${theme.color.secondary.solid.gray[800]};
   }
+
   touch-action: none;
 `;
 
