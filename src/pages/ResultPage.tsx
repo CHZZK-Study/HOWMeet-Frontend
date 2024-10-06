@@ -12,6 +12,7 @@ import useModal from '@/hooks/useModal';
 import useTimeTableData from '@/hooks/useTimeTableData';
 import {
   ButtonContainer,
+  FlexColContainer,
   NormalContainer,
 } from '@/styles/components/container';
 import { ResultHeatmapProps, TimeTableData } from '@/types/timeTableTypes';
@@ -21,6 +22,7 @@ import {
 } from '@/utils/meeting/timetable/formatDateTime';
 import { useQuery } from '@tanstack/react-query';
 import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
+import Skeleton from 'react-loading-skeleton';
 
 function ResultPage() {
   const { isOpen, closeModal, openModal } = useModal();
@@ -53,7 +55,17 @@ function ResultPage() {
         <ResultNavbar />
 
         <BackLayout>
-          <Container />
+          <FlexColContainer>
+            <Container>
+              <Skeleton height={164} width="100%" count={1} />
+            </Container>
+            <br />
+            <Container>
+              <Skeleton height={300} width="100%" count={1} />
+            </Container>
+            <br />
+            <Skeleton height={50} width={400} count={1} />
+          </FlexColContainer>
         </BackLayout>
 
         {isOpen && <UrlShareModal handleModalClose={closeModal} />}

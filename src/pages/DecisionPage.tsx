@@ -4,6 +4,7 @@ import Header from '@/components/common/Header';
 import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
 import {
   ButtonContainer,
+  FlexColContainer,
   NormalContainer,
 } from '@/styles/components/container';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
@@ -20,6 +21,7 @@ import { axiosInstance } from '@/apis/instance';
 import useTimeTableData from '@/hooks/useTimeTableData';
 import { toast } from 'sonner';
 import styled from 'styled-components';
+import Skeleton from 'react-loading-skeleton';
 
 function DecisionPage() {
   const navigate = useNavigate();
@@ -51,6 +53,14 @@ function DecisionPage() {
           title="일정 조율"
           onLeftArrowIconClick={handleLeftArrowIconClick}
         />
+        <FlexColContainer>
+          <br />
+          <Skeleton height={50} width={400} count={1} />
+          <br />
+          <Skeleton height={600} width={400} count={1} />
+          <br />
+          <Skeleton height={50} width={400} count={1} />
+        </FlexColContainer>
       </NormalContainer>
     );
   }
