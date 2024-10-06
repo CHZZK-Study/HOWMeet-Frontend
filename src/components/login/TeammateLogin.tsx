@@ -1,22 +1,20 @@
 import { GuestTitle } from '@/styles/components/text';
 import { LogoTitleIcon } from 'public/assets/icons';
-import { useSearchParams } from 'react-router-dom';
+import { useMeetingInfo } from '@/hooks/useMeetingInfo';
 import styled from 'styled-components';
 import SocialLoginButtons from './SocialLoginButtons';
 import LoginForm from './LoginForm';
 
 function TeammateLogin() {
-  const [searchParams] = useSearchParams();
-  const meetingId = searchParams.get('meetingId');
-  const loginType = searchParams.get('loginType');
+  const { isGuest, meetingId, meetingInfo } = useMeetingInfo();
 
   return (
     <Container>
       <Header>
         <LogoTitleIcon width={140} />
-        {loginType === 'non-member' ? (
+        {isGuest ? (
           <GuestTitle>
-            <h2>일정 이름</h2>
+            <h2>{meetingInfo.name.value}</h2>
             <span>
               비회원으로 일정을 만든 경우에는
               <br />
@@ -25,13 +23,13 @@ function TeammateLogin() {
           </GuestTitle>
         ) : (
           <GuestTitle>
-            <h2>일정 이름</h2>
+            <h2>{meetingInfo.name.value}</h2>
             <span>간편 로그인 후에 일정을 조율해 보세요.</span>
           </GuestTitle>
         )}
       </Header>
       <LoginFormContainer>
-        {loginType === 'non-member' ? (
+        {isGuest ? (
           <LoginForm meetingId={meetingId!} />
         ) : (
           <SocialLoginButtons />
