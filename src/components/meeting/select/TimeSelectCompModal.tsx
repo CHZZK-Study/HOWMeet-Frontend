@@ -63,7 +63,7 @@ export const ModalContainer = styled.div`
   width: 80%;
   max-width: 300px;
   height: 80%;
-  max-height: 500px;
+  max-height: 400px;
 
   display: flex;
   flex-direction: column;
