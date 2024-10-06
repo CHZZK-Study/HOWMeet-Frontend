@@ -84,7 +84,7 @@ const SubTitle = styled.h2`
 const TotalButton = styled.button`
   background: none;
   color: ${({ theme }) => theme.color.secondary.solid.bk[400]};
-  ${({ theme }) => theme.typo.body.semi_bold[12]}
+  ${({ theme }) => theme.typo.body.semi_bold[14]}
 `;
 
 const ContentWrapper = styled.div`

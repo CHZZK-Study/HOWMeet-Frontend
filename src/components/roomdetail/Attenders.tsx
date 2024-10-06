@@ -12,7 +12,11 @@ interface Props {
 function Attenders({ member }: Props) {
   return (
     <StyledAttenders>
-      {member.map((memberItem) => `${memberItem.nickname}, `)}
+      {member.map((memberItem, index) =>
+        index === member.length - 1
+          ? memberItem.nickname
+          : `${memberItem.nickname}, `
+      )}
     </StyledAttenders>
   );
 }
