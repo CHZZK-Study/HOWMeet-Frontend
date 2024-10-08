@@ -27,6 +27,12 @@ export const useSocialLogin = () => {
     }
   }, [code]);
 
+  useEffect(() => {
+    if (callback) {
+      sessionStorage.setItem(STORAGE_KEY.callbackUrl, callback);
+    }
+  }, [callback]);
+
   const { mutate: handleLoginCode } = useMutation({
     mutationFn: (req: SocialLoginReq) => socialLogin(req),
     onSuccess: async (result) => {
@@ -43,7 +49,8 @@ export const useSocialLogin = () => {
         });
       }
 
-      navigate(callback || PATH.home);
+      const callbackUrl = sessionStorage.getItem(STORAGE_KEY.callbackUrl);
+      navigate(callbackUrl || PATH.home);
     },
   });
 };
