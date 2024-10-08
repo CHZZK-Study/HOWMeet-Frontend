@@ -46,9 +46,12 @@ function ResultTimeTable({
       : 0;
 
     const isDisabled =
-      timetableInfo.isContainMidnight &&
-      date === timetableInfo.dates[0] &&
-      hour < timetableInfo.startHour;
+      (timetableInfo.isContainMidnight &&
+        date === timetableInfo.dates[0] &&
+        hour < timetableInfo.startHour) ||
+      (timetableInfo.isContainMidnight &&
+        date === timetableInfo.dates[timetableInfo.dates.length - 1] &&
+        hour >= timetableInfo.endHour);
 
     const timeSlot: ResultHeatmapCellInfo = {
       hour,
