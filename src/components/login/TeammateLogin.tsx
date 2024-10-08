@@ -8,6 +8,8 @@ import LoginForm from './LoginForm';
 function TeammateLogin() {
   const { isGuest, meetingId, meetingInfo } = useMeetingInfo();
 
+  if (!meetingInfo) return null;
+
   return (
     <Container>
       <Header>
