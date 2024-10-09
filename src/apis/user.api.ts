@@ -50,6 +50,6 @@ export const getUserProfile = async () => {
 };
 
 export const addMemberToRoom = async (roomId: string) => {
-  const result = await axiosInstance.get(`/room/${roomId}/members`);
+  const result = await axiosInstance.patch(`/room/${roomId}/members`);
   return result.data;
 };
