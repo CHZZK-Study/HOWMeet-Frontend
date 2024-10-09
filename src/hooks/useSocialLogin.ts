@@ -48,10 +48,13 @@ export const useSocialLogin = () => {
       const roomIdToLogin = localStorage.getItem(STORAGE_KEY.roomId);
 
       if (roomIdToLogin) {
-        await addMemberToRoom(roomIdToLogin).catch(() => {
-          toast.error('로그인에 실패했습니다.');
+        await addMemberToRoom(roomIdToLogin, {
+          memberId,
+          isLeader: false,
+        }).catch(() => {
           logOut();
           navigate(PATH.login);
+          toast.error('로그인에 실패했습니다.');
         });
         localStorage.removeItem(STORAGE_KEY.roomId);
       }
