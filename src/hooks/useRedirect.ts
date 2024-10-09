@@ -20,7 +20,7 @@ export const useRedirect = () => {
       const isGuest = searchParams.get('isGuest') === 'true';
 
       navigate(
-        `${PATH.login}?${params.roomId && `roomId=${params.roomId}&`}${params.meetingId && `meetingId=${params.meetingId}&`}loginType=${isGuest ? 'non-member' : 'member'}&callbackUrl=${pathname}`,
+        `${PATH.login}?${params.roomId ? `roomId=${params.roomId}&` : ''}${params.meetingId ? `meetingId=${params.meetingId}&` : ''}loginType=${isGuest ? 'non-member' : 'member'}&callbackUrl=${pathname}`,
         { replace: true }
       );
     }
