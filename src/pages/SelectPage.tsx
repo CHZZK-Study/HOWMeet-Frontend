@@ -4,7 +4,6 @@ import Header from '@/components/common/Header';
 import SelectableTimeTable from '@/components/meeting/select/SelectableTimeTable';
 import TimeSelectModalComp from '@/components/meeting/select/TimeSelectCompModal';
 import TimeSelectTitle from '@/components/meeting/select/TimeSelectTitle';
-import { PATH } from '@/constants/path';
 import useModal from '@/hooks/useModal';
 import useToolTip from '@/hooks/useToolTip';
 import { useTimeStore } from '@/store/meeting/useTimeStore';
@@ -18,42 +17,25 @@ import {
   formatPostDateTime,
   formatServerToTimeTableData,
 } from '@/utils/meeting/timetable/formatDateTime';
-import { useEffect, useState } from 'react';
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import Skeleton from 'react-loading-skeleton'; // 추가
 import 'react-loading-skeleton/dist/skeleton.css';
 import useTimeTableData from '@/hooks/useTimeTableData';
-import useUserStore from '@/store/userStore';
+import { useRedirect } from '@/hooks/useRedirect';
 
 function SelectPage() {
+  useRedirect();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const params = useParams();
-  const [searchParams] = useSearchParams();
   const { selectedTimes } = useTimeStore();
   const { closeModal, isOpen, openModal } = useModal();
   const { isToolTipOpen, closeToolTip } = useToolTip();
   const [isSelected, setIsSelected] = useState(false);
-  const isNotLoggedIn = useUserStore((state) => state.user) === null;
+
   const handleReWrite = () => {
     setIsSelected(false);
   };
-
-  useEffect(() => {
-    if (isNotLoggedIn) {
-      const isGuest = searchParams.get('isGuest') === 'true';
-      navigate(
-        `${PATH.login}?meetingId=${params.meetingId}&roomId=${params.roomId}&loginType=${isGuest ? 'non-member' : 'member'}&callbackUrl=${pathname}`,
-        { replace: true }
-      );
-    }
-  }, []);
 
   const {
     isGuest,
