@@ -4,8 +4,10 @@ import ConfirmList from '@/components/roomdetail/ConfirmList';
 import CreateNewMeeting from '@/components/roomdetail/CreateNewMeeting';
 import NonConfirmList from '@/components/roomdetail/NonConfirmList';
 import { PATH } from '@/constants/path';
+import { useRedirect } from '@/hooks/useRedirect';
 import useRoom from '@/hooks/useRoom';
 import useToolTip from '@/hooks/useToolTip';
+import useUserStore from '@/store/userStore';
 import {
   FlexColContainer,
   ContentContainer,
@@ -17,19 +19,17 @@ import { toast } from 'sonner';
 import styled from 'styled-components';
 
 function RoomPage() {
+  useRedirect();
   const navigate = useNavigate();
   const { roomId } = useParams();
   const { isToolTipOpen, closeToolTip } = useToolTip();
-
-  const userInfo = sessionStorage.getItem('UserStore') || '';
-  const parsedUserInfo = JSON.parse(userInfo);
-  const userId = parsedUserInfo.state.user.id;
+  const user = useUserStore((state) => state.user);
 
   const { roomDetail, isError } = useRoom(Number(roomId));
 
   if (isError) toast.error('잠시후 다시 시도해 주세요');
 
-  if (!roomDetail) return null;
+  if (!roomDetail || !user) return null;
 
   const progressMeetings = roomDetail.schedules.filter(
     (item) => item.status === 'PROGRESS'
@@ -39,7 +39,7 @@ function RoomPage() {
   );
 
   const leaderMember = roomDetail.roomMembers.filter(
-    (member) => member.memberId === userId
+    (member) => member.memberId === user.id
   );
 
   const { isLeader } = leaderMember[0];
