@@ -29,9 +29,12 @@ export const useSocialLogin = () => {
 
   useEffect(() => {
     if (callback) {
-      sessionStorage.setItem(STORAGE_KEY.callbackUrl, callback);
+      localStorage.setItem(STORAGE_KEY.callbackUrl, callback);
     }
-  }, [callback]);
+    if (roomId) {
+      localStorage.setItem(STORAGE_KEY.roomId, roomId);
+    }
+  }, [callback, roomId]);
 
   const { mutate: handleLoginCode } = useMutation({
     mutationFn: (req: SocialLoginReq) => socialLogin(req),
@@ -42,15 +45,20 @@ export const useSocialLogin = () => {
       localStorage.setItem(STORAGE_KEY.accessToken, accessToken);
       handleAllowNotification();
 
-      if (roomId) {
-        await addMemberToRoom(roomId).catch(() => {
+      const roomIdToLogin = localStorage.getItem(STORAGE_KEY.roomId);
+
+      if (roomIdToLogin) {
+        await addMemberToRoom(roomIdToLogin).catch(() => {
           toast.error('로그인에 실패했습니다.');
           logOut();
+          navigate(PATH.login);
         });
+        localStorage.removeItem(STORAGE_KEY.roomId);
       }
 
-      const callbackUrl = sessionStorage.getItem(STORAGE_KEY.callbackUrl);
+      const callbackUrl = localStorage.getItem(STORAGE_KEY.callbackUrl);
       navigate(callbackUrl || PATH.home);
+      localStorage.removeItem(STORAGE_KEY.callbackUrl);
     },
   });
 };
