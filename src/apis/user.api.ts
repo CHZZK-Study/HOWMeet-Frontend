@@ -49,7 +49,12 @@ export const getUserProfile = async () => {
   return result.data;
 };
 
-export const addMemberToRoom = async (roomId: string) => {
-  const result = await axiosInstance.patch(`/room/${roomId}/members`);
+interface AddMemberReq {
+  memberId: string;
+  isLeader: boolean;
+}
+
+export const addMemberToRoom = async (roomId: string, req: AddMemberReq) => {
+  const result = await axiosInstance.patch(`/room/${roomId}/members`, [req]);
   return result.data;
 };
