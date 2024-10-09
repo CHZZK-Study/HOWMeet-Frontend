@@ -21,6 +21,8 @@ function App() {
   const setUser = useUserStore((state) => state.setUser);
   const getProfile = async () => {
     const { id, nickname } = await getUserProfile();
+    console.log(id);
+    console.log(nickname);
     return {
       id,
       username: nickname,
