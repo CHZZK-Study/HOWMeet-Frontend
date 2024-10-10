@@ -14,7 +14,8 @@ import {
 } from '@/styles/components/container';
 import { EmptyBox } from '@/styles/components/emptybox';
 import { PageTitle } from '@/styles/components/text';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import styled from 'styled-components';
 
@@ -22,8 +23,16 @@ function RoomPage() {
   useRedirect();
   const navigate = useNavigate();
   const { roomId } = useParams();
+  const { pathname } = useLocation();
   const { isToolTipOpen, closeToolTip } = useToolTip();
+  const isNotLoggedIn = useUserStore((state) => state.user) === null;
   const user = useUserStore((state) => state.user);
+
+  useEffect(() => {
+    if (isNotLoggedIn) {
+      navigate(`${PATH.login}?callbackUrl=${pathname}`, { replace: true });
+    }
+  }, [pathname, isNotLoggedIn, navigate]);
 
   const { roomDetail, isError } = useRoom(Number(roomId));
 
