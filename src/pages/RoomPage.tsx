@@ -6,20 +6,30 @@ import NonConfirmList from '@/components/roomdetail/NonConfirmList';
 import { PATH } from '@/constants/path';
 import useRoom from '@/hooks/useRoom';
 import useToolTip from '@/hooks/useToolTip';
+import useUserStore from '@/store/userStore';
 import {
   FlexColContainer,
   ContentContainer,
 } from '@/styles/components/container';
 import { EmptyBox } from '@/styles/components/emptybox';
 import { PageTitle } from '@/styles/components/text';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import styled from 'styled-components';
 
 function RoomPage() {
   const navigate = useNavigate();
   const { roomId } = useParams();
+  const { pathname } = useLocation();
   const { isToolTipOpen, closeToolTip } = useToolTip();
+  const isNotLoggedIn = useUserStore((state) => state.user) === null;
+
+  useEffect(() => {
+    if (isNotLoggedIn) {
+      navigate(`${PATH.login}?callbackUrl=${pathname}`, { replace: true });
+    }
+  }, [pathname, isNotLoggedIn, navigate]);
 
   const userInfo = sessionStorage.getItem('UserStore') || '';
   const parsedUserInfo = JSON.parse(userInfo);
