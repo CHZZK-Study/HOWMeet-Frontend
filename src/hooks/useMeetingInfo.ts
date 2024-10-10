@@ -12,6 +12,7 @@ export const useMeetingInfo = () => {
   const { data } = useQuery({
     queryKey: ['meetingInfo', { roomId, meetingId }],
     queryFn: () => getMeetingInfo({ isGuest, roomId, meetingId }),
+    enabled: !!meetingId,
   });
 
   return { meetingInfo: data, meetingId, isGuest };

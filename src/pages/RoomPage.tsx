@@ -4,6 +4,7 @@ import ConfirmList from '@/components/roomdetail/ConfirmList';
 import CreateNewMeeting from '@/components/roomdetail/CreateNewMeeting';
 import NonConfirmList from '@/components/roomdetail/NonConfirmList';
 import { PATH } from '@/constants/path';
+import { useRedirect } from '@/hooks/useRedirect';
 import useRoom from '@/hooks/useRoom';
 import useToolTip from '@/hooks/useToolTip';
 import useUserStore from '@/store/userStore';
@@ -19,6 +20,7 @@ import { toast } from 'sonner';
 import styled from 'styled-components';
 
 function RoomPage() {
+  useRedirect();
   const navigate = useNavigate();
   const { roomId } = useParams();
   const { pathname } = useLocation();
@@ -39,7 +41,7 @@ function RoomPage() {
 
   if (isError) toast.error('잠시후 다시 시도해 주세요');
 
-  if (!roomDetail) return null;
+  if (!roomDetail || !user) return null;
 
   const progressMeetings = roomDetail.schedules.filter(
     (item) => item.status === 'PROGRESS'
@@ -49,7 +51,7 @@ function RoomPage() {
   );
 
   const leaderMember = roomDetail.roomMembers.filter(
-    (member) => member.memberId === userId
+    (member) => member.memberId === user.id
   );
 
   const { isLeader } = leaderMember[0];

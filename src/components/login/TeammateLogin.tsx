@@ -2,11 +2,19 @@ import { GuestTitle } from '@/styles/components/text';
 import { LogoTitleIcon } from 'public/assets/icons';
 import { useMeetingInfo } from '@/hooks/useMeetingInfo';
 import styled from 'styled-components';
+import useRoom from '@/hooks/useRoom';
 import SocialLoginButtons from './SocialLoginButtons';
 import LoginForm from './LoginForm';
 
-function TeammateLogin() {
+interface Props {
+  roomId: string | null;
+}
+
+function TeammateLogin({ roomId }: Props) {
   const { isGuest, meetingId, meetingInfo } = useMeetingInfo();
+  const { roomDetail } = useRoom(roomId ? Number(roomId) : undefined);
+
+  if (!meetingInfo && !roomDetail) return null;
 
   return (
     <Container>
@@ -23,7 +31,7 @@ function TeammateLogin() {
           </GuestTitle>
         ) : (
           <GuestTitle>
-            <h2>{meetingInfo.name.value}</h2>
+            <h2>{roomDetail?.name}</h2>
             <span>간편 로그인 후에 일정을 조율해 보세요.</span>
           </GuestTitle>
         )}
