@@ -26,16 +26,13 @@ function RoomPage() {
   const { pathname } = useLocation();
   const { isToolTipOpen, closeToolTip } = useToolTip();
   const isNotLoggedIn = useUserStore((state) => state.user) === null;
+  const user = useUserStore((state) => state.user);
 
   useEffect(() => {
     if (isNotLoggedIn) {
       navigate(`${PATH.login}?callbackUrl=${pathname}`, { replace: true });
     }
   }, [pathname, isNotLoggedIn, navigate]);
-
-  const userInfo = sessionStorage.getItem('UserStore') || '';
-  const parsedUserInfo = JSON.parse(userInfo);
-  const userId = parsedUserInfo.state.user.id;
 
   const { roomDetail, isError } = useRoom(Number(roomId));
 
