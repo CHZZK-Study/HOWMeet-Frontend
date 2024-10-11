@@ -21,9 +21,9 @@ function ConfirmList({ completedMeetings }: Props) {
           <DateWrapper>
             <Badge>회의 시간</Badge>
             <p className="date">
-              {item.confirmedDates[0]}{' '}
-              {item.confirmedTime.startTime.slice(0, 5)} ~{' '}
-              {item.confirmedTime.endTime.slice(0, 5)}
+              {item.confirmedDates?.[0] || ''}{' '}
+              {item.confirmedTime?.startTime?.slice(0, 5) || ''} ~{' '}
+              {item.confirmedTime?.endTime?.slice(0, 5) || ''}
             </p>
           </DateWrapper>
         </ListItem>

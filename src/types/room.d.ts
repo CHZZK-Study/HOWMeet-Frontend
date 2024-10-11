@@ -10,8 +10,8 @@ export type Schedule = {
   };
   status: string;
   isParticipant?: boolean;
-  confirmedDates: string[];
-  confirmedTime: {
+  confirmedDates?: string[];
+  confirmedTime?: {
     startTime: string;
     endTime: string;
     containsMidnight: boolean;
