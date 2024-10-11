@@ -16,7 +16,7 @@ interface Props {
 
 function NonConfirmList({ progressMeetings, isLeader }: Props) {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { roomId } = useParams();
 
   return (
     <List>
@@ -25,8 +25,8 @@ function NonConfirmList({ progressMeetings, isLeader }: Props) {
           key={item.id}
           onClick={() =>
             isLeader && item.isParticipant
-              ? navigate(`/meeting/${id}/decision/${item.id}`)
-              : navigate(`/meeting/${id}/select/${item.id}`)
+              ? navigate(`/meeting/${roomId}/decision/${item.id}`)
+              : navigate(`/meeting/${roomId}/select/${item.id}`)
           }
         >
           <h1 className="title">{item.name.value}</h1>
