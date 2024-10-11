@@ -17,6 +17,7 @@ export const useSocialLogin = () => {
   const callback = searchParams.get('callbackUrl');
   const code = searchParams.get('code');
   const roomId = searchParams.get('roomId');
+  console.log(searchParams);
 
   useEffect(() => {
     if (code) {
