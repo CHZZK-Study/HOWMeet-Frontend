@@ -51,7 +51,7 @@ function RoomPage() {
     (member) => member.memberId === user.id
   );
 
-  const { isLeader } = leaderMember[0];
+  const { isLeader } = leaderMember[0] || false;
 
   const handleCopyRoomUrl = async () => {
     try {
