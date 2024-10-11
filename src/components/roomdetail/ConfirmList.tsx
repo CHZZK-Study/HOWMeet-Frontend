@@ -8,17 +8,23 @@ interface Props {
 }
 
 function ConfirmList({ completedMeetings }: Props) {
-  const { id } = useParams();
+  const { roomId } = useParams();
   const navigate = useNavigate();
 
   return (
     <List>
       {completedMeetings.map((item) => (
-        <ListItem onClick={() => navigate(`/meeting/${id}/result/${item.id}`)}>
+        <ListItem
+          onClick={() => navigate(`/meeting/${roomId}/result/${item.id}`)}
+        >
           <h1 className="title">{item.name.value}</h1>
           <DateWrapper>
             <Badge>회의 시간</Badge>
-            <p className="date">{item.dates[0]}</p>
+            <p className="date">
+              {item.confirmedDates[0]}{' '}
+              {item.confirmedTime.startTime.slice(0, 5)} ~{' '}
+              {item.confirmedTime.endTime.slice(0, 5)}
+            </p>
           </DateWrapper>
         </ListItem>
       ))}
