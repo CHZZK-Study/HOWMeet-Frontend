@@ -49,20 +49,21 @@ function ResultTimeCell({
 
   useEffect(() => {
     const cell = cellRef.current;
-    if (cell) {
+    if (!cell) return;
+
+    if (!dragDisabled) {
       cell.addEventListener('touchstart', handleTouchStart, { passive: false });
       cell.addEventListener('touchmove', handleTouchMove, { passive: false });
       cell.addEventListener('touchend', onDragEnd, { passive: false });
-    }
 
-    return () => {
-      if (cell) {
+      return () => {
         cell.removeEventListener('touchstart', handleTouchStart);
         cell.removeEventListener('touchmove', handleTouchMove);
         cell.removeEventListener('touchend', onDragEnd);
-      }
-    };
-  }, [handleTouchStart, handleTouchMove, onDragEnd]);
+      };
+    }
+    return () => {};
+  }, [dragDisabled, handleTouchStart, handleTouchMove, onDragEnd]);
 
   if (disabled) {
     return <SingleCell ref={cellRef} className="disabled-cell" />;
