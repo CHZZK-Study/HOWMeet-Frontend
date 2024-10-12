@@ -23,9 +23,11 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import ResultTimeTable from '@/components/meeting/result/ResultTimeTable';
 import Skeleton from 'react-loading-skeleton';
+import { useNavigate } from 'react-router-dom';
 
 function ResultPage() {
   const { isOpen, closeModal, openModal } = useModal();
+  const navigate = useNavigate();
 
   const {
     isTimeTableLoading,
@@ -33,8 +35,11 @@ function ResultPage() {
     meetingId,
     timeTableServerData,
     isError,
-    handleLeftArrowIconClick,
   } = useTimeTableData(true);
+
+  const handleLeftArrowIconClick = () => {
+    return navigate(`/room/${roomId}`);
+  };
 
   const { isLoading, error, data } = useQuery<ResultHeatmapProps>({
     queryKey: ['resultData'],

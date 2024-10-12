@@ -67,7 +67,7 @@ function ResultTimeTable({
       <ResultTimeCell
         key={`${hour}-${date}-${minute}`}
         timeSlot={timeSlot}
-        isSelected={isSelected(hour, minute, timeSlot.day)}
+        isSelected={isSelected(hour, minute, timeSlot.day, timeSlot.date)}
         intensity={intensity}
         dragDisabled={dragDisabled}
         onCellInteraction={handleCellInteraction}

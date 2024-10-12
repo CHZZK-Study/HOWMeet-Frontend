@@ -51,7 +51,7 @@ function App() {
           toastOptions={{
             style: toasterStyle,
           }}
-          duration={1500}
+          duration={1000}
         />
         <GlobalStyle />
         <Router />

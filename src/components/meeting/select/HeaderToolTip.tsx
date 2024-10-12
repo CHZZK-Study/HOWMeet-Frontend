@@ -30,6 +30,11 @@ const ToolTipWrapper = styled.div`
   top: 50px;
   display: flex;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    left: 10%; // 모바일 화면에서 위치 조정
+    right: 10%;
+  }
 `;
 
 const CustomTooltip = styled.div`
@@ -40,6 +45,10 @@ const CustomTooltip = styled.div`
   padding: 1px;
   width: 100%;
   border: 1px solid rgba(100, 45, 255, 1);
+
+  @media (max-width: 768px) {
+    padding: 5px; // 모바일 화면에서 패딩 조정
+  }
 `;
 
 export const TooltipArrow = styled.div<{ isAbove?: boolean }>`
@@ -55,6 +64,11 @@ export const TooltipArrow = styled.div<{ isAbove?: boolean }>`
   transform: rotate(45deg);
   z-index: 1000;
   right: 7%;
+
+  @media (max-width: 768px) {
+    width: 15px; // 모바일 화면에서 화살표 크기 조정
+    height: 15px;
+  }
 `;
 
 const commonStyles = `
@@ -65,6 +79,10 @@ const commonStyles = `
 export const UserName = styled.span`
   ${commonStyles}
   margin: 5px;
+
+  @media (max-width: 768px) {
+    font-size: 12px; // 모바일 화면에서 글자 크기 조정
+  }
 `;
 
 const CloseButton = styled.button`
@@ -73,4 +91,8 @@ const CloseButton = styled.button`
   border: none;
   cursor: pointer;
   padding: 5px;
+
+  @media (max-width: 768px) {
+    padding: 3px; // 모바일 화면에서 버튼 패딩 조정
+  }
 `;

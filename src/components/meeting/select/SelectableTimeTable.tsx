@@ -42,7 +42,7 @@ function SelectableTimeTable({
       <SelectTimeCell
         key={`${hour}-${date}-${minute}`}
         timeSlot={timeSlot}
-        isSelected={isSelected(hour, minute, timeSlot.day)}
+        isSelected={isSelected(hour, minute, timeSlot.day, timeSlot.date)}
         dragDisabled={dragDisabled}
         onDragStart={handleDragStart as (timeSlot: TimeSlot) => void}
         onDragMove={handleDragMove as (timeSlot: TimeSlot) => void}
