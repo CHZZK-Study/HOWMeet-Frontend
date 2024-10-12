@@ -110,7 +110,7 @@ function NewMeetingPage() {
       );
     }
 
-    if (hasRoom && meetingName) {
+    if (hasRoom && meetingName !== '') {
       return (
         <Button
           $style="solid"

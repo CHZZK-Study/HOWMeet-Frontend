@@ -9,10 +9,17 @@ function LoginPage() {
   useSocialLogin();
   const [searchParams] = useSearchParams();
   const meetingId = searchParams.get('meetingId');
+  const roomId = searchParams.get('roomId');
 
   return (
     <FlexColContainer>
-      <Content>{meetingId ? <TeammateLogin /> : <DefaultLogin />}</Content>
+      <Content>
+        {meetingId || roomId ? (
+          <TeammateLogin roomId={roomId} />
+        ) : (
+          <DefaultLogin />
+        )}
+      </Content>
     </FlexColContainer>
   );
 }

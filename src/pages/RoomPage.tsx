@@ -4,34 +4,41 @@ import ConfirmList from '@/components/roomdetail/ConfirmList';
 import CreateNewMeeting from '@/components/roomdetail/CreateNewMeeting';
 import NonConfirmList from '@/components/roomdetail/NonConfirmList';
 import { PATH } from '@/constants/path';
+import { useRedirect } from '@/hooks/useRedirect';
 import useRoom from '@/hooks/useRoom';
 import useToolTip from '@/hooks/useToolTip';
+import useUserStore from '@/store/userStore';
 import {
   FlexColContainer,
   ContentContainer,
 } from '@/styles/components/container';
 import { EmptyBox } from '@/styles/components/emptybox';
 import { PageTitle } from '@/styles/components/text';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import styled from 'styled-components';
 
 function RoomPage() {
+  useRedirect();
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { roomId } = useParams();
+  const { pathname } = useLocation();
   const { isToolTipOpen, closeToolTip } = useToolTip();
+  const isNotLoggedIn = useUserStore((state) => state.user) === null;
+  const user = useUserStore((state) => state.user);
 
-  const userInfo = sessionStorage.getItem('UserStore') || '';
-  const parsedUserInfo = JSON.parse(userInfo);
-  const userId = parsedUserInfo.state.user.id;
+  useEffect(() => {
+    if (isNotLoggedIn) {
+      navigate(`${PATH.login}?callbackUrl=${pathname}`, { replace: true });
+    }
+  }, [pathname, isNotLoggedIn, navigate]);
 
-  const { roomDetail, isError } = useRoom(Number(id));
+  const { roomDetail, isError } = useRoom(Number(roomId));
 
   if (isError) toast.error('잠시후 다시 시도해 주세요');
 
-  if (!roomDetail) return null;
-
-  console.log(roomDetail);
+  if (!roomDetail || !user) return null;
 
   const progressMeetings = roomDetail.schedules.filter(
     (item) => item.status === 'PROGRESS'
@@ -41,15 +48,15 @@ function RoomPage() {
   );
 
   const leaderMember = roomDetail.roomMembers.filter(
-    (member) => member.memberId === userId
+    (member) => member.memberId === user.id
   );
 
-  const { isLeader } = leaderMember[0];
+  const { isLeader } = leaderMember[0] || false;
 
   const handleCopyRoomUrl = async () => {
     try {
       await navigator.clipboard.writeText(
-        `${import.meta.env.VITE_APP_CLIENT_URL}/room/${id}`
+        `${import.meta.env.VITE_APP_CLIENT_URL}/room/${roomId}`
       );
       toast.info('링크가 복사되었습니다.');
     } catch (error) {
@@ -84,7 +91,7 @@ function RoomPage() {
           />
         )}
         <SubTitle>전체 일정</SubTitle>
-        <Description>확정된 일정을 확인해보세요 !</Description>
+        <Description>확정된 일정을 확인해보세요!</Description>
         {completedMeetings.length === 0 ? (
           <EmptyBox $height="96px">아직 일정이 없습니다</EmptyBox>
         ) : (

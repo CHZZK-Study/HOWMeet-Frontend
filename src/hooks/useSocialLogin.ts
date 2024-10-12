@@ -17,6 +17,7 @@ export const useSocialLogin = () => {
   const callback = searchParams.get('callbackUrl');
   const code = searchParams.get('code');
   const roomId = searchParams.get('roomId');
+  console.log(searchParams);
 
   useEffect(() => {
     if (code) {
@@ -27,6 +28,15 @@ export const useSocialLogin = () => {
     }
   }, [code]);
 
+  useEffect(() => {
+    if (callback) {
+      localStorage.setItem(STORAGE_KEY.callbackUrl, callback);
+    }
+    if (roomId) {
+      localStorage.setItem(STORAGE_KEY.roomId, roomId);
+    }
+  }, [callback, roomId]);
+
   const { mutate: handleLoginCode } = useMutation({
     mutationFn: (req: SocialLoginReq) => socialLogin(req),
     onSuccess: async (result) => {
@@ -36,14 +46,23 @@ export const useSocialLogin = () => {
       localStorage.setItem(STORAGE_KEY.accessToken, accessToken);
       handleAllowNotification();
 
-      if (roomId) {
-        await addMemberToRoom(roomId).catch(() => {
-          toast.error('로그인에 실패했습니다.');
+      const roomIdToLogin = localStorage.getItem(STORAGE_KEY.roomId);
+
+      if (roomIdToLogin) {
+        await addMemberToRoom(roomIdToLogin, {
+          memberId,
+          isLeader: false,
+        }).catch(() => {
           logOut();
+          navigate(PATH.login);
+          toast.error('로그인에 실패했습니다.');
         });
+        localStorage.removeItem(STORAGE_KEY.roomId);
       }
 
-      navigate(callback || PATH.home);
+      const callbackUrl = localStorage.getItem(STORAGE_KEY.callbackUrl);
+      navigate(callbackUrl || PATH.home);
+      localStorage.removeItem(STORAGE_KEY.callbackUrl);
     },
   });
 };
