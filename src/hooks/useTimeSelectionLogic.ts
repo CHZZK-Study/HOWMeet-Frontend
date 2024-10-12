@@ -23,11 +23,14 @@ export const useTimeSelectionLogic = ({
   } | null>(null);
 
   const isSelected = useCallback(
-    (hour: string, minute: string, day: string): boolean => {
+    (hour: string, minute: string, day: string, date: string): boolean => {
       const selectedArray = isSelectOption ? selectedTimes : selectedResult;
       return selectedArray.some(
         (time) =>
-          time.hour === hour && time.minute === minute && time.day === day
+          time.hour === hour &&
+          time.minute === minute &&
+          time.day === day &&
+          time.date === date
       );
     },
     [isSelectOption, selectedResult, selectedTimes]
@@ -99,7 +102,8 @@ export const useTimeSelectionLogic = ({
       initialSelectionState.current = !isSelected(
         timeSlot.hour,
         timeSlot.minute,
-        timeSlot.day
+        timeSlot.day,
+        timeSlot.date
       );
       if (isSelectOption) {
         toggleTime(timeSlot as TimeSlot);
@@ -129,7 +133,8 @@ export const useTimeSelectionLogic = ({
           const currentlySelected = isSelected(
             timeSlot.hour,
             timeSlot.minute,
-            timeSlot.day
+            timeSlot.day,
+            timeSlot.date
           );
           if (currentlySelected !== initialSelectionState.current) {
             if (isSelectOption) {

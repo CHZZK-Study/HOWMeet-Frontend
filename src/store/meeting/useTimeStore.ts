@@ -33,7 +33,8 @@ export const useTimeStore = create<TimeStore>((set) => ({
         (t) =>
           t.hour === result.hour &&
           t.minute === result.minute &&
-          t.day === result.day
+          t.day === result.day &&
+          t.date === result.date
       );
       if (index > -1) {
         return {

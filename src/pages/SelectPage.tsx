@@ -49,6 +49,10 @@ function SelectPage() {
     isMemberLoading,
     handleLeftArrowIconClick,
   } = useTimeTableData(true);
+
+  const handlePreviousBtnClick = () => {
+    return isGuest ? handleLeftArrowIconClick() : navigate(`/room/${roomId}`);
+  };
   // 로딩 상태 처리
   if (isTimeTableLoading || !timeTableServerData || isMemberLoading) {
     return (
@@ -58,7 +62,7 @@ function SelectPage() {
           isShare
           toggle={closeToolTip}
           isVisible={isToolTipOpen}
-          onLeftArrowIconClick={handleLeftArrowIconClick}
+          onLeftArrowIconClick={handlePreviousBtnClick}
         />
         <TimeSelectTitle
           Title={
@@ -117,7 +121,7 @@ function SelectPage() {
         isShare
         toggle={closeToolTip}
         isVisible={isToolTipOpen}
-        onLeftArrowIconClick={handleLeftArrowIconClick}
+        onLeftArrowIconClick={handlePreviousBtnClick}
       />
       <TimeSelectTitle
         Title={
