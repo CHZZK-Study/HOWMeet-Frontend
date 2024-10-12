@@ -25,6 +25,7 @@ export const useTimeStore = create<TimeStore>((set) => ({
   toggleSelectedResult: (result) =>
     set((state) => {
       if (state.selectedResult[0]?.date !== result.date) {
+        console.log(`${result}`);
         return {
           selectedResult: [result],
         };
