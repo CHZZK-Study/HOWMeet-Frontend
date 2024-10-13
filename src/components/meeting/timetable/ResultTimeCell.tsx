@@ -49,24 +49,20 @@ function ResultTimeCell({
 
   useEffect(() => {
     const cell = cellRef.current;
-    if (!cell) return;
-
-    if (!dragDisabled) {
+    if (cell) {
       cell.addEventListener('touchstart', handleTouchStart, { passive: false });
       cell.addEventListener('touchmove', handleTouchMove, { passive: false });
       cell.addEventListener('touchend', onDragEnd, { passive: false });
-    } else {
-      cell.addEventListener('touchstart', handleTouchStart, { passive: true });
-      cell.addEventListener('touchmove', handleTouchMove, { passive: true });
-      cell.addEventListener('touchend', onDragEnd, { passive: true });
     }
 
     return () => {
-      cell.removeEventListener('touchstart', handleTouchStart);
-      cell.removeEventListener('touchmove', handleTouchMove);
-      cell.removeEventListener('touchend', onDragEnd);
+      if (cell) {
+        cell.removeEventListener('touchstart', handleTouchStart);
+        cell.removeEventListener('touchmove', handleTouchMove);
+        cell.removeEventListener('touchend', onDragEnd);
+      }
     };
-  }, [dragDisabled, handleTouchStart, handleTouchMove, onDragEnd]);
+  }, [handleTouchStart, handleTouchMove, onDragEnd]);
 
   if (disabled) {
     return <SingleCell ref={cellRef} className="disabled-cell" />;
@@ -110,16 +106,16 @@ const ResultHalfCell = styled(SelectHalfCell)<
     selected &&
     `
     background-image: linear-gradient(
-      -45deg,  
-      ${theme.color.primary.white} 10%,
-      ${theme.color.point.green} 0,   
-      ${theme.color.point.green} 50%, 
-      ${theme.color.primary.white} 0, 
+      -45deg,  /* 각도를 -45도로 설정하여 반대 방향으로 */
+      ${theme.color.primary.white} 10%,  /* 더 얇은 흰색 줄무늬 */
+      ${theme.color.point.green} 0,   /* 초록색 배경 */
+      ${theme.color.point.green} 50%,  /* 초록색 부분 */
+      ${theme.color.primary.white} 0,  /* 다시 얇은 흰색 줄무늬 */
       ${theme.color.primary.white} 60%, 
       ${theme.color.point.green} 0
     );
-    background-size: 10px 10px; 
-    background-color: ${theme.color.point.green};
+    background-size: 10px 10px; /* 패턴 크기 */
+    background-color: ${theme.color.point.green}; /* 초록색 배경 */
   `};
 
   &:first-child {
