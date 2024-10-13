@@ -11,6 +11,7 @@ import { getUserProfile } from './apis/user.api';
 import { getMemberType } from './utils/auth';
 import useUserStore from './store/userStore';
 import { getTokenFromStorage } from './utils/token';
+import useExternalBrowserRedirect from './hooks/useExternalBrowserRedirect';
 
 if (process.env.NODE_ENV === 'development') {
   setupLocatorUI();
@@ -43,6 +44,7 @@ function App() {
     }
   }, [setUser]);
 
+  useExternalBrowserRedirect();
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>

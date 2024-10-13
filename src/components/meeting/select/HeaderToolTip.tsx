@@ -68,7 +68,6 @@ export const TooltipArrow = styled.div<{ isAbove?: boolean }>`
   right: 7%;
 
   @media (max-width: 768px) {
-    right: 10%; // 모바일 화면에서 화살표 위치를 조정하여 더 오른쪽으로 이동
     top: ${({ isAbove }) =>
       isAbove ? `40px` : `-12px`}; // 모바일 화면에서 화살표 위치 약간 조정
     width: 15px; // 화살표 크기 축소
@@ -81,7 +80,7 @@ const commonStyles = `
   color: ${theme.color.point.purple};
 
   @media (max-width: 768px) {
-    font-size: 12px; // 모바일 화면에서 글자 크기 축소
+    font-size: 7px; // 모바일 화면에서 글자 크기 축소
   }
 `;
 
@@ -90,7 +89,7 @@ export const UserName = styled.span`
   margin: 5px;
 
   @media (max-width: 768px) {
-    font-size: 10px; // 모바일 화면에서 더 작은 글씨 크기
+    font-size: 7px; // 모바일 화면에서 더 작은 글씨 크기
   }
 `;
 
@@ -102,7 +101,7 @@ const CloseButton = styled.button`
   padding: 5px;
 
   @media (max-width: 768px) {
-    padding: 3px; // 모바일 화면에서 버튼 패딩 축소
-    font-size: 10px; // 모바일에서 버튼 글씨 크기도 작게
+    padding: 2px; // 모바일 화면에서 버튼 패딩 축소
+    font-size: 7px; // 모바일에서 버튼 글씨 크기도 작게
   }
 `;
