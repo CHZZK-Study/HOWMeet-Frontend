@@ -52,17 +52,20 @@ function ResultTimeCell({
     if (!cell) return;
 
     if (!dragDisabled) {
+      cell.addEventListener('touchstart', handleTouchStart, { passive: false });
+      cell.addEventListener('touchmove', handleTouchMove, { passive: false });
+      cell.addEventListener('touchend', onDragEnd, { passive: false });
+    } else {
       cell.addEventListener('touchstart', handleTouchStart, { passive: true });
       cell.addEventListener('touchmove', handleTouchMove, { passive: true });
       cell.addEventListener('touchend', onDragEnd, { passive: true });
-
-      return () => {
-        cell.removeEventListener('touchstart', handleTouchStart);
-        cell.removeEventListener('touchmove', handleTouchMove);
-        cell.removeEventListener('touchend', onDragEnd);
-      };
     }
-    return () => {};
+
+    return () => {
+      cell.removeEventListener('touchstart', handleTouchStart);
+      cell.removeEventListener('touchmove', handleTouchMove);
+      cell.removeEventListener('touchend', onDragEnd);
+    };
   }, [dragDisabled, handleTouchStart, handleTouchMove, onDragEnd]);
 
   if (disabled) {
