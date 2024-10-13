@@ -1,31 +1,19 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-# HOWMeet-Frontend
+![1](https://github.com/user-attachments/assets/928e502f-e272-4ea6-9358-126da3718248)
+![2](https://github.com/user-attachments/assets/1d7df08d-dbc2-40e9-a534-110344f19fae)
+![3](https://github.com/user-attachments/assets/9a6ccbc9-c332-4963-95de-932d6301852f)
+![4](https://github.com/user-attachments/assets/12912419-bd96-44be-89d8-d88e1d101077)
+![5](https://github.com/user-attachments/assets/857b1ec5-9af9-459e-8ccf-04cc8abf2939)
+![6](https://github.com/user-attachments/assets/8b14c011-dc55-41c1-86d9-ff21c369607f)
+![7](https://github.com/user-attachments/assets/7218dd63-ec35-4639-9608-23ae04fd239c)
+![8](https://github.com/user-attachments/assets/e88978ee-9926-475a-a36f-c75e763ab502)
+![9](https://github.com/user-attachments/assets/abb63a11-2a02-4b61-a49d-35e82a4258cf)
+![10](https://github.com/user-attachments/assets/46845e2e-1e04-4046-baa2-9d4f92abe58d)
+![11](https://github.com/user-attachments/assets/092f8d7e-a1e3-407d-86dd-d1105b164cde)
+![12](https://github.com/user-attachments/assets/cd0a4094-f803-4cf4-992e-e5c8b40634d2)
+![13](https://github.com/user-attachments/assets/20df82c7-5e3c-4b98-a73e-5047683e6fce)
+![14](https://github.com/user-attachments/assets/b96c7b85-cb08-408a-9ee1-db874f234e77)
+![15](https://github.com/user-attachments/assets/fa724e4b-9b3a-494b-aba8-f730a9119358)
+![16](https://github.com/user-attachments/assets/63ed83cf-9506-4c3f-bcac-0b9c598cec36)
+![17](https://github.com/user-attachments/assets/70b5d41e-24ab-44e1-b0d0-dd52a2a7f6a1)
+![18](https://github.com/user-attachments/assets/c4059ad4-0809-4df5-9b32-6cbfb3ebf313)
+![19](https://github.com/user-attachments/assets/783b168a-059d-4e64-95f2-182b277ad530)
