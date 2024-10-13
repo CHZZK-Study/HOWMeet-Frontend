@@ -105,10 +105,11 @@ function SelectPage() {
         } else {
           openModal();
         }
+        setIsSelected(true);
       } catch (error) {
         toast.error('정보 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
+        setIsSelected(false);
       }
-      setIsSelected(true);
     } catch (error) {
       toast.error('정보 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
