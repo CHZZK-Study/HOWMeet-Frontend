@@ -30,12 +30,6 @@ const ToolTipWrapper = styled.div`
   top: 50px;
   display: flex;
   justify-content: center;
-
-  @media (max-width: 768px) {
-    left: auto; // 모바일 화면에서 왼쪽 위치를 자동으로 설정
-    right: 5%; // 모바일 화면에서 오른쪽으로 이동
-    top: 70px; // 모바일 화면에서 약간 아래로 내려가게 설정
-  }
 `;
 
 const CustomTooltip = styled.div`
@@ -49,7 +43,7 @@ const CustomTooltip = styled.div`
 
   @media (max-width: 768px) {
     padding: 5px; // 모바일 화면에서 패딩 조정
-    width: 90%; // 모바일에서 툴팁의 너비를 조정
+    width: 95%; // 모바일에서 툴팁의 너비를 조정
   }
 `;
 
@@ -68,29 +62,26 @@ export const TooltipArrow = styled.div<{ isAbove?: boolean }>`
   right: 7%;
 
   @media (max-width: 768px) {
-    top: ${({ isAbove }) =>
-      isAbove ? `40px` : `-12px`}; // 모바일 화면에서 화살표 위치 약간 조정
-    width: 15px; // 화살표 크기 축소
+    top: ${({ isAbove }) => (isAbove ? `30px` : `-7.5px`)};
+  }
+  @media (max-width: 450px) {
+    width: 15px;
     height: 15px;
+    top: ${({ isAbove }) => (isAbove ? `20px` : `-4.5px`)};
   }
 `;
 
 const commonStyles = `
   font-size: 14px;
   color: ${theme.color.point.purple};
-
-  @media (max-width: 768px) {
-    font-size: 7px; // 모바일 화면에서 글자 크기 축소
+  @media (max-width: 450px) {
+    font-size: 0.6rem;
   }
 `;
 
 export const UserName = styled.span`
   ${commonStyles}
   margin: 5px;
-
-  @media (max-width: 768px) {
-    font-size: 7px; // 모바일 화면에서 더 작은 글씨 크기
-  }
 `;
 
 const CloseButton = styled.button`
@@ -99,9 +90,4 @@ const CloseButton = styled.button`
   border: none;
   cursor: pointer;
   padding: 5px;
-
-  @media (max-width: 768px) {
-    padding: 2px; // 모바일 화면에서 버튼 패딩 축소
-    font-size: 7px; // 모바일에서 버튼 글씨 크기도 작게
-  }
 `;
