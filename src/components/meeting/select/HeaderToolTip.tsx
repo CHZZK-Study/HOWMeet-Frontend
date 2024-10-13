@@ -36,15 +36,10 @@ const CustomTooltip = styled.div`
   position: relative;
   background-color: white;
   border-radius: 96px;
-  z-index: 999;
-  padding: 1px;
+  z-index: 900;
+  padding: 2px;
   width: 100%;
   border: 1px solid rgba(100, 45, 255, 1);
-
-  @media (max-width: 768px) {
-    padding: 5px; // 모바일 화면에서 패딩 조정
-    width: 95%; // 모바일에서 툴팁의 너비를 조정
-  }
 `;
 
 export const TooltipArrow = styled.div<{ isAbove?: boolean }>`
@@ -61,21 +56,19 @@ export const TooltipArrow = styled.div<{ isAbove?: boolean }>`
   z-index: 1000;
   right: 7%;
 
-  @media (max-width: 768px) {
-    top: ${({ isAbove }) => (isAbove ? `30px` : `-7.5px`)};
-  }
   @media (max-width: 450px) {
     width: 15px;
     height: 15px;
-    top: ${({ isAbove }) => (isAbove ? `20px` : `-4.5px`)};
+    top: ${({ isAbove }) => (isAbove ? `25px` : `-7px`)};
   }
 `;
 
 const commonStyles = `
   font-size: 14px;
   color: ${theme.color.point.purple};
+  z-index: 1000;
   @media (max-width: 450px) {
-    font-size: 0.6rem;
+    font-size: 0.8rem;
   }
 `;
 
@@ -89,5 +82,4 @@ const CloseButton = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
-  padding: 5px;
 `;
