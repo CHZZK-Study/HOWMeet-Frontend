@@ -26,7 +26,7 @@ import useTimeTableData from '@/hooks/useTimeTableData';
 import { useRedirect } from '@/hooks/useRedirect';
 
 function SelectPage() {
-  useRedirect();
+  // useRedirect();
   const navigate = useNavigate();
   const { selectedTimes } = useTimeStore();
   const { closeModal, isOpen, openModal } = useModal();
