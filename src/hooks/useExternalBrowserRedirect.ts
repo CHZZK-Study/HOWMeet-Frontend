@@ -1,13 +1,9 @@
 import { useEffect } from 'react';
-import { toast } from 'sonner';
 
 const useExternalBrowserRedirect = () => {
   useEffect(() => {
     const copyToClipboard = async (val: string) => {
       await navigator.clipboard.writeText(val);
-      toast(
-        'URL주소가 복사되었습니다.\n\nSafari가 열리면 주소창을 길게 터치한 뒤, "붙여놓기 및 이동"을 누르면 정상적으로 이용하실 수 있습니다.'
-      );
     };
 
     const redirectToExternalBrowser = () => {
